@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ChainCheck">
+  <meta name="theme-color" content="#0b1713">
+  <title>ChainCheck — Jeffery & Jack Disc Golf</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            brand: {
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b'
+            },
+            course: {
+              dark: '#08100d',
+              card: '#12201a',
+              cardSubtle: '#182b23',
+              border: '#1f382e',
+              borderLight: '#284b3e'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    input, textarea, select {
+      user-select: text;
+    }
+    body {
+      background-color: #08100d;
+      color: #f1f5f9;
+      overscroll-behavior-y: none;
+    }
+    .safe-top {
+      padding-top: max(env(safe-area-inset-top, 14px), 14px);
+    }
+    .safe-bottom {
+      padding-bottom: max(env(safe-area-inset-bottom, 18px), 18px);
+    }
+    .tap-btn:active {
+      transform: scale(0.96);
+    }
+    /* Disc Golf standard score badge pills */
+    .badge-ace { background: linear-gradient(135deg, #eab308, #ca8a04); color: #000; font-weight: 800; box-shadow: 0 0 10px rgba(234, 179, 8, 0.4); }
+    .badge-eagle { background-color: #0284c7; color: #fff; border: 1.5px solid #38bdf8; }
+    .badge-birdie { background-color: #059669; color: #fff; font-weight: 700; }
+    .badge-par { background-color: #334155; color: #f8fafc; font-weight: 600; }
+    .badge-bogey { background-color: #ea580c; color: #fff; }
+    .badge-double { background-color: #dc2626; color: #fff; }
+    .badge-triple { background-color: #991b1b; color: #fff; font-weight: 800; }
+
+    .score-circle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+    }
+
+    .table-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+    .table-scroll::-webkit-scrollbar-thumb {
+      background: #25493b;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans bg-[#08100d] text-slate-100 antialiased">
+
+  <header class="safe-top bg-[#0f1d17]/95 backdrop-blur-md border-b border-[#1b3429] sticky top-0 z-40 px-3.5 py-2.5">
+    <div class="max-w-md mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2.5 cursor-pointer tap-btn" onclick="openDetailsModal()">
+        <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
+          <i data-lucide="disc" class="w-5 h-5"></i>
+        </div>
+        <div class="text-left">
+          <div class="flex items-center gap-1.5">
+            <h1 id="headerCourseName" class="text-sm font-black tracking-tight text-white line-clamp-1">Black Hoof Park DGC</h1>
+            <i data-lucide="pencil" class="w-3 h-3 text-emerald-400/80"></i>
+          </div>
+          <p id="headerRoundInfo" class="text-[11px] font-medium text-slate-400 font-mono">Oct 4, 2026 • 2:30 PM</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-1.5">
+        <button id="btnToggleView" onclick="toggleScorecardView()" class="tap-btn p-2 rounded-xl bg-[#162a22] text-slate-200 border border-[#234537] hover:text-white flex items-center gap-1.5 text-xs font-bold">
+          <i id="toggleIcon" data-lucide="table" class="w-4 h-4 text-emerald-400"></i>
+          <span id="toggleText">Table</span>
+        </button>
+
+        <button onclick="openDetailsModal()" class="tap-btn p-2 rounded-xl bg-[#162a22] text-slate-200 border border-[#234537] hover:text-white">
+          <i data-lucide="settings" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Quick Status Ticker (Jeffery vs Jack) -->
+    <div class="max-w-md mx-auto mt-2 pt-2 border-t border-[#193226] flex items-center justify-between text-xs px-1">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span id="matchLeaderText" class="font-bold text-slate-300">All Square</span>
+      </div>
+      <div class="flex items-center gap-3 font-mono font-bold text-[11px]">
+        <span class="text-slate-300"><span id="tagP1Name">Jeffery</span>: <strong id="tagP1Score" class="text-emerald-400 font-black">E</strong></span>
+        <span class="text-slate-500">|</span>
+        <span class="text-slate-300"><span id="tagP2Name">Jack</span>: <strong id="tagP2Score" class="text-emerald-400 font-black">E</strong></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 flex flex-col max-w-md w-full mx-auto p-3 safe-bottom justify-between gap-3">
+    
+    <!-- HOLE VIEW (Active Round) -->
+    <div id="holeView" class="flex-1 flex flex-col justify-between space-y-3">
+      
+      <!-- Hole Selector Pills / Nav Bar -->
+      <div class="flex items-center justify-between bg-[#12201a] rounded-2xl p-2 border border-[#1f382e] shadow-inner">
+        <button onclick="changeHole(-1)" class="tap-btn p-3 rounded-xl bg-[#182c23] text-white hover:bg-emerald-800/40 border border-[#244637] transition">
+          <i data-lucide="chevron-left" class="w-5 h-5"></i>
+        </button>
+
+        <button onclick="openHoleJumperModal()" class="flex flex-col items-center tap-btn px-4 py-1 rounded-xl bg-black/25 hover:bg-black/40">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Hole Number</span>
+          <div class="flex items-baseline gap-1.5">
+            <span id="displayHoleNum" class="text-2xl font-black text-white font-mono">1</span>
+            <span id="displayHoleTotal" class="text-xs text-slate-400 font-mono">/ 18</span>
+            <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-slate-400 ml-1"></i>
+          </div>
+        </button>
+
+        <button onclick="changeHole(1)" class="tap-btn p-3 rounded-xl bg-[#182c23] text-white hover:bg-emerald-800/40 border border-[#244637] transition">
+          <i data-lucide="chevron-right" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Hole Metrics: Par & Distance (Quick Adjust) -->
+      <div class="grid grid-cols-2 gap-2.5 bg-[#12201a] p-3 rounded-2xl border border-[#1f382e]">
+        <div class="flex items-center justify-between bg-[#182c23] px-3.5 py-2 rounded-xl border border-[#234336]">
+          <div class="text-left">
+            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Par</div>
+            <div id="currentHolePar" class="text-xl font-black font-mono text-emerald-400">3</div>
+          </div>
+          <div class="flex gap-1">
+            <button onclick="adjustCurrentPar(-1)" class="tap-btn w-8 h-8 rounded-lg bg-[#224032] flex items-center justify-center font-bold text-slate-200 hover:text-white">-</button>
+            <button onclick="adjustCurrentPar(1)" class="tap-btn w-8 h-8 rounded-lg bg-[#224032] flex items-center justify-center font-bold text-slate-200 hover:text-white">+</button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between bg-[#182c23] px-3.5 py-2 rounded-xl border border-[#234336]">
+          <div class="text-left">
+            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Distance</div>
+            <div class="flex items-baseline">
+              <input id="currentHoleDist" type="number" placeholder="---" onchange="updateDistance(this.value)" class="w-16 bg-transparent text-xl font-black font-mono text-white focus:outline-none placeholder-slate-600">
+              <span class="text-xs text-slate-400 font-medium">ft</span>
+            </div>
+          </div>
+          <i data-lucide="flag" class="w-4 h-4 text-emerald-400/70"></i>
+        </div>
+      </div>
+
+      <!-- Two Players Scoring Cards (Jeffery & Jack) -->
+      <div id="playerScoringContainer" class="flex-1 space-y-3 overflow-y-auto">
+        <!-- Rendered by renderPlayerCards() -->
+      </div>
+
+      <!-- Fairway Quick-Nav Step Footer -->
+      <div class="pt-1 flex items-center gap-2.5">
+        <button onclick="changeHole(-1)" class="tap-btn flex-1 py-3.5 rounded-2xl bg-[#13231c] border border-[#1f3b2e] font-bold text-slate-300 flex items-center justify-center gap-2">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i> Prev Hole
+        </button>
+        <button onclick="changeHole(1)" class="tap-btn flex-1 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 font-black text-white shadow-lg shadow-emerald-950 flex items-center justify-center gap-2">
+          Next Hole <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <div id="scorecardTableView" class="hidden flex-1 flex flex-col space-y-3">
+      
+      <!-- Head-to-Head Comparative Card -->
+      <div id="h2hSummaryCard" class="bg-[#12201a] border border-[#1f382e] p-3.5 rounded-2xl space-y-2.5">
+        <!-- Injected via renderStats() -->
+      </div>
+
+      <!-- Traditional Scorecard Grid Table -->
+      <div class="bg-[#12201a] rounded-2xl border border-[#1f382e] overflow-hidden flex-1 flex flex-col">
+        <div class="p-3 border-b border-[#1f382e] flex justify-between items-center bg-[#162720]">
+          <div class="flex items-center gap-2">
+            <i data-lucide="clipboard-list" class="w-4 h-4 text-emerald-400"></i>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-200">18-Hole Card</span>
+          </div>
+          <span id="tableParSum" class="text-xs font-mono font-bold text-emerald-400">Par: 54</span>
+        </div>
+
+        <div class="table-scroll overflow-x-auto overflow-y-auto flex-1 p-2">
+          <table class="w-full border-collapse text-center text-xs font-mono">
+            <tbody id="scorecardTableBody">
+              <!-- Dynamically populated rows: Hole, Par, Distance, Jeffery, Jack -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Score legend -->
+      <div class="flex items-center justify-center gap-2.5 text-[10px] font-semibold text-slate-400 flex-wrap bg-[#12201a]/60 p-2 rounded-xl border border-[#1b3429]">
+        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span> Ace</span>
+        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span> Eagle</span>
+        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span> Birdie</span>
+        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span> Par</span>
+        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-orange-600"></span> Bogey</span>
+        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-red-600"></span> Double+</span>
+      </div>
+
+      <button onclick="toggleScorecardView()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 rounded-2xl font-bold text-white shadow-md tap-btn">
+        Return to Hole View
+      </button>
+    </div>
+
+  </main>
+
+  <div id="holeJumperModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-4">
+    <div class="bg-[#12201a] w-full max-w-sm rounded-3xl border border-[#234336] p-5 space-y-4">
+      <div class="flex justify-between items-center">
+        <div>
+          <h3 class="font-bold text-white text-base">Select Hole</h3>
+          <p class="text-xs text-slate-400">Quickly jump to any tee pad</p>
+        </div>
+        <button onclick="closeHoleJumperModal()" class="w-8 h-8 rounded-full bg-[#1b3227] flex items-center justify-center text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div id="holeGridJumper" class="grid grid-cols-6 gap-2 max-h-64 overflow-y-auto p-1">
+        <!-- Hole buttons injected -->
+      </div>
+    </div>
+  </div>
+
+  <div id="detailsModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-end sm:items-center justify-center p-4">
+    <div class="bg-[#12201a] w-full max-w-md rounded-3xl border border-[#234336] p-5 space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-[#1f382e] pb-3">
+        <div class="flex items-center gap-2">
+          <i data-lucide="settings" class="w-5 h-5 text-emerald-400"></i>
+          <h3 class="font-bold text-white text-base">Round & Course Setup</h3>
+        </div>
+        <button onclick="closeDetailsModal()" class="w-8 h-8 rounded-full bg-[#1b3227] flex items-center justify-center text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Quick Pick Course -->
+      <div class="space-y-1.5">
+        <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Course Name</label>
+        <input id="inputCourseName" type="text" placeholder="e.g. Black Hoof Park DGC" class="w-full bg-[#09130f] border border-[#234336] rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 font-medium">
+        
+        <!-- Quick Course Suggestions -->
+        <div class="flex gap-1.5 flex-wrap pt-1">
+          <button type="button" onclick="setPresetCourse('Black Hoof Park')" class="tap-btn px-2.5 py-1 rounded-lg bg-[#182c23] border border-[#244637] text-[11px] font-semibold text-emerald-400">Black Hoof</button>
+          <button type="button" onclick="setPresetCourse('Shawnee Mission Park')" class="tap-btn px-2.5 py-1 rounded-lg bg-[#182c23] border border-[#244637] text-[11px] font-semibold text-emerald-400">Shawnee Mission</button>
+          <button type="button" onclick="setPresetCourse('Heritage Park')" class="tap-btn px-2.5 py-1 rounded-lg bg-[#182c23] border border-[#244637] text-[11px] font-semibold text-emerald-400">Heritage Park</button>
+          <button type="button" onclick="setPresetCourse('Rosedale Park')" class="tap-btn px-2.5 py-1 rounded-lg bg-[#182c23] border border-[#244637] text-[11px] font-semibold text-emerald-400">Rosedale</button>
+        </div>
+      </div>
+
+      <!-- Date & Tee Time Pickers -->
+      <div class="grid grid-cols-2 gap-2.5">
+        <div class="space-y-1">
+          <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Round Date</label>
+          <input id="inputRoundDate" type="date" class="w-full bg-[#09130f] border border-[#234336] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono">
+        </div>
+        <div class="space-y-1">
+          <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Tee Time</label>
+          <input id="inputRoundTime" type="time" class="w-full bg-[#09130f] border border-[#234336] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono">
+        </div>
+      </div>
+
+      <!-- Players Configuration (Defaults to Jeffery & Jack) -->
+      <div class="space-y-2 pt-1 border-t border-[#1f382e]">
+        <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Player Names</label>
+        <div class="space-y-2">
+          <div class="flex items-center gap-2">
+            <span class="w-6 text-xs font-mono font-bold text-emerald-400">P1</span>
+            <input id="inputPlayer1" type="text" value="Jeffery" placeholder="Player 1" class="flex-1 bg-[#09130f] border border-[#234336] rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 font-medium">
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-6 text-xs font-mono font-bold text-emerald-400">P2</span>
+            <input id="inputPlayer2" type="text" value="Jack" placeholder="Player 2" class="flex-1 bg-[#09130f] border border-[#234336] rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 font-medium">
+          </div>
+        </div>
+      </div>
+
+      <!-- Hole Format -->
+      <div class="space-y-1.5 pt-1 border-t border-[#1f382e]">
+        <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Holes</label>
+        <div class="grid grid-cols-3 gap-2">
+          <button type="button" onclick="setHoleCount(9)" class="tap-btn py-2 rounded-xl border border-[#244637] text-xs font-bold bg-[#182c23] hover:border-emerald-500">9 Holes</button>
+          <button type="button" onclick="setHoleCount(18)" class="tap-btn py-2 rounded-xl border border-[#244637] text-xs font-bold bg-[#182c23] hover:border-emerald-500">18 Holes</button>
+          <button type="button" onclick="setHoleCount(24)" class="tap-btn py-2 rounded-xl border border-[#244637] text-xs font-bold bg-[#182c23] hover:border-emerald-500">24 Holes</button>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="pt-2 border-t border-[#1f382e] space-y-2">
+        <button onclick="saveDetailsAndClose()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-xl shadow-md tap-btn">
+          Save & Return to Fairway
+        </button>
+
+        <button onclick="confirmNewRound()" class="w-full py-2.5 bg-red-950/40 hover:bg-red-950/70 border border-red-800/40 text-red-400 text-xs font-bold rounded-xl flex items-center justify-center gap-2 tap-btn">
+          <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Reset Round / Clear Scores
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirmDialog" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#12201a] w-full max-w-xs rounded-2xl border border-red-500/30 p-5 space-y-3.5 text-center">
+      <div class="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center mx-auto text-red-400">
+        <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h4 class="font-bold text-white text-base">Start New Round?</h4>
+        <p class="text-xs text-slate-300 mt-1">This will clear all scores for Jeffery and Jack. Date and course name will stay intact.</p>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="closeConfirmModal()" class="flex-1 py-2.5 rounded-xl bg-[#182c23] text-xs font-bold text-slate-300">Cancel</button>
+        <button onclick="executeResetRound()" class="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-xs font-bold text-white">Reset All</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'chaincheck_jeffery_jack_round_v2';
+
+    // Default round state schema
+    let roundState = {
+      courseName: 'Black Hoof Park DGC',
+      roundDate: new Date().toISOString().split('T')[0],
+      roundTime: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+      totalHoles: 18,
+      currentHoleIndex: 0,
+      holes: [],
+      players: [
+        { id: 'p1', name: 'Jeffery', scores: {} },
+        { id: 'p2', name: 'Jack', scores: {} }
+      ]
+    };
+
+    function init() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          roundState = { ...roundState, ...parsed };
+        } catch (e) {
+          console.error("Storage parse error", e);
+        }
+      }
+
+      // Ensure valid holes exist
+      if (!roundState.holes || roundState.holes.length === 0) {
+        createDefaultHoles(roundState.totalHoles || 18);
+      }
+
+      // Guarantee Jeffery and Jack defaults if missing
+      if (!roundState.players || roundState.players.length < 2) {
+        roundState.players = [
+          { id: 'p1', name: (roundState.players && roundState.players[0] && roundState.players[0].name) || 'Jeffery', scores: (roundState.players && roundState.players[0] && roundState.players[0].scores) || {} },
+          { id: 'p2', name: 'Jack', scores: {} }
+        ];
+      }
+
+      // Set fallback course if blank
+      if (!roundState.courseName) {
+        roundState.courseName = 'Black Hoof Park DGC';
+      }
+
+      render();
+      lucide.createIcons();
+    }
+
+    function createDefaultHoles(count) {
+      roundState.totalHoles = count;
+      roundState.holes = [];
+      for (let i = 1; i <= count; i++) {
+        roundState.holes.push({
+          number: i,
+          par: 3,
+          distance: ''
+        });
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(roundState));
+    }
+
+    function formatDisplayDate(dateStr, timeStr) {
+      try {
+        if (!dateStr) return '';
+        const [year, month, day] = dateStr.split('-');
+        const d = new Date(year, month - 1, day);
+        const options = { month: 'short', day: 'numeric', year: 'numeric' };
+        let formattedDate = d.toLocaleDateString('en-US', options);
+
+        if (timeStr) {
+          const [h, m] = timeStr.split(':');
+          const hour = parseInt(h, 10);
+          const ampm = hour >= 12 ? 'PM' : 'AM';
+          const hour12 = hour % 12 || 12;
+          return `${formattedDate} • ${hour12}:${m} ${ampm}`;
+        }
+        return formattedDate;
+      } catch (err) {
+        return `${dateStr} ${timeStr || ''}`;
+      }
+    }
+
+    function render() {
+      const curHole = roundState.holes[roundState.currentHoleIndex];
+      const totalPar = roundState.holes.reduce((sum, h) => sum + (h.par || 3), 0);
+
+      // Header UI
+      document.getElementById('headerCourseName').textContent = roundState.courseName || 'Disc Golf Course';
+      document.getElementById('headerRoundInfo').textContent = formatDisplayDate(roundState.roundDate, roundState.roundTime);
+
+      // Hole navigation
+      document.getElementById('displayHoleNum').textContent = roundState.currentHoleIndex + 1;
+      document.getElementById('displayHoleTotal').textContent = `/ ${roundState.totalHoles}`;
+      document.getElementById('currentHolePar').textContent = curHole.par;
+      document.getElementById('currentHoleDist').value = curHole.distance || '';
+
+      // Ticker Player Names
+      const p1 = roundState.players[0] || { name: 'Jeffery', scores: {} };
+      const p2 = roundState.players[1] || { name: 'Jack', scores: {} };
+
+      document.getElementById('tagP1Name').textContent = p1.name;
+      document.getElementById('tagP2Name').textContent = p2.name;
+
+      const p1Diff = getPlayerRelativeTotal(p1);
+      const p2Diff = getPlayerRelativeTotal(p2);
+
+      document.getElementById('tagP1Score').textContent = formatDiff(p1Diff);
+      document.getElementById('tagP2Score').textContent = formatDiff(p2Diff);
+
+      // Leaderboard ticker message
+      const leaderMsg = document.getElementById('matchLeaderText');
+      if (p1Diff === p2Diff) {
+        leaderMsg.textContent = 'All Square';
+        leaderMsg.className = 'font-bold text-slate-300';
+      } else if (p1Diff < p2Diff) {
+        const lead = p2Diff - p1Diff;
+        leaderMsg.textContent = `${p1.name} +${lead} up`;
+        leaderMsg.className = 'font-bold text-emerald-400';
+      } else {
+        const lead = p1Diff - p2Diff;
+        leaderMsg.textContent = `${p2.name} +${lead} up`;
+        leaderMsg.className = 'font-bold text-emerald-400';
+      }
+
+      renderPlayerCards();
+      renderScorecardTable();
+      renderStats();
+      lucide.createIcons();
+    }
+
+    function getPlayerRelativeTotal(player) {
+      let diff = 0;
+      roundState.holes.forEach((h, idx) => {
+        if (player.scores[idx] !== undefined && player.scores[idx] !== null) {
+          diff += (player.scores[idx] - h.par);
+        }
+      });
+      return diff;
+    }
+
+    function getPlayerTotalThrows(player) {
+      let throws = 0;
+      roundState.holes.forEach((h, idx) => {
+        if (player.scores[idx] !== undefined && player.scores[idx] !== null) {
+          throws += player.scores[idx];
+        }
+      });
+      return throws;
+    }
+
+    function formatDiff(diff) {
+      if (diff === 0) return 'E';
+      return diff > 0 ? `+${diff}` : `${diff}`;
+    }
+
+    function renderPlayerCards() {
+      const container = document.getElementById('playerScoringContainer');
+      const holeIndex = roundState.currentHoleIndex;
+      const holePar = roundState.holes[holeIndex].par;
+
+      container.innerHTML = roundState.players.map((player, idx) => {
+        const rawScore = player.scores[holeIndex];
+        const hasScore = rawScore !== undefined && rawScore !== null;
+        const currentScore = hasScore ? rawScore : holePar;
+        const diff = hasScore ? (currentScore - holePar) : 0;
+
+        let badgeClass = 'badge-par';
+        let badgeLabel = 'Par';
+
+        if (hasScore) {
+          if (currentScore === 1) {
+            badgeClass = 'badge-ace';
+            badgeLabel = 'ACE';
+          } else if (diff <= -2) {
+            badgeClass = 'badge-eagle';
+            badgeLabel = `${diff}`;
+          } else if (diff === -1) {
+            badgeClass = 'badge-birdie';
+            badgeLabel = '-1';
+          } else if (diff === 0) {
+            badgeClass = 'badge-par';
+            badgeLabel = 'E';
+          } else if (diff === 1) {
+            badgeClass = 'badge-bogey';
+            badgeLabel = '+1';
+          } else if (diff === 2) {
+            badgeClass = 'badge-double';
+            badgeLabel = '+2';
+          } else {
+            badgeClass = 'badge-triple';
+            badgeLabel = `+${diff}`;
+          }
+        }
+
+        const totalDiff = getPlayerRelativeTotal(player);
+        const totalThrows = getPlayerTotalThrows(player);
+
+        return `
+          <div class="bg-[#12201a] rounded-2xl border ${idx === 0 ? 'border-emerald-500/40' : 'border-emerald-800/40'} p-3.5 shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-[#1a3126] border border-[#244637] flex items-center justify-center text-xs font-mono font-bold text-emerald-400">P${idx + 1}</span>
+                <div>
+                  <h3 class="text-base font-black text-white tracking-wide">${escapeHtml(player.name)}</h3>
+                  <div class="text-[11px] font-mono text-slate-400 flex items-center gap-2">
+                    <span>Total: <strong class="text-white">${totalThrows}</strong> (${formatDiff(totalDiff)})</span>
+                  </div>
+                </div>
+              </div>
+              <div class="score-circle ${badgeClass} font-mono font-black shadow-sm">
+                ${hasScore ? badgeLabel : '—'}
+              </div>
+            </div>
+
+            <!-- Big +/- Counter -->
+            <div class="flex items-center justify-between bg-[#172a21] p-1.5 rounded-xl border border-[#234536]">
+              <button onclick="decrementScore('${player.id}')" class="tap-btn w-13 h-13 py-3 px-5 rounded-xl bg-[#203a2e] hover:bg-emerald-800/50 text-2xl font-black text-white flex items-center justify-center">
+                -
+              </button>
+              
+              <div class="text-center px-4">
+                <span class="text-3xl font-black font-mono text-white">${hasScore ? currentScore : '<span class="text-slate-500 font-bold">—</span>'}</span>
+                <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Throws</span>
+              </div>
+
+              <button onclick="incrementScore('${player.id}')" class="tap-btn w-13 h-13 py-3 px-5 rounded-xl bg-[#203a2e] hover:bg-emerald-800/50 text-2xl font-black text-white flex items-center justify-center">
+                +
+              </button>
+            </div>
+
+            <!-- Quick tap common scores -->
+            <div class="grid grid-cols-4 gap-1.5 text-center">
+              <button onclick="setDirectScore('${player.id}', 1)" class="tap-btn py-1.5 rounded-lg bg-[#182c23] border border-yellow-500/40 text-[10px] font-bold text-yellow-400">
+                Ace (1)
+              </button>
+              <button onclick="setDirectScore('${player.id}', ${Math.max(1, holePar - 1)})" class="tap-btn py-1.5 rounded-lg bg-[#182c23] border border-emerald-500/40 text-[10px] font-bold text-emerald-400">
+                Birdie (${Math.max(1, holePar - 1)})
+              </button>
+              <button onclick="setDirectScore('${player.id}', ${holePar})" class="tap-btn py-1.5 rounded-lg bg-[#182c23] border border-[#264839] text-[10px] font-bold text-slate-200">
+                Par (${holePar})
+              </button>
+              <button onclick="setDirectScore('${player.id}', ${holePar + 1})" class="tap-btn py-1.5 rounded-lg bg-[#182c23] border border-orange-500/40 text-[10px] font-bold text-orange-400">
+                Bogey (${holePar + 1})
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function incrementScore(playerId) {
+      const p = roundState.players.find(x => x.id === playerId);
+      if (!p) return;
+      const hIdx = roundState.currentHoleIndex;
+      const holePar = roundState.holes[hIdx].par;
+      const cur = p.scores[hIdx] !== undefined ? p.scores[hIdx] : holePar;
+      p.scores[hIdx] = cur + 1;
+      saveState();
+      render();
+    }
+
+    function decrementScore(playerId) {
+      const p = roundState.players.find(x => x.id === playerId);
+      if (!p) return;
+      const hIdx = roundState.currentHoleIndex;
+      const holePar = roundState.holes[hIdx].par;
+      const cur = p.scores[hIdx] !== undefined ? p.scores[hIdx] : holePar;
+      if (cur > 1) {
+        p.scores[hIdx] = cur - 1;
+      }
+      saveState();
+      render();
+    }
+
+    function setDirectScore(playerId, score) {
+      const p = roundState.players.find(x => x.id === playerId);
+      if (!p) return;
+      p.scores[roundState.currentHoleIndex] = Math.max(1, score);
+      saveState();
+      render();
+    }
+
+    function changeHole(delta) {
+      const target = roundState.currentHoleIndex + delta;
+      if (target >= 0 && target < roundState.totalHoles) {
+        roundState.currentHoleIndex = target;
+        saveState();
+        render();
+      }
+    }
+
+    function jumpToHole(index) {
+      roundState.currentHoleIndex = index;
+      closeHoleJumperModal();
+      saveState();
+      render();
+    }
+
+    function adjustCurrentPar(delta) {
+      const h = roundState.holes[roundState.currentHoleIndex];
+      h.par = Math.max(2, Math.min(6, h.par + delta));
+      saveState();
+      render();
+    }
+
+    function updateDistance(value) {
+      const h = roundState.holes[roundState.currentHoleIndex];
+      h.distance = value ? parseInt(value, 10) : '';
+      saveState();
+    }
+
+    function renderScorecardTable() {
+      const tbody = document.getElementById('scorecardTableBody');
+      const totalHoles = roundState.totalHoles;
+      const hasSplits = totalHoles >= 18;
+
+      let html = '';
+
+      // Hole Number Row
+      let holeNums = '';
+      let front9Par = 0;
+      let back9Par = 0;
+      let totalPar = 0;
+
+      for (let i = 0; i < totalHoles; i++) {
+        const isCurrent = i === roundState.currentHoleIndex;
+        holeNums += `<th class="p-2 border border-[#1f382e] ${isCurrent ? 'bg-emerald-800/50 text-emerald-300 font-extrabold' : 'bg-[#14261e] text-slate-300'}">${i + 1}</th>`;
+        if (i < 9) front9Par += roundState.holes[i].par;
+        else if (i < 18) back9Par += roundState.holes[i].par;
+        totalPar += roundState.holes[i].par;
+
+        // Insert OUT column after 9
+        if (hasSplits && i === 8) {
+          holeNums += `<th class="p-2 border border-[#1f382e] bg-[#1d3529] text-white">OUT</th>`;
+        }
+        // Insert IN column after 18
+        if (hasSplits && i === 17) {
+          holeNums += `<th class="p-2 border border-[#1f382e] bg-[#1d3529] text-white">IN</th>`;
+        }
+      }
+
+      html += `
+        <tr class="text-slate-400 text-xs">
+          <th class="p-2 text-left sticky left-0 bg-[#14261e] border border-[#1f382e] z-10 w-28 text-slate-300">Hole</th>
+          ${holeNums}
+          <th class="p-2 bg-[#1d3529] text-white border border-[#1f382e]">TOT</th>
+          <th class="p-2 bg-[#1d3529] text-white border border-[#1f382e]">+/-</th>
+        </tr>
+      `;
+
+      // Par Row
+      let parCells = '';
+      for (let i = 0; i < totalHoles; i++) {
+        parCells += `<td class="p-2 border border-[#1f382e] text-slate-300 font-bold">${roundState.holes[i].par}</td>`;
+        if (hasSplits && i === 8) {
+          parCells += `<td class="p-2 border border-[#1f382e] font-black text-emerald-400 bg-[#162a21]">${front9Par}</td>`;
+        }
+        if (hasSplits && i === 17) {
+          parCells += `<td class="p-2 border border-[#1f382e] font-black text-emerald-400 bg-[#162a21]">${back9Par}</td>`;
+        }
+      }
+
+      html += `
+        <tr class="bg-[#101e18]">
+          <th class="p-2 text-left text-emerald-400 sticky left-0 bg-[#101e18] border border-[#1f382e] z-10">Par</th>
+          ${parCells}
+          <td class="p-2 font-black text-emerald-400 border border-[#1f382e] bg-[#162a21]">${totalPar}</td>
+          <td class="p-2 text-slate-400 border border-[#1f382e] bg-[#162a21]">E</td>
+        </tr>
+      `;
+
+      // Players Rows (Jeffery & Jack)
+      roundState.players.forEach(player => {
+        let playerCells = '';
+        let totalStrokes = 0;
+        let totalDiff = 0;
+        let front9Strokes = 0;
+        let back9Strokes = 0;
+
+        for (let i = 0; i < totalHoles; i++) {
+          const score = player.scores[i];
+          const par = roundState.holes[i].par;
+
+          if (score !== undefined && score !== null) {
+            totalStrokes += score;
+            const diff = score - par;
+            totalDiff += diff;
+
+            if (i < 9) front9Strokes += score;
+            else if (i < 18) back9Strokes += score;
+
+            let badgeStyle = 'text-slate-200';
+            if (score === 1) badgeStyle = 'badge-ace rounded px-1';
+            else if (diff <= -2) badgeStyle = 'bg-sky-600 text-white font-bold rounded px-1';
+            else if (diff === -1) badgeStyle = 'bg-emerald-600 text-white font-bold rounded px-1';
+            else if (diff === 1) badgeStyle = 'bg-orange-600 text-white font-bold rounded px-1';
+            else if (diff >= 2) badgeStyle = 'bg-red-600 text-white font-bold rounded px-1';
+
+            playerCells += `<td class="p-1 border border-[#1f382e]"><span class="inline-block min-w-5 py-0.5 ${badgeStyle}">${score}</span></td>`;
+          } else {
+            playerCells += `<td class="p-2 border border-[#1f382e] text-slate-600">-</td>`;
+          }
+
+          if (hasSplits && i === 8) {
+            playerCells += `<td class="p-2 border border-[#1f382e] font-black text-white bg-[#162a21]">${front9Strokes || '-'}</td>`;
+          }
+          if (hasSplits && i === 17) {
+            playerCells += `<td class="p-2 border border-[#1f382e] font-black text-white bg-[#162a21]">${back9Strokes || '-'}</td>`;
+          }
+        }
+
+        const relText = formatDiff(totalDiff);
+        const relColor = totalDiff < 0 ? 'text-emerald-400' : (totalDiff > 0 ? 'text-rose-400' : 'text-slate-200');
+
+        html += `
+          <tr class="hover:bg-[#14261e]">
+            <th class="p-2 text-left font-bold text-white truncate max-w-[100px] sticky left-0 bg-[#12201a] border border-[#1f382e] z-10">${escapeHtml(player.name)}</th>
+            ${playerCells}
+            <td class="p-2 font-black text-white bg-[#1a3227] border border-[#1f382e]">${totalStrokes}</td>
+            <td class="p-2 font-black ${relColor} bg-[#1a3227] border border-[#1f382e]">${relText}</td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+      document.getElementById('tableParSum').textContent = `Par: ${totalPar}`;
+    }
+
+    function renderStats() {
+      const card = document.getElementById('h2hSummaryCard');
+      const p1 = roundState.players[0] || { name: 'Jeffery', scores: {} };
+      const p2 = roundState.players[1] || { name: 'Jack', scores: {} };
+
+      function getCounts(p) {
+        let birdies = 0, pars = 0, bogeys = 0, aces = 0;
+        roundState.holes.forEach((h, idx) => {
+          const s = p.scores[idx];
+          if (s !== undefined && s !== null) {
+            const diff = s - h.par;
+            if (s === 1) aces++;
+            if (diff <= -1) birdies++;
+            else if (diff === 0) pars++;
+            else if (diff >= 1) bogeys++;
+          }
+        });
+        return { birdies, pars, bogeys, aces };
+      }
+
+      const p1Stats = getCounts(p1);
+      const p2Stats = getCounts(p2);
+      const p1Diff = getPlayerRelativeTotal(p1);
+      const p2Diff = getPlayerRelativeTotal(p2);
+
+      let leaderStr = 'All Square';
+      if (p1Diff < p2Diff) {
+        leaderStr = `${p1.name} leads by ${p2Diff - p1Diff} throw${(p2Diff - p1Diff) > 1 ? 's' : ''}`;
+      } else if (p2Diff < p1Diff) {
+        leaderStr = `${p2.name} leads by ${p1Diff - p2Diff} throw${(p1Diff - p2Diff) > 1 ? 's' : ''}`;
+      }
+
+      card.innerHTML = `
+        <div class="flex items-center justify-between border-b border-[#1f382e] pb-2">
+          <div>
+            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Match Status</div>
+            <div class="text-sm font-black text-emerald-400">${leaderStr}</div>
+          </div>
+          <div class="text-right">
+            <span class="text-xs font-mono font-bold text-slate-300">${escapeHtml(roundState.courseName)}</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 pt-1 text-xs">
+          <!-- Jeffery Stats -->
+          <div class="bg-[#182c23] p-2.5 rounded-xl border border-[#234336]">
+            <div class="flex justify-between items-center mb-1">
+              <span class="font-bold text-white">${escapeHtml(p1.name)}</span>
+              <span class="font-black font-mono ${p1Diff < 0 ? 'text-emerald-400' : (p1Diff > 0 ? 'text-rose-400' : 'text-slate-200')}">${formatDiff(p1Diff)}</span>
+            </div>
+            <div class="text-[11px] text-slate-300 font-mono space-y-0.5">
+              <div>Birdies+: <strong class="text-emerald-400">${p1Stats.birdies}</strong></div>
+              <div>Pars: <strong class="text-slate-200">${p1Stats.pars}</strong></div>
+              <div>Bogeys+: <strong class="text-orange-400">${p1Stats.bogeys}</strong></div>
+            </div>
+          </div>
+
+          <!-- Jack Stats -->
+          <div class="bg-[#182c23] p-2.5 rounded-xl border border-[#234336]">
+            <div class="flex justify-between items-center mb-1">
+              <span class="font-bold text-white">${escapeHtml(p2.name)}</span>
+              <span class="font-black font-mono ${p2Diff < 0 ? 'text-emerald-400' : (p2Diff > 0 ? 'text-rose-400' : 'text-slate-200')}">${formatDiff(p2Diff)}</span>
+            </div>
+            <div class="text-[11px] text-slate-300 font-mono space-y-0.5">
+              <div>Birdies+: <strong class="text-emerald-400">${p2Stats.birdies}</strong></div>
+              <div>Pars: <strong class="text-slate-200">${p2Stats.pars}</strong></div>
+              <div>Bogeys+: <strong class="text-orange-400">${p2Stats.bogeys}</strong></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleScorecardView() {
+      const holeView = document.getElementById('holeView');
+      const tableView = document.getElementById('scorecardTableView');
+      const toggleText = document.getElementById('toggleText');
+      const toggleIcon = document.getElementById('toggleIcon');
+
+      const isHoleViewActive = !holeView.classList.contains('hidden');
+
+      if (isHoleViewActive) {
+        holeView.classList.add('hidden');
+        tableView.classList.remove('hidden');
+        toggleText.textContent = "Hole";
+        toggleIcon.setAttribute('data-lucide', 'disc');
+      } else {
+        tableView.classList.add('hidden');
+        holeView.classList.remove('hidden');
+        toggleText.textContent = "Table";
+        toggleIcon.setAttribute('data-lucide', 'table');
+      }
+      lucide.createIcons();
+    }
+
+    function openHoleJumperModal() {
+      const grid = document.getElementById('holeGridJumper');
+      grid.innerHTML = '';
+
+      for (let i = 0; i < roundState.totalHoles; i++) {
+        const isCurrent = i === roundState.currentHoleIndex;
+        const btn = document.createElement('button');
+        btn.className = `tap-btn h-12 rounded-xl font-bold font-mono text-sm border flex flex-col items-center justify-center ${isCurrent ? 'bg-emerald-600 border-emerald-400 text-white' : 'bg-[#182c23] border-[#244637] text-slate-200'}`;
+        btn.innerHTML = `<span>${i + 1}</span><span class="text-[9px] opacity-75">P${roundState.holes[i].par}</span>`;
+        btn.onclick = () => jumpToHole(i);
+        grid.appendChild(btn);
+      }
+
+      document.getElementById('holeJumperModal').classList.remove('hidden');
+    }
+
+    function closeHoleJumperModal() {
+      document.getElementById('holeJumperModal').classList.add('hidden');
+    }
+
+    function openDetailsModal() {
+      document.getElementById('inputCourseName').value = roundState.courseName;
+      document.getElementById('inputRoundDate').value = roundState.roundDate || new Date().toISOString().split('T')[0];
+      document.getElementById('inputRoundTime').value = roundState.roundTime || '14:00';
+      document.getElementById('inputPlayer1').value = roundState.players[0] ? roundState.players[0].name : 'Jeffery';
+      document.getElementById('inputPlayer2').value = roundState.players[1] ? roundState.players[1].name : 'Jack';
+      
+      document.getElementById('detailsModal').classList.remove('hidden');
+    }
+
+    function closeDetailsModal() {
+      document.getElementById('detailsModal').classList.add('hidden');
+    }
+
+    function setPresetCourse(course) {
+      document.getElementById('inputCourseName').value = `${course} DGC`;
+    }
+
+    function saveDetailsAndClose() {
+      const course = document.getElementById('inputCourseName').value.trim();
+      const date = document.getElementById('inputRoundDate').value;
+      const time = document.getElementById('inputRoundTime').value;
+      const p1Name = document.getElementById('inputPlayer1').value.trim() || 'Jeffery';
+      const p2Name = document.getElementById('inputPlayer2').value.trim() || 'Jack';
+
+      if (course) roundState.courseName = course;
+      if (date) roundState.roundDate = date;
+      if (time) roundState.roundTime = time;
+
+      if (!roundState.players[0]) roundState.players[0] = { id: 'p1', scores: {} };
+      if (!roundState.players[1]) roundState.players[1] = { id: 'p2', scores: {} };
+
+      roundState.players[0].name = p1Name;
+      roundState.players[1].name = p2Name;
+
+      saveState();
+      render();
+      closeDetailsModal();
+    }
+
+    function setHoleCount(count) {
+      if (roundState.totalHoles === count) return;
+      const cur = [...roundState.holes];
+      if (count > cur.length) {
+        for (let i = cur.length + 1; i <= count; i++) {
+          cur.push({ number: i, par: 3, distance: '' });
+        }
+      } else {
+        cur.splice(count);
+      }
+      roundState.totalHoles = count;
+      roundState.holes = cur;
+      if (roundState.currentHoleIndex >= count) {
+        roundState.currentHoleIndex = count - 1;
+      }
+      saveState();
+      saveDetailsAndClose();
+    }
+
+    function confirmNewRound() {
+      document.getElementById('confirmDialog').classList.remove('hidden');
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('confirmDialog').classList.add('hidden');
+    }
+
+    function executeResetRound() {
+      roundState.players.forEach(p => p.scores = {});
+      roundState.currentHoleIndex = 0;
+      saveState();
+      closeConfirmModal();
+      closeDetailsModal();
+      render();
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/[&<>"']/g, function(m) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;'
+        }[m];
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
