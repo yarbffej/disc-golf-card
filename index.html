@@ -46,15 +46,15 @@
       </button>
 
       <div class="flex items-center gap-1.5 shrink-0">
-        <!-- 9H / 18H quick toggle -->
+        <!-- Hole count toggle -->
         <button onclick="toggleHoleCountDirect()" id="btnQuickToggle" class="px-2 py-1 rounded-lg bg-slate-800 text-sky-300 border border-slate-700 text-xs font-black active:scale-95">
           9H
         </button>
-        <!-- History -->
+        <!-- History Drawer Button -->
         <button onclick="openHistoryModal()" title="Past Rounds" class="w-8 h-8 rounded-lg bg-slate-800 text-blue-400 border border-slate-700 flex items-center justify-center active:scale-95">
           <i class="fa-solid fa-clock-rotate-left text-xs"></i>
         </button>
-        <!-- Export -->
+        <!-- Sheets Export Button -->
         <button onclick="exportToSheets()" title="Export CSV" class="px-2.5 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold flex items-center gap-1 active:scale-95 border border-blue-400/40">
           <i class="fa-solid fa-file-excel text-xs"></i>
           <span>Sheets</span>
@@ -82,7 +82,7 @@
     </div>
   </header>
 
-  <!-- MAIN SCORING CARD -->
+  <!-- MAIN FAIRWAY CARD -->
   <main class="flex-1 px-3.5 py-3 max-w-lg mx-auto w-full flex flex-col gap-3">
 
     <!-- Hole Navigator Bar -->
@@ -280,11 +280,13 @@
         </button>
       </div>
 
-      <!-- Quick UDisc Course Dropdown -->
+      <!-- Preset Courses Dropdown (includes Mize & Lakeside) -->
       <div>
         <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5">Preset UDisc Courses</label>
         <select id="selectPresetCourse" onchange="loadSelectedPresetCourse(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-bold text-xs focus:outline-none focus:border-blue-500">
           <option value="sarko">Sar-Ko-Par Trails (9H · Par 27)</option>
+          <option value="mize">Mize Elementary (9H · Par 27)</option>
+          <option value="lakeside">Lakeside Hills (19H · Par 57)</option>
           <option value="blackhoof_18">Black Hoof Championship (18H · Par 58)</option>
           <option value="blackhoof_9">Black Hoof Flying Disc (9H · Par 27)</option>
           <option value="smp_wooded">Shawnee Mission Wooded (18H · Par 54)</option>
@@ -335,7 +337,7 @@
 
   <!-- SCRIPT -->
   <script>
-    // UDISC COURSE DATABASE PRESETS
+    // FULL UDISC COURSE DATABASE
     const COURSE_DATABASE = {
       sarko: {
         name: "Sar-Ko-Par Trails",
@@ -350,6 +352,46 @@
           { number: 7, dist: 139, par: 3 },
           { number: 8, dist: 204, par: 3 },
           { number: 9, dist: 121, par: 3 }
+        ]
+      },
+      mize: {
+        name: "Mize Elementary",
+        totalHoles: 9,
+        holes: [
+          { number: 1, dist: 218, par: 3 },
+          { number: 2, dist: 264, par: 3 },
+          { number: 3, dist: 294, par: 3 },
+          { number: 4, dist: 296, par: 3 },
+          { number: 5, dist: 296, par: 3 },
+          { number: 6, dist: 310, par: 3 },
+          { number: 7, dist: 324, par: 3 },
+          { number: 8, dist: 235, par: 3 },
+          { number: 9, dist: 389, par: 3 }
+        ]
+      },
+      lakeside: {
+        name: "Lakeside Hills",
+        totalHoles: 19,
+        holes: [
+          { number: 1, dist: 272, par: 3 },
+          { number: 2, dist: 253, par: 3 },
+          { number: 3, dist: 285, par: 3 },
+          { number: 4, dist: 260, par: 3 },
+          { number: 5, dist: 310, par: 3 },
+          { number: 6, dist: 295, par: 3 },
+          { number: 7, dist: 332, par: 3 },
+          { number: 8, dist: 245, par: 3 },
+          { number: 9, dist: 275, par: 3 },
+          { number: 10, dist: 205, par: 3 },
+          { number: 11, dist: 209, par: 3 },
+          { number: 12, dist: 228, par: 3 },
+          { number: 13, dist: 340, par: 3 },
+          { number: 14, dist: 238, par: 3 },
+          { number: 15, dist: 280, par: 3 },
+          { number: 16, dist: 291, par: 3 },
+          { number: 17, dist: 302, par: 3 },
+          { number: 18, dist: 265, par: 3 },
+          { number: 19, dist: 275, par: 3 }
         ]
       },
       blackhoof_18: {
@@ -525,8 +567,8 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v3';
-    const HISTORY_KEY = 'dg_history_v3';
+    const STORAGE_KEY = 'dg_round_v4';
+    const HISTORY_KEY = 'dg_history_v4';
 
     let roundState = {
       courseKey: 'sarko',
