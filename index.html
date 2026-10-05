@@ -6,8 +6,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#030712">
-  <title>ChainCheck — Jeffery & Jack Disc Golf</title>
+  <title>ChainCheck — Jeffery & Jack Disc Golf Scorecard</title>
 
+  <!-- Tailwind CSS & Font Awesome -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,7 +68,7 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
     .safe-top-bar {
-      padding-top: max(env(safe-area-inset-top, 0px), 6px);
+      padding-top: max(env(safe-area-inset-top, 0px), 8px);
     }
 
     /* THEME 1: Royal Blue Mesh (Default Dark) */
@@ -80,7 +81,7 @@
       color: #f8fafc;
     }
 
-    /* THEME 2: Sunlight Fairway (High-Contrast White & Cobalt for bright direct sun) */
+    /* THEME 2: High-Sun Crisp White & Blue (For direct midday sun on the course) */
     body.theme-sunlight {
       background-color: #f0f4f8;
       background-image: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
@@ -90,7 +91,7 @@
       background-color: #ffffff !important;
       border-color: #cbd5e1 !important;
       color: #0f172a !important;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
     }
     body.theme-sunlight .ui-card-subtle {
       background-color: #f1f5f9 !important;
@@ -103,16 +104,13 @@
     body.theme-sunlight .ui-text-subtle {
       color: #475569 !important;
     }
-    body.theme-sunlight .header-bar {
-      background-color: rgba(255, 255, 255, 0.96) !important;
-      border-color: #cbd5e1 !important;
-    }
+    body.theme-sunlight .header-bar,
     body.theme-sunlight .footer-bar {
       background-color: rgba(255, 255, 255, 0.96) !important;
       border-color: #cbd5e1 !important;
     }
 
-    /* THEME 3: Blueprint Grid (Tech Cobalt) */
+    /* THEME 3: Blueprint Fairway Grid */
     body.theme-blueprint {
       background-color: #020617;
       background-image: 
@@ -122,7 +120,7 @@
       color: #f8fafc;
     }
 
-    /* THEME 4: Midnight Pitch (Deep Contrast Stealth) */
+    /* THEME 4: Midnight Stealth */
     body.theme-midnight {
       background-color: #000000;
       background-image: radial-gradient(circle at 50% 10%, rgba(37, 99, 235, 0.2) 0%, transparent 60%);
@@ -130,10 +128,7 @@
     }
 
     .tap-btn:active {
-      transform: scale(0.96);
-    }
-    .tap-bubble {
-      transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: scale(0.95);
     }
     .custom-scroll::-webkit-scrollbar {
       display: none;
@@ -146,8 +141,11 @@
 </head>
 <body class="theme-royal font-sans antialiased overflow-x-hidden safe-top-bar">
 
+  <!-- Top Sticky Header Bar -->
   <header class="header-bar sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-blue-900/40 px-3.5 py-2.5 shadow-lg transition-colors">
     <div class="flex items-center justify-between gap-2 max-w-md mx-auto">
+      
+      <!-- Course Title & Round Info Trigger -->
       <div onclick="openCourseModal()" class="flex items-center gap-2.5 text-left truncate cursor-pointer tap-btn py-0.5">
         <div class="w-9 h-9 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/40 flex items-center justify-center shrink-0 shadow-inner">
           <i class="fa-solid fa-circle-dot text-base"></i>
@@ -157,21 +155,33 @@
             <span id="headerCourseName" class="font-black text-white ui-text-contrast text-sm tracking-tight truncate">Black Hoof Park DGC</span>
             <i class="fa-solid fa-pen text-[10px] text-blue-400 opacity-70"></i>
           </div>
-          <div id="headerDateTime" class="text-[11px] font-mono text-slate-400 ui-text-subtle font-medium">Oct 4, 2026 · 2:30 PM</div>
+          <div class="flex items-center gap-2 text-[11px] font-mono text-slate-400 ui-text-subtle font-medium">
+            <span id="headerHolesBadge" class="text-blue-400 font-extrabold bg-blue-500/10 px-1 rounded">18H</span>
+            <span id="headerDateTime">Today · In Progress</span>
+          </div>
         </div>
       </div>
 
+      <!-- Quick Action Controls -->
       <div class="flex items-center gap-1.5 shrink-0">
-        <!-- Visual Background Theme Picker Button -->
-        <button onclick="openThemeModal()" title="Change Background" class="w-8 h-8 rounded-xl bg-slate-800 ui-card text-blue-400 border border-slate-700 flex items-center justify-center tap-btn shadow-sm">
+        <!-- 9/18 Hole Quick Toggle Switch -->
+        <button onclick="quickToggleHoleCount()" id="btnQuickHoleToggle" title="Toggle 9 or 18 holes" class="px-2 py-1.5 rounded-xl bg-slate-800 ui-card text-blue-400 border border-slate-700 font-mono font-bold text-xs flex items-center gap-1 tap-btn shadow-sm">
+          <span id="quickToggleLabel">18H</span>
+          <i class="fa-solid fa-repeat text-[9px] opacity-70"></i>
+        </button>
+
+        <!-- Background Theme Modal Button -->
+        <button onclick="openThemeModal()" title="Change Visual Theme" class="w-8 h-8 rounded-xl bg-slate-800 ui-card text-blue-400 border border-slate-700 flex items-center justify-center tap-btn shadow-sm">
           <i class="fa-solid fa-palette text-xs"></i>
         </button>
+
         <!-- History Drawer Button -->
-        <button onclick="openHistoryModal()" title="Saved Rounds" class="w-8 h-8 rounded-xl bg-slate-800 ui-card text-blue-400 border border-slate-700 flex items-center justify-center tap-btn shadow-sm">
+        <button onclick="openHistoryModal()" title="Saved Rounds History" class="w-8 h-8 rounded-xl bg-slate-800 ui-card text-blue-400 border border-slate-700 flex items-center justify-center tap-btn shadow-sm">
           <i class="fa-solid fa-clock-rotate-left text-xs"></i>
         </button>
-        <!-- Sheets / CSV Export Button -->
-        <button onclick="exportToSheets()" title="Export to Google Sheets" class="px-2.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center gap-1.5 tap-btn shadow-md border border-blue-400/40">
+
+        <!-- Export to CSV / Google Sheets Button -->
+        <button onclick="exportToSheets()" title="Export to Google Sheets or CSV" class="px-2.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black flex items-center gap-1.5 tap-btn shadow-md border border-blue-400/40">
           <i class="fa-solid fa-file-excel text-xs"></i>
           <span>Sheets</span>
         </button>
@@ -184,7 +194,7 @@
         <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span>All Square</span>
       </div>
-      <div class="flex items-center gap-3 font-mono font-bold text-[11px] text-slate-300 ui-text-contrast">
+      <div class="flex items-center gap-2.5 font-mono font-bold text-[11px] text-slate-300 ui-text-contrast">
         <span class="flex items-center gap-1">
           <span class="text-slate-400 ui-text-subtle font-normal">Jeffery:</span>
           <span id="tickerScoreJeffery" class="text-white bg-blue-600/30 border border-blue-500/30 px-1.5 py-0.5 rounded">E</span>
@@ -198,9 +208,10 @@
     </div>
   </header>
 
+  <!-- Main Fairway Card Screen -->
   <main class="flex-1 px-3.5 py-3 max-w-md mx-auto w-full flex flex-col gap-3 justify-between pb-24">
 
-    <!-- Hole Selector Banner -->
+    <!-- Hole Navigation Header Card -->
     <div class="ui-card bg-slate-900/90 border border-slate-800 rounded-2xl p-2.5 flex items-center justify-between shadow-md">
       <button onclick="prevHole()" id="btnPrevHoleTop" class="w-10 h-10 rounded-xl bg-slate-800 ui-card-subtle text-slate-200 border border-slate-700 tap-btn flex items-center justify-center font-bold text-base disabled:opacity-30 disabled:pointer-events-none transition shadow-sm">
         <i class="fa-solid fa-chevron-left"></i>
@@ -213,7 +224,7 @@
         </div>
         <div class="flex items-baseline justify-center gap-1 font-mono">
           <span id="currentHoleLabel" class="text-2xl font-black text-white ui-text-contrast">1</span>
-          <span class="text-xs text-slate-400 ui-text-subtle font-semibold">/ 18</span>
+          <span id="totalHolesLabel" class="text-xs text-slate-400 ui-text-subtle font-semibold">/ 18</span>
         </div>
       </button>
 
@@ -222,9 +233,9 @@
       </button>
     </div>
 
-    <!-- Hole Par & Distance Cards -->
+    <!-- Hole Par & Distance Controls -->
     <div class="grid grid-cols-2 gap-2.5">
-      <!-- Par -->
+      <!-- Par Setting -->
       <div class="ui-card bg-slate-900/90 border border-slate-800 rounded-2xl p-2.5 flex items-center justify-between shadow-sm">
         <div>
           <span class="text-[10px] font-bold uppercase text-slate-400 ui-text-subtle tracking-wide block">PAR</span>
@@ -236,7 +247,7 @@
         </div>
       </div>
 
-      <!-- Distance -->
+      <!-- Distance Setting -->
       <div class="ui-card bg-slate-900/90 border border-slate-800 rounded-2xl p-2.5 flex items-center justify-between shadow-sm">
         <div>
           <span class="text-[10px] font-bold uppercase text-slate-400 ui-text-subtle tracking-wide block">DISTANCE</span>
@@ -280,7 +291,7 @@
         </button>
       </div>
 
-      <!-- One-Tap Preset Buttons -->
+      <!-- One-Tap Throw Presets -->
       <div class="grid grid-cols-4 gap-1.5 mt-2">
         <button onclick="setPlayerScorePreset('jeffery', 1)" class="py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/40 text-amber-400 font-extrabold text-[11px] tap-btn">Ace (1)</button>
         <button onclick="setPlayerScorePreset('jeffery', 'birdie')" class="py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 font-extrabold text-[11px] tap-btn">Birdie</button>
@@ -318,7 +329,7 @@
         </button>
       </div>
 
-      <!-- One-Tap Preset Buttons -->
+      <!-- One-Tap Throw Presets -->
       <div class="grid grid-cols-4 gap-1.5 mt-2">
         <button onclick="setPlayerScorePreset('jack', 1)" class="py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/40 text-amber-400 font-extrabold text-[11px] tap-btn">Ace (1)</button>
         <button onclick="setPlayerScorePreset('jack', 'birdie')" class="py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 font-extrabold text-[11px] tap-btn">Birdie</button>
@@ -329,11 +340,12 @@
 
   </main>
 
+  <!-- Fixed Bottom Navigation Bar -->
   <footer class="footer-bar fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 px-4 py-2.5 pb-[max(0.7rem,env(safe-area-inset-bottom))] shadow-2xl transition-colors">
     <div class="max-w-md mx-auto flex items-center gap-2">
       <button onclick="prevHole()" id="btnBottomPrev" class="flex-1 py-3 px-3 rounded-xl bg-slate-800 ui-card text-slate-200 ui-text-contrast font-bold text-sm tap-btn border border-slate-700 flex items-center justify-center gap-2 disabled:opacity-30">
         <i class="fa-solid fa-arrow-left text-xs"></i>
-        <span>Prev Hole</span>
+        <span>Prev</span>
       </button>
 
       <button onclick="openScorecardModal()" class="w-13 h-12 px-3 rounded-xl bg-slate-800 ui-card text-blue-400 border border-slate-700 flex flex-col items-center justify-center tap-btn shrink-0">
@@ -342,12 +354,13 @@
       </button>
 
       <button onclick="nextHole()" id="btnBottomNext" class="flex-1 py-3 px-3 rounded-xl bg-blue-600 text-white font-black text-sm tap-btn border border-blue-400/40 flex items-center justify-center gap-2 shadow-lg shadow-blue-950/40">
-        <span id="nextHoleText">Next Hole</span>
+        <span id="nextHoleText">Next</span>
         <i class="fa-solid fa-arrow-right text-xs"></i>
       </button>
     </div>
   </footer>
 
+  <!-- MODAL 1: Background Visual Theme Switcher -->
   <div id="modalTheme" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="ui-card bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-5 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -367,7 +380,7 @@
             <span class="w-6 h-6 rounded-full bg-gradient-to-tr from-blue-700 to-sky-400 border border-white/20"></span>
             <div>
               <div class="font-bold text-sm">Royal Blue Mesh</div>
-              <div class="text-[11px] text-slate-400">Deep modern night & slate blue</div>
+              <div class="text-[11px] text-slate-400">Deep modern night & cobalt mesh</div>
             </div>
           </div>
           <i id="check-theme-royal" class="fa-solid fa-check text-blue-400"></i>
@@ -378,7 +391,7 @@
           <div class="flex items-center gap-3">
             <span class="w-6 h-6 rounded-full bg-gradient-to-tr from-slate-100 to-white border border-slate-300"></span>
             <div>
-              <div class="font-bold text-sm text-slate-900">High-Sun White</div>
+              <div class="font-bold text-sm text-slate-900">High-Sun Crisp White</div>
               <div class="text-[11px] text-slate-600">Ultra-bright sunlight contrast</div>
             </div>
           </div>
@@ -391,7 +404,7 @@
             <span class="w-6 h-6 rounded-full bg-blue-950 border border-blue-400"></span>
             <div>
               <div class="font-bold text-sm">Cobalt Blueprint Grid</div>
-              <div class="text-[11px] text-slate-400">Athletic fairway grid matrix</div>
+              <div class="text-[11px] text-slate-400">Tactical fairway grid matrix</div>
             </div>
           </div>
           <i id="check-theme-blueprint" class="fa-solid fa-check text-blue-400 hidden"></i>
@@ -412,6 +425,7 @@
     </div>
   </div>
 
+  <!-- MODAL 2: Full Comparative Scorecard -->
   <div id="modalScorecard" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex-col justify-end">
     <div class="ui-card bg-slate-900 border-t border-slate-800 rounded-t-3xl max-w-md mx-auto w-full max-h-[90vh] flex flex-col overflow-hidden">
       <div class="px-5 py-3 border-b border-slate-800 flex items-center justify-between">
@@ -425,7 +439,7 @@
       </div>
 
       <div class="overflow-y-auto p-4 flex-1 custom-scroll space-y-4">
-        <!-- Traditional Table -->
+        <!-- Hole Score Table -->
         <div class="overflow-x-auto rounded-xl border border-slate-800">
           <table class="w-full text-center text-xs font-mono">
             <thead class="bg-black/60 text-slate-400 font-bold uppercase text-[10px]">
@@ -438,7 +452,7 @@
               </tr>
             </thead>
             <tbody id="scorecardTableBody" class="divide-y divide-slate-800/80">
-              <!-- Injected by JavaScript -->
+              <!-- Dynamically populated via JS -->
             </tbody>
             <tfoot class="bg-black/80 font-black text-white ui-text-contrast divide-y divide-slate-800">
               <tr id="totalRowFront"></tr>
@@ -463,6 +477,7 @@
     </div>
   </div>
 
+  <!-- MODAL 3: Course & 9/18 Hole Round Settings -->
   <div id="modalCourse" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="ui-card bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-5 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -472,19 +487,37 @@
         </button>
       </div>
 
+      <!-- Hole Count Selector: 9 vs 18 -->
+      <div>
+        <label class="block text-xs font-bold text-slate-400 ui-text-subtle uppercase mb-1.5">Round Length</label>
+        <div class="grid grid-cols-2 gap-2 bg-slate-950 p-1.5 rounded-2xl border border-slate-800">
+          <button type="button" onclick="selectHoleCount(9)" id="btnSelect9Holes" class="py-2.5 rounded-xl font-black text-xs font-mono transition tap-btn flex items-center justify-center gap-2 bg-slate-800 text-slate-300">
+            <i class="fa-solid fa-flag text-[11px]"></i>
+            <span>9 Holes</span>
+          </button>
+          <button type="button" onclick="selectHoleCount(18)" id="btnSelect18Holes" class="py-2.5 rounded-xl font-black text-xs font-mono transition tap-btn flex items-center justify-center gap-2 bg-blue-600 text-white shadow-md">
+            <i class="fa-solid fa-trophy text-[11px]"></i>
+            <span>18 Holes</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Course Name Input -->
       <div>
         <label class="block text-xs font-bold text-slate-400 ui-text-subtle uppercase mb-1.5">Course Name</label>
         <input type="text" id="inputCourseName" class="w-full bg-slate-950 ui-card-subtle border border-slate-700 rounded-xl px-3 py-2 text-white ui-text-contrast font-bold text-sm focus:outline-none focus:border-blue-500" value="Black Hoof Park DGC">
         
-        <!-- Preset quick chips -->
+        <!-- Preset Quick Course Chips -->
         <div class="flex flex-wrap gap-1.5 mt-2">
-          <button onclick="selectCourseChip('Black Hoof Park DGC')" class="text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 tap-btn">Black Hoof</button>
-          <button onclick="selectCourseChip('Shawnee Mission Park DGC')" class="text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 tap-btn">Shawnee Mission</button>
-          <button onclick="selectCourseChip('Heritage Park DGC')" class="text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 tap-btn">Heritage Park</button>
-          <button onclick="selectCourseChip('Rosedale Down Under')" class="text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 tap-btn">Rosedale</button>
+          <button onclick="selectCourseChip('Black Hoof Park DGC', 18)" class="text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 tap-btn">Black Hoof (18H)</button>
+          <button onclick="selectCourseChip('Sar-Ko-Par Park', 9)" class="text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 tap-btn">Sar-Ko-Par (9H)</button>
+          <button onclick="selectCourseChip('Shawnee Mission Park', 18)" class="text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 tap-btn">Shawnee Mission (18H)</button>
+          <button onclick="selectCourseChip('Heritage Park DGC', 18)" class="text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 tap-btn">Heritage Park (18H)</button>
+          <button onclick="selectCourseChip('Rosedale Down Under', 9)" class="text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 tap-btn">Rosedale (9H)</button>
         </div>
       </div>
 
+      <!-- Date & Tee Time -->
       <div class="grid grid-cols-2 gap-2">
         <div>
           <label class="block text-xs font-bold text-slate-400 ui-text-subtle uppercase mb-1">Date</label>
@@ -503,6 +536,7 @@
     </div>
   </div>
 
+  <!-- MODAL 4: Quick Hole Jump Selector -->
   <div id="modalHoleJump" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="ui-card bg-slate-900 border border-slate-800 rounded-3xl max-w-xs w-full p-4 space-y-3">
       <div class="flex items-center justify-between pb-2 border-b border-slate-800">
@@ -517,6 +551,7 @@
     </div>
   </div>
 
+  <!-- MODAL 5: Round History Drawer -->
   <div id="modalHistory" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex-col justify-end">
     <div class="ui-card bg-slate-900 border-t border-slate-800 rounded-t-3xl max-w-md mx-auto w-full max-h-[80vh] flex flex-col overflow-hidden">
       <div class="px-5 py-3 border-b border-slate-800 flex items-center justify-between">
@@ -529,31 +564,38 @@
         </button>
       </div>
       <div id="historyList" class="p-4 overflow-y-auto space-y-3 custom-scroll flex-1">
-        <!-- Injected dynamically -->
+        <!-- Dynamically rendered -->
       </div>
     </div>
   </div>
 
+  <!-- JAVASCRIPT STATE ENGINE & INTERACTION LOGIC -->
   <script>
-    const TOTAL_HOLES = 18;
-    const STORAGE_KEY = 'dg_round_chaincheck_v3';
-    const HISTORY_KEY = 'dg_history_chaincheck_v3';
-    const THEME_KEY = 'dg_selected_theme_v3';
+    const STORAGE_KEY = 'chaincheck_dg_round_v4';
+    const HISTORY_KEY = 'chaincheck_dg_history_v4';
+    const THEME_KEY = 'chaincheck_dg_theme_v4';
 
-    let roundState = {
-      courseName: 'Black Hoof Park DGC',
-      date: new Date().toISOString().split('T')[0],
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
-      currentHoleIndex: 0,
-      holes: Array.from({ length: TOTAL_HOLES }, (_, i) => ({
+    function buildDefaultHoles(count) {
+      return Array.from({ length: count }, (_, i) => ({
         number: i + 1,
         par: 3,
-        distance: 280 + ((i * 25) % 160),
+        distance: 260 + ((i * 25) % 170),
         jeffery: 3,
         jack: 3,
         scored: false
-      }))
+      }));
+    }
+
+    let roundState = {
+      courseName: 'Black Hoof Park DGC',
+      totalHoles: 18,
+      date: new Date().toISOString().split('T')[0],
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }),
+      currentHoleIndex: 0,
+      holes: buildDefaultHoles(18)
     };
+
+    let tempModalHoleCount = 18;
 
     function init() {
       // 1. Load Background Theme
@@ -565,12 +607,19 @@
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
-          roundState = { ...roundState, ...parsed };
+          if (parsed.holes && parsed.holes.length > 0) {
+            roundState = { ...roundState, ...parsed };
+            // Ensure bounds
+            if (roundState.currentHoleIndex >= roundState.totalHoles) {
+              roundState.currentHoleIndex = roundState.totalHoles - 1;
+            }
+          }
         } catch (e) {
           console.error("Storage error:", e);
         }
       }
 
+      tempModalHoleCount = roundState.totalHoles;
       renderHeader();
       renderCurrentHole();
       setupHoleJumpGrid();
@@ -579,6 +628,61 @@
     function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(roundState));
       renderHeader();
+    }
+
+    // Hole Count Management (9 vs 18)
+    function setTotalHoles(newCount, preserveScores = true) {
+      if (roundState.totalHoles === newCount) return;
+
+      if (newCount < roundState.totalHoles) {
+        // Shrinking from 18 to 9
+        roundState.holes = roundState.holes.slice(0, newCount);
+      } else {
+        // Expanding from 9 to 18
+        const existingLength = roundState.holes.length;
+        const additional = Array.from({ length: newCount - existingLength }, (_, i) => ({
+          number: existingLength + i + 1,
+          par: 3,
+          distance: 280 + (((existingLength + i) * 25) % 170),
+          jeffery: 3,
+          jack: 3,
+          scored: false
+        }));
+        roundState.holes = roundState.holes.concat(additional);
+      }
+
+      roundState.totalHoles = newCount;
+      if (roundState.currentHoleIndex >= newCount) {
+        roundState.currentHoleIndex = newCount - 1;
+      }
+
+      saveState();
+      renderHeader();
+      renderCurrentHole();
+      setupHoleJumpGrid();
+    }
+
+    function quickToggleHoleCount() {
+      const nextCount = roundState.totalHoles === 18 ? 9 : 18;
+      setTotalHoles(nextCount);
+    }
+
+    function selectHoleCount(count) {
+      tempModalHoleCount = count;
+      updateModalHoleCountButtons();
+    }
+
+    function updateModalHoleCountButtons() {
+      const btn9 = document.getElementById('btnSelect9Holes');
+      const btn18 = document.getElementById('btnSelect18Holes');
+
+      if (tempModalHoleCount === 9) {
+        btn9.className = 'py-2.5 rounded-xl font-black text-xs font-mono transition tap-btn flex items-center justify-center gap-2 bg-blue-600 text-white shadow-md';
+        btn18.className = 'py-2.5 rounded-xl font-black text-xs font-mono transition tap-btn flex items-center justify-center gap-2 bg-slate-800 text-slate-300';
+      } else {
+        btn18.className = 'py-2.5 rounded-xl font-black text-xs font-mono transition tap-btn flex items-center justify-center gap-2 bg-blue-600 text-white shadow-md';
+        btn9.className = 'py-2.5 rounded-xl font-black text-xs font-mono transition tap-btn flex items-center justify-center gap-2 bg-slate-800 text-slate-300';
+      }
     }
 
     // Theme Management
@@ -609,10 +713,11 @@
       document.getElementById('modalTheme').classList.remove('flex');
     }
 
-    // Render Fairway Hole UI
+    // Fairway Scoring UI
     function renderCurrentHole() {
       const h = roundState.holes[roundState.currentHoleIndex];
       document.getElementById('currentHoleLabel').innerText = h.number;
+      document.getElementById('totalHolesLabel').innerText = `/ ${roundState.totalHoles}`;
       document.getElementById('parDisplay').innerText = h.par;
       document.getElementById('distanceDisplay').innerText = h.distance;
 
@@ -626,10 +731,10 @@
       document.getElementById('btnBottomPrev').disabled = roundState.currentHoleIndex === 0;
 
       const nextBtnText = document.getElementById('nextHoleText');
-      if (roundState.currentHoleIndex === TOTAL_HOLES - 1) {
-        nextBtnText.innerText = "Finish Round";
+      if (roundState.currentHoleIndex === roundState.totalHoles - 1) {
+        nextBtnText.innerText = "Finish";
       } else {
-        nextBtnText.innerText = "Next Hole";
+        nextBtnText.innerText = "Next";
       }
 
       calculateTotals();
@@ -704,7 +809,7 @@
     }
 
     function nextHole() {
-      if (roundState.currentHoleIndex < TOTAL_HOLES - 1) {
+      if (roundState.currentHoleIndex < roundState.totalHoles - 1) {
         roundState.currentHoleIndex++;
         saveState();
         renderCurrentHole();
@@ -716,9 +821,13 @@
     function setupHoleJumpGrid() {
       const grid = document.getElementById('holeJumpGrid');
       grid.innerHTML = '';
-      for (let i = 0; i < TOTAL_HOLES; i++) {
+      for (let i = 0; i < roundState.totalHoles; i++) {
         const btn = document.createElement('button');
-        btn.className = 'py-2 rounded-xl bg-slate-800 ui-card text-xs font-mono font-bold text-white border border-slate-700 tap-btn';
+        btn.className = `py-2 rounded-xl text-xs font-mono font-bold border tap-btn ${
+          i === roundState.currentHoleIndex 
+            ? 'bg-blue-600 text-white border-blue-400' 
+            : 'bg-slate-800 ui-card text-white border-slate-700'
+        }`;
         btn.innerText = i + 1;
         btn.onclick = () => {
           roundState.currentHoleIndex = i;
@@ -731,6 +840,7 @@
     }
 
     function openHoleJumpModal() {
+      setupHoleJumpGrid();
       document.getElementById('modalHoleJump').classList.remove('hidden');
       document.getElementById('modalHoleJump').classList.add('flex');
     }
@@ -769,13 +879,18 @@
       }
     }
 
-    // Course Header & Setup
+    // Header & Modal Sync
     function renderHeader() {
       document.getElementById('headerCourseName').innerText = roundState.courseName;
       document.getElementById('headerDateTime').innerText = `${roundState.date} · ${roundState.time}`;
+      document.getElementById('headerHolesBadge').innerText = `${roundState.totalHoles}H`;
+      document.getElementById('quickToggleLabel').innerText = `${roundState.totalHoles}H`;
+      document.getElementById('modalCardSubtitle').innerText = `${roundState.totalHoles} Holes · Jeffery vs Jack`;
     }
 
     function openCourseModal() {
+      tempModalHoleCount = roundState.totalHoles;
+      updateModalHoleCountButtons();
       document.getElementById('inputCourseName').value = roundState.courseName;
       document.getElementById('inputRoundDate').value = roundState.date;
       document.getElementById('inputRoundTime').value = roundState.time;
@@ -788,15 +903,22 @@
       document.getElementById('modalCourse').classList.remove('flex');
     }
 
-    function selectCourseChip(name) {
+    function selectCourseChip(name, defaultHoles = 18) {
       document.getElementById('inputCourseName').value = name;
+      selectHoleCount(defaultHoles);
     }
 
     function saveCourseSettings() {
       roundState.courseName = document.getElementById('inputCourseName').value.trim() || 'Disc Golf Course';
       roundState.date = document.getElementById('inputRoundDate').value || roundState.date;
       roundState.time = document.getElementById('inputRoundTime').value || roundState.time;
-      saveState();
+
+      if (roundState.totalHoles !== tempModalHoleCount) {
+        setTotalHoles(tempModalHoleCount);
+      } else {
+        saveState();
+      }
+
       closeCourseModal();
     }
 
@@ -814,7 +936,7 @@
       }
     }
 
-    // Full Scorecard Table
+    // Full Scorecard Table for 9 or 18 Holes
     function openScorecardModal() {
       buildScorecardTable();
       document.getElementById('modalScorecard').classList.remove('hidden');
@@ -852,61 +974,79 @@
         tbody.appendChild(tr);
       });
 
-      document.getElementById('totalRowFront').innerHTML = `
-        <td class="py-2 px-2 text-left pl-3 text-slate-400">OUT (1-9)</td>
-        <td class="py-2 px-1 text-slate-400">${fPar}</td>
-        <td class="py-2 px-2 text-blue-400">${fJ}</td>
-        <td class="py-2 px-2 text-sky-400">${fK}</td>
-        <td></td>
-      `;
+      const frontRow = document.getElementById('totalRowFront');
+      const backRow = document.getElementById('totalRowBack');
+      const finalRow = document.getElementById('totalRowFinal');
 
-      document.getElementById('totalRowBack').innerHTML = `
-        <td class="py-2 px-2 text-left pl-3 text-slate-400">IN (10-18)</td>
-        <td class="py-2 px-1 text-slate-400">${bPar}</td>
-        <td class="py-2 px-2 text-blue-400">${bJ}</td>
-        <td class="py-2 px-2 text-sky-400">${bK}</td>
-        <td></td>
-      `;
+      if (roundState.totalHoles === 9) {
+        frontRow.innerHTML = '';
+        backRow.innerHTML = '';
+        const totDiffJ = fJ - fPar;
+        const totDiffK = fK - fPar;
+        finalRow.innerHTML = `
+          <td class="py-2.5 px-2 text-left pl-3 font-black text-white ui-text-contrast">TOTAL (1-9)</td>
+          <td class="py-2.5 px-1">${fPar}</td>
+          <td class="py-2.5 px-2 font-black text-blue-400">${fJ} (${totDiffJ > 0 ? '+' : ''}${totDiffJ})</td>
+          <td class="py-2.5 px-2 font-black text-sky-400">${fK} (${totDiffK > 0 ? '+' : ''}${totDiffK})</td>
+          <td class="py-2.5 px-1 text-xs text-emerald-400 font-black">${fJ === fK ? 'TIE' : (fJ < fK ? 'JEFFERY' : 'JACK')}</td>
+        `;
+      } else {
+        frontRow.innerHTML = `
+          <td class="py-2 px-2 text-left pl-3 text-slate-400">OUT (1-9)</td>
+          <td class="py-2 px-1 text-slate-400">${fPar}</td>
+          <td class="py-2 px-2 text-blue-400">${fJ}</td>
+          <td class="py-2 px-2 text-sky-400">${fK}</td>
+          <td></td>
+        `;
 
-      const totPar = fPar + bPar;
-      const totJ = fJ + bJ;
-      const totK = fK + bK;
-      document.getElementById('totalRowFinal').innerHTML = `
-        <td class="py-2.5 px-2 text-left pl-3 font-black text-white ui-text-contrast">TOTAL</td>
-        <td class="py-2.5 px-1">${totPar}</td>
-        <td class="py-2.5 px-2 font-black text-blue-400">${totJ} (${totJ - totPar > 0 ? '+' : ''}${totJ - totPar})</td>
-        <td class="py-2.5 px-2 font-black text-sky-400">${totK} (${totK - totPar > 0 ? '+' : ''}${totK - totPar})</td>
-        <td class="py-2.5 px-1 text-xs text-emerald-400 font-black">${totJ === totK ? 'TIE' : (totJ < totK ? 'JEFFERY' : 'JACK')}</td>
-      `;
+        backRow.innerHTML = `
+          <td class="py-2 px-2 text-left pl-3 text-slate-400">IN (10-18)</td>
+          <td class="py-2 px-1 text-slate-400">${bPar}</td>
+          <td class="py-2 px-2 text-blue-400">${bJ}</td>
+          <td class="py-2 px-2 text-sky-400">${bK}</td>
+          <td></td>
+        `;
+
+        const totPar = fPar + bPar;
+        const totJ = fJ + bJ;
+        const totK = fK + bK;
+        finalRow.innerHTML = `
+          <td class="py-2.5 px-2 text-left pl-3 font-black text-white ui-text-contrast">TOTAL (1-18)</td>
+          <td class="py-2.5 px-1">${totPar}</td>
+          <td class="py-2.5 px-2 font-black text-blue-400">${totJ} (${totJ - totPar > 0 ? '+' : ''}${totJ - totPar})</td>
+          <td class="py-2.5 px-2 font-black text-sky-400">${totK} (${totK - totPar > 0 ? '+' : ''}${totK - totPar})</td>
+          <td class="py-2.5 px-1 text-xs text-emerald-400 font-black">${totJ === totK ? 'TIE' : (totJ < totK ? 'JEFFERY' : 'JACK')}</td>
+        `;
+      }
     }
 
-    // Google Sheets & CSV Export
+    // Google Sheets & CSV Export Engine
     function exportToSheets() {
-      let csv = "Course,Date,Time,Hole,Par,Distance_ft,Jeffery,Jack,Winner\n";
+      let csv = "Course,Holes,Date,Time,Hole,Par,Distance_ft,Jeffery,Jack,Winner\n";
       roundState.holes.forEach(h => {
         let winner = "Tie";
         if (h.jeffery < h.jack) winner = "Jeffery";
         else if (h.jack < h.jeffery) winner = "Jack";
-        csv += `"${roundState.courseName}","${roundState.date}","${roundState.time}",${h.number},${h.par},${h.distance},${h.jeffery},${h.jack},"${winner}"\n`;
+        csv += `"${roundState.courseName}",${roundState.totalHoles},"${roundState.date}","${roundState.time}",${h.number},${h.par},${h.distance},${h.jeffery},${h.jack},"${winner}"\n`;
       });
 
       const totPar = roundState.holes.reduce((a, b) => a + b.par, 0);
       const totJ = roundState.holes.reduce((a, b) => a + b.jeffery, 0);
       const totK = roundState.holes.reduce((a, b) => a + b.jack, 0);
       const matchWinner = totJ === totK ? "Tie" : (totJ < totK ? "Jeffery" : "Jack");
-      csv += `"${roundState.courseName} TOTAL","${roundState.date}","${roundState.time}","1-18",${totPar},-,${totJ},${totK},"${matchWinner}"\n`;
+      csv += `"${roundState.courseName} TOTAL",${roundState.totalHoles},"${roundState.date}","${roundState.time}","1-${roundState.totalHoles}",${totPar},-,${totJ},${totK},"${matchWinner}"\n`;
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.setAttribute("href", url);
-      link.setAttribute("download", `${roundState.courseName.replace(/\s+/g, '_')}_${roundState.date}.csv`);
+      link.setAttribute("download", `${roundState.courseName.replace(/\s+/g, '_')}_${roundState.totalHoles}H_${roundState.date}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
 
-    // Saved Round History
+    // Saved Round History System
     function finishAndSaveRound() {
       let history = [];
       const savedHist = localStorage.getItem(HISTORY_KEY);
@@ -921,6 +1061,7 @@
       const record = {
         id: Date.now(),
         courseName: roundState.courseName,
+        totalHoles: roundState.totalHoles,
         date: roundState.date,
         time: roundState.time,
         par: totPar,
@@ -931,8 +1072,8 @@
 
       history.unshift(record);
       localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-      alert("Round saved successfully to History!");
       closeScorecardModal();
+      openHistoryModal();
     }
 
     function openHistoryModal() {
@@ -956,7 +1097,7 @@
       }
 
       if (history.length === 0) {
-        container.innerHTML = `<div class="text-center py-8 text-slate-500 text-xs">No saved rounds yet.<br>Complete your 18 holes and tap "Save Round to History".</div>`;
+        container.innerHTML = `<div class="text-center py-8 text-slate-500 text-xs">No saved rounds yet.<br>Complete your round and tap "Save Round to History".</div>`;
         return;
       }
 
@@ -965,7 +1106,10 @@
         item.className = "bg-slate-950 ui-card border border-slate-800 rounded-xl p-3 flex items-center justify-between shadow-sm";
         item.innerHTML = `
           <div>
-            <h4 class="font-extrabold text-white ui-text-contrast text-sm">${r.courseName}</h4>
+            <div class="flex items-center gap-1.5">
+              <h4 class="font-extrabold text-white ui-text-contrast text-sm">${r.courseName}</h4>
+              <span class="text-[10px] font-mono font-bold bg-blue-500/20 text-blue-300 px-1 rounded">${r.totalHoles || 18}H</span>
+            </div>
             <span class="text-[11px] text-slate-400 ui-text-subtle font-mono">${r.date} · Par ${r.par}</span>
             <div class="text-xs mt-1 font-semibold font-mono text-slate-300 ui-text-contrast">
               Jeffery: <span class="text-blue-400 font-bold">${r.jeffery}</span> | Jack: <span class="text-sky-400 font-bold">${r.jack}</span>
