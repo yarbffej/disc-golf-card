@@ -27,57 +27,59 @@
     .custom-scroll::-webkit-scrollbar { display: none; }
     .custom-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Theme 1: Blue Background with White Cards */
+    /* Theme 1: Royal Blue Background with White Cards */
     body.theme-blue {
-      background-color: #0b192c;
-      color: #f1f5f9;
+      background-color: #1e3a8a; /* Rich Royal Blue */
+      color: #0f172a;
     }
     body.theme-blue .app-card {
       background-color: #ffffff;
       color: #0f172a;
-      border: 1px solid #cbd5e1;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      border: 1px solid #bfdbfe;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
     }
     body.theme-blue .app-header {
-      background-color: rgba(11, 25, 44, 0.95);
-      border-color: rgba(30, 58, 138, 0.6);
+      background-color: rgba(30, 58, 138, 0.96);
+      border-color: #2563eb;
+      color: #ffffff;
     }
     body.theme-blue .app-footer {
-      background-color: rgba(11, 25, 44, 0.95);
-      border-color: rgba(30, 58, 138, 0.6);
+      background-color: rgba(30, 58, 138, 0.96);
+      border-color: #2563eb;
     }
     body.theme-blue .card-title { color: #0f172a; }
     body.theme-blue .card-subtext { color: #475569; }
     body.theme-blue .counter-box {
-      background-color: #f1f5f9;
-      border-color: #cbd5e1;
+      background-color: #eff6ff;
+      border-color: #bfdbfe;
     }
-    body.theme-blue .counter-number { color: #0f172a; }
+    body.theme-blue .counter-number { color: #1e3a8a; }
 
-    /* Theme 2: White Background with Blue Cards */
+    /* Theme 2: White Background with Royal Blue Cards */
     body.theme-white {
       background-color: #f8fafc;
       color: #0f172a;
     }
     body.theme-white .app-card {
-      background-color: #1e3a8a;
+      background-color: #1d4ed8; /* Vibrant Royal Blue card */
       color: #ffffff;
-      border: 1px solid #172554;
-      box-shadow: 0 4px 14px rgba(30, 58, 138, 0.2);
+      border: 1px solid #1e40af;
+      box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
     }
     body.theme-white .app-header {
-      background-color: rgba(248, 250, 252, 0.95);
+      background-color: rgba(248, 250, 252, 0.96);
       border-color: #cbd5e1;
+      color: #0f172a;
     }
     body.theme-white .app-footer {
-      background-color: rgba(248, 250, 252, 0.95);
+      background-color: rgba(248, 250, 252, 0.96);
       border-color: #cbd5e1;
     }
     body.theme-white .card-title { color: #ffffff; }
-    body.theme-white .card-subtext { color: #93c5fd; }
+    body.theme-white .card-subtext { color: #bfdbfe; }
     body.theme-white .counter-box {
-      background-color: #172554;
-      border-color: #1e40af;
+      background-color: #1e40af;
+      border-color: #3b82f6;
     }
     body.theme-white .counter-number { color: #ffffff; }
   </style>
@@ -88,33 +90,33 @@
   <header id="appHeader" class="app-header sticky top-0 z-40 backdrop-blur-md border-b px-3.5 py-2 shadow-md">
     <div class="flex items-center justify-between gap-2 max-w-lg mx-auto">
       <button onclick="openCourseModal()" class="flex items-center gap-2 text-left truncate py-1">
-        <div class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-500 border border-blue-500/30 flex items-center justify-center shrink-0">
+        <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 shadow">
           <i class="fa-solid fa-location-dot text-sm"></i>
         </div>
         <div class="truncate">
           <div class="flex items-center gap-1.5">
-            <span id="headerCourseName" class="font-extrabold text-sm tracking-tight truncate">Sar-Ko-Par Trails</span>
-            <span id="headerHoleCountBadge" class="text-[10px] bg-blue-600 text-white px-1.5 py-0.2 rounded font-black">9H</span>
+            <span id="headerCourseName" class="font-black text-sm tracking-tight truncate">Sar-Ko-Par Trails</span>
+            <span id="headerHoleCountBadge" class="text-[10px] bg-white text-blue-800 px-1.5 py-0.2 rounded font-black shadow-sm">9H</span>
           </div>
-          <div id="headerDateTime" class="text-[11px] opacity-70 font-medium">Today · In Progress</div>
+          <div id="headerDateTime" class="text-[11px] opacity-80 font-medium">Today · In Progress</div>
         </div>
       </button>
 
       <div class="flex items-center gap-1.5 shrink-0">
-        <!-- Palette Switcher Toggle -->
-        <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-lg bg-slate-800 text-amber-300 border border-slate-700 flex items-center justify-center active:scale-90 shadow-sm">
+        <!-- Palette Switcher -->
+        <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-amber-300 border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
           <i class="fa-solid fa-palette text-xs"></i>
         </button>
         <!-- Hole Count Toggle -->
-        <button onclick="toggleHoleCountDirect()" id="btnQuickToggle" class="px-2 py-1 rounded-lg bg-slate-800 text-sky-300 border border-slate-700 text-xs font-black active:scale-95">
+        <button onclick="toggleHoleCountDirect()" id="btnQuickToggle" class="px-2 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-black active:scale-95">
           9H
         </button>
         <!-- History Drawer Button -->
-        <button onclick="openHistoryModal()" title="Past Rounds" class="w-8 h-8 rounded-lg bg-slate-800 text-blue-400 border border-slate-700 flex items-center justify-center active:scale-95">
+        <button onclick="openHistoryModal()" title="Past Rounds" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-95">
           <i class="fa-solid fa-clock-rotate-left text-xs"></i>
         </button>
         <!-- Sheets Export Button -->
-        <button onclick="exportToSheets()" title="Export CSV" class="px-2.5 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold flex items-center gap-1 active:scale-95 shadow-sm">
+        <button onclick="exportToSheets()" title="Export CSV" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black flex items-center gap-1 active:scale-95 shadow">
           <i class="fa-solid fa-file-excel text-xs"></i>
           <span>Sheets</span>
         </button>
@@ -122,20 +124,20 @@
     </div>
 
     <!-- Match Status Ticker -->
-    <div class="mt-2 pt-2 border-t border-slate-500/20 flex items-center justify-between text-xs max-w-lg mx-auto px-1">
-      <div id="matchStatusText" class="font-bold text-sky-400 flex items-center gap-1.5 truncate">
+    <div class="mt-2 pt-2 border-t border-white/20 flex items-center justify-between text-xs max-w-lg mx-auto px-1">
+      <div id="matchStatusText" class="font-black flex items-center gap-1.5 truncate">
         <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
         <span class="truncate">All Square</span>
       </div>
-      <div class="flex items-center gap-2.5 font-semibold opacity-90 shrink-0">
+      <div class="flex items-center gap-2.5 font-bold shrink-0">
         <span class="flex items-center gap-1">
-          <span class="opacity-70 font-normal">Jeffery:</span>
-          <span id="tickerScoreJeffery" class="bg-blue-600 text-white px-1.5 py-0.5 rounded text-[11px] font-bold">E</span>
+          <span class="opacity-80 font-normal">Jeffery:</span>
+          <span id="tickerScoreJeffery" class="bg-white text-blue-900 px-1.5 py-0.5 rounded text-[11px] font-black shadow-sm">0 (E)</span>
         </span>
         <span class="opacity-40">|</span>
         <span class="flex items-center gap-1">
-          <span class="opacity-70 font-normal">Jack:</span>
-          <span id="tickerScoreJack" class="bg-slate-700 text-white px-1.5 py-0.5 rounded text-[11px] font-bold">E</span>
+          <span class="opacity-80 font-normal">Jack:</span>
+          <span id="tickerScoreJack" class="bg-white text-blue-900 px-1.5 py-0.5 rounded text-[11px] font-black shadow-sm">0 (E)</span>
         </span>
       </div>
     </div>
@@ -146,12 +148,12 @@
 
     <!-- Hole Navigator Bar -->
     <div class="app-card rounded-2xl p-2.5 flex items-center justify-between shadow-md">
-      <button onclick="prevHole()" id="btnPrevHoleTop" class="w-10 h-10 rounded-xl bg-slate-800 text-white active:scale-90 flex items-center justify-center font-bold text-base disabled:opacity-30 disabled:pointer-events-none transition">
+      <button onclick="prevHole()" id="btnPrevHoleTop" class="w-10 h-10 rounded-xl bg-blue-900 text-white active:scale-90 flex items-center justify-center font-bold text-base disabled:opacity-30 disabled:pointer-events-none transition shadow">
         <i class="fa-solid fa-chevron-left"></i>
       </button>
 
       <div class="text-center">
-        <div class="text-[10px] uppercase tracking-wider font-extrabold text-blue-500">HOLE</div>
+        <div class="text-[10px] uppercase tracking-wider font-extrabold text-blue-600">HOLE</div>
         <div class="flex items-baseline justify-center gap-1">
           <span id="currentHoleLabel" class="text-2xl font-black card-title">1</span>
           <span id="totalHolesMaxLabel" class="text-xs card-subtext font-semibold">/ 9</span>
@@ -171,8 +173,8 @@
           <span id="parDisplay" class="text-xl font-black card-title leading-tight">3</span>
         </div>
         <div class="flex items-center gap-1.5">
-          <button onclick="adjustPar(-1)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-bold active:scale-90 text-sm flex items-center justify-center">-</button>
-          <button onclick="adjustPar(1)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-bold active:scale-90 text-sm flex items-center justify-center">+</button>
+          <button onclick="adjustPar(-1)" class="w-8 h-8 rounded-lg bg-blue-900 text-white font-bold active:scale-90 text-sm flex items-center justify-center">-</button>
+          <button onclick="adjustPar(1)" class="w-8 h-8 rounded-lg bg-blue-900 text-white font-bold active:scale-90 text-sm flex items-center justify-center">+</button>
         </div>
       </div>
 
@@ -196,21 +198,21 @@
         <div class="flex items-center gap-2">
           <span class="w-6 h-6 rounded-md bg-blue-600 text-white font-black text-[11px] flex items-center justify-center shadow">J1</span>
           <div>
-            <h2 class="font-extrabold card-title text-base tracking-tight leading-none">Jeffery</h2>
+            <h2 class="font-black card-title text-base tracking-tight leading-none">Jeffery</h2>
             <span id="jefferyRelative" class="text-[11px] font-semibold card-subtext">Total: 0 (E)</span>
           </div>
         </div>
-        <div id="jefferyScoreBadge" class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase tracking-wider">
-          Par
+        <div id="jefferyScoreBadge" class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase tracking-wider bg-slate-200 text-slate-700">
+          -
         </div>
       </div>
 
       <div class="counter-box grid grid-cols-5 items-center gap-2 my-2 p-2 rounded-xl border">
-        <button onclick="adjustPlayerScore('jeffery', -1)" class="col-span-1 h-14 rounded-lg bg-slate-800 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
+        <button onclick="adjustPlayerScore('jeffery', -1)" class="col-span-1 h-14 rounded-lg bg-blue-900 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
           <i class="fa-solid fa-minus"></i>
         </button>
         <div class="col-span-3 text-center">
-          <span id="jefferyHoleScore" class="text-4xl font-black counter-number leading-none tracking-tight">3</span>
+          <span id="jefferyHoleScore" class="text-4xl font-black counter-number leading-none tracking-tight">0</span>
           <span class="block text-[10px] card-subtext uppercase font-bold tracking-widest mt-0.5">Throws</span>
         </div>
         <button onclick="adjustPlayerScore('jeffery', 1)" class="col-span-1 h-14 rounded-lg bg-blue-600 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
@@ -230,26 +232,26 @@
     <div class="app-card rounded-2xl p-3.5 shadow-lg relative overflow-hidden">
       <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <span class="w-6 h-6 rounded-md bg-slate-700 text-white font-black text-[11px] flex items-center justify-center shadow">J2</span>
+          <span class="w-6 h-6 rounded-md bg-blue-800 text-white font-black text-[11px] flex items-center justify-center shadow">J2</span>
           <div>
-            <h2 class="font-extrabold card-title text-base tracking-tight leading-none">Jack</h2>
+            <h2 class="font-black card-title text-base tracking-tight leading-none">Jack</h2>
             <span id="jackRelative" class="text-[11px] font-semibold card-subtext">Total: 0 (E)</span>
           </div>
         </div>
-        <div id="jackScoreBadge" class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase tracking-wider">
-          Par
+        <div id="jackScoreBadge" class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase tracking-wider bg-slate-200 text-slate-700">
+          -
         </div>
       </div>
 
       <div class="counter-box grid grid-cols-5 items-center gap-2 my-2 p-2 rounded-xl border">
-        <button onclick="adjustPlayerScore('jack', -1)" class="col-span-1 h-14 rounded-lg bg-slate-800 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
+        <button onclick="adjustPlayerScore('jack', -1)" class="col-span-1 h-14 rounded-lg bg-blue-900 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
           <i class="fa-solid fa-minus"></i>
         </button>
         <div class="col-span-3 text-center">
-          <span id="jackHoleScore" class="text-4xl font-black counter-number leading-none tracking-tight">3</span>
+          <span id="jackHoleScore" class="text-4xl font-black counter-number leading-none tracking-tight">0</span>
           <span class="block text-[10px] card-subtext uppercase font-bold tracking-widest mt-0.5">Throws</span>
         </div>
-        <button onclick="adjustPlayerScore('jack', 1)" class="col-span-1 h-14 rounded-lg bg-sky-600 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
+        <button onclick="adjustPlayerScore('jack', 1)" class="col-span-1 h-14 rounded-lg bg-blue-600 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
           <i class="fa-solid fa-plus"></i>
         </button>
       </div>
@@ -267,17 +269,17 @@
   <!-- FIXED BOTTOM DOCK -->
   <footer id="appFooter" class="app-footer fixed bottom-0 left-0 right-0 z-40 backdrop-blur-md border-t px-4 py-2.5 pb-[max(0.6rem,env(safe-area-inset-bottom))] shadow-2xl">
     <div class="max-w-lg mx-auto flex items-center gap-2">
-      <button onclick="prevHole()" id="btnBottomPrev" class="flex-1 py-3 px-3 rounded-xl bg-slate-800 text-white font-bold text-sm active:scale-95 border border-slate-700 flex items-center justify-center gap-2 disabled:opacity-30">
+      <button onclick="prevHole()" id="btnBottomPrev" class="flex-1 py-3 px-3 rounded-xl bg-blue-900 text-white font-bold text-sm active:scale-95 border border-blue-700 flex items-center justify-center gap-2 disabled:opacity-30">
         <i class="fa-solid fa-arrow-left text-xs"></i>
         <span>Prev</span>
       </button>
 
-      <button onclick="openScorecardModal()" class="w-12 h-12 rounded-xl bg-slate-800 text-blue-400 border border-slate-700 flex flex-col items-center justify-center active:scale-95 shrink-0">
+      <button onclick="openScorecardModal()" class="w-12 h-12 rounded-xl bg-white text-blue-900 border border-blue-200 flex flex-col items-center justify-center active:scale-95 shrink-0 shadow">
         <i class="fa-solid fa-table-cells text-base"></i>
         <span class="text-[9px] font-black uppercase mt-0.5">Card</span>
       </button>
 
-      <button onclick="nextHole()" id="btnBottomNext" class="flex-1 py-3 px-3 rounded-xl bg-blue-600 text-white font-extrabold text-sm active:scale-95 border border-blue-400/40 flex items-center justify-center gap-2 shadow-md">
+      <button onclick="nextHole()" id="btnBottomNext" class="flex-1 py-3 px-3 rounded-xl bg-blue-600 text-white font-black text-sm active:scale-95 border border-blue-400 flex items-center justify-center gap-2 shadow-md">
         <span id="nextHoleText">Next</span>
         <i class="fa-solid fa-arrow-right text-xs"></i>
       </button>
@@ -286,41 +288,41 @@
 
   <!-- FULL SCORECARD MODAL -->
   <div id="modalScorecard" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end">
-    <div class="bg-slate-900 text-white border-t border-slate-800 rounded-t-3xl max-w-lg mx-auto w-full max-h-[92vh] flex flex-col overflow-hidden">
-      <div class="px-5 py-3 border-b border-slate-800 flex items-center justify-between">
+    <div class="bg-white text-slate-900 border-t border-slate-200 rounded-t-3xl max-w-lg mx-auto w-full max-h-[92vh] flex flex-col overflow-hidden">
+      <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50">
         <div>
-          <h3 class="font-black text-lg text-white">Scorecard</h3>
-          <p class="text-xs text-slate-400" id="modalCardSubtitle">Match Overview</p>
+          <h3 class="font-black text-lg text-slate-900">Scorecard</h3>
+          <p class="text-xs text-slate-500 font-semibold" id="modalCardSubtitle">Match Overview</p>
         </div>
-        <button onclick="closeScorecardModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center">
+        <button onclick="closeScorecardModal()" class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
       <div class="overflow-y-auto p-4 flex-1 custom-scroll space-y-4">
-        <div class="overflow-x-auto rounded-xl border border-slate-800">
+        <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
           <table class="w-full text-center text-xs">
-            <thead class="bg-slate-950 text-slate-400 font-bold uppercase text-[10px]">
+            <thead class="bg-blue-900 text-white font-bold uppercase text-[10px]">
               <tr>
-                <th class="py-2 px-2 text-left pl-3">Hole</th>
-                <th class="py-2 px-1">Dist</th>
-                <th class="py-2 px-1">Par</th>
-                <th class="py-2 px-2 text-blue-400">Jeffery</th>
-                <th class="py-2 px-2 text-sky-300">Jack</th>
-                <th class="py-2 px-1 text-slate-500">Diff</th>
+                <th class="py-2.5 px-2 text-left pl-3">Hole</th>
+                <th class="py-2.5 px-1">Dist</th>
+                <th class="py-2.5 px-1">Par</th>
+                <th class="py-2.5 px-2 text-blue-200">Jeffery</th>
+                <th class="py-2.5 px-2 text-sky-200">Jack</th>
+                <th class="py-2.5 px-1 text-slate-300">Diff</th>
               </tr>
             </thead>
-            <tbody id="scorecardTableBody" class="divide-y divide-slate-800/60 font-medium"></tbody>
-            <tfoot class="bg-slate-950/90 font-black text-white divide-y divide-slate-800" id="scorecardTableFoot"></tfoot>
+            <tbody id="scorecardTableBody" class="divide-y divide-slate-100 font-semibold text-slate-800"></tbody>
+            <tfoot class="bg-blue-950 font-black text-white divide-y divide-blue-900" id="scorecardTableFoot"></tfoot>
           </table>
         </div>
 
         <div class="grid grid-cols-2 gap-2 pt-2">
-          <button onclick="exportToSheets()" class="py-3 px-4 rounded-xl bg-blue-600 active:bg-blue-500 text-white font-extrabold text-xs flex items-center justify-center gap-2 border border-blue-400/40 shadow-sm">
+          <button onclick="exportToSheets()" class="py-3 px-4 rounded-xl bg-blue-600 active:bg-blue-500 text-white font-black text-xs flex items-center justify-center gap-2 border border-blue-400 shadow">
             <i class="fa-solid fa-file-csv text-base"></i>
             <span>Export to CSV</span>
           </button>
-          <button onclick="finishAndSaveRound()" class="py-3 px-4 rounded-xl bg-emerald-600 active:bg-emerald-500 text-white font-extrabold text-xs flex items-center justify-center gap-2 border border-emerald-400/40 shadow-sm">
+          <button onclick="finishAndSaveRound()" class="py-3 px-4 rounded-xl bg-emerald-600 active:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-2 border border-emerald-400 shadow">
             <i class="fa-solid fa-floppy-disk text-base"></i>
             <span>Save Round</span>
           </button>
@@ -331,17 +333,17 @@
 
   <!-- COURSE CATALOG & SETTINGS MODAL -->
   <div id="modalCourse" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-slate-900 text-white border border-slate-800 rounded-3xl max-w-sm w-full p-5 space-y-4 max-h-[90vh] overflow-y-auto custom-scroll">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <h3 class="font-extrabold text-white text-base">Select Course</h3>
-        <button onclick="closeCourseModal()" class="text-slate-400 hover:text-white">
+    <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm w-full p-5 space-y-4 max-h-[90vh] overflow-y-auto custom-scroll shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <h3 class="font-black text-slate-900 text-base">Select Course</h3>
+        <button onclick="closeCourseModal()" class="text-slate-400 hover:text-slate-600">
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
 
       <div>
-        <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5">Preset UDisc Courses</label>
-        <select id="selectPresetCourse" onchange="loadSelectedPresetCourse(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-bold text-xs focus:outline-none focus:border-blue-500">
+        <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Preset UDisc Courses</label>
+        <select id="selectPresetCourse" onchange="loadSelectedPresetCourse(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 font-bold text-xs focus:outline-none focus:border-blue-500">
           <option value="sarko">Sar-Ko-Par Trails (9H · Par 27)</option>
           <option value="mize">Mize Elementary (9H · Par 27)</option>
           <option value="lakeside">Lakeside Hills (19H · Par 57)</option>
@@ -358,23 +360,23 @@
       </div>
 
       <div>
-        <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Custom Name</label>
-        <input type="text" id="inputCourseName" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold text-xs focus:outline-none" value="Sar-Ko-Par Trails">
+        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Custom Name</label>
+        <input type="text" id="inputCourseName" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-bold text-xs focus:outline-none" value="Sar-Ko-Par Trails">
       </div>
 
       <div class="grid grid-cols-2 gap-2">
         <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Date</label>
-          <input type="date" id="inputRoundDate" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2 py-2 text-white text-xs font-bold focus:outline-none">
+          <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Date</label>
+          <input type="date" id="inputRoundDate" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2 py-2 text-slate-900 text-xs font-bold focus:outline-none">
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Tee Time</label>
-          <input type="time" id="inputRoundTime" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2 py-2 text-white text-xs font-bold focus:outline-none">
+          <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Tee Time</label>
+          <input type="time" id="inputRoundTime" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2 py-2 text-slate-900 text-xs font-bold focus:outline-none">
         </div>
       </div>
 
       <div class="pt-2 flex gap-2">
-        <button onclick="resetCurrentRound()" class="flex-1 py-2.5 rounded-xl bg-rose-600/20 text-rose-300 border border-rose-500/30 text-xs font-bold active:scale-95">Reset Scores</button>
+        <button onclick="resetCurrentRound()" class="flex-1 py-2.5 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 text-xs font-bold active:scale-95">Reset Scores</button>
         <button onclick="saveCourseSettings()" class="flex-1 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-extrabold active:scale-95 shadow">Apply</button>
       </div>
     </div>
@@ -382,10 +384,10 @@
 
   <!-- SAVED HISTORY MODAL -->
   <div id="modalHistory" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end">
-    <div class="bg-slate-900 text-white border-t border-slate-800 rounded-t-3xl max-w-lg mx-auto w-full max-h-[80vh] flex flex-col overflow-hidden">
-      <div class="px-5 py-3 border-b border-slate-800 flex items-center justify-between">
-        <h3 class="font-black text-lg text-white">Saved Rounds</h3>
-        <button onclick="closeHistoryModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center">
+    <div class="bg-white text-slate-900 border-t border-slate-200 rounded-t-3xl max-w-lg mx-auto w-full max-h-[80vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <h3 class="font-black text-lg text-slate-900">Saved Rounds</h3>
+        <button onclick="closeHistoryModal()" class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
@@ -395,7 +397,6 @@
 
   <!-- SCRIPT -->
   <script>
-    // FULL UDISC COURSE DATABASE
     const COURSE_DATABASE = {
       sarko: {
         name: "Sar-Ko-Par Trails",
@@ -625,9 +626,9 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v5';
-    const HISTORY_KEY = 'dg_history_v5';
-    const THEME_KEY = 'dg_theme_mode';
+    const STORAGE_KEY = 'dg_round_v6';
+    const HISTORY_KEY = 'dg_history_v6';
+    const THEME_KEY = 'dg_theme_mode_v2';
 
     let roundState = {
       courseKey: 'sarko',
@@ -640,11 +641,9 @@
     };
 
     function init() {
-      // Load saved theme
       const savedTheme = localStorage.getItem(THEME_KEY) || 'theme-blue';
       applyTheme(savedTheme);
 
-      // Load round
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         try { roundState = JSON.parse(saved); } catch(e){}
@@ -679,12 +678,13 @@
       roundState.courseName = course.name;
       roundState.totalHoles = course.totalHoles;
       roundState.currentHoleIndex = 0;
+      // All scores start at 0
       roundState.holes = course.holes.map(h => ({
         number: h.number,
         par: h.par,
         distance: h.dist,
-        jeffery: h.par,
-        jack: h.par,
+        jeffery: 0,
+        jack: 0,
         scored: false
       }));
       saveState();
@@ -693,7 +693,7 @@
     }
 
     function loadSelectedPresetCourse(key) {
-      if (confirm(`Load official course layout for ${COURSE_DATABASE[key].name}? This resets the current card.`)) {
+      if (confirm(`Load official course layout for ${COURSE_DATABASE[key].name}? Scores will reset to 0.`)) {
         loadPresetData(key);
         document.getElementById('inputCourseName').value = roundState.courseName;
       }
@@ -708,7 +708,7 @@
         } else {
           while (roundState.holes.length < 18) {
             const num = roundState.holes.length + 1;
-            roundState.holes.push({ number: num, par: 3, distance: 300, jeffery: 3, jack: 3, scored: false });
+            roundState.holes.push({ number: num, par: 3, distance: 300, jeffery: 0, jack: 0, scored: false });
           }
         }
         if (roundState.currentHoleIndex >= newTotal) {
@@ -755,6 +755,11 @@
 
     function updateBadge(id, score, par) {
       const el = document.getElementById(id);
+      if (score === 0) {
+        el.innerText = "-";
+        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-slate-200 text-slate-700 shadow-sm";
+        return;
+      }
       const diff = score - par;
       if (score === 1) {
         el.innerText = "ACE 🎯";
@@ -767,7 +772,7 @@
         el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-500 text-white shadow";
       } else if (diff === 0) {
         el.innerText = "Par";
-        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-slate-700 text-slate-100 shadow";
+        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-blue-700 text-white shadow";
       } else if (diff === 1) {
         el.innerText = "Bogey";
         el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-orange-600 text-white shadow";
@@ -779,8 +784,9 @@
 
     function adjustPlayerScore(player, delta) {
       const h = roundState.holes[roundState.currentHoleIndex];
-      h[player] = Math.max(1, h[player] + delta);
-      h.scored = true;
+      // Starts at 0, allows incrementing up or decrementing back to 0
+      h[player] = Math.max(0, h[player] + delta);
+      h.scored = (h[player] > 0);
       saveState();
       renderCurrentHole();
     }
@@ -832,24 +838,33 @@
     }
 
     function calculateTotals() {
-      let jTot = 0, kTot = 0, parTot = 0;
+      let jTot = 0, kTot = 0, playedParJ = 0, playedParK = 0;
+      
       roundState.holes.forEach(h => {
-        jTot += h.jeffery;
-        kTot += h.jack;
-        parTot += h.par;
+        if (h.jeffery > 0) {
+          jTot += h.jeffery;
+          playedParJ += h.par;
+        }
+        if (h.jack > 0) {
+          kTot += h.jack;
+          playedParK += h.par;
+        }
       });
 
-      const jDiff = jTot - parTot;
-      const kDiff = kTot - parTot;
+      const jDiff = (playedParJ > 0) ? (jTot - playedParJ) : 0;
+      const kDiff = (playedParK > 0) ? (kTot - playedParK) : 0;
+
       const fmt = d => d === 0 ? 'E' : (d > 0 ? `+${d}` : `${d}`);
 
       document.getElementById('jefferyRelative').innerText = `Total: ${jTot} (${fmt(jDiff)})`;
       document.getElementById('jackRelative').innerText = `Total: ${kTot} (${fmt(kDiff)})`;
-      document.getElementById('tickerScoreJeffery').innerText = fmt(jDiff);
-      document.getElementById('tickerScoreJack').innerText = fmt(kDiff);
+      document.getElementById('tickerScoreJeffery').innerText = `${jTot} (${fmt(jDiff)})`;
+      document.getElementById('tickerScoreJack').innerText = `${kTot} (${fmt(kDiff)})`;
 
       const ticker = document.getElementById('matchStatusText');
-      if (jTot === kTot) {
+      if (jTot === 0 && kTot === 0) {
+        ticker.innerHTML = '<span class="w-2 h-2 rounded-full bg-slate-400 inline-block"></span><span>Round Ready</span>';
+      } else if (jTot === kTot) {
         ticker.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span><span>All Square</span>';
       } else if (jTot < kTot) {
         ticker.innerHTML = `<span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span><span>Jeffery +${kTot - jTot} up</span>`;
@@ -881,11 +896,11 @@
     }
 
     function resetCurrentRound() {
-      if (confirm("Reset current scores back to par?")) {
+      if (confirm("Reset current scores back to 0?")) {
         roundState.currentHoleIndex = 0;
         roundState.holes.forEach(h => {
-          h.jeffery = h.par;
-          h.jack = h.par;
+          h.jeffery = 0;
+          h.jack = 0;
           h.scored = false;
         });
         saveState();
@@ -915,32 +930,38 @@
       let totPar = 0, totJ = 0, totK = 0;
 
       roundState.holes.forEach((h, idx) => {
-        totPar += h.par; totJ += h.jeffery; totK += h.jack;
-        const diff = h.jeffery - h.jack;
-        const diffText = diff === 0 ? '-' : (diff < 0 ? `J ${Math.abs(diff)}` : `K ${diff}`);
+        totPar += h.par;
+        totJ += h.jeffery;
+        totK += h.jack;
+
+        let diffText = '-';
+        if (h.jeffery > 0 && h.jack > 0) {
+          const diff = h.jeffery - h.jack;
+          diffText = diff === 0 ? 'Tie' : (diff < 0 ? `J ${Math.abs(diff)}` : `K ${diff}`);
+        }
 
         const tr = document.createElement('tr');
-        tr.className = (idx === roundState.currentHoleIndex) ? 'bg-blue-900/40 font-bold' : '';
+        tr.className = (idx === roundState.currentHoleIndex) ? 'bg-blue-100 font-black' : '';
         tr.innerHTML = `
-          <td class="py-2 px-2 text-left pl-3 text-slate-300">#${h.number}</td>
-          <td class="py-2 px-1 text-slate-400">${h.distance}'</td>
-          <td class="py-2 px-1 text-slate-400">${h.par}</td>
-          <td class="py-2 px-2 font-bold ${h.jeffery < h.jack ? 'text-blue-400' : 'text-slate-200'}">${h.jeffery}</td>
-          <td class="py-2 px-2 font-bold ${h.jack < h.jeffery ? 'text-sky-300' : 'text-slate-200'}">${h.jack}</td>
-          <td class="py-2 px-1 text-[11px] text-slate-400 font-semibold">${diffText}</td>
+          <td class="py-2 px-2 text-left pl-3 text-slate-800">#${h.number}</td>
+          <td class="py-2 px-1 text-slate-500">${h.distance}'</td>
+          <td class="py-2 px-1 text-slate-500">${h.par}</td>
+          <td class="py-2 px-2 font-black ${h.jeffery > 0 && (h.jeffery < h.jack || h.jack === 0) ? 'text-blue-700' : 'text-slate-800'}">${h.jeffery || '-'}</td>
+          <td class="py-2 px-2 font-black ${h.jack > 0 && (h.jack < h.jeffery || h.jeffery === 0) ? 'text-blue-700' : 'text-slate-800'}">${h.jack || '-'}</td>
+          <td class="py-2 px-1 text-[11px] text-slate-500 font-bold">${diffText}</td>
         `;
         tbody.appendChild(tr);
       });
 
-      const winner = totJ === totK ? 'TIE' : (totJ < totK ? 'JEFFERY' : 'JACK');
+      const winner = (totJ === 0 && totK === 0) ? '-' : (totJ === totK ? 'TIE' : (totJ < totK ? 'JEFFERY' : 'JACK'));
       tfoot.innerHTML = `
         <tr class="text-sm bg-blue-950 font-black text-white">
           <td class="py-2.5 px-2 text-left pl-3">TOTAL</td>
           <td></td>
           <td class="py-2.5 px-1">${totPar}</td>
-          <td class="py-2.5 px-2 text-blue-400">${totJ} (${totJ - totPar > 0 ? '+' : ''}${totJ - totPar})</td>
-          <td class="py-2.5 px-2 text-sky-300">${totK} (${totK - totPar > 0 ? '+' : ''}${totK - totPar})</td>
-          <td class="py-2.5 px-1 text-xs text-emerald-400">${winner}</td>
+          <td class="py-2.5 px-2 text-blue-300 font-black">${totJ}</td>
+          <td class="py-2.5 px-2 text-blue-300 font-black">${totK}</td>
+          <td class="py-2.5 px-1 text-xs text-emerald-400 font-black">${winner}</td>
         </tr>
       `;
     }
@@ -948,16 +969,19 @@
     function exportToSheets() {
       let csv = "Course,Format,Date,Time,Hole,Distance_ft,Par,Jeffery_Score,Jack_Score,Hole_Winner\n";
       roundState.holes.forEach(h => {
-        let winner = "Tie";
-        if (h.jeffery < h.jack) winner = "Jeffery";
-        else if (h.jack < h.jeffery) winner = "Jack";
+        let winner = "-";
+        if (h.jeffery > 0 && h.jack > 0) {
+          if (h.jeffery < h.jack) winner = "Jeffery";
+          else if (h.jack < h.jeffery) winner = "Jack";
+          else winner = "Tie";
+        }
         csv += `"${roundState.courseName}","${roundState.totalHoles}H","${roundState.date}","${roundState.time}",${h.number},${h.distance},${h.par},${h.jeffery},${h.jack},"${winner}"\n`;
       });
 
       let totPar = roundState.holes.reduce((a, b) => a + b.par, 0);
       let totJ = roundState.holes.reduce((a, b) => a + b.jeffery, 0);
       let totK = roundState.holes.reduce((a, b) => a + b.jack, 0);
-      let winner = totJ === totK ? "Tied" : (totJ < totK ? "Jeffery" : "Jack");
+      let winner = (totJ === 0 && totK === 0) ? "Incomplete" : (totJ === totK ? "Tied" : (totJ < totK ? "Jeffery" : "Jack"));
       csv += `"${roundState.courseName} TOTAL","${roundState.totalHoles}H","${roundState.date}","${roundState.time}","TOT",-,${totPar},${totJ},${totK},"${winner}"\n`;
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -1015,22 +1039,22 @@
       if (saved) { try { history = JSON.parse(saved); } catch(e){} }
 
       if (history.length === 0) {
-        container.innerHTML = `<div class="text-center py-8 text-slate-500 text-xs">No saved rounds yet.</div>`;
+        container.innerHTML = `<div class="text-center py-8 text-slate-400 text-xs">No saved rounds yet.</div>`;
         return;
       }
 
       history.forEach(r => {
         const item = document.createElement('div');
-        item.className = "bg-slate-950 border border-slate-800 rounded-xl p-3 flex items-center justify-between";
+        item.className = "bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between";
         item.innerHTML = `
           <div>
-            <h4 class="font-extrabold text-white text-sm">${r.courseName} <span class="text-xs text-blue-400">(${r.totalHoles}H)</span></h4>
-            <span class="text-[11px] text-slate-400">${r.date} · Par ${r.par}</span>
-            <div class="text-xs mt-1 font-semibold text-slate-300">
-              Jeffery: <span class="text-blue-400 font-bold">${r.jeffery}</span> | Jack: <span class="text-sky-300 font-bold">${r.jack}</span>
+            <h4 class="font-extrabold text-slate-900 text-sm">${r.courseName} <span class="text-xs text-blue-600">(${r.totalHoles}H)</span></h4>
+            <span class="text-[11px] text-slate-500 font-semibold">${r.date} · Par ${r.par}</span>
+            <div class="text-xs mt-1 font-bold text-slate-700">
+              Jeffery: <span class="text-blue-700 font-black">${r.jeffery}</span> | Jack: <span class="text-blue-900 font-black">${r.jack}</span>
             </div>
           </div>
-          <span class="px-2.5 py-1 rounded-lg text-xs font-black ${r.winner === 'Jeffery' ? 'bg-blue-600/30 text-blue-300 border border-blue-500/40' : (r.winner === 'Jack' ? 'bg-sky-600/30 text-sky-300 border border-sky-500/40' : 'bg-slate-800 text-slate-400')}">
+          <span class="px-2.5 py-1 rounded-lg text-xs font-black ${r.winner === 'Jeffery' ? 'bg-blue-100 text-blue-800 border border-blue-200' : (r.winner === 'Jack' ? 'bg-indigo-100 text-indigo-800 border border-indigo-200' : 'bg-slate-100 text-slate-600')}">
             ${r.winner === 'Tie' ? 'TIE' : r.winner + ' Won'}
           </span>
         `;
