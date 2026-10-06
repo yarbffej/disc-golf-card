@@ -39,12 +39,12 @@
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
     }
     body.theme-blue .app-header {
-      background-color: rgba(30, 58, 138, 0.96);
+      background-color: rgba(30, 58, 138, 0.98);
       border-color: #2563eb;
       color: #ffffff;
     }
     body.theme-blue .app-footer {
-      background-color: rgba(30, 58, 138, 0.96);
+      background-color: rgba(30, 58, 138, 0.98);
       border-color: #2563eb;
     }
     body.theme-blue .card-title { color: #0f172a; }
@@ -67,12 +67,12 @@
       box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
     }
     body.theme-white .app-header {
-      background-color: rgba(248, 250, 252, 0.96);
+      background-color: rgba(248, 250, 252, 0.98);
       border-color: #cbd5e1;
       color: #0f172a;
     }
     body.theme-white .app-footer {
-      background-color: rgba(248, 250, 252, 0.96);
+      background-color: rgba(248, 250, 252, 0.98);
       border-color: #cbd5e1;
     }
     body.theme-white .card-title { color: #ffffff; }
@@ -86,69 +86,75 @@
 </head>
 <body id="appBody" class="theme-blue min-h-screen flex flex-col font-sans antialiased overflow-x-hidden pb-28">
 
-  <!-- TOP HEADER -->
-  <header id="appHeader" class="app-header sticky top-0 z-40 backdrop-blur-md border-b px-3.5 py-2 shadow-md">
-    <div class="flex items-center justify-between gap-2 max-w-lg mx-auto">
-      
-      <!-- Course Selector Trigger -->
-      <button onclick="openCourseModal()" class="flex items-center gap-2 text-left truncate py-1">
-        <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 shadow">
-          <i class="fa-solid fa-location-dot text-sm"></i>
+  <!-- TOP PROMINENT HEADER -->
+  <header id="appHeader" class="app-header sticky top-0 z-40 backdrop-blur-md border-b px-3.5 pt-2 pb-2.5 shadow-lg">
+    <div class="max-w-lg mx-auto flex flex-col gap-2">
+
+      <!-- Row 1: Course Info & Primary Utility Buttons -->
+      <div class="flex items-center justify-between gap-2">
+        <button onclick="openCourseModal()" class="flex items-center gap-2 text-left truncate group flex-1">
+          <div class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md">
+            <i class="fa-solid fa-location-dot text-sm"></i>
+          </div>
+          <div class="truncate">
+            <div class="flex items-center gap-1.5">
+              <span id="headerCourseName" class="font-black text-sm tracking-tight truncate">Sar-Ko-Par Trails</span>
+              <span id="headerHoleCountBadge" class="text-[10px] bg-white text-blue-900 px-1.5 py-0.2 rounded font-black shadow-sm shrink-0">9H</span>
+            </div>
+            <div class="text-[11px] opacity-75 font-semibold">Tap to switch course</div>
+          </div>
+        </button>
+
+        <div class="flex items-center gap-1.5 shrink-0">
+          <!-- Prominent Saved Rounds (History) Badge Button -->
+          <button onclick="openHistoryModal()" id="btnOpenHistory" title="View Saved Rounds" class="px-2.5 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-black text-xs flex items-center gap-1.5 active:scale-95 shadow-md border border-amber-300">
+            <i class="fa-solid fa-clock-rotate-left text-xs"></i>
+            <span>Rounds</span>
+            <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">0</span>
+          </button>
+
+          <!-- Palette Toggle -->
+          <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
+            <i class="fa-solid fa-palette text-xs"></i>
+          </button>
+
+          <!-- Sheets Export -->
+          <button onclick="exportToSheets()" title="Export CSV" class="w-8 h-8 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center active:scale-95 shadow">
+            <i class="fa-solid fa-file-excel text-xs"></i>
+          </button>
         </div>
-        <div class="truncate">
+      </div>
+
+      <!-- Row 2: Prominent Stopwatch & Live Match Bar -->
+      <div class="flex items-center justify-between gap-2 pt-1 border-t border-white/15">
+        
+        <!-- Big Prominent Timer Display Box -->
+        <div class="flex items-center gap-2 bg-slate-950/40 border border-white/20 px-2.5 py-1 rounded-xl shadow-inner">
           <div class="flex items-center gap-1.5">
-            <span id="headerCourseName" class="font-black text-sm tracking-tight truncate">Sar-Ko-Par Trails</span>
-            <span id="headerHoleCountBadge" class="text-[10px] bg-white text-blue-900 px-1.5 py-0.2 rounded font-black shadow-sm">9H</span>
+            <span class="inline-block w-2 h-2 rounded-full bg-slate-400" id="timerPulseDot"></span>
+            <span id="timerDisplay" class="text-xs font-mono font-black tracking-wider text-white">00:00:00</span>
           </div>
-          <div class="flex items-center gap-1.5 mt-0.5">
-            <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" id="timerPulseDot"></span>
-            <span id="timerDisplay" class="text-[11px] font-mono font-bold tracking-tight">00:00:00</span>
-          </div>
+          <button onclick="toggleTimer()" id="btnTimerControl" class="px-2 py-0.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-white text-[11px] font-black flex items-center gap-1 active:scale-95 shadow">
+            <i id="btnTimerIcon" class="fa-solid fa-play text-[9px]"></i>
+            <span id="btnTimerLabel">Start</span>
+          </button>
         </div>
-      </button>
 
-      <!-- Control Bar Icons -->
-      <div class="flex items-center gap-1.5 shrink-0">
-        <!-- Start / Stop Round Timer Button -->
-        <button onclick="toggleTimer()" id="btnTimerControl" title="Start/Stop Timer" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black flex items-center gap-1 active:scale-95 shadow-sm transition">
-          <i id="btnTimerIcon" class="fa-solid fa-play text-[10px]"></i>
-          <span id="btnTimerLabel">Start</span>
-        </button>
+        <!-- Head to Head Ticker Summary -->
+        <div class="flex items-center gap-2 font-bold text-xs shrink-0">
+          <span class="flex items-center gap-1">
+            <span class="opacity-75 font-normal text-[11px]">J:</span>
+            <span id="tickerScoreJeffery" class="bg-white text-blue-900 px-1.5 py-0.5 rounded text-[11px] font-black shadow-sm">0 (E)</span>
+          </span>
+          <span class="opacity-40">|</span>
+          <span class="flex items-center gap-1">
+            <span class="opacity-75 font-normal text-[11px]">K:</span>
+            <span id="tickerScoreJack" class="bg-white text-blue-900 px-1.5 py-0.5 rounded text-[11px] font-black shadow-sm">0 (E)</span>
+          </span>
+        </div>
 
-        <!-- Palette Theme Toggle -->
-        <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-amber-300 border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
-          <i class="fa-solid fa-palette text-xs"></i>
-        </button>
-
-        <!-- History Modal Button -->
-        <button onclick="openHistoryModal()" title="Past Rounds" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-95">
-          <i class="fa-solid fa-clock-rotate-left text-xs"></i>
-        </button>
-
-        <!-- Sheets Export -->
-        <button onclick="exportToSheets()" title="Export CSV" class="px-2 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-black flex items-center gap-1 active:scale-95 shadow">
-          <i class="fa-solid fa-file-excel text-xs"></i>
-        </button>
       </div>
-    </div>
 
-    <!-- Match Status Ticker -->
-    <div class="mt-2 pt-2 border-t border-white/20 flex items-center justify-between text-xs max-w-lg mx-auto px-1">
-      <div id="matchStatusText" class="font-black flex items-center gap-1.5 truncate">
-        <span class="inline-block w-2 h-2 rounded-full bg-slate-400"></span>
-        <span class="truncate">Round Ready</span>
-      </div>
-      <div class="flex items-center gap-2.5 font-bold shrink-0">
-        <span class="flex items-center gap-1">
-          <span class="opacity-80 font-normal">Jeffery:</span>
-          <span id="tickerScoreJeffery" class="bg-white text-blue-900 px-1.5 py-0.5 rounded text-[11px] font-black shadow-sm">0 (E)</span>
-        </span>
-        <span class="opacity-40">|</span>
-        <span class="flex items-center gap-1">
-          <span class="opacity-80 font-normal">Jack:</span>
-          <span id="tickerScoreJack" class="bg-white text-blue-900 px-1.5 py-0.5 rounded text-[11px] font-black shadow-sm">0 (E)</span>
-        </span>
-      </div>
     </div>
   </header>
 
@@ -394,7 +400,6 @@
           <p class="text-[11px] text-slate-500 font-medium">Stored locally on your device</p>
         </div>
         <div class="flex items-center gap-2">
-          <!-- Clear All Rounds Option -->
           <button onclick="clearAllHistory()" title="Clear all rounds" class="px-2 py-1 rounded-lg bg-rose-100 text-rose-700 hover:bg-rose-200 text-xs font-bold flex items-center gap-1 active:scale-95">
             <i class="fa-solid fa-trash-can text-[10px]"></i>
             <span>Clear All</span>
@@ -639,10 +644,10 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v8';
-    const HISTORY_KEY = 'dg_history_v8';
+    const STORAGE_KEY = 'dg_round_v9';
+    const HISTORY_KEY = 'dg_history_v9';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v8';
+    const TIMER_KEY = 'dg_timer_state_v9';
 
     let roundState = {
       courseKey: 'sarko',
@@ -677,6 +682,7 @@
         loadPresetData('sarko');
       }
 
+      updateHistoryCountBadge();
       renderHeader();
       renderCurrentHole();
       initTimerUI();
@@ -733,9 +739,9 @@
 
       const dot = document.getElementById('timerPulseDot');
       if (timerState.running) {
-        dot.className = "inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse";
+        dot.className = "inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow";
       } else {
-        dot.className = "inline-block w-1.5 h-1.5 rounded-full bg-amber-400";
+        dot.className = "inline-block w-2 h-2 rounded-full bg-slate-400";
       }
     }
 
@@ -745,12 +751,12 @@
       const label = document.getElementById('btnTimerLabel');
 
       if (isRunning) {
-        btn.className = "px-2.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-white text-xs font-black flex items-center gap-1 active:scale-95 shadow-sm transition";
-        icon.className = "fa-solid fa-pause text-[10px]";
+        btn.className = "px-2 py-0.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 text-[11px] font-black flex items-center gap-1 active:scale-95 shadow transition";
+        icon.className = "fa-solid fa-pause text-[9px]";
         label.innerText = "Pause";
       } else {
-        btn.className = "px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black flex items-center gap-1 active:scale-95 shadow-sm transition";
-        icon.className = "fa-solid fa-play text-[10px]";
+        btn.className = "px-2 py-0.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-white text-[11px] font-black flex items-center gap-1 active:scale-95 shadow transition";
+        icon.className = "fa-solid fa-play text-[9px]";
         label.innerText = "Start";
       }
       renderTimerDisplay();
@@ -948,17 +954,6 @@
       document.getElementById('jackRelative').innerText = `Total: ${kTot} (${fmt(kDiff)})`;
       document.getElementById('tickerScoreJeffery').innerText = `${jTot} (${fmt(jDiff)})`;
       document.getElementById('tickerScoreJack').innerText = `${kTot} (${fmt(kDiff)})`;
-
-      const ticker = document.getElementById('matchStatusText');
-      if (jTot === 0 && kTot === 0) {
-        ticker.innerHTML = '<span class="w-2 h-2 rounded-full bg-slate-400 inline-block"></span><span>Round Ready</span>';
-      } else if (jTot === kTot) {
-        ticker.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span><span>All Square</span>';
-      } else if (jTot < kTot) {
-        ticker.innerHTML = `<span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span><span>Jeffery +${kTot - jTot} up</span>`;
-      } else {
-        ticker.innerHTML = `<span class="w-2 h-2 rounded-full bg-sky-400 inline-block"></span><span>Jack +${jTot - kTot} up</span>`;
-      }
     }
 
     function openCourseModal() {
@@ -1112,8 +1107,17 @@
       });
 
       localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+      updateHistoryCountBadge();
       alert(`Round saved! Time: ${elapsed}`);
       closeScorecardModal();
+    }
+
+    function updateHistoryCountBadge() {
+      let history = [];
+      const saved = localStorage.getItem(HISTORY_KEY);
+      if (saved) { try { history = JSON.parse(saved); } catch(e){} }
+      const badge = document.getElementById('historyCountBadge');
+      if (badge) badge.innerText = history.length;
     }
 
     function openHistoryModal() {
@@ -1136,6 +1140,7 @@
         }
         history = history.filter(r => r.id !== id);
         localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        updateHistoryCountBadge();
         renderHistory();
       }
     }
@@ -1143,6 +1148,7 @@
     function clearAllHistory() {
       if (confirm("Are you sure you want to delete ALL saved rounds? This cannot be undone.")) {
         localStorage.removeItem(HISTORY_KEY);
+        updateHistoryCountBadge();
         renderHistory();
       }
     }
