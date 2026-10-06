@@ -29,7 +29,7 @@
 
     /* Theme 1: Royal Blue Background with White Cards */
     body.theme-blue {
-      background-color: #1e3a8a; /* Rich Royal Blue */
+      background-color: #1e3a8a;
       color: #0f172a;
     }
     body.theme-blue .app-card {
@@ -61,7 +61,7 @@
       color: #0f172a;
     }
     body.theme-white .app-card {
-      background-color: #1d4ed8; /* Vibrant Royal Blue card */
+      background-color: #1d4ed8;
       color: #ffffff;
       border: 1px solid #1e40af;
       box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
@@ -89,6 +89,8 @@
   <!-- TOP HEADER -->
   <header id="appHeader" class="app-header sticky top-0 z-40 backdrop-blur-md border-b px-3.5 py-2 shadow-md">
     <div class="flex items-center justify-between gap-2 max-w-lg mx-auto">
+      
+      <!-- Course Selector Trigger -->
       <button onclick="openCourseModal()" class="flex items-center gap-2 text-left truncate py-1">
         <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 shadow">
           <i class="fa-solid fa-location-dot text-sm"></i>
@@ -96,29 +98,37 @@
         <div class="truncate">
           <div class="flex items-center gap-1.5">
             <span id="headerCourseName" class="font-black text-sm tracking-tight truncate">Sar-Ko-Par Trails</span>
-            <span id="headerHoleCountBadge" class="text-[10px] bg-white text-blue-800 px-1.5 py-0.2 rounded font-black shadow-sm">9H</span>
+            <span id="headerHoleCountBadge" class="text-[10px] bg-white text-blue-900 px-1.5 py-0.2 rounded font-black shadow-sm">9H</span>
           </div>
-          <div id="headerDateTime" class="text-[11px] opacity-80 font-medium">Today · In Progress</div>
+          <!-- Live Round Stopwatch Display -->
+          <div class="flex items-center gap-1.5 mt-0.5">
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" id="timerPulseDot"></span>
+            <span id="timerDisplay" class="text-[11px] font-mono font-bold tracking-tight">00:00:00</span>
+          </div>
         </div>
       </button>
 
+      <!-- Control Bar Icons -->
       <div class="flex items-center gap-1.5 shrink-0">
-        <!-- Palette Switcher -->
+        <!-- Start / Stop Round Timer Button -->
+        <button onclick="toggleTimer()" id="btnTimerControl" title="Start/Stop Timer" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black flex items-center gap-1 active:scale-95 shadow-sm transition">
+          <i id="btnTimerIcon" class="fa-solid fa-play text-[10px]"></i>
+          <span id="btnTimerLabel">Start</span>
+        </button>
+
+        <!-- Palette Theme Toggle -->
         <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-amber-300 border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
           <i class="fa-solid fa-palette text-xs"></i>
         </button>
-        <!-- Hole Count Toggle -->
-        <button onclick="toggleHoleCountDirect()" id="btnQuickToggle" class="px-2 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-black active:scale-95">
-          9H
-        </button>
-        <!-- History Drawer Button -->
+
+        <!-- History Modal Button -->
         <button onclick="openHistoryModal()" title="Past Rounds" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-95">
           <i class="fa-solid fa-clock-rotate-left text-xs"></i>
         </button>
-        <!-- Sheets Export Button -->
-        <button onclick="exportToSheets()" title="Export CSV" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black flex items-center gap-1 active:scale-95 shadow">
+
+        <!-- Sheets Export -->
+        <button onclick="exportToSheets()" title="Export CSV" class="px-2 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-black flex items-center gap-1 active:scale-95 shadow">
           <i class="fa-solid fa-file-excel text-xs"></i>
-          <span>Sheets</span>
         </button>
       </div>
     </div>
@@ -126,8 +136,8 @@
     <!-- Match Status Ticker -->
     <div class="mt-2 pt-2 border-t border-white/20 flex items-center justify-between text-xs max-w-lg mx-auto px-1">
       <div id="matchStatusText" class="font-black flex items-center gap-1.5 truncate">
-        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
-        <span class="truncate">All Square</span>
+        <span class="inline-block w-2 h-2 rounded-full bg-slate-400"></span>
+        <span class="truncate">Round Ready</span>
       </div>
       <div class="flex items-center gap-2.5 font-bold shrink-0">
         <span class="flex items-center gap-1">
@@ -364,15 +374,9 @@
         <input type="text" id="inputCourseName" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-bold text-xs focus:outline-none" value="Sar-Ko-Par Trails">
       </div>
 
-      <div class="grid grid-cols-2 gap-2">
-        <div>
-          <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Date</label>
-          <input type="date" id="inputRoundDate" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2 py-2 text-slate-900 text-xs font-bold focus:outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Tee Time</label>
-          <input type="time" id="inputRoundTime" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2 py-2 text-slate-900 text-xs font-bold focus:outline-none">
-        </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Date</label>
+        <input type="date" id="inputRoundDate" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-2 text-slate-900 text-xs font-bold focus:outline-none">
       </div>
 
       <div class="pt-2 flex gap-2">
@@ -626,24 +630,40 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v6';
-    const HISTORY_KEY = 'dg_history_v6';
+    const STORAGE_KEY = 'dg_round_v7';
+    const HISTORY_KEY = 'dg_history_v7';
     const THEME_KEY = 'dg_theme_mode_v2';
+    const TIMER_KEY = 'dg_timer_state';
 
     let roundState = {
       courseKey: 'sarko',
       courseName: 'Sar-Ko-Par Trails',
       totalHoles: 9,
       date: new Date().toISOString().split('T')[0],
-      time: new Date().toTimeString().slice(0, 5),
       currentHoleIndex: 0,
       holes: []
     };
 
+    // Timer Variables
+    let timerInterval = null;
+    let timerState = {
+      running: false,
+      startTime: null,
+      accumulatedMs: 0
+    };
+
     function init() {
+      // Load saved theme
       const savedTheme = localStorage.getItem(THEME_KEY) || 'theme-blue';
       applyTheme(savedTheme);
 
+      // Load timer state
+      const savedTimer = localStorage.getItem(TIMER_KEY);
+      if (savedTimer) {
+        try { timerState = JSON.parse(savedTimer); } catch(e){}
+      }
+
+      // Load round state
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         try { roundState = JSON.parse(saved); } catch(e){}
@@ -651,10 +671,101 @@
       if (!roundState.holes || roundState.holes.length === 0) {
         loadPresetData('sarko');
       }
+
       renderHeader();
       renderCurrentHole();
+      initTimerUI();
     }
 
+    // --- STOPWATCH LOGIC ---
+    function initTimerUI() {
+      if (timerState.running) {
+        startTimerInterval();
+        updateTimerButton(true);
+      } else {
+        updateTimerButton(false);
+        renderTimerDisplay();
+      }
+    }
+
+    function toggleTimer() {
+      if (timerState.running) {
+        // Pause timer
+        timerState.accumulatedMs += Date.now() - timerState.startTime;
+        timerState.running = false;
+        timerState.startTime = null;
+        clearInterval(timerInterval);
+        updateTimerButton(false);
+      } else {
+        // Start timer
+        timerState.startTime = Date.now();
+        timerState.running = true;
+        startTimerInterval();
+        updateTimerButton(true);
+      }
+      saveTimerState();
+    }
+
+    function startTimerInterval() {
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        renderTimerDisplay();
+      }, 500);
+    }
+
+    function getElapsedMs() {
+      if (!timerState.running) return timerState.accumulatedMs;
+      return timerState.accumulatedMs + (Date.now() - timerState.startTime);
+    }
+
+    function renderTimerDisplay() {
+      const ms = getElapsedMs();
+      const totalSec = Math.floor(ms / 1000);
+      const hrs = Math.floor(totalSec / 3600);
+      const mins = Math.floor((totalSec % 3600) / 60);
+      const secs = totalSec % 60;
+
+      const pad = n => String(n).padStart(2, '0');
+      document.getElementById('timerDisplay').innerText = `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+
+      const dot = document.getElementById('timerPulseDot');
+      if (timerState.running) {
+        dot.className = "inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse";
+      } else {
+        dot.className = "inline-block w-1.5 h-1.5 rounded-full bg-amber-400";
+      }
+    }
+
+    function updateTimerButton(isRunning) {
+      const btn = document.getElementById('btnTimerControl');
+      const icon = document.getElementById('btnTimerIcon');
+      const label = document.getElementById('btnTimerLabel');
+
+      if (isRunning) {
+        btn.className = "px-2.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-white text-xs font-black flex items-center gap-1 active:scale-95 shadow-sm transition";
+        icon.className = "fa-solid fa-pause text-[10px]";
+        label.innerText = "Pause";
+      } else {
+        btn.className = "px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black flex items-center gap-1 active:scale-95 shadow-sm transition";
+        icon.className = "fa-solid fa-play text-[10px]";
+        label.innerText = "Start";
+      }
+      renderTimerDisplay();
+    }
+
+    function saveTimerState() {
+      localStorage.setItem(TIMER_KEY, JSON.stringify(timerState));
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerState = { running: false, startTime: null, accumulatedMs: 0 };
+      saveTimerState();
+      updateTimerButton(false);
+      renderTimerDisplay();
+    }
+
+    // --- THEME SWITCHER ---
     function toggleTheme() {
       const current = document.body.classList.contains('theme-blue') ? 'theme-blue' : 'theme-white';
       const nextTheme = current === 'theme-blue' ? 'theme-white' : 'theme-blue';
@@ -678,7 +789,6 @@
       roundState.courseName = course.name;
       roundState.totalHoles = course.totalHoles;
       roundState.currentHoleIndex = 0;
-      // All scores start at 0
       roundState.holes = course.holes.map(h => ({
         number: h.number,
         par: h.par,
@@ -699,32 +809,9 @@
       }
     }
 
-    function toggleHoleCountDirect() {
-      const newTotal = roundState.totalHoles === 9 ? 18 : 9;
-      if (confirm(`Switch round format to ${newTotal} holes?`)) {
-        roundState.totalHoles = newTotal;
-        if (newTotal === 9) {
-          roundState.holes = roundState.holes.slice(0, 9);
-        } else {
-          while (roundState.holes.length < 18) {
-            const num = roundState.holes.length + 1;
-            roundState.holes.push({ number: num, par: 3, distance: 300, jeffery: 0, jack: 0, scored: false });
-          }
-        }
-        if (roundState.currentHoleIndex >= newTotal) {
-          roundState.currentHoleIndex = newTotal - 1;
-        }
-        saveState();
-        renderHeader();
-        renderCurrentHole();
-      }
-    }
-
     function renderHeader() {
       document.getElementById('headerCourseName').innerText = roundState.courseName;
       document.getElementById('headerHoleCountBadge').innerText = `${roundState.totalHoles}H`;
-      document.getElementById('btnQuickToggle').innerText = `${roundState.totalHoles}H`;
-      document.getElementById('headerDateTime').innerText = `${roundState.date} · ${roundState.time}`;
       document.getElementById('totalHolesMaxLabel').innerText = `/ ${roundState.totalHoles}`;
     }
 
@@ -784,7 +871,6 @@
 
     function adjustPlayerScore(player, delta) {
       const h = roundState.holes[roundState.currentHoleIndex];
-      // Starts at 0, allows incrementing up or decrementing back to 0
       h[player] = Math.max(0, h[player] + delta);
       h.scored = (h[player] > 0);
       saveState();
@@ -853,7 +939,6 @@
 
       const jDiff = (playedParJ > 0) ? (jTot - playedParJ) : 0;
       const kDiff = (playedParK > 0) ? (kTot - playedParK) : 0;
-
       const fmt = d => d === 0 ? 'E' : (d > 0 ? `+${d}` : `${d}`);
 
       document.getElementById('jefferyRelative').innerText = `Total: ${jTot} (${fmt(jDiff)})`;
@@ -876,7 +961,6 @@
     function openCourseModal() {
       document.getElementById('inputCourseName').value = roundState.courseName;
       document.getElementById('inputRoundDate').value = roundState.date;
-      document.getElementById('inputRoundTime').value = roundState.time;
       document.getElementById('modalCourse').classList.remove('hidden');
       document.getElementById('modalCourse').classList.add('flex');
     }
@@ -889,20 +973,20 @@
     function saveCourseSettings() {
       roundState.courseName = document.getElementById('inputCourseName').value || 'Course';
       roundState.date = document.getElementById('inputRoundDate').value || roundState.date;
-      roundState.time = document.getElementById('inputRoundTime').value || roundState.time;
       saveState();
       renderHeader();
       closeCourseModal();
     }
 
     function resetCurrentRound() {
-      if (confirm("Reset current scores back to 0?")) {
+      if (confirm("Reset current scores and stopwatch timer?")) {
         roundState.currentHoleIndex = 0;
         roundState.holes.forEach(h => {
           h.jeffery = 0;
           h.jack = 0;
           h.scored = false;
         });
+        resetTimer();
         saveState();
         renderCurrentHole();
         closeCourseModal();
@@ -911,7 +995,8 @@
 
     function openScorecardModal() {
       buildScorecardTable();
-      document.getElementById('modalCardSubtitle').innerText = `${roundState.courseName} · ${roundState.totalHoles} Holes`;
+      const elapsed = document.getElementById('timerDisplay').innerText;
+      document.getElementById('modalCardSubtitle').innerText = `${roundState.courseName} · ${roundState.totalHoles} Holes · Time: ${elapsed}`;
       document.getElementById('modalScorecard').classList.remove('hidden');
       document.getElementById('modalScorecard').classList.add('flex');
     }
@@ -967,7 +1052,8 @@
     }
 
     function exportToSheets() {
-      let csv = "Course,Format,Date,Time,Hole,Distance_ft,Par,Jeffery_Score,Jack_Score,Hole_Winner\n";
+      const elapsed = document.getElementById('timerDisplay').innerText;
+      let csv = `Course,Format,Date,Elapsed_Time,Hole,Distance_ft,Par,Jeffery_Score,Jack_Score,Hole_Winner\n`;
       roundState.holes.forEach(h => {
         let winner = "-";
         if (h.jeffery > 0 && h.jack > 0) {
@@ -975,14 +1061,14 @@
           else if (h.jack < h.jeffery) winner = "Jack";
           else winner = "Tie";
         }
-        csv += `"${roundState.courseName}","${roundState.totalHoles}H","${roundState.date}","${roundState.time}",${h.number},${h.distance},${h.par},${h.jeffery},${h.jack},"${winner}"\n`;
+        csv += `"${roundState.courseName}","${roundState.totalHoles}H","${roundState.date}","${elapsed}",${h.number},${h.distance},${h.par},${h.jeffery},${h.jack},"${winner}"\n`;
       });
 
       let totPar = roundState.holes.reduce((a, b) => a + b.par, 0);
       let totJ = roundState.holes.reduce((a, b) => a + b.jeffery, 0);
       let totK = roundState.holes.reduce((a, b) => a + b.jack, 0);
       let winner = (totJ === 0 && totK === 0) ? "Incomplete" : (totJ === totK ? "Tied" : (totJ < totK ? "Jeffery" : "Jack"));
-      csv += `"${roundState.courseName} TOTAL","${roundState.totalHoles}H","${roundState.date}","${roundState.time}","TOT",-,${totPar},${totJ},${totK},"${winner}"\n`;
+      csv += `"${roundState.courseName} TOTAL","${roundState.totalHoles}H","${roundState.date}","${elapsed}","TOT",-,${totPar},${totJ},${totK},"${winner}"\n`;
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -1002,21 +1088,22 @@
       const totPar = roundState.holes.reduce((a, b) => a + b.par, 0);
       const totJ = roundState.holes.reduce((a, b) => a + b.jeffery, 0);
       const totK = roundState.holes.reduce((a, b) => a + b.jack, 0);
+      const elapsed = document.getElementById('timerDisplay').innerText;
 
       history.unshift({
         id: Date.now(),
         courseName: roundState.courseName,
         totalHoles: roundState.totalHoles,
         date: roundState.date,
-        time: roundState.time,
+        duration: elapsed,
         par: totPar,
         jeffery: totJ,
         jack: totK,
-        winner: totJ === totK ? 'Tie' : (totJ < totK ? 'Jeffery' : 'Jack')
+        winner: (totJ === 0 && totK === 0) ? 'Unfinished' : (totJ === totK ? 'Tie' : (totJ < totK ? 'Jeffery' : 'Jack'))
       });
 
       localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-      alert("Round saved to history!");
+      alert(`Round saved! Time: ${elapsed}`);
       closeScorecardModal();
     }
 
@@ -1048,8 +1135,8 @@
         item.className = "bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between";
         item.innerHTML = `
           <div>
-            <h4 class="font-extrabold text-slate-900 text-sm">${r.courseName} <span class="text-xs text-blue-600">(${r.totalHoles}H)</span></h4>
-            <span class="text-[11px] text-slate-500 font-semibold">${r.date} · Par ${r.par}</span>
+            <h4 class="font-black text-slate-900 text-sm">${r.courseName} <span class="text-xs text-blue-600">(${r.totalHoles}H)</span></h4>
+            <span class="text-[11px] text-slate-500 font-semibold">${r.date} · ⏱ ${r.duration || 'N/A'} · Par ${r.par}</span>
             <div class="text-xs mt-1 font-bold text-slate-700">
               Jeffery: <span class="text-blue-700 font-black">${r.jeffery}</span> | Jack: <span class="text-blue-900 font-black">${r.jack}</span>
             </div>
