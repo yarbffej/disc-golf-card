@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>DG Scorecard - Jeffery & Jack</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
@@ -22,31 +22,90 @@
       -webkit-tap-highlight-color: transparent;
       user-select: none;
       -webkit-user-select: none;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
     .custom-scroll::-webkit-scrollbar { display: none; }
     .custom-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Theme 1: Blue Background with White Cards */
+    body.theme-blue {
+      background-color: #0b192c;
+      color: #f1f5f9;
+    }
+    body.theme-blue .app-card {
+      background-color: #ffffff;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    }
+    body.theme-blue .app-header {
+      background-color: rgba(11, 25, 44, 0.95);
+      border-color: rgba(30, 58, 138, 0.6);
+    }
+    body.theme-blue .app-footer {
+      background-color: rgba(11, 25, 44, 0.95);
+      border-color: rgba(30, 58, 138, 0.6);
+    }
+    body.theme-blue .card-title { color: #0f172a; }
+    body.theme-blue .card-subtext { color: #475569; }
+    body.theme-blue .counter-box {
+      background-color: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+    body.theme-blue .counter-number { color: #0f172a; }
+
+    /* Theme 2: White Background with Blue Cards */
+    body.theme-white {
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    body.theme-white .app-card {
+      background-color: #1e3a8a;
+      color: #ffffff;
+      border: 1px solid #172554;
+      box-shadow: 0 4px 14px rgba(30, 58, 138, 0.2);
+    }
+    body.theme-white .app-header {
+      background-color: rgba(248, 250, 252, 0.95);
+      border-color: #cbd5e1;
+    }
+    body.theme-white .app-footer {
+      background-color: rgba(248, 250, 252, 0.95);
+      border-color: #cbd5e1;
+    }
+    body.theme-white .card-title { color: #ffffff; }
+    body.theme-white .card-subtext { color: #93c5fd; }
+    body.theme-white .counter-box {
+      background-color: #172554;
+      border-color: #1e40af;
+    }
+    body.theme-white .counter-number { color: #ffffff; }
   </style>
 </head>
-<body id="appBody" class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased overflow-x-hidden pb-28">
+<body id="appBody" class="theme-blue min-h-screen flex flex-col font-sans antialiased overflow-x-hidden pb-28">
 
   <!-- TOP HEADER -->
-  <header id="appHeader" class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-blue-900/40 px-3.5 py-2 shadow-lg">
+  <header id="appHeader" class="app-header sticky top-0 z-40 backdrop-blur-md border-b px-3.5 py-2 shadow-md">
     <div class="flex items-center justify-between gap-2 max-w-lg mx-auto">
       <button onclick="openCourseModal()" class="flex items-center gap-2 text-left truncate py-1">
-        <div class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center shrink-0">
+        <div class="w-8 h-8 rounded-lg bg-blue-600/20 text-blue-500 border border-blue-500/30 flex items-center justify-center shrink-0">
           <i class="fa-solid fa-location-dot text-sm"></i>
         </div>
         <div class="truncate">
           <div class="flex items-center gap-1.5">
-            <span id="headerCourseName" class="font-extrabold text-white text-sm tracking-tight truncate">Sar-Ko-Par Trails</span>
-            <span id="headerHoleCountBadge" class="text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/30 px-1.5 py-0.2 rounded font-black">9H</span>
+            <span id="headerCourseName" class="font-extrabold text-sm tracking-tight truncate">Sar-Ko-Par Trails</span>
+            <span id="headerHoleCountBadge" class="text-[10px] bg-blue-600 text-white px-1.5 py-0.2 rounded font-black">9H</span>
           </div>
-          <div id="headerDateTime" class="text-[11px] text-slate-400 font-medium">Today · In Progress</div>
+          <div id="headerDateTime" class="text-[11px] opacity-70 font-medium">Today · In Progress</div>
         </div>
       </button>
 
       <div class="flex items-center gap-1.5 shrink-0">
-        <!-- Hole count toggle -->
+        <!-- Palette Switcher Toggle -->
+        <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-lg bg-slate-800 text-amber-300 border border-slate-700 flex items-center justify-center active:scale-90 shadow-sm">
+          <i class="fa-solid fa-palette text-xs"></i>
+        </button>
+        <!-- Hole Count Toggle -->
         <button onclick="toggleHoleCountDirect()" id="btnQuickToggle" class="px-2 py-1 rounded-lg bg-slate-800 text-sky-300 border border-slate-700 text-xs font-black active:scale-95">
           9H
         </button>
@@ -55,7 +114,7 @@
           <i class="fa-solid fa-clock-rotate-left text-xs"></i>
         </button>
         <!-- Sheets Export Button -->
-        <button onclick="exportToSheets()" title="Export CSV" class="px-2.5 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold flex items-center gap-1 active:scale-95 border border-blue-400/40">
+        <button onclick="exportToSheets()" title="Export CSV" class="px-2.5 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold flex items-center gap-1 active:scale-95 shadow-sm">
           <i class="fa-solid fa-file-excel text-xs"></i>
           <span>Sheets</span>
         </button>
@@ -63,152 +122,152 @@
     </div>
 
     <!-- Match Status Ticker -->
-    <div class="mt-2 pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs max-w-lg mx-auto px-1">
+    <div class="mt-2 pt-2 border-t border-slate-500/20 flex items-center justify-between text-xs max-w-lg mx-auto px-1">
       <div id="matchStatusText" class="font-bold text-sky-400 flex items-center gap-1.5 truncate">
         <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
         <span class="truncate">All Square</span>
       </div>
-      <div class="flex items-center gap-2.5 font-semibold text-slate-300 shrink-0">
+      <div class="flex items-center gap-2.5 font-semibold opacity-90 shrink-0">
         <span class="flex items-center gap-1">
-          <span class="text-slate-400 font-normal">Jeffery:</span>
-          <span id="tickerScoreJeffery" class="text-white bg-slate-800 px-1.5 py-0.5 rounded text-[11px]">E</span>
+          <span class="opacity-70 font-normal">Jeffery:</span>
+          <span id="tickerScoreJeffery" class="bg-blue-600 text-white px-1.5 py-0.5 rounded text-[11px] font-bold">E</span>
         </span>
-        <span class="text-slate-600">|</span>
+        <span class="opacity-40">|</span>
         <span class="flex items-center gap-1">
-          <span class="text-slate-400 font-normal">Jack:</span>
-          <span id="tickerScoreJack" class="text-white bg-slate-800 px-1.5 py-0.5 rounded text-[11px]">E</span>
+          <span class="opacity-70 font-normal">Jack:</span>
+          <span id="tickerScoreJack" class="bg-slate-700 text-white px-1.5 py-0.5 rounded text-[11px] font-bold">E</span>
         </span>
       </div>
     </div>
   </header>
 
-  <!-- MAIN FAIRWAY CARD -->
+  <!-- MAIN SCORING CARD -->
   <main class="flex-1 px-3.5 py-3 max-w-lg mx-auto w-full flex flex-col gap-3">
 
     <!-- Hole Navigator Bar -->
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-2.5 flex items-center justify-between shadow-md">
-      <button onclick="prevHole()" id="btnPrevHoleTop" class="w-10 h-10 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 active:scale-90 flex items-center justify-center font-bold text-base disabled:opacity-30 disabled:pointer-events-none transition">
+    <div class="app-card rounded-2xl p-2.5 flex items-center justify-between shadow-md">
+      <button onclick="prevHole()" id="btnPrevHoleTop" class="w-10 h-10 rounded-xl bg-slate-800 text-white active:scale-90 flex items-center justify-center font-bold text-base disabled:opacity-30 disabled:pointer-events-none transition">
         <i class="fa-solid fa-chevron-left"></i>
       </button>
 
       <div class="text-center">
-        <div class="text-[10px] uppercase tracking-wider font-extrabold text-blue-400">HOLE</div>
+        <div class="text-[10px] uppercase tracking-wider font-extrabold text-blue-500">HOLE</div>
         <div class="flex items-baseline justify-center gap-1">
-          <span id="currentHoleLabel" class="text-2xl font-black text-white">1</span>
-          <span id="totalHolesMaxLabel" class="text-xs text-slate-500 font-semibold">/ 9</span>
+          <span id="currentHoleLabel" class="text-2xl font-black card-title">1</span>
+          <span id="totalHolesMaxLabel" class="text-xs card-subtext font-semibold">/ 9</span>
         </div>
       </div>
 
-      <button onclick="nextHole()" id="btnNextHoleTop" class="w-10 h-10 rounded-xl bg-blue-600 text-white border border-blue-400/50 active:scale-90 flex items-center justify-center font-bold text-base transition shadow-sm">
+      <button onclick="nextHole()" id="btnNextHoleTop" class="w-10 h-10 rounded-xl bg-blue-600 text-white active:scale-90 flex items-center justify-center font-bold text-base transition shadow">
         <i class="fa-solid fa-chevron-right"></i>
       </button>
     </div>
 
     <!-- Hole Par & Distance Info -->
     <div class="grid grid-cols-2 gap-2.5">
-      <div class="bg-slate-900 border border-slate-800/80 rounded-xl p-2.5 flex items-center justify-between shadow-sm">
+      <div class="app-card rounded-xl p-2.5 flex items-center justify-between shadow-sm">
         <div>
-          <span class="text-[10px] font-bold uppercase text-slate-400 block tracking-wide">PAR</span>
-          <span id="parDisplay" class="text-xl font-black text-white leading-tight">3</span>
+          <span class="text-[10px] font-bold uppercase card-subtext block tracking-wide">PAR</span>
+          <span id="parDisplay" class="text-xl font-black card-title leading-tight">3</span>
         </div>
         <div class="flex items-center gap-1.5">
-          <button onclick="adjustPar(-1)" class="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 font-bold active:scale-90 text-sm flex items-center justify-center">-</button>
-          <button onclick="adjustPar(1)" class="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 font-bold active:scale-90 text-sm flex items-center justify-center">+</button>
+          <button onclick="adjustPar(-1)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-bold active:scale-90 text-sm flex items-center justify-center">-</button>
+          <button onclick="adjustPar(1)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-bold active:scale-90 text-sm flex items-center justify-center">+</button>
         </div>
       </div>
 
-      <div class="bg-slate-900 border border-slate-800/80 rounded-xl p-2.5 flex items-center justify-between shadow-sm">
+      <div class="app-card rounded-xl p-2.5 flex items-center justify-between shadow-sm">
         <div>
-          <span class="text-[10px] font-bold uppercase text-slate-400 block tracking-wide">DISTANCE</span>
+          <span class="text-[10px] font-bold uppercase card-subtext block tracking-wide">DISTANCE</span>
           <div class="flex items-baseline gap-1">
-            <span id="distanceDisplay" class="text-xl font-black text-white leading-tight">128</span>
-            <span class="text-[10px] text-slate-400 font-semibold">ft</span>
+            <span id="distanceDisplay" class="text-xl font-black card-title leading-tight">128</span>
+            <span class="text-[10px] card-subtext font-semibold">ft</span>
           </div>
         </div>
-        <button onclick="editDistance()" class="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 text-blue-400 active:scale-90 flex items-center justify-center">
+        <button onclick="editDistance()" class="w-8 h-8 rounded-lg bg-blue-600 text-white active:scale-90 flex items-center justify-center shadow">
           <i class="fa-solid fa-pen-to-square text-xs"></i>
         </button>
       </div>
     </div>
 
     <!-- PLAYER 1: JEFFERY -->
-    <div class="bg-slate-900 border-2 border-blue-600/40 rounded-2xl p-3.5 shadow-lg relative overflow-hidden">
+    <div class="app-card rounded-2xl p-3.5 shadow-lg relative overflow-hidden">
       <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
           <span class="w-6 h-6 rounded-md bg-blue-600 text-white font-black text-[11px] flex items-center justify-center shadow">J1</span>
           <div>
-            <h2 class="font-extrabold text-white text-base tracking-tight leading-none">Jeffery</h2>
-            <span id="jefferyRelative" class="text-[11px] font-semibold text-slate-400">Total: 0 (E)</span>
+            <h2 class="font-extrabold card-title text-base tracking-tight leading-none">Jeffery</h2>
+            <span id="jefferyRelative" class="text-[11px] font-semibold card-subtext">Total: 0 (E)</span>
           </div>
         </div>
-        <div id="jefferyScoreBadge" class="px-2.5 py-0.5 rounded-full text-xs font-black bg-slate-800 text-slate-400 uppercase tracking-wider">
+        <div id="jefferyScoreBadge" class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase tracking-wider">
           Par
         </div>
       </div>
 
-      <div class="grid grid-cols-5 items-center gap-2 my-2 bg-slate-950/70 p-2 rounded-xl border border-slate-800">
-        <button onclick="adjustPlayerScore('jeffery', -1)" class="col-span-1 h-14 rounded-lg bg-slate-800 active:bg-slate-700 border border-slate-700 text-slate-200 text-2xl font-black active:scale-95 flex items-center justify-center">
+      <div class="counter-box grid grid-cols-5 items-center gap-2 my-2 p-2 rounded-xl border">
+        <button onclick="adjustPlayerScore('jeffery', -1)" class="col-span-1 h-14 rounded-lg bg-slate-800 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
           <i class="fa-solid fa-minus"></i>
         </button>
         <div class="col-span-3 text-center">
-          <span id="jefferyHoleScore" class="text-4xl font-black text-white leading-none tracking-tight">3</span>
-          <span class="block text-[10px] text-slate-400 uppercase font-bold tracking-widest mt-0.5">Throws</span>
+          <span id="jefferyHoleScore" class="text-4xl font-black counter-number leading-none tracking-tight">3</span>
+          <span class="block text-[10px] card-subtext uppercase font-bold tracking-widest mt-0.5">Throws</span>
         </div>
-        <button onclick="adjustPlayerScore('jeffery', 1)" class="col-span-1 h-14 rounded-lg bg-blue-600 active:bg-blue-500 border border-blue-400 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
+        <button onclick="adjustPlayerScore('jeffery', 1)" class="col-span-1 h-14 rounded-lg bg-blue-600 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
           <i class="fa-solid fa-plus"></i>
         </button>
       </div>
 
       <div class="grid grid-cols-4 gap-1.5 mt-2">
-        <button onclick="setPlayerScorePreset('jeffery', 1)" class="py-1.5 px-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 font-extrabold text-[11px] active:scale-95">Ace (1)</button>
-        <button onclick="setPlayerScorePreset('jeffery', 'birdie')" class="py-1.5 px-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-extrabold text-[11px] active:scale-95">Birdie</button>
-        <button onclick="setPlayerScorePreset('jeffery', 'par')" class="py-1.5 px-1 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-300 font-extrabold text-[11px] active:scale-95">Par</button>
-        <button onclick="setPlayerScorePreset('jeffery', 'bogey')" class="py-1.5 px-1 rounded-lg bg-orange-500/10 border border-orange-500/30 text-orange-400 font-extrabold text-[11px] active:scale-95">Bogey</button>
+        <button onclick="setPlayerScorePreset('jeffery', 1)" class="py-1.5 px-1 rounded-lg bg-amber-500 text-white font-extrabold text-[11px] active:scale-95 shadow-sm">Ace (1)</button>
+        <button onclick="setPlayerScorePreset('jeffery', 'birdie')" class="py-1.5 px-1 rounded-lg bg-emerald-600 text-white font-extrabold text-[11px] active:scale-95 shadow-sm">Birdie</button>
+        <button onclick="setPlayerScorePreset('jeffery', 'par')" class="py-1.5 px-1 rounded-lg bg-blue-700 text-white font-extrabold text-[11px] active:scale-95 shadow-sm">Par</button>
+        <button onclick="setPlayerScorePreset('jeffery', 'bogey')" class="py-1.5 px-1 rounded-lg bg-orange-600 text-white font-extrabold text-[11px] active:scale-95 shadow-sm">Bogey</button>
       </div>
     </div>
 
     <!-- PLAYER 2: JACK -->
-    <div class="bg-slate-900 border-2 border-slate-800 rounded-2xl p-3.5 shadow-lg relative overflow-hidden">
+    <div class="app-card rounded-2xl p-3.5 shadow-lg relative overflow-hidden">
       <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <span class="w-6 h-6 rounded-md bg-slate-700 text-sky-400 font-black text-[11px] flex items-center justify-center border border-slate-600">J2</span>
+          <span class="w-6 h-6 rounded-md bg-slate-700 text-white font-black text-[11px] flex items-center justify-center shadow">J2</span>
           <div>
-            <h2 class="font-extrabold text-white text-base tracking-tight leading-none">Jack</h2>
-            <span id="jackRelative" class="text-[11px] font-semibold text-slate-400">Total: 0 (E)</span>
+            <h2 class="font-extrabold card-title text-base tracking-tight leading-none">Jack</h2>
+            <span id="jackRelative" class="text-[11px] font-semibold card-subtext">Total: 0 (E)</span>
           </div>
         </div>
-        <div id="jackScoreBadge" class="px-2.5 py-0.5 rounded-full text-xs font-black bg-slate-800 text-slate-400 uppercase tracking-wider">
+        <div id="jackScoreBadge" class="px-2.5 py-0.5 rounded-full text-xs font-black uppercase tracking-wider">
           Par
         </div>
       </div>
 
-      <div class="grid grid-cols-5 items-center gap-2 my-2 bg-slate-950/70 p-2 rounded-xl border border-slate-800">
-        <button onclick="adjustPlayerScore('jack', -1)" class="col-span-1 h-14 rounded-lg bg-slate-800 active:bg-slate-700 border border-slate-700 text-slate-200 text-2xl font-black active:scale-95 flex items-center justify-center">
+      <div class="counter-box grid grid-cols-5 items-center gap-2 my-2 p-2 rounded-xl border">
+        <button onclick="adjustPlayerScore('jack', -1)" class="col-span-1 h-14 rounded-lg bg-slate-800 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
           <i class="fa-solid fa-minus"></i>
         </button>
         <div class="col-span-3 text-center">
-          <span id="jackHoleScore" class="text-4xl font-black text-white leading-none tracking-tight">3</span>
-          <span class="block text-[10px] text-slate-400 uppercase font-bold tracking-widest mt-0.5">Throws</span>
+          <span id="jackHoleScore" class="text-4xl font-black counter-number leading-none tracking-tight">3</span>
+          <span class="block text-[10px] card-subtext uppercase font-bold tracking-widest mt-0.5">Throws</span>
         </div>
-        <button onclick="adjustPlayerScore('jack', 1)" class="col-span-1 h-14 rounded-lg bg-sky-600 active:bg-sky-500 border border-sky-400 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
+        <button onclick="adjustPlayerScore('jack', 1)" class="col-span-1 h-14 rounded-lg bg-sky-600 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
           <i class="fa-solid fa-plus"></i>
         </button>
       </div>
 
       <div class="grid grid-cols-4 gap-1.5 mt-2">
-        <button onclick="setPlayerScorePreset('jack', 1)" class="py-1.5 px-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 font-extrabold text-[11px] active:scale-95">Ace (1)</button>
-        <button onclick="setPlayerScorePreset('jack', 'birdie')" class="py-1.5 px-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-extrabold text-[11px] active:scale-95">Birdie</button>
-        <button onclick="setPlayerScorePreset('jack', 'par')" class="py-1.5 px-1 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-300 font-extrabold text-[11px] active:scale-95">Par</button>
-        <button onclick="setPlayerScorePreset('jack', 'bogey')" class="py-1.5 px-1 rounded-lg bg-orange-500/10 border border-orange-500/30 text-orange-400 font-extrabold text-[11px] active:scale-95">Bogey</button>
+        <button onclick="setPlayerScorePreset('jack', 1)" class="py-1.5 px-1 rounded-lg bg-amber-500 text-white font-extrabold text-[11px] active:scale-95 shadow-sm">Ace (1)</button>
+        <button onclick="setPlayerScorePreset('jack', 'birdie')" class="py-1.5 px-1 rounded-lg bg-emerald-600 text-white font-extrabold text-[11px] active:scale-95 shadow-sm">Birdie</button>
+        <button onclick="setPlayerScorePreset('jack', 'par')" class="py-1.5 px-1 rounded-lg bg-blue-700 text-white font-extrabold text-[11px] active:scale-95 shadow-sm">Par</button>
+        <button onclick="setPlayerScorePreset('jack', 'bogey')" class="py-1.5 px-1 rounded-lg bg-orange-600 text-white font-extrabold text-[11px] active:scale-95 shadow-sm">Bogey</button>
       </div>
     </div>
 
   </main>
 
   <!-- FIXED BOTTOM DOCK -->
-  <footer class="fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 px-4 py-2.5 pb-[max(0.6rem,env(safe-area-inset-bottom))] shadow-2xl">
+  <footer id="appFooter" class="app-footer fixed bottom-0 left-0 right-0 z-40 backdrop-blur-md border-t px-4 py-2.5 pb-[max(0.6rem,env(safe-area-inset-bottom))] shadow-2xl">
     <div class="max-w-lg mx-auto flex items-center gap-2">
-      <button onclick="prevHole()" id="btnBottomPrev" class="flex-1 py-3 px-3 rounded-xl bg-slate-800 text-slate-300 font-bold text-sm active:scale-95 border border-slate-700 flex items-center justify-center gap-2 disabled:opacity-30">
+      <button onclick="prevHole()" id="btnBottomPrev" class="flex-1 py-3 px-3 rounded-xl bg-slate-800 text-white font-bold text-sm active:scale-95 border border-slate-700 flex items-center justify-center gap-2 disabled:opacity-30">
         <i class="fa-solid fa-arrow-left text-xs"></i>
         <span>Prev</span>
       </button>
@@ -227,7 +286,7 @@
 
   <!-- FULL SCORECARD MODAL -->
   <div id="modalScorecard" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end">
-    <div class="bg-slate-900 border-t border-slate-800 rounded-t-3xl max-w-lg mx-auto w-full max-h-[92vh] flex flex-col overflow-hidden">
+    <div class="bg-slate-900 text-white border-t border-slate-800 rounded-t-3xl max-w-lg mx-auto w-full max-h-[92vh] flex flex-col overflow-hidden">
       <div class="px-5 py-3 border-b border-slate-800 flex items-center justify-between">
         <div>
           <h3 class="font-black text-lg text-white">Scorecard</h3>
@@ -272,7 +331,7 @@
 
   <!-- COURSE CATALOG & SETTINGS MODAL -->
   <div id="modalCourse" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-5 space-y-4 max-h-[90vh] overflow-y-auto custom-scroll">
+    <div class="bg-slate-900 text-white border border-slate-800 rounded-3xl max-w-sm w-full p-5 space-y-4 max-h-[90vh] overflow-y-auto custom-scroll">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="font-extrabold text-white text-base">Select Course</h3>
         <button onclick="closeCourseModal()" class="text-slate-400 hover:text-white">
@@ -280,7 +339,6 @@
         </button>
       </div>
 
-      <!-- Preset Courses Dropdown (includes Mize & Lakeside) -->
       <div>
         <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5">Preset UDisc Courses</label>
         <select id="selectPresetCourse" onchange="loadSelectedPresetCourse(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-bold text-xs focus:outline-none focus:border-blue-500">
@@ -324,7 +382,7 @@
 
   <!-- SAVED HISTORY MODAL -->
   <div id="modalHistory" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end">
-    <div class="bg-slate-900 border-t border-slate-800 rounded-t-3xl max-w-lg mx-auto w-full max-h-[80vh] flex flex-col overflow-hidden">
+    <div class="bg-slate-900 text-white border-t border-slate-800 rounded-t-3xl max-w-lg mx-auto w-full max-h-[80vh] flex flex-col overflow-hidden">
       <div class="px-5 py-3 border-b border-slate-800 flex items-center justify-between">
         <h3 class="font-black text-lg text-white">Saved Rounds</h3>
         <button onclick="closeHistoryModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center">
@@ -567,8 +625,9 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v4';
-    const HISTORY_KEY = 'dg_history_v4';
+    const STORAGE_KEY = 'dg_round_v5';
+    const HISTORY_KEY = 'dg_history_v5';
+    const THEME_KEY = 'dg_theme_mode';
 
     let roundState = {
       courseKey: 'sarko',
@@ -581,6 +640,11 @@
     };
 
     function init() {
+      // Load saved theme
+      const savedTheme = localStorage.getItem(THEME_KEY) || 'theme-blue';
+      applyTheme(savedTheme);
+
+      // Load round
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         try { roundState = JSON.parse(saved); } catch(e){}
@@ -590,6 +654,18 @@
       }
       renderHeader();
       renderCurrentHole();
+    }
+
+    function toggleTheme() {
+      const current = document.body.classList.contains('theme-blue') ? 'theme-blue' : 'theme-white';
+      const nextTheme = current === 'theme-blue' ? 'theme-white' : 'theme-blue';
+      applyTheme(nextTheme);
+      localStorage.setItem(THEME_KEY, nextTheme);
+    }
+
+    function applyTheme(themeName) {
+      document.body.classList.remove('theme-blue', 'theme-white');
+      document.body.classList.add(themeName);
     }
 
     function saveState() {
@@ -682,22 +758,22 @@
       const diff = score - par;
       if (score === 1) {
         el.innerText = "ACE 🎯";
-        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/40";
+        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-amber-500 text-white shadow";
       } else if (diff <= -2) {
         el.innerText = "Eagle";
-        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-600 text-white shadow";
       } else if (diff === -1) {
         el.innerText = "Birdie";
-        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-600/30 text-emerald-400 border border-emerald-500/50";
+        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-500 text-white shadow";
       } else if (diff === 0) {
         el.innerText = "Par";
-        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-slate-800 text-slate-300 border border-slate-700";
+        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-slate-700 text-slate-100 shadow";
       } else if (diff === 1) {
         el.innerText = "Bogey";
-        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-orange-600/20 text-orange-400 border border-orange-500/40";
+        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-orange-600 text-white shadow";
       } else {
         el.innerText = `+${diff} Bogey`;
-        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-rose-600/20 text-rose-400 border border-rose-500/40";
+        el.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-rose-600 text-white shadow";
       }
     }
 
@@ -776,7 +852,7 @@
       if (jTot === kTot) {
         ticker.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span><span>All Square</span>';
       } else if (jTot < kTot) {
-        ticker.innerHTML = `<span class="w-2 h-2 rounded-full bg-blue-400 inline-block"></span><span>Jeffery +${kTot - jTot} up</span>`;
+        ticker.innerHTML = `<span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span><span>Jeffery +${kTot - jTot} up</span>`;
       } else {
         ticker.innerHTML = `<span class="w-2 h-2 rounded-full bg-sky-400 inline-block"></span><span>Jack +${jTot - kTot} up</span>`;
       }
@@ -844,7 +920,7 @@
         const diffText = diff === 0 ? '-' : (diff < 0 ? `J ${Math.abs(diff)}` : `K ${diff}`);
 
         const tr = document.createElement('tr');
-        tr.className = (idx === roundState.currentHoleIndex) ? 'bg-blue-900/30 font-bold' : '';
+        tr.className = (idx === roundState.currentHoleIndex) ? 'bg-blue-900/40 font-bold' : '';
         tr.innerHTML = `
           <td class="py-2 px-2 text-left pl-3 text-slate-300">#${h.number}</td>
           <td class="py-2 px-1 text-slate-400">${h.distance}'</td>
@@ -858,8 +934,8 @@
 
       const winner = totJ === totK ? 'TIE' : (totJ < totK ? 'JEFFERY' : 'JACK');
       tfoot.innerHTML = `
-        <tr class="text-sm bg-blue-950/40 text-blue-200 font-black">
-          <td class="py-2.5 px-2 text-left pl-3 text-white">TOTAL</td>
+        <tr class="text-sm bg-blue-950 font-black text-white">
+          <td class="py-2.5 px-2 text-left pl-3">TOTAL</td>
           <td></td>
           <td class="py-2.5 px-1">${totPar}</td>
           <td class="py-2.5 px-2 text-blue-400">${totJ} (${totJ - totPar > 0 ? '+' : ''}${totJ - totPar})</td>
