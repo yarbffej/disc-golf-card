@@ -9,7 +9,6 @@
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- html2canvas for instant Scorecard Image Export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   
   <style>
@@ -150,7 +149,6 @@
 
   <!-- MAIN SCORING CARD -->
   <main class="flex-1 px-3.5 py-3 max-w-lg mx-auto w-full flex flex-col gap-3">
-    <!-- Hole Navigator Bar -->
     <div class="app-card rounded-2xl p-2.5 flex items-center justify-between shadow-md">
       <button onclick="prevHole()" id="btnPrevHoleTop" class="w-10 h-10 rounded-xl bg-blue-900 text-white active:scale-90 flex items-center justify-center font-bold text-base disabled:opacity-30 disabled:pointer-events-none transition shadow">
         <i class="fa-solid fa-chevron-left"></i>
@@ -269,7 +267,7 @@
     </div>
   </main>
 
-  <!-- BOTTOM BAR -->
+  <!-- BOTTOM DOCK -->
   <footer id="appFooter" class="app-footer fixed bottom-0 left-0 right-0 z-40 backdrop-blur-md border-t px-4 py-2.5 pb-[max(0.6rem,env(safe-area-inset-bottom))] shadow-2xl">
     <div class="max-w-lg mx-auto flex items-center gap-2">
       <button onclick="prevHole()" id="btnBottomPrev" class="flex-1 py-3 px-3 rounded-xl bg-blue-900 text-white font-bold text-sm active:scale-95 border border-blue-700 flex items-center justify-center gap-2 disabled:opacity-30">
@@ -289,11 +287,10 @@
     </div>
   </footer>
 
-  <!-- FULL SCORECARD CARD MODAL -->
+  <!-- FULL SCORECARD MODAL -->
   <div id="modalScorecard" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end">
     <div class="bg-white text-slate-900 border-t border-slate-200 rounded-t-3xl max-w-lg mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden">
       
-      <!-- Modal Header -->
       <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50">
         <div>
           <h3 class="font-black text-lg text-slate-900" id="modalCardTitle">Scorecard</h3>
@@ -305,7 +302,7 @@
       </div>
 
       <div class="overflow-y-auto p-4 flex-1 custom-scroll space-y-4">
-        <!-- CAPTURABLE SCORECARD TRADING CARD CONTAINER -->
+        <!-- SCORECARD TRADING CARD CONTAINER -->
         <div id="scorecardCardElement" class="p-3 bg-white rounded-2xl border-2 border-blue-200 shadow-sm">
           <div class="flex items-center justify-between border-b border-slate-200 pb-2 mb-2">
             <div>
@@ -335,7 +332,6 @@
           </div>
         </div>
 
-        <!-- ACTIONS -->
         <div id="modalScorecardActions" class="flex flex-col gap-2 pt-1">
           <!-- Populated dynamically via JS -->
         </div>
@@ -641,34 +637,10 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v12';
-    const HISTORY_KEY = 'dg_history_v12';
+    const STORAGE_KEY = 'dg_round_v14';
+    const HISTORY_KEY = 'dg_history_v14';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v12';
-
-    // HARDCODED PRE-SEEDED RECORD OF YOUR OCTOBER 7 MIZE ELEMENTARY ROUND
-    const INITIAL_PRESEEDED_ROUND = {
-      id: 1728347891000,
-      courseName: "Mize Elementary",
-      totalHoles: 9,
-      date: "2026-10-07",
-      duration: "00:38:11",
-      par: 27,
-      jeffery: 35,
-      jack: 41,
-      winner: "Jeffery",
-      holes: [
-        { number: 1, distance: 218, par: 3, jeffery: 3, jack: 4, scored: true },
-        { number: 2, distance: 264, par: 3, jeffery: 3, jack: 4, scored: true },
-        { number: 3, distance: 294, par: 3, jeffery: 4, jack: 4, scored: true },
-        { number: 4, distance: 296, par: 3, jeffery: 4, jack: 5, scored: true },
-        { number: 5, distance: 296, par: 3, jeffery: 4, jack: 5, scored: true },
-        { number: 6, distance: 310, par: 3, jeffery: 4, jack: 5, scored: true },
-        { number: 7, distance: 324, par: 3, jeffery: 4, jack: 4, scored: true },
-        { number: 8, distance: 235, par: 3, jeffery: 4, jack: 4, scored: true },
-        { number: 9, distance: 389, par: 3, jeffery: 5, jack: 6, scored: true }
-      ]
-    };
+    const TIMER_KEY = 'dg_timer_state_v14';
 
     let roundState = {
       courseKey: 'mize',
@@ -690,7 +662,7 @@
       const savedTheme = localStorage.getItem(THEME_KEY) || 'theme-blue';
       applyTheme(savedTheme);
 
-      // Preload seed history if empty so Mize round is never lost
+      // Preload seed history if empty so Mize round is permanently accessible
       let history = [];
       const savedHist = localStorage.getItem(HISTORY_KEY);
       if (savedHist) {
@@ -1028,7 +1000,6 @@
       const elapsed = document.getElementById('timerDisplay').innerText;
       renderScorecardTable(roundState.holes, roundState.currentHoleIndex);
       
-      // Update Capturable Card Metadata
       document.getElementById('captureCardTitle').innerText = roundState.courseName;
       document.getElementById('captureCardMeta').innerText = `${roundState.date} · ⏱ ${elapsed}`;
 
@@ -1140,22 +1111,65 @@
       `;
     }
 
-    // --- INSTANT PNG TRADING CARD EXPORT ---
-    function downloadScorecardCardImage() {
+    // --- NATIVE IOS CAMERA ROLL / SHARE EXPORT ---
+    async function downloadScorecardCardImage() {
       const cardEl = document.getElementById('scorecardCardElement');
-      html2canvas(cardEl, {
-        scale: 3, // Crisp Retina resolution
-        backgroundColor: '#ffffff',
-        useCORS: true
-      }).then(canvas => {
+      if (!cardEl) return;
+
+      try {
+        const canvas = await html2canvas(cardEl, {
+          scale: 3,
+          backgroundColor: '#ffffff',
+          useCORS: true
+        });
+
+        const courseName = (document.getElementById('captureCardTitle').innerText || 'Round').replace(/\s+/g, '_');
+        const fileName = `DG_Card_${courseName}_${roundState.date}.png`;
+
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            alert("Failed to process image.");
+            return;
+          }
+
+          const file = new File([blob], fileName, { type: 'image/png' });
+
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({
+                files: [file],
+                title: `${courseName} Scorecard`,
+                text: `Jeffery & Jack Disc Golf Round - ${roundState.date}`
+              });
+            } catch (shareErr) {
+              if (shareErr.name !== 'AbortError') {
+                fallbackImagePopup(canvas.toDataURL('image/png'));
+              }
+            }
+          } else {
+            fallbackImagePopup(canvas.toDataURL('image/png'));
+          }
+        }, 'image/png');
+      } catch (err) {
+        alert("Image export error: " + err.message);
+      }
+    }
+
+    function fallbackImagePopup(dataUrl) {
+      const w = window.open('');
+      if (w) {
+        w.document.write(`
+          <body style="margin:0;background:#0f172a;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;color:white;padding:16px;text-align:center;">
+            <p style="font-weight:bold;font-size:14px;margin-bottom:12px;">Press and hold the card below, then tap <strong>"Save to Photos"</strong></p>
+            <img src="${dataUrl}" style="max-width:100%;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,0.5);"/>
+          </body>
+        `);
+      } else {
         const link = document.createElement('a');
-        const courseName = document.getElementById('captureCardTitle').innerText.replace(/\s+/g, '_');
-        link.download = `DG_Card_${courseName}_${roundState.date}.png`;
-        link.href = canvas.toDataURL('image/png');
+        link.download = `Scorecard_${roundState.date}.png`;
+        link.href = dataUrl;
         link.click();
-      }).catch(err => {
-        alert("Could not generate image: " + err.message);
-      });
+      }
     }
 
     function finishAndSaveRound() {
