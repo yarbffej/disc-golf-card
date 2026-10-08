@@ -27,7 +27,6 @@
     .custom-scroll::-webkit-scrollbar { display: none; }
     .custom-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Theme 1: Royal Blue Background with White Cards */
     body.theme-blue {
       background-color: #1e3a8a;
       color: #0f172a;
@@ -55,7 +54,6 @@
     }
     body.theme-blue .counter-number { color: #1e3a8a; }
 
-    /* Theme 2: White Background with Royal Blue Cards */
     body.theme-white {
       background-color: #f8fafc;
       color: #0f172a;
@@ -90,9 +88,8 @@
   <header id="appHeader" class="app-header sticky top-0 z-40 backdrop-blur-md border-b px-3.5 pt-2 pb-2.5 shadow-lg">
     <div class="max-w-lg mx-auto flex flex-col gap-2">
 
-      <!-- Row 1: Course Info & Primary Utility Buttons -->
       <div class="flex items-center justify-between gap-2">
-        <button onclick="openCourseModal()" class="flex items-center gap-2 text-left truncate group flex-1">
+        <button onclick="openCourseModal()" class="flex items-center gap-2 text-left truncate flex-1">
           <div class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md">
             <i class="fa-solid fa-location-dot text-sm"></i>
           </div>
@@ -106,29 +103,25 @@
         </button>
 
         <div class="flex items-center gap-1.5 shrink-0">
-          <!-- Prominent Saved Rounds (History) Badge Button -->
           <button onclick="openHistoryModal()" id="btnOpenHistory" title="View Saved Rounds" class="px-2.5 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-black text-xs flex items-center gap-1.5 active:scale-95 shadow-md border border-amber-300">
             <i class="fa-solid fa-clock-rotate-left text-xs"></i>
             <span>Rounds</span>
             <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">0</span>
           </button>
 
-          <!-- Palette Toggle -->
           <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-palette text-xs"></i>
           </button>
 
-          <!-- Sheets Export -->
-          <button onclick="exportToSheets()" title="Export CSV" class="w-8 h-8 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center active:scale-95 shadow">
+          <!-- Direct Sheets Sync Setup Button -->
+          <button onclick="openSheetsSyncModal()" title="Google Sheets Sync" class="w-8 h-8 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center active:scale-95 shadow">
             <i class="fa-solid fa-file-excel text-xs"></i>
           </button>
         </div>
       </div>
 
-      <!-- Row 2: Prominent Stopwatch & Live Match Bar -->
+      <!-- Stopwatch & Match Ticker -->
       <div class="flex items-center justify-between gap-2 pt-1 border-t border-white/15">
-        
-        <!-- Big Prominent Timer Display Box -->
         <div class="flex items-center gap-2 bg-slate-950/40 border border-white/20 px-2.5 py-1 rounded-xl shadow-inner">
           <div class="flex items-center gap-1.5">
             <span class="inline-block w-2 h-2 rounded-full bg-slate-400" id="timerPulseDot"></span>
@@ -140,7 +133,6 @@
           </button>
         </div>
 
-        <!-- Head to Head Ticker Summary -->
         <div class="flex items-center gap-2 font-bold text-xs shrink-0">
           <span class="flex items-center gap-1">
             <span class="opacity-75 font-normal text-[11px]">J:</span>
@@ -152,7 +144,6 @@
             <span id="tickerScoreJack" class="bg-white text-blue-900 px-1.5 py-0.5 rounded text-[11px] font-black shadow-sm">0 (E)</span>
           </span>
         </div>
-
       </div>
 
     </div>
@@ -160,7 +151,6 @@
 
   <!-- MAIN SCORING CARD -->
   <main class="flex-1 px-3.5 py-3 max-w-lg mx-auto w-full flex flex-col gap-3">
-
     <!-- Hole Navigator Bar -->
     <div class="app-card rounded-2xl p-2.5 flex items-center justify-between shadow-md">
       <button onclick="prevHole()" id="btnPrevHoleTop" class="w-10 h-10 rounded-xl bg-blue-900 text-white active:scale-90 flex items-center justify-center font-bold text-base disabled:opacity-30 disabled:pointer-events-none transition shadow">
@@ -180,7 +170,7 @@
       </button>
     </div>
 
-    <!-- Hole Par & Distance Info -->
+    <!-- Par & Distance Info -->
     <div class="grid grid-cols-2 gap-2.5">
       <div class="app-card rounded-xl p-2.5 flex items-center justify-between shadow-sm">
         <div>
@@ -278,10 +268,9 @@
         <button onclick="setPlayerScorePreset('jack', 'bogey')" class="py-1.5 px-1 rounded-lg bg-orange-600 text-white font-extrabold text-[11px] active:scale-95 shadow-sm">Bogey</button>
       </div>
     </div>
-
   </main>
 
-  <!-- FIXED BOTTOM DOCK -->
+  <!-- BOTTOM BAR -->
   <footer id="appFooter" class="app-footer fixed bottom-0 left-0 right-0 z-40 backdrop-blur-md border-t px-4 py-2.5 pb-[max(0.6rem,env(safe-area-inset-bottom))] shadow-2xl">
     <div class="max-w-lg mx-auto flex items-center gap-2">
       <button onclick="prevHole()" id="btnBottomPrev" class="flex-1 py-3 px-3 rounded-xl bg-blue-900 text-white font-bold text-sm active:scale-95 border border-blue-700 flex items-center justify-center gap-2 disabled:opacity-30">
@@ -289,7 +278,7 @@
         <span>Prev</span>
       </button>
 
-      <button onclick="openScorecardModal()" class="w-12 h-12 rounded-xl bg-white text-blue-900 border border-blue-200 flex flex-col items-center justify-center active:scale-95 shrink-0 shadow">
+      <button onclick="openCurrentScorecardModal()" class="w-12 h-12 rounded-xl bg-white text-blue-900 border border-blue-200 flex flex-col items-center justify-center active:scale-95 shrink-0 shadow">
         <i class="fa-solid fa-table-cells text-base"></i>
         <span class="text-[9px] font-black uppercase mt-0.5">Card</span>
       </button>
@@ -306,7 +295,7 @@
     <div class="bg-white text-slate-900 border-t border-slate-200 rounded-t-3xl max-w-lg mx-auto w-full max-h-[92vh] flex flex-col overflow-hidden">
       <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50">
         <div>
-          <h3 class="font-black text-lg text-slate-900">Scorecard</h3>
+          <h3 class="font-black text-lg text-slate-900" id="modalCardTitle">Scorecard</h3>
           <p class="text-xs text-slate-500 font-semibold" id="modalCardSubtitle">Match Overview</p>
         </div>
         <button onclick="closeScorecardModal()" class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold">
@@ -332,21 +321,49 @@
           </table>
         </div>
 
-        <div class="grid grid-cols-2 gap-2 pt-2">
-          <button onclick="exportToSheets()" class="py-3 px-4 rounded-xl bg-blue-600 active:bg-blue-500 text-white font-black text-xs flex items-center justify-center gap-2 border border-blue-400 shadow">
-            <i class="fa-solid fa-file-csv text-base"></i>
-            <span>Export to CSV</span>
-          </button>
-          <button onclick="finishAndSaveRound()" class="py-3 px-4 rounded-xl bg-emerald-600 active:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-2 border border-emerald-400 shadow">
-            <i class="fa-solid fa-floppy-disk text-base"></i>
-            <span>Save Round</span>
-          </button>
+        <div id="modalScorecardActions" class="flex flex-col gap-2 pt-2">
+          <!-- Populated dynamically via JS -->
         </div>
       </div>
     </div>
   </div>
 
-  <!-- COURSE CATALOG & SETTINGS MODAL -->
+  <!-- GOOGLE SHEETS SYNC SETUP MODAL -->
+  <div id="modalSheetsSync" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm w-full p-5 space-y-4 max-h-[90vh] overflow-y-auto custom-scroll shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-xs font-black shadow">
+            <i class="fa-solid fa-table"></i>
+          </div>
+          <h3 class="font-black text-slate-900 text-base">Google Sheets Sync</h3>
+        </div>
+        <button onclick="closeSheetsSyncModal()" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="text-xs text-slate-600 space-y-2">
+        <p>Connects your app directly to your master cloud spreadsheet:</p>
+        <a href="https://docs.google.com/spreadsheets/d/1AoXWtHPfTc1qoq-d-30yTRGXsf4x7W5bQh7JGvkEnRI/edit" target="_blank" class="block p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-[11px] text-center active:scale-95">
+          <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Open Jeffery & Jack Master Sheet
+        </a>
+      </div>
+
+      <div>
+        <label class="block text-[11px] font-black text-slate-500 uppercase mb-1">Apps Script Webhook URL</label>
+        <input type="url" id="inputWebhookUrl" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-mono text-[11px] focus:outline-none focus:border-emerald-500">
+        <p class="text-[10px] text-slate-400 mt-1">Paste your Google Apps Script Web App URL here.</p>
+      </div>
+
+      <div class="pt-2 flex gap-2">
+        <button onclick="testWebhookConnection()" class="flex-1 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-black text-xs active:scale-95 border border-slate-300">Test Sync</button>
+        <button onclick="saveWebhookUrl()" class="flex-1 py-2.5 rounded-xl bg-emerald-600 text-white font-black text-xs active:scale-95 shadow">Save URL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COURSE CATALOG MODAL -->
   <div id="modalCourse" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm w-full p-5 space-y-4 max-h-[90vh] overflow-y-auto custom-scroll shadow-2xl">
       <div class="flex items-center justify-between border-b border-slate-200 pb-3">
@@ -397,7 +414,7 @@
       <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50">
         <div>
           <h3 class="font-black text-lg text-slate-900">Saved Rounds</h3>
-          <p class="text-[11px] text-slate-500 font-medium">Stored locally on your device</p>
+          <p class="text-[11px] text-slate-500 font-medium">Tap any round below to view full scorecard</p>
         </div>
         <div class="flex items-center gap-2">
           <button onclick="clearAllHistory()" title="Clear all rounds" class="px-2 py-1 rounded-lg bg-rose-100 text-rose-700 hover:bg-rose-200 text-xs font-bold flex items-center gap-1 active:scale-95">
@@ -644,10 +661,11 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v9';
-    const HISTORY_KEY = 'dg_history_v9';
+    const STORAGE_KEY = 'dg_round_v11';
+    const HISTORY_KEY = 'dg_history_v11';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v9';
+    const TIMER_KEY = 'dg_timer_state_v11';
+    const WEBHOOK_KEY = 'dg_sheets_webhook_url';
 
     let roundState = {
       courseKey: 'sarko',
@@ -928,7 +946,7 @@
         saveState();
         renderCurrentHole();
       } else {
-        openScorecardModal();
+        openCurrentScorecardModal();
       }
     }
 
@@ -991,10 +1009,67 @@
       }
     }
 
-    function openScorecardModal() {
-      buildScorecardTable();
+    // --- SCORECARD MODAL (CURRENT LIVE ROUND) ---
+    function openCurrentScorecardModal() {
       const elapsed = document.getElementById('timerDisplay').innerText;
+      renderScorecardTable(roundState.holes, roundState.currentHoleIndex);
+      document.getElementById('modalCardTitle').innerText = "Current Scorecard";
       document.getElementById('modalCardSubtitle').innerText = `${roundState.courseName} · ${roundState.totalHoles} Holes · Time: ${elapsed}`;
+      
+      document.getElementById('modalScorecardActions').innerHTML = `
+        <button onclick="finishAndSaveRound(true)" class="py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-black text-xs flex items-center justify-center gap-2 border border-emerald-400 shadow">
+          <i class="fa-solid fa-cloud-arrow-up text-base"></i>
+          <span>Save & Sync to Google Sheets</span>
+        </button>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="finishAndSaveRound(false)" class="py-2.5 px-3 rounded-xl bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-slate-700">
+            <i class="fa-solid fa-floppy-disk text-xs"></i>
+            <span>Local Save Only</span>
+          </button>
+          <button onclick="exportToSheets()" class="py-2.5 px-3 rounded-xl bg-blue-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-blue-400 shadow">
+            <i class="fa-solid fa-file-csv text-xs"></i>
+            <span>Export CSV</span>
+          </button>
+        </div>
+      `;
+
+      document.getElementById('modalScorecard').classList.remove('hidden');
+      document.getElementById('modalScorecard').classList.add('flex');
+    }
+
+    // --- SCORECARD MODAL (VIEWING PAST ROUND) ---
+    function viewSavedRoundDetails(id) {
+      let history = [];
+      const saved = localStorage.getItem(HISTORY_KEY);
+      if (saved) { try { history = JSON.parse(saved); } catch(e){} }
+      const record = history.find(r => r.id === id);
+      if (!record || !record.holes) {
+        alert("Detailed hole breakdown not available for this legacy record.");
+        return;
+      }
+
+      closeHistoryModal();
+      renderScorecardTable(record.holes, -1);
+      document.getElementById('modalCardTitle').innerText = "Saved Round Review";
+      document.getElementById('modalCardSubtitle').innerText = `${record.courseName} · ${record.date} · ⏱ ${record.duration || 'N/A'}`;
+
+      document.getElementById('modalScorecardActions').innerHTML = `
+        <button onclick="syncSpecificRoundToSheets(${record.id})" class="py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-2 border border-emerald-400 shadow">
+          <i class="fa-solid fa-cloud-arrow-up text-base"></i>
+          <span>Sync This Round to Google Sheets</span>
+        </button>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="exportSpecificRoundToCSV(${record.id})" class="py-2.5 px-3 rounded-xl bg-blue-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-blue-400 shadow">
+            <i class="fa-solid fa-file-csv text-xs"></i>
+            <span>Export CSV</span>
+          </button>
+          <button onclick="closeScorecardModal(); openHistoryModal();" class="py-2.5 px-3 rounded-xl bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-slate-700">
+            <i class="fa-solid fa-arrow-left text-xs"></i>
+            <span>Back to Rounds</span>
+          </button>
+        </div>
+      `;
+
       document.getElementById('modalScorecard').classList.remove('hidden');
       document.getElementById('modalScorecard').classList.add('flex');
     }
@@ -1004,7 +1079,7 @@
       document.getElementById('modalScorecard').classList.remove('flex');
     }
 
-    function buildScorecardTable() {
+    function renderScorecardTable(holes, activeIdx) {
       const tbody = document.getElementById('scorecardTableBody');
       const tfoot = document.getElementById('scorecardTableFoot');
       tbody.innerHTML = '';
@@ -1012,7 +1087,7 @@
 
       let totPar = 0, totJ = 0, totK = 0;
 
-      roundState.holes.forEach((h, idx) => {
+      holes.forEach((h, idx) => {
         totPar += h.par;
         totJ += h.jeffery;
         totK += h.jack;
@@ -1024,7 +1099,7 @@
         }
 
         const tr = document.createElement('tr');
-        tr.className = (idx === roundState.currentHoleIndex) ? 'bg-blue-100 font-black' : '';
+        tr.className = (idx === activeIdx) ? 'bg-blue-100 font-black' : '';
         tr.innerHTML = `
           <td class="py-2 px-2 text-left pl-3 text-slate-800">#${h.number}</td>
           <td class="py-2 px-1 text-slate-500">${h.distance}'</td>
@@ -1049,43 +1124,95 @@
       `;
     }
 
-    function exportToSheets() {
-      const elapsed = document.getElementById('timerDisplay').innerText;
-      let csv = `Course,Format,Date,Elapsed_Time,Hole,Distance_ft,Par,Jeffery_Score,Jack_Score,Hole_Winner\n`;
-      roundState.holes.forEach(h => {
-        let winner = "-";
-        if (h.jeffery > 0 && h.jack > 0) {
-          if (h.jeffery < h.jack) winner = "Jeffery";
-          else if (h.jack < h.jeffery) winner = "Jack";
-          else winner = "Tie";
-        }
-        csv += `"${roundState.courseName}","${roundState.totalHoles}H","${roundState.date}","${elapsed}",${h.number},${h.distance},${h.par},${h.jeffery},${h.jack},"${winner}"\n`;
-      });
-
-      let totPar = roundState.holes.reduce((a, b) => a + b.par, 0);
-      let totJ = roundState.holes.reduce((a, b) => a + b.jeffery, 0);
-      let totK = roundState.holes.reduce((a, b) => a + b.jack, 0);
-      let winner = (totJ === 0 && totK === 0) ? "Incomplete" : (totJ === totK ? "Tied" : (totJ < totK ? "Jeffery" : "Jack"));
-      csv += `"${roundState.courseName} TOTAL","${roundState.totalHoles}H","${roundState.date}","${elapsed}","TOT",-,${totPar},${totJ},${totK},"${winner}"\n`;
-
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.setAttribute("href", url);
-      link.setAttribute("download", `${roundState.courseName.replace(/\s+/g, '_')}_${roundState.date}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    // --- GOOGLE SHEETS WEBHOOK SYNC LOGIC ---
+    function openSheetsSyncModal() {
+      const saved = localStorage.getItem(WEBHOOK_KEY) || '';
+      document.getElementById('inputWebhookUrl').value = saved;
+      document.getElementById('modalSheetsSync').classList.remove('hidden');
+      document.getElementById('modalSheetsSync').classList.add('flex');
     }
 
-    function finishAndSaveRound() {
+    function closeSheetsSyncModal() {
+      document.getElementById('modalSheetsSync').classList.add('hidden');
+      document.getElementById('modalSheetsSync').classList.remove('flex');
+    }
+
+    function saveWebhookUrl() {
+      const url = document.getElementById('inputWebhookUrl').value.trim();
+      localStorage.setItem(WEBHOOK_KEY, url);
+      alert("Webhook URL saved successfully!");
+      closeSheetsSyncModal();
+    }
+
+    async function testWebhookConnection() {
+      const url = document.getElementById('inputWebhookUrl').value.trim();
+      if (!url) {
+        alert("Please enter a valid Google Apps Script Web App URL first.");
+        return;
+      }
+      try {
+        const testPayload = {
+          date: new Date().toISOString().split('T')[0],
+          courseName: "Connection Test",
+          totalHoles: 1,
+          duration: "00:00:01",
+          par: 3,
+          jeffery: 3,
+          jack: 3,
+          winner: "Test",
+          holes: [{ number: 1, distance: 100, par: 3, jeffery: 3, jack: 3 }]
+        };
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(testPayload)
+        });
+        alert("Connection request sent! Check your Google Sheet to verify the test row.");
+      } catch (err) {
+        alert("Error connecting: " + err.message);
+      }
+    }
+
+    async function sendRoundToGoogleSheets(payload) {
+      const webhookUrl = localStorage.getItem(WEBHOOK_KEY);
+      if (!webhookUrl) {
+        if (confirm("Google Sheets Sync URL not set. Would you like to set it up now?")) {
+          openSheetsSyncModal();
+        }
+        return false;
+      }
+      try {
+        await fetch(webhookUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        return true;
+      } catch (e) {
+        console.error("Cloud sync error", e);
+        return false;
+      }
+    }
+
+    async function syncSpecificRoundToSheets(id) {
+      let history = [];
+      const saved = localStorage.getItem(HISTORY_KEY);
+      if (saved) { try { history = JSON.parse(saved); } catch(e){} }
+      const record = history.find(r => r.id === id);
+      if (!record) return;
+
+      const ok = await sendRoundToGoogleSheets(record);
+      if (ok) alert("Round sent to Google Sheets!");
+    }
+
+    async function finishAndSaveRound(syncToCloud = true) {
       let history = [];
       const saved = localStorage.getItem(HISTORY_KEY);
       if (saved) { try { history = JSON.parse(saved); } catch(e){} }
 
-      let playedPar = 0;
-      let totJ = 0;
-      let totK = 0;
+      let playedPar = 0, totJ = 0, totK = 0;
       roundState.holes.forEach(h => {
         if (h.jeffery > 0 || h.jack > 0) playedPar += h.par;
         totJ += h.jeffery;
@@ -1093,8 +1220,9 @@
       });
 
       const elapsed = document.getElementById('timerDisplay').innerText;
+      const holeSnapshot = JSON.parse(JSON.stringify(roundState.holes));
 
-      history.unshift({
+      const record = {
         id: Date.now(),
         courseName: roundState.courseName,
         totalHoles: roundState.totalHoles,
@@ -1103,13 +1231,69 @@
         par: playedPar,
         jeffery: totJ,
         jack: totK,
-        winner: (totJ === 0 && totK === 0) ? 'Unfinished' : (totJ === totK ? 'Tie' : (totJ < totK ? 'Jeffery' : 'Jack'))
-      });
+        winner: (totJ === 0 && totK === 0) ? 'Unfinished' : (totJ === totK ? 'Tie' : (totJ < totK ? 'Jeffery' : 'Jack')),
+        holes: holeSnapshot
+      };
 
+      history.unshift(record);
       localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
       updateHistoryCountBadge();
-      alert(`Round saved! Time: ${elapsed}`);
+
+      if (syncToCloud) {
+        const synced = await sendRoundToGoogleSheets(record);
+        if (synced) {
+          alert(`Round saved locally & synced to Google Sheets!\nTime: ${elapsed}`);
+        } else {
+          alert(`Round saved locally! (Set up Webhook URL in Sheets button to auto-sync)`);
+        }
+      } else {
+        alert(`Round saved locally!\nTime: ${elapsed}`);
+      }
+
       closeScorecardModal();
+    }
+
+    function exportToSheets() {
+      const elapsed = document.getElementById('timerDisplay').innerText;
+      downloadCSV(roundState.courseName, roundState.totalHoles, roundState.date, elapsed, roundState.holes);
+    }
+
+    function exportSpecificRoundToCSV(id) {
+      let history = [];
+      const saved = localStorage.getItem(HISTORY_KEY);
+      if (saved) { try { history = JSON.parse(saved); } catch(e){} }
+      const r = history.find(item => item.id === id);
+      if (r && r.holes) {
+        downloadCSV(r.courseName, r.totalHoles, r.date, r.duration || '00:00:00', r.holes);
+      }
+    }
+
+    function downloadCSV(courseName, totalHoles, date, elapsed, holes) {
+      let csv = `Course,Format,Date,Elapsed_Time,Hole,Distance_ft,Par,Jeffery_Score,Jack_Score,Hole_Winner\n`;
+      holes.forEach(h => {
+        let winner = "-";
+        if (h.jeffery > 0 && h.jack > 0) {
+          if (h.jeffery < h.jack) winner = "Jeffery";
+          else if (h.jack < h.jeffery) winner = "Jack";
+          else winner = "Tie";
+        }
+        csv += `"${courseName}","${totalHoles}H","${date}","${elapsed}",${h.number},${h.distance},${h.par},${h.jeffery},${h.jack},"${winner}"\n`;
+      });
+
+      let totPar = holes.reduce((a, b) => a + b.par, 0);
+      let totJ = holes.reduce((a, b) => a + b.jeffery, 0);
+      let totK = holes.reduce((a, b) => a + b.jack, 0);
+      let winner = (totJ === 0 && totK === 0) ? "Incomplete" : (totJ === totK ? "Tied" : (totJ < totK ? "Jeffery" : "Jack"));
+      csv += `"${courseName} TOTAL","${totalHoles}H","${date}","${elapsed}","TOT",-,${totPar},${totJ},${totK},"${winner}"\n`;
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `${courseName.replace(/\s+/g, '_')}_${date}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
     function updateHistoryCountBadge() {
@@ -1131,13 +1315,12 @@
       document.getElementById('modalHistory').classList.remove('flex');
     }
 
-    function deleteRound(id) {
+    function deleteRound(id, event) {
+      if (event) event.stopPropagation();
       if (confirm("Delete this saved round?")) {
         let history = [];
         const saved = localStorage.getItem(HISTORY_KEY);
-        if (saved) {
-          try { history = JSON.parse(saved); } catch(e){}
-        }
+        if (saved) { try { history = JSON.parse(saved); } catch(e){} }
         history = history.filter(r => r.id !== id);
         localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
         updateHistoryCountBadge();
@@ -1167,10 +1350,14 @@
 
       history.forEach(r => {
         const item = document.createElement('div');
-        item.className = "bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between shadow-sm";
+        item.className = "bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between shadow-sm active:bg-blue-50 cursor-pointer transition";
+        item.onclick = () => viewSavedRoundDetails(r.id);
         item.innerHTML = `
           <div class="truncate mr-2">
-            <h4 class="font-extrabold text-slate-900 text-sm truncate">${r.courseName} <span class="text-xs text-blue-600">(${r.totalHoles}H)</span></h4>
+            <div class="flex items-center gap-1.5">
+              <h4 class="font-black text-slate-900 text-sm truncate">${r.courseName}</h4>
+              <span class="text-[10px] text-blue-600 bg-blue-100 px-1 rounded font-bold">${r.totalHoles}H</span>
+            </div>
             <span class="text-[11px] text-slate-500 font-semibold">${r.date} · ⏱ ${r.duration || 'N/A'} · Par ${r.par}</span>
             <div class="text-xs mt-1 font-bold text-slate-700">
               Jeffery: <span class="text-blue-700 font-black">${r.jeffery}</span> | Jack: <span class="text-blue-900 font-black">${r.jack}</span>
@@ -1180,7 +1367,7 @@
             <span class="px-2.5 py-1 rounded-lg text-xs font-black ${r.winner === 'Jeffery' ? 'bg-blue-100 text-blue-800 border border-blue-200' : (r.winner === 'Jack' ? 'bg-indigo-100 text-indigo-800 border border-indigo-200' : 'bg-slate-100 text-slate-600')}">
               ${r.winner === 'Tie' ? 'TIE' : r.winner + ' Won'}
             </span>
-            <button onclick="deleteRound(${r.id})" title="Delete Round" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 flex items-center justify-center active:scale-90">
+            <button onclick="deleteRound(${r.id}, event)" title="Delete Round" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 flex items-center justify-center active:scale-90">
               <i class="fa-solid fa-trash-can text-xs"></i>
             </button>
           </div>
