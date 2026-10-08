@@ -109,7 +109,7 @@
           <button onclick="openHistoryModal()" id="btnOpenHistory" title="View Saved Rounds" class="px-2.5 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-black text-xs flex items-center gap-1.5 active:scale-95 shadow-md border border-amber-300">
             <i class="fa-solid fa-clock-rotate-left text-xs"></i>
             <span>Rounds</span>
-            <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">1</span>
+            <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">0</span>
           </button>
 
           <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
@@ -332,9 +332,7 @@
           </div>
         </div>
 
-        <div id="modalScorecardActions" class="flex flex-col gap-2 pt-1">
-          <!-- Populated dynamically via JS -->
-        </div>
+        <div id="modalScorecardActions" class="flex flex-col gap-2 pt-1"></div>
       </div>
     </div>
   </div>
@@ -637,10 +635,35 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v14';
-    const HISTORY_KEY = 'dg_history_v14';
+    // FIXED STORAGE SCHEMA KEY
+    const STORAGE_KEY = 'dg_round_v15';
+    const HISTORY_KEY = 'dg_history_v15';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v14';
+    const TIMER_KEY = 'dg_timer_state_v15';
+
+    // GUARANTEED OCTOBER 7 MIZE ELEMENTARY RECORD
+    const MIZE_ROUND_RECORD = {
+      id: 1728347891000,
+      courseName: "Mize Elementary",
+      totalHoles: 9,
+      date: "2026-10-07",
+      duration: "00:38:11",
+      par: 27,
+      jeffery: 35,
+      jack: 41,
+      winner: "Jeffery",
+      holes: [
+        { number: 1, distance: 218, par: 3, jeffery: 3, jack: 4, scored: true },
+        { number: 2, distance: 264, par: 3, jeffery: 3, jack: 4, scored: true },
+        { number: 3, distance: 294, par: 3, jeffery: 4, jack: 4, scored: true },
+        { number: 4, distance: 296, par: 3, jeffery: 4, jack: 5, scored: true },
+        { number: 5, distance: 296, par: 3, jeffery: 4, jack: 5, scored: true },
+        { number: 6, distance: 310, par: 3, jeffery: 4, jack: 5, scored: true },
+        { number: 7, distance: 324, par: 3, jeffery: 4, jack: 4, scored: true },
+        { number: 8, distance: 235, par: 3, jeffery: 4, jack: 4, scored: true },
+        { number: 9, distance: 389, par: 3, jeffery: 5, jack: 6, scored: true }
+      ]
+    };
 
     let roundState = {
       courseKey: 'mize',
@@ -658,20 +681,25 @@
       accumulatedMs: 0
     };
 
-    function init() {
-      const savedTheme = localStorage.getItem(THEME_KEY) || 'theme-blue';
-      applyTheme(savedTheme);
-
-      // Preload seed history if empty so Mize round is permanently accessible
+    function getHistory() {
       let history = [];
       const savedHist = localStorage.getItem(HISTORY_KEY);
       if (savedHist) {
         try { history = JSON.parse(savedHist); } catch(e){}
       }
-      if (history.length === 0) {
-        history.push(INITIAL_PRESEEDED_ROUND);
+      // Always ensure the Mize Elementary round exists
+      if (!Array.isArray(history) || history.length === 0) {
+        history = [MIZE_ROUND_RECORD];
         localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
       }
+      return history;
+    }
+
+    function init() {
+      const savedTheme = localStorage.getItem(THEME_KEY) || 'theme-blue';
+      applyTheme(savedTheme);
+
+      getHistory();
 
       const savedTimer = localStorage.getItem(TIMER_KEY);
       if (savedTimer) {
@@ -687,6 +715,7 @@
       }
 
       updateHistoryCountBadge();
+      renderHistory();
       renderHeader();
       renderCurrentHole();
       initTimerUI();
@@ -1027,9 +1056,7 @@
     }
 
     function viewSavedRoundDetails(id) {
-      let history = [];
-      const saved = localStorage.getItem(HISTORY_KEY);
-      if (saved) { try { history = JSON.parse(saved); } catch(e){} }
+      const history = getHistory();
       const record = history.find(r => r.id === id);
       if (!record || !record.holes) {
         alert("Detailed hole breakdown not available for this record.");
@@ -1173,9 +1200,7 @@
     }
 
     function finishAndSaveRound() {
-      let history = [];
-      const saved = localStorage.getItem(HISTORY_KEY);
-      if (saved) { try { history = JSON.parse(saved); } catch(e){} }
+      let history = getHistory();
 
       let playedPar = 0, totJ = 0, totK = 0;
       roundState.holes.forEach(h => {
@@ -1203,14 +1228,13 @@
       history.unshift(record);
       localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
       updateHistoryCountBadge();
+      renderHistory();
       alert(`Round saved! Time: ${elapsed}`);
       closeScorecardModal();
     }
 
     function updateHistoryCountBadge() {
-      let history = [];
-      const saved = localStorage.getItem(HISTORY_KEY);
-      if (saved) { try { history = JSON.parse(saved); } catch(e){} }
+      const history = getHistory();
       const badge = document.getElementById('historyCountBadge');
       if (badge) badge.innerText = history.length;
     }
@@ -1229,10 +1253,7 @@
     function deleteRound(id, event) {
       if (event) event.stopPropagation();
       if (confirm("Delete this saved round?")) {
-        let history = [];
-        const saved = localStorage.getItem(HISTORY_KEY);
-        if (saved) { try { history = JSON.parse(saved); } catch(e){} }
-        history = history.filter(r => r.id !== id);
+        let history = getHistory().filter(r => r.id !== id);
         localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
         updateHistoryCountBadge();
         renderHistory();
@@ -1241,7 +1262,7 @@
 
     function clearAllHistory() {
       if (confirm("Are you sure you want to delete ALL saved rounds? This cannot be undone.")) {
-        localStorage.removeItem(HISTORY_KEY);
+        localStorage.setItem(HISTORY_KEY, JSON.stringify([]));
         updateHistoryCountBadge();
         renderHistory();
       }
@@ -1249,10 +1270,10 @@
 
     function renderHistory() {
       const container = document.getElementById('historyList');
+      if (!container) return;
       container.innerHTML = '';
-      let history = [];
-      const saved = localStorage.getItem(HISTORY_KEY);
-      if (saved) { try { history = JSON.parse(saved); } catch(e){} }
+      
+      const history = getHistory();
 
       if (history.length === 0) {
         container.innerHTML = `<div class="text-center py-8 text-slate-400 text-xs">No saved rounds yet.</div>`;
