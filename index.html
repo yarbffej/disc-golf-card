@@ -98,7 +98,7 @@
           </div>
           <div class="truncate">
             <div class="flex items-center gap-1.5">
-              <span id="headerCourseName" class="font-black text-sm tracking-tight truncate">Jack's Backyard Course</span>
+              <span id="headerCourseName" class="font-black text-sm tracking-tight truncate">The Art Nine @ SMP</span>
               <span id="headerHoleCountBadge" class="text-[10px] bg-white text-blue-900 px-1.5 py-0.2 rounded font-black shadow-sm shrink-0">9H</span>
             </div>
             <div class="text-[11px] opacity-75 font-semibold">Tap to switch course</div>
@@ -106,7 +106,7 @@
         </button>
 
         <div class="flex items-center gap-1.5 shrink-0">
-          <!-- Roster Manager Button -->
+          <!-- Roster Manager -->
           <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-user-group text-xs"></i>
           </button>
@@ -115,7 +115,7 @@
           <button onclick="openHistoryModal()" id="btnOpenHistory" title="View Saved Rounds" class="px-2.5 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-black text-xs flex items-center gap-1.5 active:scale-95 shadow-md border border-amber-300">
             <i class="fa-solid fa-clock-rotate-left text-xs"></i>
             <span>Rounds</span>
-            <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">1</span>
+            <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">3</span>
           </button>
 
           <!-- Palette Toggle -->
@@ -127,8 +127,10 @@
 
       <!-- Stopwatch & Match Ticker -->
       <div class="flex items-center justify-between gap-2 pt-1 border-t border-white/15">
-        <div class="flex items-center gap-2 bg-slate-950/40 border border-white/20 px-2.5 py-1 rounded-xl shadow-inner">
-          <div class="flex items-center gap-1.5">
+        
+        <!-- Timer Box with Start/Pause + Independent Reset Button -->
+        <div class="flex items-center gap-1.5 bg-slate-950/40 border border-white/20 px-2 py-1 rounded-xl shadow-inner">
+          <div class="flex items-center gap-1">
             <span class="inline-block w-2 h-2 rounded-full bg-slate-400" id="timerPulseDot"></span>
             <span id="timerDisplay" class="text-xs font-mono font-black tracking-wider text-white">00:00:00</span>
           </div>
@@ -136,12 +138,14 @@
             <i id="btnTimerIcon" class="fa-solid fa-play text-[9px]"></i>
             <span id="btnTimerLabel">Start</span>
           </button>
+          <!-- Dedicated Reset Button -->
+          <button onclick="confirmResetTimerOnly()" title="Reset Timer to 00:00:00" class="w-6 h-6 rounded-lg bg-white/10 hover:bg-white/25 text-slate-200 flex items-center justify-center active:scale-90">
+            <i class="fa-solid fa-rotate-right text-[10px]"></i>
+          </button>
         </div>
 
-        <!-- Dynamic Leaderboard Preview -->
-        <div id="tickerSummaryContainer" class="flex items-center gap-2 font-bold text-xs shrink-0 overflow-x-auto max-w-[55%]">
-          <!-- Populated dynamically via JS -->
-        </div>
+        <!-- Leaderboard Summary Ticker -->
+        <div id="tickerSummaryContainer" class="flex items-center gap-2 font-bold text-xs shrink-0 overflow-x-auto max-w-[50%]"></div>
       </div>
 
     </div>
@@ -185,7 +189,7 @@
         <div>
           <span class="text-[10px] font-bold uppercase card-subtext block tracking-wide">DISTANCE</span>
           <div class="flex items-baseline gap-1">
-            <span id="distanceDisplay" class="text-xl font-black card-title leading-tight">128</span>
+            <span id="distanceDisplay" class="text-xl font-black card-title leading-tight">132</span>
             <span class="text-[10px] card-subtext font-semibold">ft</span>
           </div>
         </div>
@@ -195,10 +199,8 @@
       </div>
     </div>
 
-    <!-- DYNAMIC PLAYER CARDS CONTAINER -->
-    <div id="playerFairwayCards" class="flex flex-col gap-3">
-      <!-- Generated dynamically for all active players in roster -->
-    </div>
+    <!-- Dynamic Player Cards -->
+    <div id="playerFairwayCards" class="flex flex-col gap-3"></div>
   </main>
 
   <!-- BOTTOM DOCK -->
@@ -236,11 +238,11 @@
       </div>
 
       <div class="overflow-y-auto p-4 flex-1 custom-scroll space-y-4">
-        <!-- SCORECARD TRADING CARD CONTAINER (CANVAS CAPTURE TARGET) -->
+        <!-- SCORECARD TRADING CARD CONTAINER -->
         <div id="scorecardCardElement" class="p-3 bg-white rounded-2xl border-2 border-blue-200 shadow-sm">
           <div class="flex items-center justify-between border-b border-slate-200 pb-2 mb-2">
             <div>
-              <div class="font-black text-slate-900 text-sm" id="captureCardTitle">Jack's Backyard Course</div>
+              <div class="font-black text-slate-900 text-sm" id="captureCardTitle">The Art Nine @ SMP</div>
               <div class="text-[11px] text-slate-500 font-bold" id="captureCardMeta">Today · ⏱ 00:00:00</div>
             </div>
             <div class="px-2 py-1 rounded-lg bg-blue-100 text-blue-900 text-xs font-black" id="captureCardWinner">
@@ -250,9 +252,7 @@
 
           <div class="overflow-x-auto rounded-xl border border-blue-900 shadow-sm">
             <table class="w-full text-center text-xs">
-              <thead class="bg-blue-900 text-white font-bold uppercase text-[10px]" id="scorecardTableHead">
-                <!-- Dynamically builds based on active player roster -->
-              </thead>
+              <thead class="bg-blue-900 text-white font-bold uppercase text-[10px]" id="scorecardTableHead"></thead>
               <tbody id="scorecardTableBody" class="divide-y divide-slate-100 font-semibold text-slate-800"></tbody>
               <tfoot class="bg-blue-950 font-black text-white divide-y divide-blue-900" id="scorecardTableFoot"></tfoot>
             </table>
@@ -274,14 +274,12 @@
         </button>
       </div>
 
-      <div class="space-y-2" id="rosterList">
-        <!-- Rendered list of players with remove buttons -->
-      </div>
+      <div class="space-y-2" id="rosterList"></div>
 
       <div class="pt-2 border-t border-slate-200">
         <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Add New Player</label>
         <div class="flex gap-2">
-          <input type="text" id="inputNewPlayerName" placeholder="Player name (e.g. Grandma)" class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-bold text-xs focus:outline-none">
+          <input type="text" id="inputNewPlayerName" placeholder="Player name (e.g. Zack)" class="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-bold text-xs focus:outline-none">
           <button onclick="addNewPlayer()" class="px-3 py-2 rounded-xl bg-blue-600 text-white font-black text-xs active:scale-95 shadow">Add</button>
         </div>
       </div>
@@ -305,14 +303,14 @@
       <div>
         <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Preset Courses</label>
         <select id="selectPresetCourse" onchange="loadSelectedPresetCourse(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 font-bold text-xs focus:outline-none focus:border-blue-500">
+          <option value="smp_art9">The Art Nine @ SMP (9H · Par 27)</option>
+          <option value="sarko">Sar-Ko-Par Trails (9H · Par 27)</option>
           <option value="jacks_backyard">Jack's Backyard Course (9H · Par 27)</option>
           <option value="mize">Mize Elementary (9H · Par 27)</option>
-          <option value="sarko">Sar-Ko-Par Trails (9H · Par 27)</option>
           <option value="lakeside">Lakeside Hills (19H · Par 57)</option>
           <option value="blackhoof_18">Black Hoof Championship (18H · Par 58)</option>
           <option value="blackhoof_9">Black Hoof Flying Disc (9H · Par 27)</option>
           <option value="smp_wooded">Shawnee Mission Wooded (18H · Par 54)</option>
-          <option value="smp_art9">The Art Nine @ SMP (9H · Par 27)</option>
           <option value="california_trail">California Trail MS (9H · Par 29)</option>
           <option value="prairie_center">Prairie Center Park (18H · Par 55)</option>
           <option value="wolf_den">Wolf Den @ Mission Trail (18H · Par 54)</option>
@@ -323,7 +321,7 @@
 
       <div>
         <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Custom Name</label>
-        <input type="text" id="inputCourseName" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-bold text-xs focus:outline-none" value="Jack's Backyard Course">
+        <input type="text" id="inputCourseName" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-bold text-xs focus:outline-none" value="The Art Nine @ SMP">
       </div>
 
       <div>
@@ -363,6 +361,36 @@
   <!-- SCRIPT -->
   <script>
     const COURSE_DATABASE = {
+      smp_art9: {
+        name: "The Art Nine @ SMP",
+        totalHoles: 9,
+        holes: [
+          { number: 1, dist: 132, par: 3 },
+          { number: 2, dist: 103, par: 3 },
+          { number: 3, dist: 100, par: 3 },
+          { number: 4, dist: 146, par: 3 },
+          { number: 5, dist: 111, par: 3 },
+          { number: 6, dist: 116, par: 3 },
+          { number: 7, dist: 84, par: 3 },
+          { number: 8, dist: 102, par: 3 },
+          { number: 9, dist: 137, par: 3 }
+        ]
+      },
+      sarko: {
+        name: "Sar-Ko-Par Trails",
+        totalHoles: 9,
+        holes: [
+          { number: 1, dist: 128, par: 3 },
+          { number: 2, dist: 197, par: 3 },
+          { number: 3, dist: 167, par: 3 },
+          { number: 4, dist: 165, par: 3 },
+          { number: 5, dist: 131, par: 3 },
+          { number: 6, dist: 125, par: 3 },
+          { number: 7, dist: 139, par: 3 },
+          { number: 8, dist: 204, par: 3 },
+          { number: 9, dist: 121, par: 3 }
+        ]
+      },
       jacks_backyard: {
         name: "Jack's Backyard Course",
         totalHoles: 9,
@@ -391,21 +419,6 @@
           { number: 7, dist: 324, par: 3 },
           { number: 8, dist: 235, par: 3 },
           { number: 9, dist: 389, par: 3 }
-        ]
-      },
-      sarko: {
-        name: "Sar-Ko-Par Trails",
-        totalHoles: 9,
-        holes: [
-          { number: 1, dist: 128, par: 3 },
-          { number: 2, dist: 197, par: 3 },
-          { number: 3, dist: 167, par: 3 },
-          { number: 4, dist: 165, par: 3 },
-          { number: 5, dist: 131, par: 3 },
-          { number: 6, dist: 125, par: 3 },
-          { number: 7, dist: 139, par: 3 },
-          { number: 8, dist: 204, par: 3 },
-          { number: 9, dist: 121, par: 3 }
         ]
       },
       lakeside: {
@@ -494,21 +507,6 @@
           { number: 16, dist: 338, par: 3 },
           { number: 17, dist: 214, par: 3 },
           { number: 18, dist: 347, par: 3 }
-        ]
-      },
-      smp_art9: {
-        name: "The Art Nine @ SMP",
-        totalHoles: 9,
-        holes: [
-          { number: 1, dist: 132, par: 3 },
-          { number: 2, dist: 103, par: 3 },
-          { number: 3, dist: 100, par: 3 },
-          { number: 4, dist: 146, par: 3 },
-          { number: 5, dist: 111, par: 3 },
-          { number: 6, dist: 116, par: 3 },
-          { number: 7, dist: 84, par: 3 },
-          { number: 8, dist: 102, par: 3 },
-          { number: 9, dist: 137, par: 3 }
         ]
       },
       california_trail: {
@@ -606,46 +604,97 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v16';
-    const HISTORY_KEY = 'dg_history_v16';
+    const STORAGE_KEY = 'dg_round_v17';
+    const HISTORY_KEY = 'dg_history_v17';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v16';
-    const ROSTER_KEY = 'dg_roster_v16';
+    const TIMER_KEY = 'dg_timer_state_v17';
+    const ROSTER_KEY = 'dg_roster_v17';
 
     const INITIAL_ROSTER = [
       { id: 'jeffery', name: 'Jeffery', tag: 'J1', color: 'blue-600' },
       { id: 'jack', name: 'Jack', tag: 'J2', color: 'blue-800' }
     ];
 
-    const MIZE_ROUND_RECORD = {
-      id: 1728347891000,
-      courseName: "Mize Elementary",
-      totalHoles: 9,
-      date: "2026-10-07",
-      duration: "00:38:11",
-      par: 27,
-      players: [
-        { id: 'jeffery', name: 'Jeffery', total: 35 },
-        { id: 'jack', name: 'Jack', total: 41 }
-      ],
-      winner: "Jeffery",
-      holes: [
-        { number: 1, distance: 218, par: 3, scores: { jeffery: 3, jack: 4 } },
-        { number: 2, distance: 264, par: 3, scores: { jeffery: 3, jack: 4 } },
-        { number: 3, distance: 294, par: 3, scores: { jeffery: 4, jack: 4 } },
-        { number: 4, distance: 296, par: 3, scores: { jeffery: 4, jack: 5 } },
-        { number: 5, distance: 296, par: 3, scores: { jeffery: 4, jack: 5 } },
-        { number: 6, distance: 310, par: 3, scores: { jeffery: 4, jack: 5 } },
-        { number: 7, distance: 324, par: 3, scores: { jeffery: 4, jack: 4 } },
-        { number: 8, distance: 235, par: 3, scores: { jeffery: 4, jack: 4 } },
-        { number: 9, distance: 389, par: 3, scores: { jeffery: 5, jack: 6 } }
-      ]
-    };
+    // ALL 3 COMPLETED MATCHES PRE-SEEDED
+    const SEEDED_ROUNDS = [
+      {
+        id: 1728442800000,
+        courseName: "The Art Nine @ SMP",
+        totalHoles: 9,
+        date: "2026-10-08",
+        duration: "00:27:53",
+        par: 27,
+        players: [
+          { id: 'jeffery', name: 'Jeffery', total: 26 },
+          { id: 'jack', name: 'Jack', total: 28 }
+        ],
+        winner: "Jeffery",
+        holes: [
+          { number: 1, distance: 132, par: 3, scores: { jeffery: 3, jack: 4 } },
+          { number: 2, distance: 103, par: 3, scores: { jeffery: 2, jack: 3 } },
+          { number: 3, distance: 100, par: 3, scores: { jeffery: 3, jack: 3 } },
+          { number: 4, distance: 146, par: 3, scores: { jeffery: 3, jack: 3 } },
+          { number: 5, distance: 111, par: 3, scores: { jeffery: 3, jack: 3 } },
+          { number: 6, distance: 116, par: 3, scores: { jeffery: 3, jack: 3 } },
+          { number: 7, distance: 84, par: 3, scores: { jeffery: 3, jack: 3 } },
+          { number: 8, distance: 102, par: 3, scores: { jeffery: 3, jack: 3 } },
+          { number: 9, distance: 137, par: 3, scores: { jeffery: 3, jack: 3 } }
+        ]
+      },
+      {
+        id: 1728439200000,
+        courseName: "Sar-Ko-Par Trails",
+        totalHoles: 9,
+        date: "2026-10-08",
+        duration: "00:29:11",
+        par: 27,
+        players: [
+          { id: 'jeffery', name: 'Jeffery', total: 27 },
+          { id: 'jack', name: 'Jack', total: 33 }
+        ],
+        winner: "Jeffery",
+        holes: [
+          { number: 1, distance: 128, par: 3, scores: { jeffery: 2, jack: 4 } },
+          { number: 2, distance: 197, par: 3, scores: { jeffery: 3, jack: 4 } },
+          { number: 3, distance: 167, par: 3, scores: { jeffery: 3, jack: 3 } },
+          { number: 4, distance: 165, par: 3, scores: { jeffery: 3, jack: 3 } },
+          { number: 5, distance: 131, par: 3, scores: { jeffery: 3, jack: 4 } },
+          { number: 6, distance: 125, par: 3, scores: { jeffery: 3, jack: 4 } },
+          { number: 7, distance: 139, par: 3, scores: { jeffery: 3, jack: 3 } },
+          { number: 8, distance: 204, par: 3, scores: { jeffery: 4, jack: 5 } },
+          { number: 9, distance: 121, par: 3, scores: { jeffery: 3, jack: 3 } }
+        ]
+      },
+      {
+        id: 1728347891000,
+        courseName: "Mize Elementary",
+        totalHoles: 9,
+        date: "2026-10-07",
+        duration: "00:38:11",
+        par: 27,
+        players: [
+          { id: 'jeffery', name: 'Jeffery', total: 35 },
+          { id: 'jack', name: 'Jack', total: 41 }
+        ],
+        winner: "Jeffery",
+        holes: [
+          { number: 1, distance: 218, par: 3, scores: { jeffery: 3, jack: 4 } },
+          { number: 2, distance: 264, par: 3, scores: { jeffery: 3, jack: 4 } },
+          { number: 3, distance: 294, par: 3, scores: { jeffery: 4, jack: 4 } },
+          { number: 4, distance: 296, par: 3, scores: { jeffery: 4, jack: 5 } },
+          { number: 5, distance: 296, par: 3, scores: { jeffery: 4, jack: 5 } },
+          { number: 6, distance: 310, par: 3, scores: { jeffery: 4, jack: 5 } },
+          { number: 7, distance: 324, par: 3, scores: { jeffery: 4, jack: 4 } },
+          { number: 8, distance: 235, par: 3, scores: { jeffery: 4, jack: 4 } },
+          { number: 9, distance: 389, par: 3, scores: { jeffery: 5, jack: 6 } }
+        ]
+      }
+    ];
 
     let roster = [];
     let roundState = {
-      courseKey: 'jacks_backyard',
-      courseName: "Jack's Backyard Course",
+      courseKey: 'smp_art9',
+      courseName: "The Art Nine @ SMP",
       totalHoles: 9,
       date: new Date().toISOString().split('T')[0],
       currentHoleIndex: 0,
@@ -662,7 +711,7 @@
         try { history = JSON.parse(savedHist); } catch(e){}
       }
       if (!Array.isArray(history) || history.length === 0) {
-        history = [MIZE_ROUND_RECORD];
+        history = SEEDED_ROUNDS;
         localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
       }
       return history;
@@ -696,7 +745,7 @@
         try { roundState = JSON.parse(saved); } catch(e){}
       }
       if (!roundState.holes || roundState.holes.length === 0) {
-        loadPresetData('jacks_backyard');
+        loadPresetData('smp_art9');
       }
 
       updateHistoryCountBadge();
@@ -712,7 +761,7 @@
     }
 
     function loadPresetData(key) {
-      const course = COURSE_DATABASE[key] || COURSE_DATABASE.jacks_backyard;
+      const course = COURSE_DATABASE[key] || COURSE_DATABASE.smp_art9;
       roundState.courseKey = key;
       roundState.courseName = course.name;
       roundState.totalHoles = course.totalHoles;
@@ -733,7 +782,7 @@
     }
 
     function loadSelectedPresetCourse(key) {
-      if (confirm(`Load course layout for ${COURSE_DATABASE[key].name}? Scores will reset to 0.`)) {
+      if (confirm(`Load course layout for ${COURSE_DATABASE[key].name}? Current scores will reset to 0.`)) {
         loadPresetData(key);
         document.getElementById('inputCourseName').value = roundState.courseName;
       }
@@ -754,7 +803,7 @@
     function renderRosterList() {
       const list = document.getElementById('rosterList');
       list.innerHTML = '';
-      roster.forEach((p, idx) => {
+      roster.forEach((p) => {
         const div = document.createElement('div');
         div.className = "flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-200";
         div.innerHTML = `
@@ -967,6 +1016,40 @@
       }
     }
 
+    function openCourseModal() {
+      document.getElementById('inputCourseName').value = roundState.courseName;
+      document.getElementById('inputRoundDate').value = roundState.date;
+      document.getElementById('modalCourse').classList.remove('hidden');
+      document.getElementById('modalCourse').classList.add('flex');
+    }
+
+    function closeCourseModal() {
+      document.getElementById('modalCourse').classList.add('hidden');
+      document.getElementById('modalCourse').classList.remove('flex');
+    }
+
+    function saveCourseSettings() {
+      roundState.courseName = document.getElementById('inputCourseName').value || 'Course';
+      roundState.date = document.getElementById('inputRoundDate').value || roundState.date;
+      saveState();
+      renderHeader();
+      closeCourseModal();
+    }
+
+    function resetCurrentRound() {
+      if (confirm("Reset current scores and stopwatch timer?")) {
+        roundState.currentHoleIndex = 0;
+        roundState.holes.forEach(h => {
+          if (!h.scores) h.scores = {};
+          roster.forEach(p => h.scores[p.id] = 0);
+        });
+        resetTimer();
+        saveState();
+        renderCurrentHole();
+        closeCourseModal();
+      }
+    }
+
     // --- FULL SCORECARD MODAL ---
     function openCurrentScorecardModal() {
       const elapsed = document.getElementById('timerDisplay').innerText;
@@ -1067,7 +1150,7 @@
         players.forEach(p => {
           let s = 0;
           if (h.scores && h.scores[p.id] !== undefined) s = h.scores[p.id];
-          else if (h[p.id] !== undefined) s = h[p.id]; // Legacy backwards compat
+          else if (h[p.id] !== undefined) s = h[p.id];
           
           playerTotals[p.id] += s;
           rowHtml += `<td class="py-2 px-1.5 font-black text-slate-800">${s > 0 ? s : '-'}</td>`;
@@ -1209,6 +1292,7 @@
       localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
       updateHistoryCountBadge();
       renderHistory();
+      resetTimer();
       alert(`Round saved! Time: ${elapsed}`);
       closeScorecardModal();
     }
@@ -1322,6 +1406,12 @@
       saveTimerState();
     }
 
+    function confirmResetTimerOnly() {
+      if (confirm("Reset stopwatch timer to 00:00:00?")) {
+        resetTimer();
+      }
+    }
+
     function startTimerInterval() {
       clearInterval(timerInterval);
       timerInterval = setInterval(() => {
@@ -1391,40 +1481,6 @@
     function applyTheme(themeName) {
       document.body.classList.remove('theme-blue', 'theme-white');
       document.body.classList.add(themeName);
-    }
-
-    function openCourseModal() {
-      document.getElementById('inputCourseName').value = roundState.courseName;
-      document.getElementById('inputRoundDate').value = roundState.date;
-      document.getElementById('modalCourse').classList.remove('hidden');
-      document.getElementById('modalCourse').classList.add('flex');
-    }
-
-    function closeCourseModal() {
-      document.getElementById('modalCourse').classList.add('hidden');
-      document.getElementById('modalCourse').classList.remove('flex');
-    }
-
-    function saveCourseSettings() {
-      roundState.courseName = document.getElementById('inputCourseName').value || 'Course';
-      roundState.date = document.getElementById('inputRoundDate').value || roundState.date;
-      saveState();
-      renderHeader();
-      closeCourseModal();
-    }
-
-    function resetCurrentRound() {
-      if (confirm("Reset current scores and stopwatch timer?")) {
-        roundState.currentHoleIndex = 0;
-        roundState.holes.forEach(h => {
-          if (!h.scores) h.scores = {};
-          roster.forEach(p => h.scores[p.id] = 0);
-        });
-        resetTimer();
-        saveState();
-        renderCurrentHole();
-        closeCourseModal();
-      }
     }
 
     window.onload = init;
