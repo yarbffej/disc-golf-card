@@ -194,7 +194,7 @@
             <span class="text-xs card-subtext font-semibold">ft</span>
           </div>
         </div>
-        <button onclick="editDistance()" class="w-9 h-9 rounded-lg bg-blue-600 text-white active:scale-90 flex items-center justify-center shadow">
+        <button onclick="editDistance()" class="w-9 h-9 rounded-lg bg-blue-600 text-white active:scale-95 flex items-center justify-center shadow">
           <i class="fa-solid fa-pen-to-square text-xs"></i>
         </button>
       </div>
@@ -285,7 +285,7 @@
       </div>
 
       <!-- Scrollable Workspace -->
-      <div class="overflow-y-auto p-3.5 flex-1 custom-scroll space-y-3.5">
+      <div class="overflow-y-auto p-3.5 flex-1 custom-scroll space-y-3.5" id="caddyModalScrollContainer">
         
         <!-- INTUITIVE 4-WAY WIND CONTROL BOX -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 shadow-md space-y-3">
@@ -343,7 +343,7 @@
             </div>
           </div>
 
-          <!-- 3-DISC RECOMMENDATIONS CONTAINER -->
+          <!-- 3-DISC RECOMMENDATIONS CONTAINER WITH DIRECT LOG BUTTONS -->
           <div id="triDiscRecommendations" class="space-y-2 pt-1"></div>
         </div>
 
@@ -895,14 +895,14 @@
       }
     ];
 
-    const STORAGE_KEY = 'dg_round_v29';
-    const HISTORY_KEY = 'dg_history_v29';
+    const STORAGE_KEY = 'dg_round_v30';
+    const HISTORY_KEY = 'dg_history_v30';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v29';
-    const ROSTER_KEY = 'dg_roster_v29';
+    const TIMER_KEY = 'dg_timer_state_v30';
+    const ROSTER_KEY = 'dg_roster_v30';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
     const DISC_STATS_KEY = 'dg_disc_stats_v1';
-    const REL_WIND_KEY = 'dg_rel_wind_v2';
+    const REL_WIND_KEY = 'dg_rel_wind_v3';
 
     const INITIAL_ROSTER = [
       { id: 'jeffery', name: 'Jeffery', tag: 'J1', color: 'blue-600' },
@@ -1026,9 +1026,8 @@
     let timerInterval = null;
     let timerState = { running: false, startTime: null, accumulatedMs: 0 };
 
-    // 4-Way Relative Wind State
     let relativeWindState = {
-      windType: 'headwind', // headwind, tailwind, cross_right, cross_left, calm
+      windType: 'headwind',
       windSpeed: 10,
       activeFilter: 'all'
     };
@@ -1208,13 +1207,33 @@
       document.getElementById('windSpeedLabel').innerText = `${relativeWindState.windSpeed} mph`;
     }
 
-    // ACCURATE 3-DISC GENERATION BASED ON 150-FT ARM AND DIRECT 4-WAY WIND
+    // SCROLL DIRECTLY TO A DISC CARD BELOW AND HIGHLIGHT IT
+    function scrollToDiscCard(discId) {
+      if (relativeWindState.activeFilter !== 'all') {
+        relativeWindState.activeFilter = 'all';
+        document.querySelectorAll('.caddy-filter-btn').forEach(b => {
+          b.className = "caddy-filter-btn px-2 py-0.5 rounded-lg bg-slate-800 text-slate-400";
+        });
+        document.querySelector('.caddy-filter-btn').className = "caddy-filter-btn px-2 py-0.5 rounded-lg bg-blue-600 text-white shadow";
+        renderCaddyDiscCards();
+      }
+
+      const cardEl = document.getElementById(`discCard_${discId}`);
+      if (cardEl) {
+        cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        cardEl.classList.add('ring-2', 'ring-blue-400', 'border-blue-400');
+        setTimeout(() => {
+          cardEl.classList.remove('ring-2', 'ring-blue-400', 'border-blue-400');
+        }, 1600);
+      }
+    }
+
+    // ACCURATE 3-DISC GENERATION WITH IN-CARD 1-TAP LOGGING
     function renderTriDiscRecommendations() {
       const container = document.getElementById('triDiscRecommendations');
       const currentHole = roundState.holes[roundState.currentHoleIndex] || { distance: 300, number: 1 };
       const dist = currentHole.distance;
       const wind = relativeWindState.windType;
-      const speed = relativeWindState.windSpeed;
 
       let picks = [];
       let lockoutWarning = "";
@@ -1223,83 +1242,81 @@
         lockoutWarning = "⚠️ Headwind Lockout: Do NOT throw Star Mamba (152g) or Rollo into this wind (they will flip and dive right)!";
         if (dist <= 90) {
           picks = [
-            { role: "1. Primary Pin Seeker", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Low glide (1) stops headwind from lifting disc past the green; sticks where it lands." },
-            { role: "2. Punchy Headwind Mid", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Flat release punches straight through the gust with dependable left fade." },
-            { role: "3. Direct Chains Run", name: "Innova Aviar", type: "2 | 3 | 0 | 1", why: "Firm flat wrist putt directly at the center pole." }
+            { discId: "pig", role: "1. Primary Pin Seeker", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Low glide (1) stops headwind from lifting disc past the green; sticks where it lands." },
+            { discId: "roc3", role: "2. Punchy Headwind Mid", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Flat release punches straight through the gust with dependable left fade." },
+            { discId: "aviar", role: "3. Direct Chains Run", name: "Innova Aviar", type: "2 | 3 | 0 | 1", why: "Firm flat wrist putt directly at the center pole." }
           ];
         } else if (dist <= 140) {
           picks = [
-            { role: "1. Wind-Cheating Drive", name: "Innova Firebird (170g)", type: "9 | 3 | 0 | 4", why: "Overstable Champion plastic won't flip in any headwind; reliable hard left bite." },
-            { role: "2. Workhorse Hyzer Mid", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Firm hyzer push straight into the wind with predictable carry." },
-            { role: "3. Safe Up-and-Down", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Drop & stick approach to eliminate rollaway bogeys." }
+            { discId: "firebird", role: "1. Wind-Cheating Drive", name: "Innova Firebird (170g)", type: "9 | 3 | 0 | 4", why: "Overstable Champion plastic won't flip in any headwind; reliable hard left bite." },
+            { discId: "roc3", role: "2. Workhorse Hyzer Mid", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Firm hyzer push straight into the wind with predictable carry." },
+            { discId: "pig", role: "3. Safe Up-and-Down", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Drop & stick approach to eliminate rollaway bogeys." }
           ];
         } else {
           picks = [
-            { role: "1. Tee Shot Wind Fighter", name: "Innova Firebird (170g)", type: "9 | 3 | 0 | 4", why: "Full drive off tee: penetrates gust without turning over (~135-145 ft)." },
-            { role: "2. Placement Drive Option", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Alternative drive: controlled fairway placement to center grass." },
-            { role: "3. Shot 2 Approach to Pin", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Stick-and-stay upshot right next to the pole on shot 2." }
+            { discId: "firebird", role: "1. Tee Shot Wind Fighter", name: "Innova Firebird (170g)", type: "9 | 3 | 0 | 4", why: "Full drive off tee: penetrates gust without turning over (~135-145 ft)." },
+            { discId: "roc3", role: "2. Placement Drive Option", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Alternative drive: controlled fairway placement to center grass." },
+            { discId: "pig", role: "3. Shot 2 Approach to Pin", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Stick-and-stay upshot right next to the pole on shot 2." }
           ];
         }
       } else if (wind === 'tailwind') {
         if (dist <= 90) {
           picks = [
-            { role: "1. Gentle Touch Putter", name: "Innova Aviar", type: "2 | 3 | 0 | 1", why: "Floaty tailwind approach straight to chains." },
-            { role: "2. Crisp Driving Putter", name: "Innova Sync (175g)", type: "3 | 3 | 0 | 1", why: "Flat release beadless flight; tailwind settles it gently." },
-            { role: "3. Laser Tunnel Touch", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Smooth touch push through tree corridors." }
+            { discId: "aviar", role: "1. Gentle Touch Putter", name: "Innova Aviar", type: "2 | 3 | 0 | 1", why: "Floaty tailwind approach straight to chains." },
+            { discId: "sync", role: "2. Crisp Driving Putter", name: "Innova Sync (175g)", type: "3 | 3 | 0 | 1", why: "Flat release beadless flight; tailwind settles it gently." },
+            { discId: "mako3", role: "3. Laser Tunnel Touch", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Smooth touch push through tree corridors." }
           ];
         } else if (dist <= 140) {
           picks = [
-            { role: "1. Primary Laser Carry", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Tailwind keeps this dead-straight mid flat all the way to the pin." },
-            { role: "2. High-Glide Float", name: "Innova Rollo (172g)", type: "5 | 6 | -4 | 1", why: "Tailwind acts like extra stability; gives the Rollo huge forward float." },
-            { role: "3. Controlled Placement", name: "Innova Sync (175g)", type: "3 | 3 | 0 | 1", why: "Smooth driving putter to park short greens with zero skip." }
+            { discId: "mako3", role: "1. Primary Laser Carry", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Tailwind keeps this dead-straight mid flat all the way to the pin." },
+            { discId: "rollo", role: "2. High-Glide Float", name: "Innova Rollo (172g)", type: "5 | 6 | -4 | 1", why: "Tailwind acts like extra stability; gives the Rollo huge forward float." },
+            { discId: "sync", role: "3. Controlled Placement", name: "Innova Sync (175g)", type: "3 | 3 | 0 | 1", why: "Smooth driving putter to park short greens with zero skip." }
           ];
         } else {
           picks = [
-            { role: "1. Tailwind Bomber Tee", name: "Innova Mamba (152g)", type: "11 | 6 | -5 | 1", why: "Featherweight 152g Star plastic flips up and sails forever with the tailwind." },
-            { role: "2. Controlled Fairway Carry", name: "Innova Hawkeye", type: "7 | 5 | -1 | 1", why: "Smooth fairway drive with piercing forward glide." },
-            { role: "3. Shot 2 Approach", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Straight-as-an-arrow second shot to park the pin." }
+            { discId: "mamba", role: "1. Tailwind Bomber Tee", name: "Innova Mamba (152g)", type: "11 | 6 | -5 | 1", why: "Featherweight 152g Star plastic flips up and sails forever with the tailwind." },
+            { discId: "hawkeye", role: "2. Controlled Fairway Carry", name: "Innova Hawkeye", type: "7 | 5 | -1 | 1", why: "Smooth fairway drive with piercing forward glide." },
+            { discId: "mako3", role: "3. Shot 2 Approach", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Straight-as-an-arrow second shot to park the pin." }
           ];
         }
       } else if (wind === 'cross_right') {
-        // Wind hitting right cheek: pushes down on flat/hyzer backhand, knocks it down early
         picks = [
-          { role: "1. Straight Fairway Carry", name: "Innova Hawkeye", type: "7 | 5 | -1 | 1", why: "Neutral flight punches through right-to-left breeze without diving early." },
-          { role: "2. Laser Mid Carry", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Holds flat angle without exposing underplate to wind push." },
-          { role: "3. Anchored Approach", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Heavy 175g approach stays on line and anchors directly onto the green." }
+          { discId: "hawkeye", role: "1. Straight Fairway Carry", name: "Innova Hawkeye", type: "7 | 5 | -1 | 1", why: "Neutral flight punches through right-to-left breeze without diving early." },
+          { discId: "mako3", role: "2. Laser Mid Carry", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Holds flat angle without exposing underplate to wind push." },
+          { discId: "pig", role: "3. Anchored Approach", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Heavy 175g approach stays on line and anchors directly onto the green." }
         ];
       } else if (wind === 'cross_left') {
-        // Wind hitting left cheek: gets under bottom plate on hyzer, lifts disc and carries right
         picks = [
-          { role: "1. Hyzer Overstable Anchor", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Dependable fade bites left against the wind drift to hold center fairway." },
-          { role: "2. Wind-Fighting Fairway", name: "Innova Firebird (170g)", type: "9 | 3 | 0 | 4", why: "Strong fade prevents cross-left breeze from pushing your shot out of bounds right." },
-          { role: "3. Controlled Pin Approach", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Low glide stops cross-left wind from carrying your approach off the green." }
+          { discId: "roc3", role: "1. Hyzer Overstable Anchor", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Dependable fade bites left against wind drift to hold center fairway." },
+          { discId: "firebird", role: "2. Wind-Fighting Fairway", name: "Innova Firebird (170g)", type: "9 | 3 | 0 | 4", why: "Strong fade prevents cross-left breeze from pushing your shot out of bounds right." },
+          { discId: "pig", role: "3. Controlled Pin Approach", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Low glide stops cross-left wind from carrying your approach off the green." }
         ];
       } else {
         // Calm
         if (dist <= 85) {
           picks = [
-            { role: "1. Direct Basket Run", name: "Innova Aviar", type: "2 | 3 | 0 | 1", why: "Direct basket putts and floaty touch approaches." },
-            { role: "2. Drop & Stick Chip", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Chip shot around obstacles that immediately sits down." },
-            { role: "3. Smooth Driving Putter", name: "Innova Sync (175g)", type: "3 | 3 | 0 | 1", why: "Clean point-and-shoot release off the tee." }
+            { discId: "aviar", role: "1. Direct Basket Run", name: "Innova Aviar", type: "2 | 3 | 0 | 1", why: "Direct basket putts and floaty touch approaches." },
+            { discId: "pig", role: "2. Drop & Stick Chip", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Chip shot around obstacles that immediately sits down." },
+            { discId: "sync", role: "3. Smooth Driving Putter", name: "Innova Sync (175g)", type: "3 | 3 | 0 | 1", why: "Clean point-and-shoot release off the tee." }
           ];
         } else if (dist <= 125) {
           picks = [
-            { role: "1. Primary Straight Laser", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Pure laser beam: zero turn and zero fade through the gap." },
-            { role: "2. Clean Putter Tee", name: "Innova Sync (175g)", type: "3 | 3 | 0 | 1", why: "Low-profile beadless driving putter for short greens." },
-            { role: "3. Hyzer Hook Option", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Sweeping left finish around fairway corners and trees." }
+            { discId: "mako3", role: "1. Primary Straight Laser", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Pure laser beam: zero turn and zero fade through the gap." },
+            { discId: "sync", role: "2. Clean Putter Tee", name: "Innova Sync (175g)", type: "3 | 3 | 0 | 1", why: "Low-profile beadless driving putter for short greens." },
+            { discId: "roc3", role: "3. Hyzer Hook Option", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Sweeping left finish around fairway corners and trees." }
           ];
         } else if (dist <= 165) {
           picks = [
-            { role: "1. Primary Fairway Carry", name: "Innova Hawkeye", type: "7 | 5 | -1 | 1", why: "Smooth 75% power fairway drive with gentle forward finish." },
-            { role: "2. Full Distance Option", name: "Innova Mamba (152g)", type: "11 | 6 | -5 | 1", why: "Effortless high-speed carry to reach your full 150-ft potential." },
-            { role: "3. Tunnel Placement", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Firm flat throw straight down fairway center." }
+            { discId: "hawkeye", role: "1. Primary Fairway Carry", name: "Innova Hawkeye", type: "7 | 5 | -1 | 1", why: "Smooth 75% power fairway drive with gentle forward finish." },
+            { discId: "mamba", role: "2. Full Distance Option", name: "Innova Mamba (152g)", type: "11 | 6 | -5 | 1", why: "Effortless high-speed carry to reach your full 150-ft potential." },
+            { discId: "mako3", role: "3. Tunnel Placement", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Firm flat throw straight down fairway center." }
           ];
         } else {
           // Multi-Shot Hole (>165 ft, e.g. Wolf Den 301 ft)
           picks = [
-            { role: "1. Shot 1 Full Tee Drive", name: "Innova Mamba (152g)", type: "11 | 6 | -5 | 1", why: "Tee Shot: Max carry (~145-150 ft) to fairway sweet spot." },
-            { role: "2. Controlled Tee Alternative", name: "Innova Hawkeye", type: "7 | 5 | -1 | 1", why: "Fairway Drive: Tight placement if woods line the fairway." },
-            { role: "3. Shot 2 Green Approach", name: "Innova Mako3 or Pig", type: "Approach Seeker", why: "Park the pin on shot 2 for an easy two-stroke par." }
+            { discId: "mamba", role: "1. Shot 1 Full Tee Drive", name: "Innova Mamba (152g)", type: "11 | 6 | -5 | 1", why: "Tee Shot: Max carry (~145-150 ft) to fairway sweet spot." },
+            { discId: "hawkeye", role: "2. Controlled Tee Alternative", name: "Innova Hawkeye", type: "7 | 5 | -1 | 1", why: "Fairway Drive: Tight placement if woods line the fairway." },
+            { discId: "pig", role: "3. Shot 2 Green Approach", name: "Innova Pig (175g)", type: "Approach Seeker", why: "Park the pin on shot 2 for an easy two-stroke par." }
           ];
         }
       }
@@ -1320,16 +1337,27 @@
         ${lockoutWarning ? `<div class="p-2 rounded-xl bg-amber-950/60 border border-amber-500/40 text-[11px] text-amber-300 font-bold mb-2">${lockoutWarning}</div>` : ''}
         <div class="space-y-2">
           ${picks.map((p) => `
-            <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex flex-col gap-0.5">
-              <div class="flex items-center justify-between">
-                <span class="text-[10px] font-black uppercase text-blue-400">${p.role}</span>
-                <span class="text-[10px] font-mono text-slate-400 font-bold">${p.type}</span>
+            <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-2">
+              <div class="truncate flex-1">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[10px] font-black uppercase text-blue-400">${p.role}</span>
+                  <span class="text-[10px] font-mono text-slate-400 font-bold">(${p.type})</span>
+                </div>
+                <div class="font-black text-xs text-white flex items-center gap-1.5 mt-0.5 truncate">
+                  <i class="fa-solid fa-compact-disc text-emerald-400 text-xs shrink-0"></i>
+                  <span class="truncate">${p.name}</span>
+                </div>
+                <p class="text-[11px] text-slate-300 font-medium leading-tight mt-0.5">${p.why}</p>
               </div>
-              <div class="font-black text-xs text-white flex items-center gap-1.5">
-                <i class="fa-solid fa-compact-disc text-emerald-400 text-xs"></i>
-                <span>${p.name}</span>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button onclick="scrollToDiscCard('${p.discId}')" title="Jump to tip card below" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center justify-center active:scale-95 text-xs">
+                  <i class="fa-solid fa-eye text-xs"></i>
+                </button>
+                <button onclick="openLogThrowModal('${p.discId}')" class="px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-black text-xs flex items-center gap-1 shadow active:scale-95">
+                  <i class="fa-solid fa-thumbs-up text-[10px]"></i>
+                  <span>Log</span>
+                </button>
               </div>
-              <p class="text-[11px] text-slate-300 font-medium leading-tight mt-0.5">${p.why}</p>
             </div>
           `).join('')}
         </div>
@@ -1360,7 +1388,7 @@
 
         const card = document.createElement('div');
         card.id = `discCard_${d.id}`;
-        card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-3.5 shadow-md flex flex-col gap-2.5";
+        card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-3.5 shadow-md flex flex-col gap-2.5 transition-all duration-300";
         card.innerHTML = `
           <div class="flex items-start justify-between">
             <div>
