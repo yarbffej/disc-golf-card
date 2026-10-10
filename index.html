@@ -365,7 +365,7 @@
       <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50">
         <div>
           <h3 class="font-black text-lg text-slate-900">Saved Rounds</h3>
-          <p class="text-[11px] text-slate-500 font-medium">Tap any round to view full card or save as image</p>
+          <p class="text-[11px] text-slate-500 font-medium">Tap any round to view full card or upload to Drive</p>
         </div>
         <div class="flex items-center gap-2">
           <button onclick="clearAllHistory()" title="Clear all rounds" class="px-2 py-1 rounded-lg bg-rose-100 text-rose-700 hover:bg-rose-200 text-xs font-bold flex items-center gap-1 active:scale-95">
@@ -627,11 +627,11 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v22';
-    const HISTORY_KEY = 'dg_history_v22';
+    const STORAGE_KEY = 'dg_round_v23';
+    const HISTORY_KEY = 'dg_history_v23';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v22';
-    const ROSTER_KEY = 'dg_roster_v22';
+    const TIMER_KEY = 'dg_timer_state_v23';
+    const ROSTER_KEY = 'dg_roster_v23';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
 
     const INITIAL_ROSTER = [
@@ -1143,16 +1143,10 @@
           <i class="fa-brands fa-google-drive text-base"></i>
           <span>Save Card to Google Drive</span>
         </button>
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="finishAndSaveRound()" class="py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-blue-400 shadow active:scale-95">
-            <i class="fa-solid fa-floppy-disk text-xs"></i>
-            <span>Save to Rounds</span>
-          </button>
-          <button onclick="downloadScorecardCardImageFallback()" class="py-2.5 px-3 rounded-xl bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-slate-700 active:scale-95">
-            <i class="fa-solid fa-camera text-xs"></i>
-            <span>Save to Photos</span>
-          </button>
-        </div>
+        <button onclick="finishAndSaveRound()" class="py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs flex items-center justify-center gap-1.5 border border-blue-400 shadow active:scale-95">
+          <i class="fa-solid fa-floppy-disk text-xs"></i>
+          <span>Save to Rounds</span>
+        </button>
       `;
 
       document.getElementById('modalScorecard').classList.remove('hidden');
@@ -1188,16 +1182,10 @@
           <i class="fa-brands fa-google-drive text-base"></i>
           <span>Save Card to Google Drive</span>
         </button>
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="downloadScorecardCardImageFallback()" class="py-2.5 px-3 rounded-xl bg-amber-400 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 border border-amber-300 shadow active:scale-95">
-            <i class="fa-solid fa-camera text-xs"></i>
-            <span>Save to Photos</span>
-          </button>
-          <button onclick="closeScorecardModal(); openHistoryModal();" class="py-2.5 px-3 rounded-xl bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-slate-700 active:scale-95">
-            <i class="fa-solid fa-arrow-left text-xs"></i>
-            <span>Back to Rounds</span>
-          </button>
-        </div>
+        <button onclick="closeScorecardModal(); openHistoryModal();" class="py-2.5 px-4 rounded-xl bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-slate-700 active:scale-95">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          <span>Back to Rounds</span>
+        </button>
       `;
 
       document.getElementById('modalScorecard').classList.remove('hidden');
@@ -1303,60 +1291,6 @@
         alert("Scorecard image uploaded directly to your Scorecard Images folder!");
       } catch (err) {
         alert("Cloud upload error: " + err.message);
-      }
-    }
-
-    async function downloadScorecardCardImageFallback() {
-      const cardEl = document.getElementById('scorecardCardElement');
-      if (!cardEl) return;
-
-      try {
-        const canvas = await html2canvas(cardEl, {
-          scale: 2,
-          backgroundColor: '#ffffff',
-          useCORS: true
-        });
-
-        const courseName = (document.getElementById('captureCardTitle').innerText || 'Round').replace(/\s+/g, '_');
-        const fileName = `DG_Card_${courseName}_${roundState.date}.png`;
-
-        canvas.toBlob(async (blob) => {
-          if (!blob) return;
-          const file = new File([blob], fileName, { type: 'image/png' });
-
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            try {
-              await navigator.share({
-                files: [file],
-                title: `${courseName} Scorecard`,
-                text: `Disc Golf Round - ${roundState.date}`
-              });
-            } catch (shareErr) {
-              if (shareErr.name !== 'AbortError') fallbackImagePopup(canvas.toDataURL('image/png'));
-            }
-          } else {
-            fallbackImagePopup(canvas.toDataURL('image/png'));
-          }
-        }, 'image/png');
-      } catch (err) {
-        alert("Image export error: " + err.message);
-      }
-    }
-
-    function fallbackImagePopup(dataUrl) {
-      const w = window.open('');
-      if (w) {
-        w.document.write(`
-          <body style="margin:0;background:#0f172a;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;color:white;padding:16px;text-align:center;">
-            <p style="font-weight:bold;font-size:14px;margin-bottom:12px;">Press and hold the card below, then tap <strong>"Save to Photos"</strong></p>
-            <img src="${dataUrl}" style="max-width:100%;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,0.5);"/>
-          </body>
-        `);
-      } else {
-        const link = document.createElement('a');
-        link.download = `Scorecard_${roundState.date}.png`;
-        link.href = dataUrl;
-        link.click();
       }
     }
 
