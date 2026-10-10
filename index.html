@@ -146,7 +146,7 @@
     </div>
   </header>
 
-  <!-- MAIN SCORING CARD (Auto-stretches to fill vertical height cleanly) -->
+  <!-- MAIN SCORING CARD -->
   <main class="flex-1 px-3.5 py-2.5 max-w-lg mx-auto w-full flex flex-col justify-between gap-2.5">
     
     <!-- Hole Navigator Bar -->
@@ -195,7 +195,7 @@
       </div>
     </div>
 
-    <!-- Dynamic Player Fairway Cards (Fills Remaining Viewport) -->
+    <!-- Dynamic Player Fairway Cards -->
     <div id="playerFairwayCards" class="flex-1 flex flex-col justify-around gap-2.5"></div>
   </main>
 
@@ -234,7 +234,6 @@
       </div>
 
       <div class="overflow-y-auto p-4 flex-1 custom-scroll space-y-4">
-        <!-- SCORECARD CARD CONTAINER -->
         <div id="scorecardCardElement" class="p-3 bg-white rounded-2xl border-2 border-blue-200 shadow-sm">
           <div class="flex items-center justify-between border-b border-slate-200 pb-2 mb-2">
             <div>
@@ -257,6 +256,44 @@
 
         <div id="modalScorecardActions" class="flex flex-col gap-2 pt-1"></div>
       </div>
+    </div>
+  </div>
+
+  <!-- CUSTOM COURSE PICKER MODAL (NO BROWSER SELECT WHEEL) -->
+  <div id="modalCourse" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm w-full p-4 space-y-3 max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+      
+      <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 shrink-0">
+        <div>
+          <h3 class="font-black text-slate-900 text-base">Select Course</h3>
+          <p class="text-[11px] text-slate-500 font-medium">Tap a layout to load holes & par</p>
+        </div>
+        <button onclick="closeCourseModal()" class="w-7 h-7 rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Styled Card List of Courses -->
+      <div class="flex-1 overflow-y-auto custom-scroll space-y-2 pr-0.5" id="courseSelectionList"></div>
+
+      <!-- Custom Course Details Drawer -->
+      <div class="pt-2 border-t border-slate-200 shrink-0 space-y-2">
+        <div class="flex gap-2">
+          <div class="flex-1">
+            <label class="block text-[10px] font-black text-slate-500 uppercase mb-0.5">Course Name</label>
+            <input type="text" id="inputCourseName" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-slate-900 font-bold text-xs focus:outline-none">
+          </div>
+          <div class="w-32">
+            <label class="block text-[10px] font-black text-slate-500 uppercase mb-0.5">Date</label>
+            <input type="date" id="inputRoundDate" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2 py-1.5 text-slate-900 text-xs font-bold focus:outline-none">
+          </div>
+        </div>
+        <div class="flex gap-2 pt-1">
+          <button onclick="resetCurrentRound()" class="py-2 px-3 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 text-xs font-bold active:scale-95">Reset</button>
+          <button onclick="saveCourseSettings()" class="flex-1 py-2 rounded-xl bg-blue-600 text-white text-xs font-extrabold active:scale-95 shadow">Apply Custom</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -313,52 +350,6 @@
 
       <div class="pt-1">
         <button onclick="closeRosterModal()" class="w-full py-2.5 rounded-xl bg-slate-100 text-slate-800 font-black text-xs active:scale-95 border border-slate-300">Done</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- COURSE CATALOG MODAL -->
-  <div id="modalCourse" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm w-full p-5 space-y-4 max-h-[90vh] overflow-y-auto custom-scroll shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
-        <h3 class="font-black text-slate-900 text-base">Select Course</h3>
-        <button onclick="closeCourseModal()" class="text-slate-400 hover:text-slate-600">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
-      </div>
-
-      <div>
-        <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Preset Courses</label>
-        <select id="selectPresetCourse" onchange="loadSelectedPresetCourse(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 font-bold text-xs focus:outline-none focus:border-blue-500">
-          <option value="wolf_den">Wolf Den @ Mission Trail (18H · Par 54)</option>
-          <option value="smp_art9">The Art Nine @ SMP (9H · Par 27)</option>
-          <option value="sarko">Sar-Ko-Par Trails (9H · Par 27)</option>
-          <option value="jacks_backyard">Jack's Backyard Course (9H · Par 27)</option>
-          <option value="mize">Mize Elementary (9H · Par 27)</option>
-          <option value="lakeside">Lakeside Hills (19H · Par 57)</option>
-          <option value="blackhoof_18">Black Hoof Championship (18H · Par 58)</option>
-          <option value="blackhoof_9">Black Hoof Flying Disc (9H · Par 27)</option>
-          <option value="smp_wooded">Shawnee Mission Wooded (18H · Par 54)</option>
-          <option value="california_trail">California Trail MS (9H · Par 29)</option>
-          <option value="prairie_center">Prairie Center Park (18H · Par 55)</option>
-          <option value="harmon">Harmon & Santa Fe Parks (9H · Par 27)</option>
-          <option value="indian_woods">Indian Woods MS (9H · Par 27)</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Custom Name</label>
-        <input type="text" id="inputCourseName" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-bold text-xs focus:outline-none" value="Wolf Den @ Mission Trail">
-      </div>
-
-      <div>
-        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Date</label>
-        <input type="date" id="inputRoundDate" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-2 text-slate-900 text-xs font-bold focus:outline-none">
-      </div>
-
-      <div class="pt-2 flex gap-2">
-        <button onclick="resetCurrentRound()" class="flex-1 py-2.5 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 text-xs font-bold active:scale-95">Reset Scores</button>
-        <button onclick="saveCourseSettings()" class="flex-1 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-extrabold active:scale-95 shadow">Apply</button>
       </div>
     </div>
   </div>
@@ -498,7 +489,7 @@
         ]
       },
       blackhoof_18: {
-        name: "Black Hoof (White to Blue)",
+        name: "Black Hoof Championship",
         totalHoles: 18,
         holes: [
           { number: 1, dist: 248, par: 3 },
@@ -522,7 +513,7 @@
         ]
       },
       blackhoof_9: {
-        name: "Black Hoof (KS Flying Disc)",
+        name: "Black Hoof Flying Disc",
         totalHoles: 9,
         holes: [
           { number: 1, dist: 180, par: 3 },
@@ -537,7 +528,7 @@
         ]
       },
       smp_wooded: {
-        name: "Shawnee Mission (Wooded Prairie)",
+        name: "Shawnee Mission Wooded",
         totalHoles: 18,
         holes: [
           { number: 1, dist: 260, par: 3 },
@@ -631,11 +622,11 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v24';
-    const HISTORY_KEY = 'dg_history_v24';
+    const STORAGE_KEY = 'dg_round_v25';
+    const HISTORY_KEY = 'dg_history_v25';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v24';
-    const ROSTER_KEY = 'dg_roster_v24';
+    const TIMER_KEY = 'dg_timer_state_v25';
+    const ROSTER_KEY = 'dg_roster_v25';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
 
     const INITIAL_ROSTER = [
@@ -842,10 +833,86 @@
       renderCurrentHole();
     }
 
-    function loadSelectedPresetCourse(key) {
-      if (confirm(`Load course layout for ${COURSE_DATABASE[key].name}? Scores will reset to 0.`)) {
-        loadPresetData(key);
-        document.getElementById('inputCourseName').value = roundState.courseName;
+    // RENDER SLEEK CARD LIST INSTEAD OF NATIVE SELECT
+    function renderCourseSelectionList() {
+      const container = document.getElementById('courseSelectionList');
+      if (!container) return;
+      container.innerHTML = '';
+
+      Object.keys(COURSE_DATABASE).forEach(key => {
+        const c = COURSE_DATABASE[key];
+        const isSelected = (roundState.courseKey === key);
+        const card = document.createElement('div');
+        card.className = `p-2.5 rounded-2xl border flex items-center justify-between cursor-pointer transition active:scale-[0.98] ${
+          isSelected 
+            ? 'bg-blue-50 border-blue-600 shadow-sm' 
+            : 'bg-slate-50 border-slate-200 hover:bg-slate-100'
+        }`;
+        card.onclick = () => selectCourseFromList(key);
+
+        const parTotal = c.holes.reduce((a, b) => a + b.par, 0);
+
+        card.innerHTML = `
+          <div class="truncate mr-2">
+            <div class="font-black text-slate-900 text-xs truncate">${c.name}</div>
+            <div class="text-[10px] text-slate-500 font-semibold mt-0.5">${c.totalHoles} Holes · Par ${parTotal}</div>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span class="text-[10px] font-black px-2 py-0.5 rounded-md ${
+              isSelected ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-700'
+            }">${c.totalHoles}H</span>
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-blue-600 text-sm"></i>' : ''}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function selectCourseFromList(key) {
+      if (roundState.courseKey !== key) {
+        if (confirm(`Switch layout to ${COURSE_DATABASE[key].name}? Scores will reset for the new course.`)) {
+          loadPresetData(key);
+          document.getElementById('inputCourseName').value = roundState.courseName;
+          renderCourseSelectionList();
+          closeCourseModal();
+        }
+      } else {
+        closeCourseModal();
+      }
+    }
+
+    function openCourseModal() {
+      document.getElementById('inputCourseName').value = roundState.courseName;
+      document.getElementById('inputRoundDate').value = roundState.date;
+      renderCourseSelectionList();
+      document.getElementById('modalCourse').classList.remove('hidden');
+      document.getElementById('modalCourse').classList.add('flex');
+    }
+
+    function closeCourseModal() {
+      document.getElementById('modalCourse').classList.add('hidden');
+      document.getElementById('modalCourse').classList.remove('flex');
+    }
+
+    function saveCourseSettings() {
+      roundState.courseName = document.getElementById('inputCourseName').value || 'Course';
+      roundState.date = document.getElementById('inputRoundDate').value || roundState.date;
+      saveState();
+      renderHeader();
+      closeCourseModal();
+    }
+
+    function resetCurrentRound() {
+      if (confirm("Reset current scores and stopwatch timer?")) {
+        roundState.currentHoleIndex = 0;
+        roundState.holes.forEach(h => {
+          if (!h.scores) h.scores = {};
+          roster.forEach(p => h.scores[p.id] = 0);
+        });
+        resetTimer();
+        saveState();
+        renderCurrentHole();
+        closeCourseModal();
       }
     }
 
@@ -964,7 +1031,6 @@
         const badgeHtml = getBadgeHtml(score, h.par);
 
         const card = document.createElement('div');
-        // Clean vertical flex stretch
         card.className = "app-card rounded-2xl p-4 shadow-lg flex flex-col justify-between flex-1 relative overflow-hidden";
         card.innerHTML = `
           <div class="flex items-center justify-between mb-1">
@@ -981,7 +1047,6 @@
             <div>${badgeHtml}</div>
           </div>
 
-          <!-- Expanded Counter Box for zero blue dead space -->
           <div class="counter-box grid grid-cols-5 items-center gap-2 my-1.5 p-2 rounded-xl border flex-1 max-h-24">
             <button onclick="adjustPlayerScore('${p.id}', -1)" class="col-span-1 h-full min-h-[3.8rem] rounded-xl bg-blue-900 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
               <i class="fa-solid fa-minus"></i>
@@ -995,7 +1060,6 @@
             </button>
           </div>
 
-          <!-- Tactile Preset Buttons -->
           <div class="grid grid-cols-4 gap-1.5 mt-1">
             <button onclick="setPlayerScorePreset('${p.id}', 1)" class="py-2.5 px-1 rounded-xl bg-amber-500 text-white font-black text-xs active:scale-95 shadow-sm">Ace (1)</button>
             <button onclick="setPlayerScorePreset('${p.id}', 'birdie')" class="py-2.5 px-1 rounded-xl bg-emerald-600 text-white font-black text-xs active:scale-95 shadow-sm">Birdie</button>
@@ -1097,40 +1161,6 @@
         renderCurrentHole();
       } else {
         openCurrentScorecardModal();
-      }
-    }
-
-    function openCourseModal() {
-      document.getElementById('inputCourseName').value = roundState.courseName;
-      document.getElementById('inputRoundDate').value = roundState.date;
-      document.getElementById('modalCourse').classList.remove('hidden');
-      document.getElementById('modalCourse').classList.add('flex');
-    }
-
-    function closeCourseModal() {
-      document.getElementById('modalCourse').classList.add('hidden');
-      document.getElementById('modalCourse').classList.remove('flex');
-    }
-
-    function saveCourseSettings() {
-      roundState.courseName = document.getElementById('inputCourseName').value || 'Course';
-      roundState.date = document.getElementById('inputRoundDate').value || roundState.date;
-      saveState();
-      renderHeader();
-      closeCourseModal();
-    }
-
-    function resetCurrentRound() {
-      if (confirm("Reset current scores and stopwatch timer?")) {
-        roundState.currentHoleIndex = 0;
-        roundState.holes.forEach(h => {
-          if (!h.scores) h.scores = {};
-          roster.forEach(p => h.scores[p.id] = 0);
-        });
-        resetTimer();
-        saveState();
-        renderCurrentHole();
-        closeCourseModal();
       }
     }
 
