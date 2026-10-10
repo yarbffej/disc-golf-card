@@ -98,8 +98,8 @@
           </div>
           <div class="truncate">
             <div class="flex items-center gap-1.5">
-              <span id="headerCourseName" class="font-black text-sm tracking-tight truncate">The Art Nine @ SMP</span>
-              <span id="headerHoleCountBadge" class="text-[10px] bg-white text-blue-900 px-1.5 py-0.2 rounded font-black shadow-sm shrink-0">9H</span>
+              <span id="headerCourseName" class="font-black text-sm tracking-tight truncate">Wolf Den @ Mission Trail</span>
+              <span id="headerHoleCountBadge" class="text-[10px] bg-white text-blue-900 px-1.5 py-0.2 rounded font-black shadow-sm shrink-0">18H</span>
             </div>
             <div class="text-[11px] opacity-75 font-semibold">Tap to switch course</div>
           </div>
@@ -115,7 +115,7 @@
           <button onclick="openHistoryModal()" id="btnOpenHistory" title="View Saved Rounds" class="px-2.5 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-black text-xs flex items-center gap-1.5 active:scale-95 shadow-md border border-amber-300">
             <i class="fa-solid fa-clock-rotate-left text-xs"></i>
             <span>Rounds</span>
-            <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">3</span>
+            <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">4</span>
           </button>
 
           <!-- Palette Toggle -->
@@ -125,10 +125,8 @@
         </div>
       </div>
 
-      <!-- Stopwatch & Match Ticker -->
+      <!-- Stopwatch & Scores Bar -->
       <div class="flex items-center justify-between gap-2 pt-1 border-t border-white/15">
-        
-        <!-- Timer Box with Start/Pause + Independent Reset Button -->
         <div class="flex items-center gap-1.5 bg-slate-950/40 border border-white/20 px-2 py-1 rounded-xl shadow-inner">
           <div class="flex items-center gap-1">
             <span class="inline-block w-2 h-2 rounded-full bg-slate-400" id="timerPulseDot"></span>
@@ -144,7 +142,6 @@
           </button>
         </div>
 
-        <!-- Leaderboard Summary Ticker -->
         <div id="tickerSummaryContainer" class="flex items-center gap-2 font-bold text-xs shrink-0 overflow-x-auto max-w-[50%]"></div>
       </div>
 
@@ -153,7 +150,6 @@
 
   <!-- MAIN SCORING CARD -->
   <main class="flex-1 px-3.5 py-3 max-w-lg mx-auto w-full flex flex-col gap-3">
-    <!-- Hole Navigator Bar -->
     <div class="app-card rounded-2xl p-2.5 flex items-center justify-between shadow-md">
       <button onclick="prevHole()" id="btnPrevHoleTop" class="w-10 h-10 rounded-xl bg-blue-900 text-white active:scale-90 flex items-center justify-center font-bold text-base disabled:opacity-30 disabled:pointer-events-none transition shadow">
         <i class="fa-solid fa-chevron-left"></i>
@@ -163,7 +159,7 @@
         <div class="text-[10px] uppercase tracking-wider font-extrabold text-blue-600">HOLE</div>
         <div class="flex items-baseline justify-center gap-1">
           <span id="currentHoleLabel" class="text-2xl font-black card-title">1</span>
-          <span id="totalHolesMaxLabel" class="text-xs card-subtext font-semibold">/ 9</span>
+          <span id="totalHolesMaxLabel" class="text-xs card-subtext font-semibold">/ 18</span>
         </div>
       </div>
 
@@ -189,7 +185,7 @@
         <div>
           <span class="text-[10px] font-bold uppercase card-subtext block tracking-wide">DISTANCE</span>
           <div class="flex items-baseline gap-1">
-            <span id="distanceDisplay" class="text-xl font-black card-title leading-tight">132</span>
+            <span id="distanceDisplay" class="text-xl font-black card-title leading-tight">301</span>
             <span class="text-[10px] card-subtext font-semibold">ft</span>
           </div>
         </div>
@@ -238,15 +234,15 @@
       </div>
 
       <div class="overflow-y-auto p-4 flex-1 custom-scroll space-y-4">
-        <!-- SCORECARD TRADING CARD CONTAINER -->
+        <!-- SCORECARD CARD CONTAINER -->
         <div id="scorecardCardElement" class="p-3 bg-white rounded-2xl border-2 border-blue-200 shadow-sm">
           <div class="flex items-center justify-between border-b border-slate-200 pb-2 mb-2">
             <div>
-              <div class="font-black text-slate-900 text-sm" id="captureCardTitle">The Art Nine @ SMP</div>
+              <div class="font-black text-slate-900 text-sm" id="captureCardTitle">Wolf Den @ Mission Trail</div>
               <div class="text-[11px] text-slate-500 font-bold" id="captureCardMeta">Today · ⏱ 00:00:00</div>
             </div>
-            <div class="px-2 py-1 rounded-lg bg-blue-100 text-blue-900 text-xs font-black" id="captureCardWinner">
-              Match In Progress
+            <div class="px-2 py-1 rounded-lg bg-blue-50 text-blue-900 text-xs font-black" id="captureCardWinner">
+              Round Complete
             </div>
           </div>
 
@@ -303,6 +299,7 @@
       <div>
         <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Preset Courses</label>
         <select id="selectPresetCourse" onchange="loadSelectedPresetCourse(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 font-bold text-xs focus:outline-none focus:border-blue-500">
+          <option value="wolf_den">Wolf Den @ Mission Trail (18H · Par 54)</option>
           <option value="smp_art9">The Art Nine @ SMP (9H · Par 27)</option>
           <option value="sarko">Sar-Ko-Par Trails (9H · Par 27)</option>
           <option value="jacks_backyard">Jack's Backyard Course (9H · Par 27)</option>
@@ -313,7 +310,6 @@
           <option value="smp_wooded">Shawnee Mission Wooded (18H · Par 54)</option>
           <option value="california_trail">California Trail MS (9H · Par 29)</option>
           <option value="prairie_center">Prairie Center Park (18H · Par 55)</option>
-          <option value="wolf_den">Wolf Den @ Mission Trail (18H · Par 54)</option>
           <option value="harmon">Harmon & Santa Fe Parks (9H · Par 27)</option>
           <option value="indian_woods">Indian Woods MS (9H · Par 27)</option>
         </select>
@@ -321,7 +317,7 @@
 
       <div>
         <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Custom Name</label>
-        <input type="text" id="inputCourseName" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-bold text-xs focus:outline-none" value="The Art Nine @ SMP">
+        <input type="text" id="inputCourseName" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-bold text-xs focus:outline-none" value="Wolf Den @ Mission Trail">
       </div>
 
       <div>
@@ -361,6 +357,30 @@
   <!-- SCRIPT -->
   <script>
     const COURSE_DATABASE = {
+      wolf_den: {
+        name: "Wolf Den @ Mission Trail",
+        totalHoles: 18,
+        holes: [
+          { number: 1, dist: 301, par: 3 },
+          { number: 2, dist: 365, par: 3 },
+          { number: 3, dist: 270, par: 3 },
+          { number: 4, dist: 240, par: 3 },
+          { number: 5, dist: 367, par: 3 },
+          { number: 6, dist: 177, par: 3 },
+          { number: 7, dist: 305, par: 3 },
+          { number: 8, dist: 263, par: 3 },
+          { number: 9, dist: 279, par: 3 },
+          { number: 10, dist: 240, par: 3 },
+          { number: 11, dist: 190, par: 3 },
+          { number: 12, dist: 336, par: 3 },
+          { number: 13, dist: 256, par: 3 },
+          { number: 14, dist: 338, par: 3 },
+          { number: 15, dist: 235, par: 3 },
+          { number: 16, dist: 276, par: 3 },
+          { number: 17, dist: 284, par: 3 },
+          { number: 18, dist: 289, par: 3 }
+        ]
+      },
       smp_art9: {
         name: "The Art Nine @ SMP",
         totalHoles: 9,
@@ -548,30 +568,6 @@
           { number: 18, dist: 292, par: 3 }
         ]
       },
-      wolf_den: {
-        name: "Wolf Den @ Mission Trail",
-        totalHoles: 18,
-        holes: [
-          { number: 1, dist: 301, par: 3 },
-          { number: 2, dist: 365, par: 3 },
-          { number: 3, dist: 270, par: 3 },
-          { number: 4, dist: 240, par: 3 },
-          { number: 5, dist: 367, par: 3 },
-          { number: 6, dist: 177, par: 3 },
-          { number: 7, dist: 305, par: 3 },
-          { number: 8, dist: 263, par: 3 },
-          { number: 9, dist: 279, par: 3 },
-          { number: 10, dist: 240, par: 3 },
-          { number: 11, dist: 190, par: 3 },
-          { number: 12, dist: 336, par: 3 },
-          { number: 13, dist: 256, par: 3 },
-          { number: 14, dist: 338, par: 3 },
-          { number: 15, dist: 235, par: 3 },
-          { number: 16, dist: 276, par: 3 },
-          { number: 17, dist: 284, par: 3 },
-          { number: 18, dist: 289, par: 3 }
-        ]
-      },
       harmon: {
         name: "Harmon & Santa Fe Parks",
         totalHoles: 9,
@@ -604,19 +600,51 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v17';
-    const HISTORY_KEY = 'dg_history_v17';
+    const STORAGE_KEY = 'dg_round_v18';
+    const HISTORY_KEY = 'dg_history_v18';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v17';
-    const ROSTER_KEY = 'dg_roster_v17';
+    const TIMER_KEY = 'dg_timer_state_v18';
+    const ROSTER_KEY = 'dg_roster_v18';
 
     const INITIAL_ROSTER = [
       { id: 'jeffery', name: 'Jeffery', tag: 'J1', color: 'blue-600' },
       { id: 'jack', name: 'Jack', tag: 'J2', color: 'blue-800' }
     ];
 
-    // ALL 3 COMPLETED MATCHES PRE-SEEDED
+    // ALL 4 COMPLETED ROUNDS PERMANENTLY SAVED (NO WINNER LABELS)
     const SEEDED_ROUNDS = [
+      {
+        id: 1728514800000,
+        courseName: "Wolf Den @ Mission Trail",
+        totalHoles: 18,
+        date: "2026-10-09",
+        duration: "01:49:00",
+        par: 54,
+        players: [
+          { id: 'jeffery', name: 'Jeffery', total: 75 },
+          { id: 'jack', name: 'Jack', total: 91 }
+        ],
+        holes: [
+          { number: 1, distance: 301, par: 3, scores: { jeffery: 3, jack: 4 } },
+          { number: 2, distance: 365, par: 3, scores: { jeffery: 5, jack: 6 } },
+          { number: 3, distance: 270, par: 3, scores: { jeffery: 5, jack: 6 } },
+          { number: 4, distance: 240, par: 3, scores: { jeffery: 4, jack: 4 } },
+          { number: 5, distance: 367, par: 3, scores: { jeffery: 6, jack: 7 } },
+          { number: 6, distance: 177, par: 3, scores: { jeffery: 3, jack: 4 } },
+          { number: 7, distance: 305, par: 3, scores: { jeffery: 5, jack: 5 } },
+          { number: 8, distance: 263, par: 3, scores: { jeffery: 4, jack: 5 } },
+          { number: 9, distance: 279, par: 3, scores: { jeffery: 4, jack: 5 } },
+          { number: 10, distance: 240, par: 3, scores: { jeffery: 4, jack: 6 } },
+          { number: 11, distance: 190, par: 3, scores: { jeffery: 3, jack: 4 } },
+          { number: 12, distance: 336, par: 3, scores: { jeffery: 4, jack: 6 } },
+          { number: 13, distance: 256, par: 3, scores: { jeffery: 3, jack: 5 } },
+          { number: 14, distance: 338, par: 3, scores: { jeffery: 5, jack: 6 } },
+          { number: 15, distance: 235, par: 3, scores: { jeffery: 4, jack: 5 } },
+          { number: 16, distance: 276, par: 3, scores: { jeffery: 4, jack: 4 } },
+          { number: 17, distance: 284, par: 3, scores: { jeffery: 5, jack: 5 } },
+          { number: 18, distance: 289, par: 3, scores: { jeffery: 4, jack: 4 } }
+        ]
+      },
       {
         id: 1728442800000,
         courseName: "The Art Nine @ SMP",
@@ -628,7 +656,6 @@
           { id: 'jeffery', name: 'Jeffery', total: 26 },
           { id: 'jack', name: 'Jack', total: 28 }
         ],
-        winner: "Jeffery",
         holes: [
           { number: 1, distance: 132, par: 3, scores: { jeffery: 3, jack: 4 } },
           { number: 2, distance: 103, par: 3, scores: { jeffery: 2, jack: 3 } },
@@ -652,7 +679,6 @@
           { id: 'jeffery', name: 'Jeffery', total: 27 },
           { id: 'jack', name: 'Jack', total: 33 }
         ],
-        winner: "Jeffery",
         holes: [
           { number: 1, distance: 128, par: 3, scores: { jeffery: 2, jack: 4 } },
           { number: 2, distance: 197, par: 3, scores: { jeffery: 3, jack: 4 } },
@@ -676,7 +702,6 @@
           { id: 'jeffery', name: 'Jeffery', total: 35 },
           { id: 'jack', name: 'Jack', total: 41 }
         ],
-        winner: "Jeffery",
         holes: [
           { number: 1, distance: 218, par: 3, scores: { jeffery: 3, jack: 4 } },
           { number: 2, distance: 264, par: 3, scores: { jeffery: 3, jack: 4 } },
@@ -693,9 +718,9 @@
 
     let roster = [];
     let roundState = {
-      courseKey: 'smp_art9',
-      courseName: "The Art Nine @ SMP",
-      totalHoles: 9,
+      courseKey: 'wolf_den',
+      courseName: "Wolf Den @ Mission Trail",
+      totalHoles: 18,
       date: new Date().toISOString().split('T')[0],
       currentHoleIndex: 0,
       holes: []
@@ -745,7 +770,7 @@
         try { roundState = JSON.parse(saved); } catch(e){}
       }
       if (!roundState.holes || roundState.holes.length === 0) {
-        loadPresetData('smp_art9');
+        loadPresetData('wolf_den');
       }
 
       updateHistoryCountBadge();
@@ -761,7 +786,7 @@
     }
 
     function loadPresetData(key) {
-      const course = COURSE_DATABASE[key] || COURSE_DATABASE.smp_art9;
+      const course = COURSE_DATABASE[key] || COURSE_DATABASE.wolf_den;
       roundState.courseKey = key;
       roundState.courseName = course.name;
       roundState.totalHoles = course.totalHoles;
@@ -782,7 +807,7 @@
     }
 
     function loadSelectedPresetCourse(key) {
-      if (confirm(`Load course layout for ${COURSE_DATABASE[key].name}? Current scores will reset to 0.`)) {
+      if (confirm(`Load course layout for ${COURSE_DATABASE[key].name}? Scores will reset to 0.`)) {
         loadPresetData(key);
         document.getElementById('inputCourseName').value = roundState.courseName;
       }
@@ -1057,9 +1082,7 @@
 
       document.getElementById('captureCardTitle').innerText = roundState.courseName;
       document.getElementById('captureCardMeta').innerText = `${roundState.date} · ⏱ ${elapsed}`;
-
-      let leader = getLeaderString(roster, roundState.holes);
-      document.getElementById('captureCardWinner').innerText = leader;
+      document.getElementById('captureCardWinner').innerText = "Round Complete";
 
       document.getElementById('modalCardTitle').innerText = "Current Scorecard";
       document.getElementById('modalCardSubtitle').innerText = `${roundState.courseName} · ${roundState.totalHoles} Holes · Time: ${elapsed}`;
@@ -1098,7 +1121,7 @@
 
       document.getElementById('captureCardTitle').innerText = record.courseName;
       document.getElementById('captureCardMeta').innerText = `${record.date} · ⏱ ${record.duration || 'N/A'}`;
-      document.getElementById('captureCardWinner').innerText = record.winner ? `${record.winner} Won` : 'Completed';
+      document.getElementById('captureCardWinner').innerText = "Round Complete";
 
       document.getElementById('modalCardTitle').innerText = "Saved Round Review";
       document.getElementById('modalCardSubtitle').innerText = `${record.courseName} · ${record.date} · ⏱ ${record.duration || 'N/A'}`;
@@ -1167,23 +1190,6 @@
       });
       tfHtml += `</tr>`;
       tfoot.innerHTML = tfHtml;
-    }
-
-    function getLeaderString(players, holes) {
-      let lowest = 9999;
-      let leader = "In Progress";
-      players.forEach(p => {
-        let tot = 0;
-        holes.forEach(h => {
-          const s = (h.scores && h.scores[p.id]) ? h.scores[p.id] : (h[p.id] || 0);
-          tot += s;
-        });
-        if (tot > 0 && tot < lowest) {
-          lowest = tot;
-          leader = `${p.name} Leading`;
-        }
-      });
-      return leader;
     }
 
     // --- INSTANT PNG TRADING CARD EXPORT ---
@@ -1256,6 +1262,7 @@
         if (scored) playedPar += h.par;
       });
 
+      // Capture final duration BEFORE resetting timer
       const elapsed = document.getElementById('timerDisplay').innerText;
       const holeSnapshot = JSON.parse(JSON.stringify(roundState.holes));
 
@@ -1267,15 +1274,6 @@
         return { id: p.id, name: p.name, tag: p.tag, total: tot };
       });
 
-      let winner = "Tie";
-      let minScore = 9999;
-      playerSummaries.forEach(ps => {
-        if (ps.total > 0 && ps.total < minScore) {
-          minScore = ps.total;
-          winner = ps.name;
-        }
-      });
-
       const record = {
         id: Date.now(),
         courseName: roundState.courseName,
@@ -1284,7 +1282,6 @@
         duration: elapsed,
         par: playedPar,
         players: playerSummaries,
-        winner: winner,
         holes: holeSnapshot
       };
 
@@ -1292,6 +1289,11 @@
       localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
       updateHistoryCountBadge();
       renderHistory();
+
+      // Update card preview metadata before timer zero-out
+      document.getElementById('captureCardMeta').innerText = `${record.date} · ⏱ ${record.duration}`;
+      document.getElementById('captureCardWinner').innerText = "Round Complete";
+
       resetTimer();
       alert(`Round saved! Time: ${elapsed}`);
       closeScorecardModal();
@@ -1368,7 +1370,7 @@
           </div>
           <div class="flex items-center gap-2 shrink-0">
             <span class="px-2.5 py-1 rounded-lg text-xs font-black bg-blue-100 text-blue-800 border border-blue-200">
-              ${r.winner ? (r.winner === 'Tie' ? 'TIE' : r.winner + ' Won') : 'Saved'}
+              Complete
             </span>
             <button onclick="deleteRound(${r.id}, event)" title="Delete Round" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 flex items-center justify-center active:scale-90">
               <i class="fa-solid fa-trash-can text-xs"></i>
