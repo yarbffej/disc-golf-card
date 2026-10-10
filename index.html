@@ -89,7 +89,7 @@
   <header id="appHeader" class="app-header sticky top-0 z-40 backdrop-blur-md border-b px-3.5 pt-1.5 pb-2 shadow-lg shrink-0">
     <div class="max-w-lg mx-auto flex flex-col gap-1.5">
 
-      <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center justify-between gap-1.5">
         <button onclick="openCourseModal()" class="flex items-center gap-2 text-left truncate flex-1">
           <div class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md">
             <i class="fa-solid fa-location-dot text-sm"></i>
@@ -103,21 +103,31 @@
           </div>
         </button>
 
-        <div class="flex items-center gap-1.5 shrink-0">
-          <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
-            <i class="fa-solid fa-user-group text-xs"></i>
+        <div class="flex items-center gap-1 shrink-0">
+          <!-- INNOVA CADDY BUTTON -->
+          <button onclick="openCaddyModal()" title="Innova Caddy & Wind Advisor" class="px-2 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs flex items-center gap-1 active:scale-95 shadow-md border border-emerald-300">
+            <i class="fa-solid fa-compact-disc text-xs"></i>
+            <span>Caddy</span>
           </button>
 
-          <button onclick="openHistoryModal()" id="btnOpenHistory" title="View Saved Rounds" class="px-2.5 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-black text-xs flex items-center gap-1.5 active:scale-95 shadow-md border border-amber-300">
+          <!-- History Modal Button -->
+          <button onclick="openHistoryModal()" id="btnOpenHistory" title="View Saved Rounds" class="px-2 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-black text-xs flex items-center gap-1 active:scale-95 shadow-md border border-amber-300">
             <i class="fa-solid fa-clock-rotate-left text-xs"></i>
             <span>Rounds</span>
             <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">4</span>
           </button>
 
+          <!-- Roster Manager -->
+          <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
+            <i class="fa-solid fa-user-group text-xs"></i>
+          </button>
+
+          <!-- Google Drive Sync Setup -->
           <button onclick="openDriveSyncModal()" title="Google Drive Cloud Setup" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-400 border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-brands fa-google-drive text-xs"></i>
           </button>
 
+          <!-- Palette Toggle -->
           <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-palette text-xs"></i>
           </button>
@@ -189,7 +199,7 @@
             <span class="text-xs card-subtext font-semibold">ft</span>
           </div>
         </div>
-        <button onclick="editDistance()" class="w-9 h-9 rounded-lg bg-blue-600 text-white active:scale-90 flex items-center justify-center shadow">
+        <button onclick="editDistance()" class="w-9 h-9 rounded-lg bg-blue-600 text-white active:scale-95 flex items-center justify-center shadow">
           <i class="fa-solid fa-pen-to-square text-xs"></i>
         </button>
       </div>
@@ -259,7 +269,126 @@
     </div>
   </div>
 
-  <!-- CUSTOM COURSE PICKER MODAL (NO BROWSER SELECT WHEEL) -->
+  <!-- INNOVA CADDY & WIND ADVISOR MODAL -->
+  <div id="modalCaddy" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex-col justify-end">
+    <div class="bg-slate-950 text-white border-t border-slate-800 rounded-t-3xl max-w-lg mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden shadow-2xl">
+      
+      <!-- Caddy Header -->
+      <div class="px-4 py-3 border-b border-slate-800 flex items-center justify-between bg-slate-900 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-black shadow text-sm">
+            <i class="fa-solid fa-compact-disc"></i>
+          </div>
+          <div>
+            <h3 class="font-black text-sm text-white">Innova Bag Caddy</h3>
+            <p class="text-[11px] text-slate-400 font-semibold">9 Disc Quiver & Wind Advisor</p>
+          </div>
+        </div>
+        <button onclick="closeCaddyModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Scrollable Caddy Workspace -->
+      <div class="overflow-y-auto p-3.5 flex-1 custom-scroll space-y-3.5">
+        
+        <!-- WIND & HOLE ADVISOR CONTROL BOX -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 shadow-md space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-black uppercase text-amber-400 tracking-wider">Hole Distance</span>
+              <span id="caddyHoleDistBadge" class="bg-blue-600 text-white font-black text-xs px-2 py-0.5 rounded-lg">301 ft</span>
+            </div>
+            <!-- Auto-Weather Button -->
+            <button onclick="fetchLiveWind()" id="btnFetchWeather" class="px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-500/40 text-[11px] font-bold flex items-center gap-1 active:scale-95 shadow">
+              <i class="fa-solid fa-cloud-sun text-xs"></i>
+              <span>Live Wind</span>
+            </button>
+          </div>
+
+          <!-- Wind Selector Chips -->
+          <div>
+            <div class="text-[10px] font-bold uppercase text-slate-400 mb-1 flex items-center justify-between">
+              <span>Wind Condition</span>
+              <span id="currentWindReadout" class="text-slate-300 font-mono text-[11px] font-bold">8 mph Headwind</span>
+            </div>
+            <div class="grid grid-cols-5 gap-1 text-[11px] font-black" id="windTypeSelector">
+              <button onclick="setWind('headwind', 10)" class="wind-btn py-1.5 rounded-xl bg-blue-600 text-white shadow border border-blue-400" data-wind="headwind">Headwind</button>
+              <button onclick="setWind('tailwind', 10)" class="wind-btn py-1.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700" data-wind="tailwind">Tailwind</button>
+              <button onclick="setWind('cross_left', 8)" class="wind-btn py-1.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700" data-wind="cross_left">Cross L</button>
+              <button onclick="setWind('cross_right', 8)" class="wind-btn py-1.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700" data-wind="cross_right">Cross R</button>
+              <button onclick="setWind('calm', 2)" class="wind-btn py-1.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700" data-wind="calm">Calm</button>
+            </div>
+          </div>
+
+          <!-- DYNAMIC RECOMMENDATION HERO BANNER -->
+          <div id="caddyRecommendationBanner" class="p-3 rounded-xl bg-gradient-to-r from-blue-950 to-slate-900 border border-blue-500/50 flex flex-col gap-1">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- FILTER CHIPS -->
+        <div class="flex gap-1.5 overflow-x-auto custom-scroll pb-0.5">
+          <button onclick="filterCaddyDiscs('all')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-black shrink-0 shadow">All (9)</button>
+          <button onclick="filterCaddyDiscs('putter')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-[11px] font-bold shrink-0 border border-slate-700">Putters</button>
+          <button onclick="filterCaddyDiscs('mid')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-[11px] font-bold shrink-0 border border-slate-700">Midranges</button>
+          <button onclick="filterCaddyDiscs('driver')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-[11px] font-bold shrink-0 border border-slate-700">Drivers</button>
+        </div>
+
+        <!-- 9 INNOVA DISC TIP CARDS LIST -->
+        <div id="caddyCardsContainer" class="space-y-3"></div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- THROW LOG & VOICE DICTATION MODAL -->
+  <div id="modalLogThrow" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-sm w-full p-4 space-y-3 text-white shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+        <div>
+          <h4 class="font-black text-sm text-white" id="logThrowDiscTitle">Log Shot</h4>
+          <p class="text-[11px] text-slate-400 font-semibold" id="logThrowHoleMeta">Hole 1 · Wolf Den</p>
+        </div>
+        <button onclick="closeLogThrowModal()" class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Like / Missed Line Selector -->
+      <div>
+        <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Did you like this shot?</label>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="setLogLiked(true)" id="btnLogLikedYes" class="py-2.5 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 border-2 border-emerald-400">
+            <i class="fa-solid fa-thumbs-up"></i>
+            <span>Liked it!</span>
+          </button>
+          <button onclick="setLogLiked(false)" id="btnLogLikedNo" class="py-2.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 border border-slate-700">
+            <i class="fa-solid fa-thumbs-down"></i>
+            <span>Missed Line</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Voice Dictation & Notes Area -->
+      <div>
+        <div class="flex items-center justify-between mb-1">
+          <label class="text-[10px] font-black uppercase text-slate-400">Commentary & Feel</label>
+          <button onclick="toggleSpeechDictation()" id="btnDictateVoice" class="text-[10px] px-2 py-0.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold flex items-center gap-1 active:scale-95 shadow">
+            <i class="fa-solid fa-microphone" id="dictateIcon"></i>
+            <span id="dictateLabel">Dictate</span>
+          </button>
+        </div>
+        <textarea id="inputShotNote" rows="2" placeholder="e.g. Pure flat release, parked 10 ft from pole..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-medium text-xs focus:outline-none focus:border-blue-500"></textarea>
+      </div>
+
+      <div class="pt-1 flex gap-2">
+        <button onclick="saveLoggedThrow()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-black text-xs active:scale-95 shadow">Save Throw to Stats</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOM COURSE PICKER MODAL -->
   <div id="modalCourse" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm w-full p-4 space-y-3 max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
       
@@ -273,10 +402,8 @@
         </button>
       </div>
 
-      <!-- Styled Card List of Courses -->
       <div class="flex-1 overflow-y-auto custom-scroll space-y-2 pr-0.5" id="courseSelectionList"></div>
 
-      <!-- Custom Course Details Drawer -->
       <div class="pt-2 border-t border-slate-200 shrink-0 space-y-2">
         <div class="flex gap-2">
           <div class="flex-1">
@@ -285,7 +412,7 @@
           </div>
           <div class="w-32">
             <label class="block text-[10px] font-black text-slate-500 uppercase mb-0.5">Date</label>
-            <input type="date" id="inputRoundDate" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2 py-1.5 text-slate-900 text-xs font-bold focus:outline-none">
+            <input type="date" id="inputRoundDate" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-slate-900 text-xs font-bold focus:outline-none">
           </div>
         </div>
         <div class="flex gap-2 pt-1">
@@ -622,12 +749,143 @@
       }
     };
 
+    // 9 INNOVA DISCS SPECIFICATIONS & FLIGHT ATTRIBUTES
+    const INNOVA_DISCS = [
+      {
+        id: "aviar",
+        name: "Innova Aviar",
+        type: "putter",
+        category: "Putt & Approach",
+        categoryColor: "bg-blue-900 text-blue-200 border-blue-700",
+        specs: "Baseline Beadless Putt & Approach",
+        numbers: { speed: 2, glide: 3, turn: 0, fade: 1 },
+        flightPath: "Dead Straight · Gentle Soft Fall",
+        idealDist: "10 - 180 ft",
+        whenToUse: "Direct putts inside Circle 1/2. Floaty, touch upshots that land softly near the basket.",
+        whenAvoid: "High headwinds or power drives (will flip right).",
+        proTip: "Keep wrist flat and aim right at the pole."
+      },
+      {
+        id: "pig",
+        name: "Innova Pig",
+        type: "putter",
+        category: "Overstable Approach",
+        categoryColor: "bg-rose-900 text-rose-200 border-rose-700",
+        specs: "Galactic XT Factory Second · 175g · Green",
+        numbers: { speed: 3, glide: 1, turn: 0, fade: 3 },
+        flightPath: "Thumbtrack · Immediate Dump & Stick",
+        idealDist: "50 - 200 ft",
+        whenToUse: "Drop-and-stick upshots that cannot roll away. Stiff headwinds, forehand chip shots, and short hyzers.",
+        whenAvoid: "Long glidey fairway drives (Glide 1 drops quickly).",
+        proTip: "Lock your thumb directly into the top thumbtrack for instant forehand grip."
+      },
+      {
+        id: "sync",
+        name: "Innova Sync",
+        type: "putter",
+        category: "Throwing Putter",
+        categoryColor: "bg-blue-900 text-blue-200 border-blue-700",
+        specs: "Star Plastic · 175g · Red · Blue Stamp",
+        numbers: { speed: 3, glide: 3, turn: 0, fade: 1 },
+        flightPath: "Flat Beadless Profile · Clean Laser Release",
+        idealDist: "150 - 230 ft",
+        whenToUse: "Driving putter off the tee on short par 3s. Clean hand release with a dead-straight flight.",
+        whenAvoid: "Heavy cross-gusts or shots needing big ground skips.",
+        proTip: "Throw flat with moderate snap; it holds tight tree tunnels effortlessly."
+      },
+      {
+        id: "mako3",
+        name: "Innova Mako3",
+        type: "mid",
+        category: "Laser Midrange",
+        categoryColor: "bg-emerald-900 text-emerald-200 border-emerald-700",
+        specs: "Premium Midrange · 0 Turn · 0 Fade",
+        numbers: { speed: 5, glide: 5, turn: 0, fade: 0 },
+        flightPath: "Pure Straight Laser · Holds Any Release Angle",
+        idealDist: "180 - 250 ft",
+        whenToUse: "Tight wooded tunnels where zero late fade is required. Flat stays flat; hyzer stays hyzer.",
+        whenAvoid: "Stiff headwinds (0 fade to fight back) or sharp doglegs.",
+        proTip: "The ultimate form checker; fly it straight through narrow gaps."
+      },
+      {
+        id: "roc3",
+        name: "Innova Roc3",
+        type: "mid",
+        category: "Overstable Midrange",
+        categoryColor: "bg-amber-900 text-amber-200 border-amber-700",
+        specs: "DX Plastic · 174g · Turquoise · Orange Stamp",
+        numbers: { speed: 5, glide: 4, turn: 0, fade: 3 },
+        flightPath: "Flat Top · High-Speed Stability · Dependable Fade",
+        idealDist: "200 - 260 ft",
+        whenToUse: "Moderate headwinds, sweeping hyzer lines, and controlled placement shots with dependable left bite.",
+        whenAvoid: "Right-drifting turnovers or dead-straight low ceilings.",
+        proTip: "DX plastic provides great grip in damp morning Kansas rounds."
+      },
+      {
+        id: "rollo",
+        name: "Innova Rollo",
+        type: "mid",
+        category: "Turnover / Roller",
+        categoryColor: "bg-purple-900 text-purple-200 border-purple-700",
+        specs: "Star Plastic · 172g · Orange · Silver Stamp",
+        numbers: { speed: 5, glide: 6, turn: -4, fade: 1 },
+        flightPath: "Extreme Glide · Effortless Right Drift & Roller",
+        idealDist: "200 - 280 ft",
+        whenToUse: "Fairways curving sharply right when you don't have a forehand. Standstill ground rollers and flip-ups.",
+        whenAvoid: "Never throw into a headwind (will dive into the dirt).",
+        proTip: "Release on a steep hyzer; watch it stand up and drift gently right."
+      },
+      {
+        id: "hawkeye",
+        name: "Innova Hawkeye",
+        type: "driver",
+        category: "Fairway Driver",
+        categoryColor: "bg-teal-900 text-teal-200 border-teal-700",
+        specs: "Fairway Control Driver",
+        numbers: { speed: 7, glide: 5, turn: -1, fade: 1 },
+        flightPath: "Gentle S-Curve · Forward Piercing Glide",
+        idealDist: "220 - 290 ft",
+        whenToUse: "Primary fairway driver for narrow corridors and open placement. Smooth controllable distance.",
+        whenAvoid: "Severe 20+ mph headwinds where extra stability is needed.",
+        proTip: "Smooth 70% power throw produces maximum straight carry."
+      },
+      {
+        id: "firebird",
+        name: "Innova Firebird",
+        type: "driver",
+        category: "Utility Overstable Driver",
+        categoryColor: "bg-red-900 text-red-200 border-red-700",
+        specs: "Champion I-Dye · 170g · Multicolor · White Stamp",
+        numbers: { speed: 9, glide: 3, turn: 0, fade: 4 },
+        flightPath: "Meat-Hook Fade · Hard Flare Skips · Unshakable Wind Resistance",
+        idealDist: "200 - 280 ft",
+        whenToUse: "Strong headwinds, sharp corners, hard grass-flare skips, and torque-resistant forehands.",
+        whenAvoid: "Maximum straight distance or tailwind drives.",
+        proTip: "Throw hard to the right of the pin and let it flare skip 20 ft left off the grass."
+      },
+      {
+        id: "mamba",
+        name: "Innova Mamba",
+        type: "driver",
+        category: "Lightweight Distance",
+        categoryColor: "bg-amber-900 text-amber-200 border-amber-700",
+        specs: "Star Plastic · 152g (Ultra-Lightweight!) · Pink · Blue Stamp",
+        numbers: { speed: 11, glide: 6, turn: -5, fade: 1 },
+        flightPath: "Effortless Flip · Tailwind Bomber · Huge S-Curve",
+        idealDist: "260 - 350+ ft",
+        whenToUse: "Maximum distance bomber! Ultra-light 152g weight gives effortless distance and high-speed flip with minimal arm speed.",
+        whenAvoid: "Never throw into a headwind (will instantly flip into the ground).",
+        proTip: "Release on a smooth hyzer with nose down; let the 152g weight sail with the tailwind."
+      }
+    ];
+
     const STORAGE_KEY = 'dg_round_v25';
     const HISTORY_KEY = 'dg_history_v25';
     const THEME_KEY = 'dg_theme_mode_v2';
     const TIMER_KEY = 'dg_timer_state_v25';
     const ROSTER_KEY = 'dg_roster_v25';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
+    const DISC_STATS_KEY = 'dg_disc_stats_v1';
 
     const INITIAL_ROSTER = [
       { id: 'jeffery', name: 'Jeffery', tag: 'J1', color: 'blue-600' },
@@ -751,6 +1009,35 @@
     let timerInterval = null;
     let timerState = { running: false, startTime: null, accumulatedMs: 0 };
 
+    // Caddy State
+    let caddyState = {
+      windType: 'headwind',
+      windSpeed: 10,
+      activeFilter: 'all'
+    };
+    let activeLogDiscId = null;
+    let activeLogLiked = true;
+    let activeSpeechRecognition = null;
+    let isDictating = false;
+
+    function getDiscStats() {
+      let stats = {};
+      const saved = localStorage.getItem(DISC_STATS_KEY);
+      if (saved) {
+        try { stats = JSON.parse(saved); } catch(e){}
+      }
+      INNOVA_DISCS.forEach(d => {
+        if (!stats[d.id]) {
+          stats[d.id] = { throws: 0, likes: 0, notes: [] };
+        }
+      });
+      return stats;
+    }
+
+    function saveDiscStats(stats) {
+      localStorage.setItem(DISC_STATS_KEY, JSON.stringify(stats));
+    }
+
     function getHistory() {
       let history = [];
       const savedHist = localStorage.getItem(HISTORY_KEY);
@@ -833,7 +1120,388 @@
       renderCurrentHole();
     }
 
-    // RENDER SLEEK CARD LIST INSTEAD OF NATIVE SELECT
+    // --- CADDY & WIND ADVISOR ENGINE ---
+    function openCaddyModal() {
+      const currentHole = roundState.holes[roundState.currentHoleIndex] || { distance: 300 };
+      document.getElementById('caddyHoleDistBadge').innerText = `${currentHole.distance} ft`;
+      renderCaddyRecommendations();
+      renderCaddyDiscCards();
+      document.getElementById('modalCaddy').classList.remove('hidden');
+      document.getElementById('modalCaddy').classList.add('flex');
+    }
+
+    function closeCaddyModal() {
+      document.getElementById('modalCaddy').classList.add('hidden');
+      document.getElementById('modalCaddy').classList.remove('flex');
+    }
+
+    function setWind(type, speed) {
+      caddyState.windType = type;
+      caddyState.windSpeed = speed;
+
+      document.querySelectorAll('.wind-btn').forEach(btn => {
+        if (btn.dataset.wind === type) {
+          btn.className = "wind-btn py-1.5 rounded-xl bg-blue-600 text-white shadow border border-blue-400";
+        } else {
+          btn.className = "wind-btn py-1.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700";
+        }
+      });
+
+      const labelMap = {
+        headwind: `${speed} mph Headwind`,
+        tailwind: `${speed} mph Tailwind`,
+        cross_left: `${speed} mph Crosswind (Left)`,
+        cross_right: `${speed} mph Crosswind (Right)`,
+        calm: `Calm (0-2 mph)`
+      };
+      document.getElementById('currentWindReadout').innerText = labelMap[type] || 'Wind Set';
+      renderCaddyRecommendations();
+    }
+
+    async function fetchLiveWind() {
+      const btn = document.getElementById('btnFetchWeather');
+      if (btn) btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Getting...';
+
+      let lat = 38.9536; // Lenexa, KS fallback
+      let lon = -94.7336;
+
+      function queryWeather(latitude, longitude) {
+        fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=wind_speed_10m,wind_direction_10m&wind_speed_unit=mph`)
+          .then(res => res.json())
+          .then(data => {
+            if (data && data.current) {
+              const speed = Math.round(data.current.wind_speed_10m);
+              setWind(speed > 5 ? 'headwind' : 'calm', speed);
+              document.getElementById('currentWindReadout').innerText = `${speed} mph (Live Weather)`;
+            }
+          })
+          .catch(err => {
+            alert("Weather service unreachable; using manual selector.");
+          })
+          .finally(() => {
+            if (btn) btn.innerHTML = '<i class="fa-solid fa-cloud-sun text-xs"></i> Live Wind';
+          });
+      }
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => queryWeather(pos.coords.latitude, pos.coords.longitude),
+          (err) => queryWeather(lat, lon),
+          { timeout: 4000 }
+        );
+      } else {
+        queryWeather(lat, lon);
+      }
+    }
+
+    function renderCaddyRecommendations() {
+      const banner = document.getElementById('caddyRecommendationBanner');
+      const currentHole = roundState.holes[roundState.currentHoleIndex] || { distance: 300, number: 1 };
+      const dist = currentHole.distance;
+      const wind = caddyState.windType;
+      const speed = caddyState.windSpeed;
+
+      let topPick = "Innova Hawkeye";
+      let reason = "Controlled neutral flight.";
+      let warning = "";
+
+      if (wind === 'headwind') {
+        if (speed >= 12 || dist >= 240) {
+          topPick = "Innova Firebird (Champion 170g)";
+          reason = "Overstable beef fights headwind lift and won't turn over.";
+        } else if (dist >= 170) {
+          topPick = "Innova Roc3 (DX 174g)";
+          reason = "Maintains flight angle with dependable left bite.";
+        } else {
+          topPick = "Innova Pig (Galactic XT 175g)";
+          reason = "Glide 1 prevents the headwind from ballooning your disc past the basket.";
+        }
+        warning = "⚠️ Do NOT throw Mamba (152g) or Rollo into this headwind — they will flip directly into the ground!";
+      } else if (wind === 'tailwind') {
+        if (dist >= 250) {
+          topPick = "Innova Mamba (Star 152g)";
+          reason = "Tailwinds increase stability. The ultra-light 152g Star Mamba glides forever!";
+        } else if (dist >= 190) {
+          topPick = "Innova Hawkeye or Rollo";
+          reason = "Tailwind keeps understable discs straight and floating.";
+        } else {
+          topPick = "Innova Sync or Aviar";
+          reason = "Gentle tailwind push to the chains.";
+        }
+        warning = "Avoid Firebird and Pig here; a tailwind drops them out of the sky very early.";
+      } else {
+        // Calm or Crosswind
+        if (dist < 160) {
+          topPick = "Innova Aviar or Sync";
+          reason = "Smooth point-and-shoot touch approach.";
+        } else if (dist < 240) {
+          topPick = "Innova Mako3 (5|5|0|0)";
+          reason = "Pure laser beam through tight wooded gaps.";
+        } else if (dist < 280) {
+          topPick = "Innova Hawkeye (Fairway)";
+          reason = "Controlled placement fairway drive.";
+        } else {
+          topPick = "Innova Mamba (Star 152g)";
+          reason = "Maximum effortless distance down open fairway.";
+        }
+      }
+
+      banner.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-black uppercase text-emerald-400 tracking-wider">Top Caddy Recommendation</span>
+          <span class="text-[10px] font-black text-blue-300">#${currentHole.number} · ${dist} ft</span>
+        </div>
+        <div class="font-black text-sm text-white flex items-center gap-1.5">
+          <i class="fa-solid fa-circle-check text-emerald-400"></i>
+          <span>${topPick}</span>
+        </div>
+        <p class="text-[11px] text-slate-300 font-medium leading-tight">${reason}</p>
+        ${warning ? `<p class="text-[10px] text-amber-300 font-bold mt-1 bg-amber-950/40 p-1 rounded-lg border border-amber-500/30">${warning}</p>` : ''}
+      `;
+    }
+
+    function filterCaddyDiscs(type) {
+      caddyState.activeFilter = type;
+      document.querySelectorAll('.caddy-filter-btn').forEach(btn => {
+        btn.className = "caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-[11px] font-bold shrink-0 border border-slate-700";
+      });
+      event.target.className = "caddy-filter-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-black shrink-0 shadow";
+      renderCaddyDiscCards();
+    }
+
+    function renderCaddyDiscCards() {
+      const container = document.getElementById('caddyCardsContainer');
+      container.innerHTML = '';
+
+      const stats = getDiscStats();
+      const filtered = caddyState.activeFilter === 'all'
+        ? INNOVA_DISCS
+        : INNOVA_DISCS.filter(d => d.type === caddyState.activeFilter);
+
+      filtered.forEach(d => {
+        const dStats = stats[d.id] || { throws: 0, likes: 0, notes: [] };
+        const likeRate = dStats.throws > 0 ? Math.round((dStats.likes / dStats.throws) * 100) : null;
+
+        const card = document.createElement('div');
+        card.id = `discCard_${d.id}`;
+        card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-3.5 shadow-md flex flex-col gap-2.5";
+        card.innerHTML = `
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <h4 class="text-sm font-black text-white">${d.name}</h4>
+                <span class="text-[9px] font-black uppercase px-2 py-0.2 rounded-full border ${d.categoryColor}">${d.category}</span>
+              </div>
+              <p class="text-[10px] text-amber-400 font-bold mt-0.5">${d.specs}</p>
+            </div>
+            <div class="text-right">
+              <span class="text-[9px] uppercase font-bold text-slate-400 block">Range</span>
+              <span class="text-xs font-black text-blue-400">${d.idealDist}</span>
+            </div>
+          </div>
+
+          <!-- Flight Numbers & Lifetime Stats -->
+          <div class="grid grid-cols-5 gap-1 text-center bg-slate-950/80 rounded-xl p-1.5 border border-slate-800">
+            <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Speed</span><span class="text-xs font-black text-white">${d.numbers.speed}</span></div>
+            <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Glide</span><span class="text-xs font-black text-white">${d.numbers.glide}</span></div>
+            <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Turn</span><span class="text-xs font-black ${d.numbers.turn < 0 ? 'text-amber-400' : 'text-white'}">${d.numbers.turn}</span></div>
+            <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Fade</span><span class="text-xs font-black ${d.numbers.fade >= 3 ? 'text-rose-400' : 'text-white'}">${d.numbers.fade}</span></div>
+            <div class="border-l border-slate-800 pl-1">
+              <span class="text-[8px] font-bold uppercase text-emerald-400 block">Liked</span>
+              <span class="text-xs font-black text-emerald-400">${likeRate !== null ? likeRate + '%' : '-'}</span>
+            </div>
+          </div>
+
+          <!-- When to use / Pitfalls -->
+          <div class="space-y-1.5 text-[11px]">
+            <div class="p-2 rounded-xl bg-emerald-950/30 border border-emerald-900/40 text-slate-200">
+              <strong class="text-emerald-400 text-[10px] uppercase block mb-0.5"><i class="fa-solid fa-circle-check mr-1"></i>When to Throw</strong>
+              ${d.whenToUse}
+            </div>
+            <div class="p-2 rounded-xl bg-rose-950/30 border border-rose-900/40 text-slate-300">
+              <strong class="text-rose-400 text-[10px] uppercase block mb-0.5"><i class="fa-solid fa-circle-xmark mr-1"></i>Avoid When</strong>
+              ${d.whenAvoid}
+            </div>
+          </div>
+
+          <!-- Recent Voice Commentary Preview -->
+          ${dStats.notes && dStats.notes.length > 0 ? `
+            <div class="p-2 rounded-xl bg-slate-950 border border-slate-800 text-[10px] text-slate-300">
+              <span class="text-slate-400 font-bold block mb-0.5">Last Commentary:</span>
+              "${dStats.notes[0]}"
+            </div>
+          ` : ''}
+
+          <!-- Actions -->
+          <div class="pt-1 flex gap-2 border-t border-slate-800/80">
+            <button onclick="openLogThrowModal('${d.id}')" class="flex-1 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs flex items-center justify-center gap-1.5 active:scale-95 shadow">
+              <i class="fa-solid fa-thumbs-up text-[10px]"></i>
+              <span>Log Shot (${dStats.throws})</span>
+            </button>
+            <button onclick="uploadDiscTipCardToDrive('${d.id}')" title="Upload Card PNG to Google Drive" class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-1 active:scale-95 shadow">
+              <i class="fa-brands fa-google-drive text-xs"></i>
+              <span>Drive</span>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // --- THROW LOGGING & VOICE DICTATION ---
+    function openLogThrowModal(discId) {
+      activeLogDiscId = discId;
+      activeLogLiked = true;
+      const disc = INNOVA_DISCS.find(d => d.id === discId);
+      const currentHole = roundState.holes[roundState.currentHoleIndex] || { number: 1, distance: 300 };
+
+      document.getElementById('logThrowDiscTitle').innerText = `Log Shot: ${disc.name}`;
+      document.getElementById('logThrowHoleMeta').innerText = `Hole #${currentHole.number} (${currentHole.distance} ft) · ${roundState.courseName}`;
+      document.getElementById('inputShotNote').value = '';
+      setLogLiked(true);
+
+      document.getElementById('modalLogThrow').classList.remove('hidden');
+      document.getElementById('modalLogThrow').classList.add('flex');
+    }
+
+    function closeLogThrowModal() {
+      if (activeSpeechRecognition && isDictating) {
+        activeSpeechRecognition.stop();
+        isDictating = false;
+      }
+      document.getElementById('modalLogThrow').classList.add('hidden');
+      document.getElementById('modalLogThrow').classList.remove('flex');
+    }
+
+    function setLogLiked(liked) {
+      activeLogLiked = liked;
+      const yesBtn = document.getElementById('btnLogLikedYes');
+      const noBtn = document.getElementById('btnLogLikedNo');
+
+      if (liked) {
+        yesBtn.className = "py-2.5 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 border-2 border-emerald-400";
+        noBtn.className = "py-2.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 border border-slate-700";
+      } else {
+        yesBtn.className = "py-2.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 border border-slate-700";
+        noBtn.className = "py-2.5 rounded-xl bg-rose-600 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 border-2 border-rose-400";
+      }
+    }
+
+    function toggleSpeechDictation() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Voice dictation is supported natively in Safari! Tap your keyboard's microphone icon to dictate directly.");
+        return;
+      }
+
+      const btn = document.getElementById('btnDictateVoice');
+      const icon = document.getElementById('dictateIcon');
+      const label = document.getElementById('dictateLabel');
+
+      if (!isDictating) {
+        activeSpeechRecognition = new SpeechRecognition();
+        activeSpeechRecognition.continuous = false;
+        activeSpeechRecognition.interimResults = false;
+        activeSpeechRecognition.lang = 'en-US';
+
+        activeSpeechRecognition.onstart = () => {
+          isDictating = true;
+          btn.className = "text-[10px] px-2 py-0.5 rounded-lg bg-rose-600 text-white font-black flex items-center gap-1 animate-pulse";
+          label.innerText = "Listening...";
+        };
+
+        activeSpeechRecognition.onresult = (e) => {
+          const text = e.results[0][0].transcript;
+          const textarea = document.getElementById('inputShotNote');
+          textarea.value = (textarea.value ? textarea.value + ' ' : '') + text;
+        };
+
+        activeSpeechRecognition.onerror = () => {
+          isDictating = false;
+          btn.className = "text-[10px] px-2 py-0.5 rounded-lg bg-blue-600 text-white font-bold flex items-center gap-1";
+          label.innerText = "Dictate";
+        };
+
+        activeSpeechRecognition.onend = () => {
+          isDictating = false;
+          btn.className = "text-[10px] px-2 py-0.5 rounded-lg bg-blue-600 text-white font-bold flex items-center gap-1";
+          label.innerText = "Dictate";
+        };
+
+        activeSpeechRecognition.start();
+      } else {
+        activeSpeechRecognition.stop();
+        isDictating = false;
+        btn.className = "text-[10px] px-2 py-0.5 rounded-lg bg-blue-600 text-white font-bold flex items-center gap-1";
+        label.innerText = "Dictate";
+      }
+    }
+
+    function saveLoggedThrow() {
+      if (!activeLogDiscId) return;
+
+      const note = document.getElementById('inputShotNote').value.trim();
+      const stats = getDiscStats();
+      const current = stats[activeLogDiscId];
+
+      current.throws += 1;
+      if (activeLogLiked) current.likes += 1;
+      if (note) {
+        current.notes.unshift(note);
+        if (current.notes.length > 5) current.notes.pop();
+      }
+
+      saveDiscStats(stats);
+      closeLogThrowModal();
+      renderCaddyDiscCards();
+      alert("Throw saved to your lifetime disc stats!");
+    }
+
+    // --- UPLOAD DISC TIP CARD DIRECTLY TO GOOGLE DRIVE ---
+    async function uploadDiscTipCardToDrive(discId) {
+      const cardEl = document.getElementById(`discCard_${discId}`);
+      if (!cardEl) return;
+
+      const webhookUrl = localStorage.getItem(WEBHOOK_KEY);
+      if (!webhookUrl) {
+        alert("Please set your Webhook URL first via the Google Drive icon in the header.");
+        openDriveSyncModal();
+        return;
+      }
+
+      try {
+        const canvas = await html2canvas(cardEl, {
+          scale: 2,
+          backgroundColor: '#0f172a',
+          useCORS: true
+        });
+
+        const dataUrl = canvas.toDataURL('image/png', 0.9);
+        const disc = INNOVA_DISCS.find(d => d.id === discId);
+        const fileName = `Innova_Card_${disc.name.replace(/\s+/g, '_')}_${roundState.date}.png`;
+
+        const payload = {
+          fileName: fileName,
+          imageBase64: dataUrl,
+          courseName: roundState.courseName,
+          date: roundState.date,
+          totalHoles: roundState.totalHoles
+        };
+
+        await fetch(webhookUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        alert(`${disc.name} tip card uploaded directly to your Scorecard Images folder in Google Drive!`);
+      } catch (err) {
+        alert("Drive upload error: " + err.message);
+      }
+    }
+
+    // --- COURSE SELECTION & STATE ---
     function renderCourseSelectionList() {
       const container = document.getElementById('courseSelectionList');
       if (!container) return;
@@ -1286,7 +1954,7 @@
 
       const webhookUrl = localStorage.getItem(WEBHOOK_KEY);
       if (!webhookUrl) {
-        alert("Please set your Webhook URL first by tapping the Google Drive icon in the header.");
+        alert("Please set your Webhook URL first via the Google Drive icon in the header.");
         openDriveSyncModal();
         return;
       }
