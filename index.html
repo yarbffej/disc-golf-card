@@ -264,7 +264,7 @@
     </div>
   </div>
 
-  <!-- INNOVA CADDY & WIND ADVISOR MODAL (RECALIBRATED) -->
+  <!-- INNOVA CADDY & 3-DISC RECOMMENDATION MODAL -->
   <div id="modalCaddy" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex-col justify-end">
     <div class="bg-slate-950 text-white border-t border-slate-800 rounded-t-3xl max-w-lg mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden shadow-2xl">
       
@@ -276,7 +276,7 @@
           </div>
           <div>
             <h3 class="font-black text-sm text-white">Innova Bag Caddy</h3>
-            <p class="text-[11px] text-slate-400 font-semibold">Calibrated to 150-ft Drive Range</p>
+            <p class="text-[11px] text-slate-400 font-semibold">3-Disc Call for Hole & Wind</p>
           </div>
         </div>
         <button onclick="closeCaddyModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center">
@@ -284,61 +284,66 @@
         </button>
       </div>
 
-      <!-- Scrollable Caddy Workspace -->
+      <!-- Scrollable Workspace -->
       <div class="overflow-y-auto p-3.5 flex-1 custom-scroll space-y-3.5">
         
-        <!-- POWER PROFILE & WIND CONTROL BOX -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 shadow-md space-y-2.5">
+        <!-- MANUAL WIND & HOLE DISTANCE BOX -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 shadow-md space-y-3">
           
-          <!-- Power Calibration Bar -->
-          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-            <div>
-              <span class="text-[10px] font-black uppercase text-amber-400 block tracking-wider">Your Max Drive Power</span>
-              <span class="text-xs font-bold text-slate-300" id="labelMaxPower">150 ft (Calibrated)</span>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-black uppercase text-slate-400">Current Hole:</span>
+              <span id="caddyHoleDistBadge" class="bg-blue-600 text-white font-black text-xs px-2.5 py-0.5 rounded-lg shadow-sm">301 ft</span>
+            </div>
+            <div class="text-[11px] font-bold text-emerald-400 flex items-center gap-1">
+              <i class="fa-solid fa-wind text-xs"></i>
+              <span id="currentWindReadout">10 mph Headwind</span>
+            </div>
+          </div>
+
+          <!-- Wind Direction Selection Chips -->
+          <div>
+            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Wind Direction (Tap to Set)</label>
+            <div class="grid grid-cols-4 gap-1.5 text-xs font-black" id="windDirectionButtons">
+              <button onclick="setWindDirection('headwind')" class="wind-dir-btn py-2 rounded-xl bg-blue-600 text-white shadow border border-blue-400 active:scale-95" data-dir="headwind">💨 Headwind</button>
+              <button onclick="setWindDirection('tailwind')" class="wind-dir-btn py-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 active:scale-95" data-dir="tailwind">🍃 Tailwind</button>
+              <button onclick="setWindDirection('cross')" class="wind-dir-btn py-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 active:scale-95" data-dir="cross">↔️ Cross</button>
+              <button onclick="setWindDirection('calm')" class="wind-dir-btn py-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 active:scale-95" data-dir="calm">☀️ Calm</button>
+            </div>
+          </div>
+
+          <!-- Manual Wind Speed Stepper -->
+          <div class="flex items-center justify-between bg-slate-950 p-2 rounded-xl border border-slate-800">
+            <span class="text-[10px] font-black uppercase text-slate-400">Wind Speed:</span>
+            <div class="flex items-center gap-2">
+              <button onclick="adjustWindSpeed(-2)" class="w-7 h-7 rounded-lg bg-slate-800 text-white font-black text-xs active:scale-90 border border-slate-700 flex items-center justify-center">-</button>
+              <span id="windSpeedLabel" class="font-mono text-xs font-black text-white w-14 text-center">10 mph</span>
+              <button onclick="adjustWindSpeed(2)" class="w-7 h-7 rounded-lg bg-slate-800 text-white font-black text-xs active:scale-90 border border-slate-700 flex items-center justify-center">+</button>
             </div>
             <div class="flex gap-1">
-              <button onclick="setPowerBand(150)" class="power-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-black shadow border border-blue-400" data-power="150">150'</button>
-              <button onclick="setPowerBand(200)" class="power-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-[11px] font-bold border border-slate-700" data-power="200">200'</button>
-              <button onclick="setPowerBand(250)" class="power-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-[11px] font-bold border border-slate-700" data-power="250">250'+</button>
+              <button onclick="setDirectWindSpeed(5)" class="px-2 py-0.5 rounded-lg bg-slate-800 text-[10px] text-slate-300 font-bold border border-slate-700 active:scale-95">5</button>
+              <button onclick="setDirectWindSpeed(10)" class="px-2 py-0.5 rounded-lg bg-blue-600 text-[10px] text-white font-black shadow active:scale-95">10</button>
+              <button onclick="setDirectWindSpeed(15)" class="px-2 py-0.5 rounded-lg bg-slate-800 text-[10px] text-slate-300 font-bold border border-slate-700 active:scale-95">15</button>
+              <button onclick="setDirectWindSpeed(20)" class="px-2 py-0.5 rounded-lg bg-slate-800 text-[10px] text-slate-300 font-bold border border-slate-700 active:scale-95">20</button>
             </div>
           </div>
 
-          <div class="flex items-center justify-between pt-0.5">
-            <div class="flex items-center gap-1.5">
-              <span class="text-xs font-black uppercase text-slate-300">Hole Distance:</span>
-              <span id="caddyHoleDistBadge" class="bg-blue-600 text-white font-black text-xs px-2 py-0.5 rounded-lg">301 ft</span>
-            </div>
-            <button onclick="fetchLiveWind()" id="btnFetchWeather" class="px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-500/40 text-[11px] font-bold flex items-center gap-1 active:scale-95 shadow">
-              <i class="fa-solid fa-cloud-sun text-xs"></i>
-              <span>Live Wind</span>
-            </button>
-          </div>
-
-          <!-- Wind Selector Chips -->
-          <div>
-            <div class="text-[10px] font-bold uppercase text-slate-400 mb-1 flex items-center justify-between">
-              <span>Wind Condition</span>
-              <span id="currentWindReadout" class="text-slate-300 font-mono text-[11px] font-bold">8 mph Headwind</span>
-            </div>
-            <div class="grid grid-cols-5 gap-1 text-[11px] font-black" id="windTypeSelector">
-              <button onclick="setWind('headwind', 10)" class="wind-btn py-1.5 rounded-xl bg-blue-600 text-white shadow border border-blue-400" data-wind="headwind">Headwind</button>
-              <button onclick="setWind('tailwind', 10)" class="wind-btn py-1.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700" data-wind="tailwind">Tailwind</button>
-              <button onclick="setWind('cross_left', 8)" class="wind-btn py-1.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700" data-wind="cross_left">Cross L</button>
-              <button onclick="setWind('cross_right', 8)" class="wind-btn py-1.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700" data-wind="cross_right">Cross R</button>
-              <button onclick="setWind('calm', 2)" class="wind-btn py-1.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700" data-wind="calm">Calm</button>
-            </div>
-          </div>
-
-          <!-- DYNAMIC RECOMMENDATION HERO BANNER -->
-          <div id="caddyRecommendationBanner" class="p-3 rounded-xl bg-gradient-to-r from-blue-950 to-slate-900 border border-blue-500/50 flex flex-col gap-1"></div>
+          <!-- 3-DISC RECOMMENDATION CONTAINER -->
+          <div id="triDiscRecommendations" class="space-y-2 pt-1"></div>
         </div>
 
-        <!-- FILTER CHIPS -->
-        <div class="flex gap-1.5 overflow-x-auto custom-scroll pb-0.5">
-          <button onclick="filterCaddyDiscs('all')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-black shrink-0 shadow">All (9)</button>
-          <button onclick="filterCaddyDiscs('putter')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-[11px] font-bold shrink-0 border border-slate-700">Putters</button>
-          <button onclick="filterCaddyDiscs('mid')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-[11px] font-bold shrink-0 border border-slate-700">Midranges</button>
-          <button onclick="filterCaddyDiscs('driver')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-[11px] font-bold shrink-0 border border-slate-700">Drivers</button>
+        <!-- FULL 9 INNOVA DISC QUIVER HEADER -->
+        <div class="pt-1 flex items-center justify-between border-t border-slate-800">
+          <div>
+            <h4 class="text-xs font-black text-white uppercase tracking-wider">All 9 Innova Bag Discs</h4>
+            <p class="text-[10px] text-slate-400 font-medium">Log shots & ratings, or save PNG cards to Drive</p>
+          </div>
+          <div class="flex gap-1 text-[10px] font-bold">
+            <button onclick="filterCaddyDiscs('all')" class="caddy-filter-btn px-2 py-0.5 rounded-lg bg-blue-600 text-white shadow">All</button>
+            <button onclick="filterCaddyDiscs('putter')" class="caddy-filter-btn px-2 py-0.5 rounded-lg bg-slate-800 text-slate-400">Putters</button>
+            <button onclick="filterCaddyDiscs('mid')" class="caddy-filter-btn px-2 py-0.5 rounded-lg bg-slate-800 text-slate-400">Mids</button>
+            <button onclick="filterCaddyDiscs('driver')" class="caddy-filter-btn px-2 py-0.5 rounded-lg bg-slate-800 text-slate-400">Drivers</button>
+          </div>
         </div>
 
         <!-- 9 INNOVA DISC TIP CARDS LIST -->
@@ -418,7 +423,7 @@
           </div>
           <div class="w-32">
             <label class="block text-[10px] font-black text-slate-500 uppercase mb-0.5">Date</label>
-            <input type="date" id="inputRoundDate" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2 py-1.5 text-slate-900 text-xs font-bold focus:outline-none">
+            <input type="date" id="inputRoundDate" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-slate-900 text-xs font-bold focus:outline-none">
           </div>
         </div>
         <div class="flex gap-2 pt-1">
@@ -875,14 +880,14 @@
       }
     ];
 
-    const STORAGE_KEY = 'dg_round_v26';
-    const HISTORY_KEY = 'dg_history_v26';
+    const STORAGE_KEY = 'dg_round_v27';
+    const HISTORY_KEY = 'dg_history_v27';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v26';
-    const ROSTER_KEY = 'dg_roster_v26';
+    const TIMER_KEY = 'dg_timer_state_v27';
+    const ROSTER_KEY = 'dg_roster_v27';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
     const DISC_STATS_KEY = 'dg_disc_stats_v1';
-    const POWER_BAND_KEY = 'dg_power_band_v1';
+    const WIND_PREF_KEY = 'dg_wind_pref_v1';
 
     const INITIAL_ROSTER = [
       { id: 'jeffery', name: 'Jeffery', tag: 'J1', color: 'blue-600' },
@@ -1006,12 +1011,11 @@
     let timerInterval = null;
     let timerState = { running: false, startTime: null, accumulatedMs: 0 };
 
-    // Caddy State
+    // Caddy Manual Wind State
     let caddyState = {
-      windType: 'headwind',
+      windDir: 'headwind',
       windSpeed: 10,
-      activeFilter: 'all',
-      maxPower: parseInt(localStorage.getItem(POWER_BAND_KEY) || '150')
+      activeFilter: 'all'
     };
     let activeLogDiscId = null;
     let activeLogLiked = true;
@@ -1072,6 +1076,11 @@
       roster = getRoster();
       getHistory();
 
+      const savedWind = localStorage.getItem(WIND_PREF_KEY);
+      if (savedWind) {
+        try { caddyState = { ...caddyState, ...JSON.parse(savedWind) }; } catch(e){}
+      }
+
       const savedTimer = localStorage.getItem(TIMER_KEY);
       if (savedTimer) {
         try { timerState = JSON.parse(savedTimer); } catch(e){}
@@ -1118,12 +1127,12 @@
       renderCurrentHole();
     }
 
-    // --- CADDY & WIND ADVISOR ENGINE ---
+    // --- CADDY & 3-DISC RECOMMENDATION SYSTEM ---
     function openCaddyModal() {
       const currentHole = roundState.holes[roundState.currentHoleIndex] || { distance: 300 };
       document.getElementById('caddyHoleDistBadge').innerText = `${currentHole.distance} ft`;
-      setPowerBand(caddyState.maxPower, false);
-      renderCaddyRecommendations();
+      updateWindUI();
+      renderTriDiscRecommendations();
       renderCaddyDiscCards();
       document.getElementById('modalCaddy').classList.remove('hidden');
       document.getElementById('modalCaddy').classList.add('flex');
@@ -1134,162 +1143,165 @@
       document.getElementById('modalCaddy').classList.remove('flex');
     }
 
-    function setPowerBand(power, rerender = true) {
-      caddyState.maxPower = power;
-      localStorage.setItem(POWER_BAND_KEY, power);
-      document.getElementById('labelMaxPower').innerText = `${power} ft (${power === 150 ? 'Your Range' : 'Extended'})`;
-
-      document.querySelectorAll('.power-btn').forEach(btn => {
-        if (parseInt(btn.dataset.power) === power) {
-          btn.className = "power-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-black shadow border border-blue-400";
-        } else {
-          btn.className = "power-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-[11px] font-bold border border-slate-700";
-        }
-      });
-      if (rerender) renderCaddyRecommendations();
+    function setWindDirection(dir) {
+      caddyState.windDir = dir;
+      saveWindPreferences();
+      updateWindUI();
+      renderTriDiscRecommendations();
     }
 
-    function setWind(type, speed) {
-      caddyState.windType = type;
-      caddyState.windSpeed = speed;
+    function adjustWindSpeed(delta) {
+      caddyState.windSpeed = Math.max(0, Math.min(35, caddyState.windSpeed + delta));
+      saveWindPreferences();
+      updateWindUI();
+      renderTriDiscRecommendations();
+    }
 
-      document.querySelectorAll('.wind-btn').forEach(btn => {
-        if (btn.dataset.wind === type) {
-          btn.className = "wind-btn py-1.5 rounded-xl bg-blue-600 text-white shadow border border-blue-400";
+    function setDirectWindSpeed(speed) {
+      caddyState.windSpeed = speed;
+      saveWindPreferences();
+      updateWindUI();
+      renderTriDiscRecommendations();
+    }
+
+    function saveWindPreferences() {
+      localStorage.setItem(WIND_PREF_KEY, JSON.stringify({
+        windDir: caddyState.windDir,
+        windSpeed: caddyState.windSpeed
+      }));
+    }
+
+    function updateWindUI() {
+      document.querySelectorAll('.wind-dir-btn').forEach(btn => {
+        if (btn.dataset.dir === caddyState.windDir) {
+          btn.className = "wind-dir-btn py-2 rounded-xl bg-blue-600 text-white shadow border border-blue-400 active:scale-95";
         } else {
-          btn.className = "wind-btn py-1.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-700";
+          btn.className = "wind-dir-btn py-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 active:scale-95";
         }
       });
 
       const labelMap = {
-        headwind: `${speed} mph Headwind`,
-        tailwind: `${speed} mph Tailwind`,
-        cross_left: `${speed} mph Crosswind (Left)`,
-        cross_right: `${speed} mph Crosswind (Right)`,
-        calm: `Calm (0-2 mph)`
+        headwind: `${caddyState.windSpeed} mph Headwind`,
+        tailwind: `${caddyState.windSpeed} mph Tailwind`,
+        cross: `${caddyState.windSpeed} mph Crosswind`,
+        calm: `Calm (0-3 mph)`
       };
-      document.getElementById('currentWindReadout').innerText = labelMap[type] || 'Wind Set';
-      renderCaddyRecommendations();
+      document.getElementById('currentWindReadout').innerText = labelMap[caddyState.windDir] || 'Wind Active';
+      document.getElementById('windSpeedLabel').innerText = `${caddyState.windSpeed} mph`;
     }
 
-    async function fetchLiveWind() {
-      const btn = document.getElementById('btnFetchWeather');
-      if (btn) btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Getting...';
-
-      let lat = 38.9536; // Lenexa, KS fallback
-      let lon = -94.7336;
-
-      function queryWeather(latitude, longitude) {
-        fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=wind_speed_10m,wind_direction_10m&wind_speed_unit=mph`)
-          .then(res => res.json())
-          .then(data => {
-            if (data && data.current) {
-              const speed = Math.round(data.current.wind_speed_10m);
-              setWind(speed > 5 ? 'headwind' : 'calm', speed);
-              document.getElementById('currentWindReadout').innerText = `${speed} mph (Live Weather)`;
-            }
-          })
-          .catch(err => {
-            alert("Weather service unreachable; using manual selector.");
-          })
-          .finally(() => {
-            if (btn) btn.innerHTML = '<i class="fa-solid fa-cloud-sun text-xs"></i> Live Wind';
-          });
-      }
-
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (pos) => queryWeather(pos.coords.latitude, pos.coords.longitude),
-          (err) => queryWeather(lat, lon),
-          { timeout: 4000 }
-        );
-      } else {
-        queryWeather(lat, lon);
-      }
-    }
-
-    // RECALIBRATED TO USER'S ACTUAL ~150 FT MAX DRIVER BASELINE
-    function renderCaddyRecommendations() {
-      const banner = document.getElementById('caddyRecommendationBanner');
+    // ACCURATE 3-DISC GENERATION BASED ON 150-FT ARM AND ENTERED WIND
+    function renderTriDiscRecommendations() {
+      const container = document.getElementById('triDiscRecommendations');
       const currentHole = roundState.holes[roundState.currentHoleIndex] || { distance: 300, number: 1 };
       const dist = currentHole.distance;
-      const wind = caddyState.windType;
+      const wind = caddyState.windDir;
       const speed = caddyState.windSpeed;
-      const maxP = caddyState.maxPower; // 150, 200, 250
 
-      let topPick = "";
-      let strategy = "";
-      let subAdvice = "";
-
-      // Ratio of hole distance to player's max drive
-      const ratio = dist / maxP;
+      let picks = [];
+      let lockoutWarning = "";
 
       if (wind === 'headwind') {
-        if (speed >= 10 || ratio >= 0.85) {
-          topPick = "Innova Firebird (Champion 170g)";
-          strategy = "Overstable driver fights headwind lift and holds the line without flipping.";
-        } else if (ratio >= 0.6) {
-          topPick = "Innova Roc3 (DX 174g)";
-          strategy = "Midrange with reliable left bite that cuts through the breeze.";
+        lockoutWarning = "⚠️ Lockout: Do NOT throw Star Mamba (152g) or Rollo into this headwind — they will flip and dive right!";
+        if (dist <= 90) {
+          picks = [
+            { role: "1. Primary Pin Seeker", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Low glide (1) stops wind from lifting your disc past the green; sticks where it lands." },
+            { role: "2. Punchy Headwind Mid", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Flat release punches straight through the gust with dependable left fade." },
+            { role: "3. Direct Chains Run", name: "Innova Aviar", type: "2 | 3 | 0 | 1", why: "Firm flat wrist putt directly at the center pole." }
+          ];
+        } else if (dist <= 140) {
+          picks = [
+            { role: "1. Wind-Cheating Drive", name: "Innova Firebird (170g)", type: "9 | 3 | 0 | 4", why: "Overstable Champion plastic won't flip in any headwind; reliable hard bite." },
+            { role: "2. Workhorse Hyzer Mid", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Firm hyzer push straight into the wind with predictable carry." },
+            { role: "3. Safe Up-and-Down", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Drop & stick approach to eliminate rollaway bogeys." }
+          ];
         } else {
-          topPick = "Innova Pig (Galactic XT 175g)";
-          strategy = "Low glide (1) prevents the headwind from ballooning your disc past the green.";
+          picks = [
+            { role: "1. Tee Shot Wind Fighter", name: "Innova Firebird (170g)", type: "9 | 3 | 0 | 4", why: "Full drive off tee: fights through the gust without turning over (~135-145 ft)." },
+            { role: "2. Placement Drive Option", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Alternative drive: controlled fairway placement to center grass." },
+            { role: "3. Shot 2 Approach to Pin", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Stick-and-stay upshot right next to the pole on shot 2." }
+          ];
         }
-        subAdvice = "⚠️ Headwind Lockout: Do NOT throw the 152g Star Mamba or Rollo into this wind!";
       } else if (wind === 'tailwind') {
-        if (ratio >= 0.85) {
-          topPick = "Innova Mamba (Star 152g)";
-          strategy = "Tailwind acts like extra stability. The featherweight 152g Mamba gives you effortless gliding distance!";
-        } else if (ratio >= 0.65) {
-          topPick = "Innova Hawkeye or Rollo";
-          strategy = "Gentle tailwind push keeps understable discs floating straight.";
+        if (dist <= 90) {
+          picks = [
+            { role: "1. Gentle Touch Putter", name: "Innova Aviar", type: "2 | 3 | 0 | 1", why: "Floaty tailwind approach straight to chains." },
+            { role: "2. Crisp Driving Putter", name: "Innova Sync (175g)", type: "3 | 3 | 0 | 1", why: "Flat release beadless flight; tailwind settles it gently." },
+            { role: "3. Laser Tunnel Touch", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Smooth touch push through tree corridors." }
+          ];
+        } else if (dist <= 140) {
+          picks = [
+            { role: "1. Primary Laser Carry", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Tailwind keeps this dead-straight mid flat all the way to the pin." },
+            { role: "2. High-Glide Float", name: "Innova Rollo (172g)", type: "5 | 6 | -4 | 1", why: "Tailwind acts like extra stability; gives the Rollo huge forward float." },
+            { role: "3. Controlled Placement", name: "Innova Sync (175g)", type: "3 | 3 | 0 | 1", why: "Smooth driving putter to park short greens with zero skip." }
+          ];
         } else {
-          topPick = "Innova Sync or Aviar";
-          strategy = "Floaty tailwind approach to the chains.";
+          picks = [
+            { role: "1. Tailwind Bomber Tee", name: "Innova Mamba (152g)", type: "11 | 6 | -5 | 1", why: "Featherweight 152g Star plastic flips up and sails forever with the tailwind." },
+            { role: "2. Controlled Fairway Carry", name: "Innova Hawkeye", type: "7 | 5 | -1 | 1", why: "Smooth fairway drive with piercing forward glide." },
+            { role: "3. Shot 2 Approach", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Straight-as-an-arrow second shot to park the pin." }
+          ];
         }
-        subAdvice = "Tailwinds knock overstable discs (Firebird, Pig) down early; stick to glidey plastic.";
       } else {
         // Calm or Crosswind
-        if (dist <= 75) {
-          topPick = "Innova Aviar or Pig";
-          strategy = "Short touch approach directly at the chains or drop-and-stick chip.";
-        } else if (dist <= 115) {
-          topPick = "Innova Mako3 or Sync";
-          strategy = "Dead-straight laser line with zero late fade through the fairway gap.";
-        } else if (dist <= 140) {
-          topPick = "Innova Hawkeye (Fairway) or Mako3";
-          strategy = "Full smooth throw. Hawkeye gives controlled fairway penetration; Mako3 stays laser flat.";
-        } else if (dist <= 175) {
-          topPick = "Innova Mamba (Star 152g) or Hawkeye";
-          strategy = "Full power drive! The lightweight 152g Mamba requires low arm speed to reach full carry.";
+        if (dist <= 85) {
+          picks = [
+            { role: "1. Direct Basket Run", name: "Innova Aviar", type: "2 | 3 | 0 | 1", why: "Direct basket putts and floaty touch approaches." },
+            { role: "2. Drop & Stick Chip", name: "Innova Pig (175g)", type: "3 | 1 | 0 | 3", why: "Chip shot around obstacles that immediately sits down." },
+            { role: "3. Smooth Driving Putter", name: "Innova Sync (175g)", type: "3 | 3 | 0 | 1", why: "Clean point-and-shoot release off the tee." }
+          ];
+        } else if (dist <= 125) {
+          picks = [
+            { role: "1. Primary Straight Laser", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Pure laser beam: zero turn and zero fade through the gap." },
+            { role: "2. Clean Putter Tee", name: "Innova Sync (175g)", type: "3 | 3 | 0 | 1", why: "Low-profile beadless driving putter for short greens." },
+            { role: "3. Hyzer Hook Option", name: "Innova Roc3 (174g)", type: "5 | 4 | 0 | 3", why: "Sweeping left finish around fairway corners and trees." }
+          ];
+        } else if (dist <= 165) {
+          picks = [
+            { role: "1. Primary Fairway Carry", name: "Innova Hawkeye", type: "7 | 5 | -1 | 1", why: "Smooth 75% power fairway drive with gentle forward finish." },
+            { role: "2. Full Distance Option", name: "Innova Mamba (152g)", type: "11 | 6 | -5 | 1", why: "Effortless high-speed carry to reach your full 150-ft potential." },
+            { role: "3. Tunnel Placement", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Firm flat throw straight down fairway center." }
+          ];
         } else {
-          // Multi-Shot Hole Management (> 175 ft, e.g. Wolf Den 301 ft)
-          topPick = "2-Shot Plan: Star Mamba (152g) off Tee";
-          strategy = `Throw 1: Mamba full drive (~145-150 ft) to fairway center. Throw 2: Mako3 or Pig approach to park the pin.`;
-          subAdvice = `At ${dist} ft, playing for a clean two-shot par is high-percentage disc golf!`;
+          // Multi-Shot Hole (>165 ft, e.g. Wolf Den 301 ft)
+          picks = [
+            { role: "1. Shot 1 Full Tee Drive", name: "Innova Mamba (152g)", type: "11 | 6 | -5 | 1", why: "Tee Shot: Max carry (~145-150 ft) to fairway sweet spot." },
+            { role: "2. Controlled Tee Alternative", name: "Innova Hawkeye", type: "7 | 5 | -1 | 1", why: "Fairway Drive: Tight placement if woods line the fairway." },
+            { role: "3. Shot 2 Green Approach", name: "Innova Mako3 or Pig", type: "Approach Seeker", why: "Park the pin on shot 2 for an easy two-stroke par." }
+          ];
         }
       }
 
-      banner.innerHTML = `
-        <div class="flex items-center justify-between">
-          <span class="text-[10px] font-black uppercase text-emerald-400 tracking-wider">Caddy Call · Hole #${currentHole.number} (${dist} ft)</span>
-          <span class="text-[10px] font-bold text-slate-400">Power: ${maxP}'</span>
+      container.innerHTML = `
+        <div class="text-[10px] font-black uppercase text-amber-400 tracking-wider mb-1 flex items-center justify-between">
+          <span>Top 3 Discs to Throw (#${currentHole.number} · ${dist} ft)</span>
+          <span class="text-slate-400 font-semibold">${wind.toUpperCase()}</span>
         </div>
-        <div class="font-black text-sm text-white flex items-center gap-1.5 mt-0.5">
-          <i class="fa-solid fa-bullseye text-emerald-400"></i>
-          <span>${topPick}</span>
+        ${lockoutWarning ? `<div class="p-2 rounded-xl bg-amber-950/60 border border-amber-500/40 text-[11px] text-amber-300 font-bold mb-2">${lockoutWarning}</div>` : ''}
+        <div class="space-y-2">
+          ${picks.map((p, idx) => `
+            <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex flex-col gap-0.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-black uppercase text-blue-400">${p.role}</span>
+                <span class="text-[10px] font-mono text-slate-400 font-bold">${p.type}</span>
+              </div>
+              <div class="font-black text-xs text-white flex items-center gap-1.5">
+                <i class="fa-solid fa-compact-disc text-emerald-400 text-xs"></i>
+                <span>${p.name}</span>
+              </div>
+              <p class="text-[11px] text-slate-300 font-medium leading-tight mt-0.5">${p.why}</p>
+            </div>
+          `).join('')}
         </div>
-        <p class="text-[11px] text-slate-300 font-medium leading-snug mt-0.5">${strategy}</p>
-        ${subAdvice ? `<p class="text-[10px] text-amber-300 font-bold mt-1 bg-amber-950/40 p-1.5 rounded-lg border border-amber-500/30">${subAdvice}</p>` : ''}
       `;
     }
 
     function filterCaddyDiscs(type) {
       caddyState.activeFilter = type;
       document.querySelectorAll('.caddy-filter-btn').forEach(btn => {
-        btn.className = "caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 text-[11px] font-bold shrink-0 border border-slate-700";
+        btn.className = "caddy-filter-btn px-2 py-0.5 rounded-lg bg-slate-800 text-slate-400";
       });
-      event.target.className = "caddy-filter-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-black shrink-0 shadow";
+      event.target.className = "caddy-filter-btn px-2 py-0.5 rounded-lg bg-blue-600 text-white shadow";
       renderCaddyDiscCards();
     }
 
