@@ -186,7 +186,7 @@
             <span class="text-[10px] card-subtext font-semibold">ft</span>
           </div>
         </div>
-        <button onclick="editDistance()" class="w-8 h-8 rounded-lg bg-blue-600 text-white active:scale-95 flex items-center justify-center shadow">
+        <button onclick="editDistance()" class="w-8 h-8 rounded-lg bg-blue-600 text-white active:scale-90 flex items-center justify-center shadow">
           <i class="fa-solid fa-pen-to-square text-xs"></i>
         </button>
       </div>
@@ -272,10 +272,7 @@
       </div>
 
       <div class="text-xs text-slate-600 space-y-2">
-        <p>Your target Google Drive folder is configured to receive scorecard images:</p>
-        <a href="https://drive.google.com/drive/folders/1gcjfHzz6Y8eibTO4OgmlGdi1dbAf30Q1" target="_blank" class="block p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-xs text-center active:scale-95">
-          <i class="fa-solid fa-folder-open mr-1"></i> Open Google Drive Folder
-        </a>
+        <p>Your target <strong>Scorecard Images</strong> folder is configured to receive PNG cards.</p>
       </div>
 
       <div>
@@ -630,11 +627,11 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v21';
-    const HISTORY_KEY = 'dg_history_v21';
+    const STORAGE_KEY = 'dg_round_v22';
+    const HISTORY_KEY = 'dg_history_v22';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v21';
-    const ROSTER_KEY = 'dg_roster_v21';
+    const TIMER_KEY = 'dg_timer_state_v22';
+    const ROSTER_KEY = 'dg_roster_v22';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
 
     const INITIAL_ROSTER = [
@@ -848,7 +845,6 @@
       }
     }
 
-    // --- ROSTER MANAGEMENT ---
     function openRosterModal() {
       renderRosterList();
       document.getElementById('modalRoster').classList.remove('hidden');
@@ -912,7 +908,6 @@
       }
     }
 
-    // --- FAIRWAY & HEADER RENDERING ---
     function renderHeader() {
       document.getElementById('headerCourseName').innerText = roundState.courseName;
       document.getElementById('headerHoleCountBadge').innerText = `${roundState.totalHoles}H`;
@@ -1132,7 +1127,6 @@
       }
     }
 
-    // --- FULL SCORECARD MODAL ---
     function openCurrentScorecardModal() {
       const elapsed = document.getElementById('timerDisplay').innerText;
       renderScorecardTableDynamic(roster, roundState.holes, roundState.currentHoleIndex);
@@ -1261,7 +1255,6 @@
       tfoot.innerHTML = tfHtml;
     }
 
-    // --- DIRECT GOOGLE DRIVE IMAGE UPLOAD ---
     async function saveCardImageDirectToDrive() {
       const cardEl = document.getElementById('scorecardCardElement');
       if (!cardEl) return;
@@ -1307,13 +1300,12 @@
           body: JSON.stringify(payload)
         });
 
-        alert("Scorecard image uploaded directly to your Google Drive folder!");
+        alert("Scorecard image uploaded directly to your Scorecard Images folder!");
       } catch (err) {
         alert("Cloud upload error: " + err.message);
       }
     }
 
-    // --- FALLBACK CAMERA ROLL EXPORT ---
     async function downloadScorecardCardImageFallback() {
       const cardEl = document.getElementById('scorecardCardElement');
       if (!cardEl) return;
@@ -1513,7 +1505,6 @@
       closeDriveSyncModal();
     }
 
-    // --- STOPWATCH LOGIC ---
     function initTimerUI() {
       if (timerState.running) {
         startTimerInterval();
