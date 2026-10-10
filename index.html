@@ -101,22 +101,29 @@
               <span id="headerCourseName" class="font-black text-sm tracking-tight truncate">Wolf Den @ Mission Trail</span>
               <span id="headerHoleCountBadge" class="text-[10px] bg-white text-blue-900 px-1.5 py-0.2 rounded font-black shadow-sm shrink-0">18H</span>
             </div>
-            <!-- Subtext indicates if prior round was found -->
             <div class="text-[11px] opacity-75 font-semibold" id="headerPriorRoundIndicator">Prior match found</div>
           </div>
         </button>
 
         <div class="flex items-center gap-1.5 shrink-0">
+          <!-- Roster Manager -->
           <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-user-group text-xs"></i>
           </button>
 
+          <!-- History Modal Button -->
           <button onclick="openHistoryModal()" id="btnOpenHistory" title="View Saved Rounds" class="px-2.5 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-black text-xs flex items-center gap-1.5 active:scale-95 shadow-md border border-amber-300">
             <i class="fa-solid fa-clock-rotate-left text-xs"></i>
             <span>Rounds</span>
             <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">4</span>
           </button>
 
+          <!-- Google Drive Sync Setup Button -->
+          <button onclick="openDriveSyncModal()" title="Google Drive Cloud Setup" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-400 border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
+            <i class="fa-brands fa-google-drive text-xs"></i>
+          </button>
+
+          <!-- Palette Toggle -->
           <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-palette text-xs"></i>
           </button>
@@ -253,6 +260,40 @@
         </div>
 
         <div id="modalScorecardActions" class="flex flex-col gap-2 pt-1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOOGLE DRIVE SYNC SETUP MODAL -->
+  <div id="modalDriveSync" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm w-full p-5 space-y-4 max-h-[90vh] overflow-y-auto custom-scroll shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-xs font-black shadow">
+            <i class="fa-brands fa-google-drive"></i>
+          </div>
+          <h3 class="font-black text-slate-900 text-base">Google Drive Sync</h3>
+        </div>
+        <button onclick="closeDriveSyncModal()" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="text-xs text-slate-600 space-y-2">
+        <p>Your target Google Drive folder is connected to save scorecard images:</p>
+        <a href="https://drive.google.com/drive/folders/1gcjfHzz6Y8eibTO4OgmlGdi1dbAf30Q1" target="_blank" class="block p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-xs text-center active:scale-95">
+          <i class="fa-solid fa-folder-open mr-1"></i> Open Google Drive Destination Folder
+        </a>
+      </div>
+
+      <div>
+        <label class="block text-[11px] font-black text-slate-500 uppercase mb-1">Google Apps Script Web App URL</label>
+        <input type="url" id="inputWebhookUrl" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-mono text-[11px] focus:outline-none focus:border-emerald-500">
+        <p class="text-[10px] text-slate-400 mt-1">Paste the Web App deployment URL from your Master Sheet Apps Script.</p>
+      </div>
+
+      <div class="pt-2 flex gap-2">
+        <button onclick="saveWebhookUrl()" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-black text-xs active:scale-95 shadow">Save Webhook URL</button>
       </div>
     </div>
   </div>
@@ -597,11 +638,12 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v19';
-    const HISTORY_KEY = 'dg_history_v19';
+    const STORAGE_KEY = 'dg_round_v20';
+    const HISTORY_KEY = 'dg_history_v20';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v19';
-    const ROSTER_KEY = 'dg_roster_v19';
+    const TIMER_KEY = 'dg_timer_state_v20';
+    const ROSTER_KEY = 'dg_roster_v20';
+    const WEBHOOK_KEY = 'dg_drive_webhook_url';
 
     const INITIAL_ROSTER = [
       { id: 'jeffery', name: 'Jeffery', tag: 'J1', color: 'blue-600' },
@@ -738,10 +780,8 @@
       return history;
     }
 
-    // FIND PRIOR ROUND FOR THE CURRENT COURSE
     function getPriorRoundForCurrentCourse() {
       const history = getHistory();
-      // Look for the most recent match played at the current course
       return history.find(r => r.courseName === roundState.courseName && r.holes && r.holes.length > 0) || null;
     }
 
@@ -924,7 +964,6 @@
         const diff = (playedPar > 0) ? (playedScore - playedPar) : 0;
         const fmtDiff = diff === 0 ? 'E' : (diff > 0 ? `+${diff}` : `${diff}`);
 
-        // Prior Hole Ghost Score
         let priorHoleScore = null;
         if (priorHole) {
           if (priorHole.scores && priorHole.scores[p.id] !== undefined) priorHoleScore = priorHole.scores[p.id];
@@ -1114,14 +1153,20 @@
       document.getElementById('modalCardSubtitle').innerText = `${roundState.courseName} · ${roundState.totalHoles} Holes · Time: ${elapsed}`;
 
       document.getElementById('modalScorecardActions').innerHTML = `
-        <button onclick="downloadScorecardCardImage()" class="py-3 px-4 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs flex items-center justify-center gap-2 border border-amber-300 shadow active:scale-95">
-          <i class="fa-solid fa-camera text-base"></i>
-          <span>Save as Card Image (PNG)</span>
+        <button onclick="saveCardImageDirectToDrive()" class="py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-2 border border-emerald-400 shadow active:scale-95">
+          <i class="fa-brands fa-google-drive text-base"></i>
+          <span>Save Card to Google Drive</span>
         </button>
-        <button onclick="finishAndSaveRound()" class="py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs flex items-center justify-center gap-2 border border-blue-400 shadow active:scale-95">
-          <i class="fa-solid fa-floppy-disk text-base"></i>
-          <span>Save to Rounds</span>
-        </button>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="finishAndSaveRound()" class="py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-blue-400 shadow active:scale-95">
+            <i class="fa-solid fa-floppy-disk text-xs"></i>
+            <span>Save to Rounds</span>
+          </button>
+          <button onclick="downloadScorecardCardImageFallback()" class="py-2.5 px-3 rounded-xl bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-slate-700 active:scale-95">
+            <i class="fa-solid fa-camera text-xs"></i>
+            <span>Save to Photos</span>
+          </button>
+        </div>
       `;
 
       document.getElementById('modalScorecard').classList.remove('hidden');
@@ -1153,14 +1198,20 @@
       document.getElementById('modalCardSubtitle').innerText = `${record.courseName} · ${record.date} · ⏱ ${record.duration || 'N/A'}`;
 
       document.getElementById('modalScorecardActions').innerHTML = `
-        <button onclick="downloadScorecardCardImage()" class="py-3 px-4 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs flex items-center justify-center gap-2 border border-amber-300 shadow active:scale-95">
-          <i class="fa-solid fa-camera text-base"></i>
-          <span>Save as Card Image (PNG)</span>
+        <button onclick="saveCardImageDirectToDrive()" class="py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-2 border border-emerald-400 shadow active:scale-95">
+          <i class="fa-brands fa-google-drive text-base"></i>
+          <span>Save Card to Google Drive</span>
         </button>
-        <button onclick="closeScorecardModal(); openHistoryModal();" class="py-2.5 px-3 rounded-xl bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-slate-700 active:scale-95">
-          <i class="fa-solid fa-arrow-left text-xs"></i>
-          <span>Back to Rounds</span>
-        </button>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="downloadScorecardCardImageFallback()" class="py-2.5 px-3 rounded-xl bg-amber-400 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 border border-amber-300 shadow active:scale-95">
+            <i class="fa-solid fa-camera text-xs"></i>
+            <span>Save to Photos</span>
+          </button>
+          <button onclick="closeScorecardModal(); openHistoryModal();" class="py-2.5 px-3 rounded-xl bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-slate-700 active:scale-95">
+            <i class="fa-solid fa-arrow-left text-xs"></i>
+            <span>Back to Rounds</span>
+          </button>
+        </div>
       `;
 
       document.getElementById('modalScorecard').classList.remove('hidden');
@@ -1218,8 +1269,61 @@
       tfoot.innerHTML = tfHtml;
     }
 
-    // --- INSTANT PNG TRADING CARD EXPORT ---
-    async function downloadScorecardCardImage() {
+    // --- DIRECT GOOGLE DRIVE IMAGE UPLOAD ---
+    async function saveCardImageDirectToDrive() {
+      const cardEl = document.getElementById('scorecardCardElement');
+      if (!cardEl) return;
+
+      const webhookUrl = localStorage.getItem(WEBHOOK_KEY);
+      if (!webhookUrl) {
+        alert("Google Apps Script Webhook URL is not set yet. Please tap the Google Drive icon in the header and paste your Webhook URL.");
+        openDriveSyncModal();
+        return;
+      }
+
+      try {
+        const canvas = await html2canvas(cardEl, {
+          scale: 3,
+          backgroundColor: '#ffffff',
+          useCORS: true
+        });
+
+        const dataUrl = canvas.toDataURL('image/png');
+        const courseName = (document.getElementById('captureCardTitle').innerText || 'Round').replace(/\s+/g, '_');
+        const fileName = `DG_Card_${courseName}_${roundState.date}.png`;
+
+        const payload = {
+          fileName: fileName,
+          imageBase64: dataUrl,
+          courseName: roundState.courseName,
+          date: roundState.date,
+          totalHoles: roundState.totalHoles,
+          duration: document.getElementById('timerDisplay').innerText,
+          par: roundState.holes.reduce((a, b) => a + b.par, 0),
+          holes: roundState.holes,
+          players: roster.map(p => ({
+            id: p.id,
+            name: p.name,
+            total: roundState.holes.reduce((acc, h) => acc + (h.scores ? (h.scores[p.id] || 0) : 0), 0)
+          }))
+        };
+
+        // Fire direct post to Google Apps Script endpoint
+        await fetch(webhookUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        alert("Scorecard card image uploaded directly to your Google Drive folder!");
+      } catch (err) {
+        alert("Cloud upload error: " + err.message);
+      }
+    }
+
+    // --- FALLBACK CAMERA ROLL EXPORT ---
+    async function downloadScorecardCardImageFallback() {
       const cardEl = document.getElementById('scorecardCardElement');
       if (!cardEl) return;
 
@@ -1234,11 +1338,7 @@
         const fileName = `DG_Card_${courseName}_${roundState.date}.png`;
 
         canvas.toBlob(async (blob) => {
-          if (!blob) {
-            alert("Failed to process image.");
-            return;
-          }
-
+          if (!blob) return;
           const file = new File([blob], fileName, { type: 'image/png' });
 
           if (navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -1249,9 +1349,7 @@
                 text: `Disc Golf Round - ${roundState.date}`
               });
             } catch (shareErr) {
-              if (shareErr.name !== 'AbortError') {
-                fallbackImagePopup(canvas.toDataURL('image/png'));
-              }
+              if (shareErr.name !== 'AbortError') fallbackImagePopup(canvas.toDataURL('image/png'));
             }
           } else {
             fallbackImagePopup(canvas.toDataURL('image/png'));
@@ -1288,7 +1386,6 @@
         if (scored) playedPar += h.par;
       });
 
-      // Capture final duration BEFORE resetting timer
       const elapsed = document.getElementById('timerDisplay').innerText;
       const holeSnapshot = JSON.parse(JSON.stringify(roundState.holes));
 
@@ -1316,7 +1413,6 @@
       updateHistoryCountBadge();
       renderHistory();
 
-      // Lock card metadata
       document.getElementById('captureCardMeta').innerText = `${record.date} · ⏱ ${record.duration}`;
       document.getElementById('captureCardWinner').innerText = "Round Complete";
 
@@ -1405,6 +1501,26 @@
         `;
         container.appendChild(item);
       });
+    }
+
+    // --- DRIVE SYNC MODAL ---
+    function openDriveSyncModal() {
+      const saved = localStorage.getItem(WEBHOOK_KEY) || '';
+      document.getElementById('inputWebhookUrl').value = saved;
+      document.getElementById('modalDriveSync').classList.remove('hidden');
+      document.getElementById('modalDriveSync').classList.add('flex');
+    }
+
+    function closeDriveSyncModal() {
+      document.getElementById('modalDriveSync').classList.add('hidden');
+      document.getElementById('modalDriveSync').classList.remove('flex');
+    }
+
+    function saveWebhookUrl() {
+      const url = document.getElementById('inputWebhookUrl').value.trim();
+      localStorage.setItem(WEBHOOK_KEY, url);
+      alert("Google Apps Script Webhook URL saved successfully!");
+      closeDriveSyncModal();
     }
 
     // --- STOPWATCH LOGIC ---
