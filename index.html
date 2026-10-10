@@ -28,7 +28,6 @@
     .custom-scroll::-webkit-scrollbar { display: none; }
     .custom-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Theme 1: Royal Blue Background with White Cards */
     body.theme-blue {
       background-color: #1e3a8a;
       color: #0f172a;
@@ -56,7 +55,6 @@
     }
     body.theme-blue .counter-number { color: #1e3a8a; }
 
-    /* Theme 2: White Background with Royal Blue Cards */
     body.theme-white {
       background-color: #f8fafc;
       color: #0f172a;
@@ -106,24 +104,20 @@
         </button>
 
         <div class="flex items-center gap-1.5 shrink-0">
-          <!-- Roster Manager -->
           <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-user-group text-xs"></i>
           </button>
 
-          <!-- History Modal Button -->
           <button onclick="openHistoryModal()" id="btnOpenHistory" title="View Saved Rounds" class="px-2.5 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-black text-xs flex items-center gap-1.5 active:scale-95 shadow-md border border-amber-300">
             <i class="fa-solid fa-clock-rotate-left text-xs"></i>
             <span>Rounds</span>
             <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">4</span>
           </button>
 
-          <!-- Google Drive Sync Setup Button -->
           <button onclick="openDriveSyncModal()" title="Google Drive Cloud Setup" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-400 border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-brands fa-google-drive text-xs"></i>
           </button>
 
-          <!-- Palette Toggle -->
           <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-palette text-xs"></i>
           </button>
@@ -172,7 +166,6 @@
       </button>
     </div>
 
-    <!-- Par & Distance Info -->
     <div class="grid grid-cols-2 gap-2.5">
       <div class="app-card rounded-xl p-2.5 flex items-center justify-between shadow-sm">
         <div>
@@ -193,13 +186,12 @@
             <span class="text-[10px] card-subtext font-semibold">ft</span>
           </div>
         </div>
-        <button onclick="editDistance()" class="w-8 h-8 rounded-lg bg-blue-600 text-white active:scale-90 flex items-center justify-center shadow">
+        <button onclick="editDistance()" class="w-8 h-8 rounded-lg bg-blue-600 text-white active:scale-95 flex items-center justify-center shadow">
           <i class="fa-solid fa-pen-to-square text-xs"></i>
         </button>
       </div>
     </div>
 
-    <!-- Dynamic Player Cards with Prior Round Ghost Target Pills -->
     <div id="playerFairwayCards" class="flex flex-col gap-3"></div>
   </main>
 
@@ -264,7 +256,7 @@
     </div>
   </div>
 
-  <!-- GOOGLE DRIVE SYNC SETUP MODAL -->
+  <!-- GOOGLE DRIVE SYNC MODAL -->
   <div id="modalDriveSync" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm w-full p-5 space-y-4 max-h-[90vh] overflow-y-auto custom-scroll shadow-2xl">
       <div class="flex items-center justify-between border-b border-slate-200 pb-3">
@@ -280,16 +272,16 @@
       </div>
 
       <div class="text-xs text-slate-600 space-y-2">
-        <p>Your target Google Drive folder is connected to save scorecard images:</p>
+        <p>Your target Google Drive folder is configured to receive scorecard images:</p>
         <a href="https://drive.google.com/drive/folders/1gcjfHzz6Y8eibTO4OgmlGdi1dbAf30Q1" target="_blank" class="block p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-xs text-center active:scale-95">
-          <i class="fa-solid fa-folder-open mr-1"></i> Open Google Drive Destination Folder
+          <i class="fa-solid fa-folder-open mr-1"></i> Open Google Drive Folder
         </a>
       </div>
 
       <div>
         <label class="block text-[11px] font-black text-slate-500 uppercase mb-1">Google Apps Script Web App URL</label>
         <input type="url" id="inputWebhookUrl" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 font-mono text-[11px] focus:outline-none focus:border-emerald-500">
-        <p class="text-[10px] text-slate-400 mt-1">Paste the Web App deployment URL from your Master Sheet Apps Script.</p>
+        <p class="text-[10px] text-slate-400 mt-1">Paste the Web App deployment URL ending in /exec.</p>
       </div>
 
       <div class="pt-2 flex gap-2">
@@ -638,11 +630,11 @@
       }
     };
 
-    const STORAGE_KEY = 'dg_round_v20';
-    const HISTORY_KEY = 'dg_history_v20';
+    const STORAGE_KEY = 'dg_round_v21';
+    const HISTORY_KEY = 'dg_history_v21';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v20';
-    const ROSTER_KEY = 'dg_roster_v20';
+    const TIMER_KEY = 'dg_timer_state_v21';
+    const ROSTER_KEY = 'dg_roster_v21';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
 
     const INITIAL_ROSTER = [
@@ -1276,19 +1268,19 @@
 
       const webhookUrl = localStorage.getItem(WEBHOOK_KEY);
       if (!webhookUrl) {
-        alert("Google Apps Script Webhook URL is not set yet. Please tap the Google Drive icon in the header and paste your Webhook URL.");
+        alert("Please set your Webhook URL first by tapping the Google Drive icon in the header.");
         openDriveSyncModal();
         return;
       }
 
       try {
         const canvas = await html2canvas(cardEl, {
-          scale: 3,
+          scale: 1.5,
           backgroundColor: '#ffffff',
           useCORS: true
         });
 
-        const dataUrl = canvas.toDataURL('image/png');
+        const dataUrl = canvas.toDataURL('image/png', 0.85);
         const courseName = (document.getElementById('captureCardTitle').innerText || 'Round').replace(/\s+/g, '_');
         const fileName = `DG_Card_${courseName}_${roundState.date}.png`;
 
@@ -1308,7 +1300,6 @@
           }))
         };
 
-        // Fire direct post to Google Apps Script endpoint
         await fetch(webhookUrl, {
           method: 'POST',
           mode: 'no-cors',
@@ -1316,7 +1307,7 @@
           body: JSON.stringify(payload)
         });
 
-        alert("Scorecard card image uploaded directly to your Google Drive folder!");
+        alert("Scorecard image uploaded directly to your Google Drive folder!");
       } catch (err) {
         alert("Cloud upload error: " + err.message);
       }
@@ -1329,7 +1320,7 @@
 
       try {
         const canvas = await html2canvas(cardEl, {
-          scale: 3,
+          scale: 2,
           backgroundColor: '#ffffff',
           useCORS: true
         });
@@ -1503,7 +1494,6 @@
       });
     }
 
-    // --- DRIVE SYNC MODAL ---
     function openDriveSyncModal() {
       const saved = localStorage.getItem(WEBHOOK_KEY) || '';
       document.getElementById('inputWebhookUrl').value = saved;
