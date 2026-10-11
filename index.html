@@ -115,15 +115,15 @@
             <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">4</span>
           </button>
 
-          <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
+          <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-95 shadow-sm">
             <i class="fa-solid fa-user-group text-xs"></i>
           </button>
 
-          <button onclick="openDriveSyncModal()" title="Google Drive Cloud Setup" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-400 border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
+          <button onclick="openDriveSyncModal()" title="Google Drive Cloud Setup" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-400 border border-white/20 flex items-center justify-center active:scale-95 shadow-sm">
             <i class="fa-brands fa-google-drive text-xs"></i>
           </button>
 
-          <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
+          <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-95 shadow-sm">
             <i class="fa-solid fa-palette text-xs"></i>
           </button>
         </div>
@@ -151,7 +151,7 @@
     </div>
   </header>
 
-  <!-- MAIN SCORING CARD (Desktop Responsive: md:max-w-5xl with Side-by-Side Players) -->
+  <!-- MAIN SCORING CARD (Desktop Responsive) -->
   <main class="flex-1 px-3.5 py-2.5 max-w-lg md:max-w-5xl mx-auto w-full flex flex-col justify-between gap-2.5">
     
     <!-- Hole & Par/Distance Bar -->
@@ -202,7 +202,7 @@
       </div>
     </div>
 
-    <!-- Dynamic Player Fairway Cards (Side-by-side on desktop: md:grid md:grid-cols-2) -->
+    <!-- Dynamic Player Fairway Cards (Side-by-side on desktop) -->
     <div id="playerFairwayCards" class="flex-1 flex flex-col justify-around gap-2.5 md:grid md:grid-cols-2 md:gap-4 md:items-stretch"></div>
   </main>
 
@@ -266,7 +266,7 @@
     </div>
   </div>
 
-  <!-- INNOVA CADDY & 3-DISC RECOMMENDATION MODAL (Desktop Responsive: md:max-w-4xl) -->
+  <!-- INNOVA CADDY & 3-DISC RECOMMENDATION MODAL -->
   <div id="modalCaddy" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex-col justify-end md:justify-center md:p-6">
     <div class="bg-slate-950 text-white border-t md:border border-slate-800 rounded-t-3xl md:rounded-3xl max-w-lg md:max-w-4xl lg:max-w-5xl mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden shadow-2xl">
       
@@ -309,7 +309,7 @@
             </div>
           </div>
 
-          <!-- Wind Selector -->
+          <!-- Wind Selector & Speed Stepper -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
             <div>
               <label class="block text-[10px] font-black uppercase text-slate-300 mb-1.5">Select Wind on Tee Box</label>
@@ -336,7 +336,6 @@
               </button>
             </div>
 
-            <!-- Wind Speed Stepper -->
             <div class="flex flex-col justify-center bg-slate-950 p-3 rounded-2xl border border-slate-800 gap-2">
               <span class="text-[10px] font-black uppercase text-slate-400">Wind Speed Velocity</span>
               <div class="flex items-center justify-between">
@@ -355,7 +354,7 @@
             </div>
           </div>
 
-          <!-- 3-DISC RECOMMENDATIONS CONTAINER (Horizontal 3-column row on desktop) -->
+          <!-- 3-DISC RECOMMENDATIONS CONTAINER -->
           <div id="triDiscRecommendations" class="pt-1"></div>
         </div>
 
@@ -373,7 +372,7 @@
           </div>
         </div>
 
-        <!-- 9 INNOVA DISC TIP CARDS LIST (3-column responsive grid on desktop: md:grid md:grid-cols-2 lg:grid-cols-3) -->
+        <!-- 9 INNOVA DISC TIP CARDS LIST (3-column responsive grid on desktop) -->
         <div id="caddyCardsContainer" class="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-3"></div>
 
       </div>
@@ -566,6 +565,36 @@
           { number: 16, dist: 276, par: 3 },
           { number: 17, dist: 284, par: 3 },
           { number: 18, dist: 289, par: 3 }
+        ]
+      },
+      lexington_lake_red: {
+        name: "Lexington Lake (All Red)",
+        totalHoles: 9,
+        holes: [
+          { number: 1, dist: 288, par: 3 },
+          { number: 2, dist: 214, par: 3 },
+          { number: 3, dist: 127, par: 3 },
+          { number: 4, dist: 220, par: 3 },
+          { number: 5, dist: 207, par: 3 },
+          { number: 6, dist: 285, par: 3 },
+          { number: 7, dist: 170, par: 3 },
+          { number: 8, dist: 207, par: 3 },
+          { number: 9, dist: 195, par: 3 }
+        ]
+      },
+      desoto_wildcat: {
+        name: "De Soto Wildcat",
+        totalHoles: 9,
+        holes: [
+          { number: 1, dist: 301, par: 3 },
+          { number: 2, dist: 353, par: 3 },
+          { number: 3, dist: 227, par: 3 },
+          { number: 4, dist: 241, par: 3 },
+          { number: 5, dist: 230, par: 3 },
+          { number: 6, dist: 504, par: 3 },
+          { number: 7, dist: 278, par: 3 },
+          { number: 8, dist: 365, par: 3 },
+          { number: 9, dist: 312, par: 3 }
         ]
       },
       smp_art9: {
@@ -907,11 +936,11 @@
       }
     ];
 
-    const STORAGE_KEY = 'dg_round_v32';
-    const HISTORY_KEY = 'dg_history_v32';
+    const STORAGE_KEY = 'dg_round_v33';
+    const HISTORY_KEY = 'dg_history_v33';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v32';
-    const ROSTER_KEY = 'dg_roster_v32';
+    const TIMER_KEY = 'dg_timer_state_v33';
+    const ROSTER_KEY = 'dg_roster_v33';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
     const DISC_STATS_KEY = 'dg_disc_stats_v2';
     const REL_WIND_KEY = 'dg_rel_wind_v4';
@@ -1423,7 +1452,6 @@
         const dStats = stats[d.id] || { throws: 0, likes: 0, notes: [], courses: {}, history: [] };
         const likeRate = dStats.throws > 0 ? Math.round((dStats.likes / dStats.throws) * 100) : null;
 
-        // Render Course & Hole History
         let coursesHtml = '';
         if (dStats.courses && Object.keys(dStats.courses).length > 0) {
           const courseEntries = Object.keys(dStats.courses).map(cName => {
