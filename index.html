@@ -87,7 +87,7 @@
 
   <!-- TOP HEADER -->
   <header id="appHeader" class="app-header sticky top-0 z-40 backdrop-blur-md border-b px-3.5 pt-1.5 pb-2 shadow-lg shrink-0">
-    <div class="max-w-lg mx-auto flex flex-col gap-1.5">
+    <div class="max-w-lg md:max-w-5xl mx-auto flex flex-col gap-1.5">
 
       <div class="flex items-center justify-between gap-1.5">
         <button onclick="openCourseModal()" class="flex items-center gap-2 text-left truncate flex-1">
@@ -104,7 +104,7 @@
         </button>
 
         <div class="flex items-center gap-1 shrink-0">
-          <button onclick="openCaddyModal()" title="Innova Caddy & Wind Advisor" class="px-2 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs flex items-center gap-1 active:scale-95 shadow-md border border-emerald-300">
+          <button onclick="openCaddyModal()" title="Innova Caddy & Wind Advisor" class="px-2.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs flex items-center gap-1.5 active:scale-95 shadow-md border border-emerald-300">
             <i class="fa-solid fa-compact-disc text-xs"></i>
             <span>Caddy</span>
           </button>
@@ -115,15 +115,15 @@
             <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">4</span>
           </button>
 
-          <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-95 shadow-sm">
+          <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-user-group text-xs"></i>
           </button>
 
-          <button onclick="openDriveSyncModal()" title="Google Drive Cloud Setup" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-400 border border-white/20 flex items-center justify-center active:scale-95 shadow-sm">
+          <button onclick="openDriveSyncModal()" title="Google Drive Cloud Setup" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-400 border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-brands fa-google-drive text-xs"></i>
           </button>
 
-          <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-95 shadow-sm">
+          <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-palette text-xs"></i>
           </button>
         </div>
@@ -145,36 +145,37 @@
           </button>
         </div>
 
-        <div id="tickerSummaryContainer" class="flex items-center gap-2 font-bold text-xs shrink-0 overflow-x-auto max-w-[50%]"></div>
+        <div id="tickerSummaryContainer" class="flex items-center gap-2 font-bold text-xs shrink-0 overflow-x-auto max-w-[50%] md:max-w-none"></div>
       </div>
 
     </div>
   </header>
 
-  <!-- MAIN SCORING CARD -->
-  <main class="flex-1 px-3.5 py-2.5 max-w-lg mx-auto w-full flex flex-col justify-between gap-2.5">
+  <!-- MAIN SCORING CARD (Desktop Responsive: md:max-w-5xl with Side-by-Side Players) -->
+  <main class="flex-1 px-3.5 py-2.5 max-w-lg md:max-w-5xl mx-auto w-full flex flex-col justify-between gap-2.5">
     
-    <!-- Hole Navigator Bar -->
-    <div class="app-card rounded-2xl p-2.5 flex items-center justify-between shadow-md shrink-0">
-      <button onclick="prevHole()" id="btnPrevHoleTop" class="w-11 h-11 rounded-xl bg-blue-900 text-white active:scale-90 flex items-center justify-center font-bold text-base disabled:opacity-30 disabled:pointer-events-none transition shadow">
-        <i class="fa-solid fa-chevron-left"></i>
-      </button>
+    <!-- Hole & Par/Distance Bar -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 shrink-0">
+      <!-- Hole Navigator -->
+      <div class="app-card rounded-2xl p-2.5 flex items-center justify-between shadow-md">
+        <button onclick="prevHole()" id="btnPrevHoleTop" class="w-11 h-11 rounded-xl bg-blue-900 text-white active:scale-90 flex items-center justify-center font-bold text-base disabled:opacity-30 disabled:pointer-events-none transition shadow">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
 
-      <div class="text-center">
-        <div class="text-[10px] uppercase tracking-wider font-extrabold text-blue-600">HOLE</div>
-        <div class="flex items-baseline justify-center gap-1">
-          <span id="currentHoleLabel" class="text-3xl font-black card-title leading-none">1</span>
-          <span id="totalHolesMaxLabel" class="text-xs card-subtext font-semibold">/ 18</span>
+        <div class="text-center">
+          <div class="text-[10px] uppercase tracking-wider font-extrabold text-blue-600">HOLE</div>
+          <div class="flex items-baseline justify-center gap-1">
+            <span id="currentHoleLabel" class="text-3xl font-black card-title leading-none">1</span>
+            <span id="totalHolesMaxLabel" class="text-xs card-subtext font-semibold">/ 18</span>
+          </div>
         </div>
+
+        <button onclick="nextHole()" id="btnNextHoleTop" class="w-11 h-11 rounded-xl bg-blue-600 text-white active:scale-90 flex items-center justify-center font-bold text-base transition shadow">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
       </div>
 
-      <button onclick="nextHole()" id="btnNextHoleTop" class="w-11 h-11 rounded-xl bg-blue-600 text-white active:scale-90 flex items-center justify-center font-bold text-base transition shadow">
-        <i class="fa-solid fa-chevron-right"></i>
-      </button>
-    </div>
-
-    <!-- Par & Distance Info -->
-    <div class="grid grid-cols-2 gap-2.5 shrink-0">
+      <!-- Par Display -->
       <div class="app-card rounded-xl p-3 flex items-center justify-between shadow-sm">
         <div>
           <span class="text-[10px] font-bold uppercase card-subtext block tracking-wide">PAR</span>
@@ -186,6 +187,7 @@
         </div>
       </div>
 
+      <!-- Distance Display -->
       <div class="app-card rounded-xl p-3 flex items-center justify-between shadow-sm">
         <div>
           <span class="text-[10px] font-bold uppercase card-subtext block tracking-wide">DISTANCE</span>
@@ -200,13 +202,13 @@
       </div>
     </div>
 
-    <!-- Dynamic Player Fairway Cards -->
-    <div id="playerFairwayCards" class="flex-1 flex flex-col justify-around gap-2.5"></div>
+    <!-- Dynamic Player Fairway Cards (Side-by-side on desktop: md:grid md:grid-cols-2) -->
+    <div id="playerFairwayCards" class="flex-1 flex flex-col justify-around gap-2.5 md:grid md:grid-cols-2 md:gap-4 md:items-stretch"></div>
   </main>
 
   <!-- BOTTOM DOCK -->
   <footer id="appFooter" class="app-footer fixed bottom-0 left-0 right-0 z-40 backdrop-blur-md border-t px-4 py-2.5 pb-[max(0.6rem,env(safe-area-inset-bottom))] shadow-2xl">
-    <div class="max-w-lg mx-auto flex items-center gap-2">
+    <div class="max-w-lg md:max-w-5xl mx-auto flex items-center gap-2">
       <button onclick="prevHole()" id="btnBottomPrev" class="flex-1 py-3 px-3 rounded-xl bg-blue-900 text-white font-bold text-sm active:scale-95 border border-blue-700 flex items-center justify-center gap-2 disabled:opacity-30">
         <i class="fa-solid fa-arrow-left text-xs"></i>
         <span>Prev</span>
@@ -225,8 +227,8 @@
   </footer>
 
   <!-- FULL SCORECARD MODAL -->
-  <div id="modalScorecard" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end">
-    <div class="bg-white text-slate-900 border-t border-slate-200 rounded-t-3xl max-w-lg mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden">
+  <div id="modalScorecard" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end md:justify-center md:p-6">
+    <div class="bg-white text-slate-900 border-t md:border border-slate-200 rounded-t-3xl md:rounded-3xl max-w-lg md:max-w-4xl mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden shadow-2xl">
       
       <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50">
         <div>
@@ -264,11 +266,11 @@
     </div>
   </div>
 
-  <!-- INNOVA CADDY & 3-DISC RECOMMENDATION MODAL -->
-  <div id="modalCaddy" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex-col justify-end">
-    <div class="bg-slate-950 text-white border-t border-slate-800 rounded-t-3xl max-w-lg mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden shadow-2xl">
+  <!-- INNOVA CADDY & 3-DISC RECOMMENDATION MODAL (Desktop Responsive: md:max-w-4xl) -->
+  <div id="modalCaddy" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex-col justify-end md:justify-center md:p-6">
+    <div class="bg-slate-950 text-white border-t md:border border-slate-800 rounded-t-3xl md:rounded-3xl max-w-lg md:max-w-4xl lg:max-w-5xl mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden shadow-2xl">
       
-      <!-- Caddy Header with Reset All Stats Button -->
+      <!-- Caddy Header -->
       <div class="px-4 py-3 border-b border-slate-800 flex items-center justify-between bg-slate-900 shrink-0">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-black shadow text-sm">
@@ -291,84 +293,88 @@
       </div>
 
       <!-- Scrollable Workspace -->
-      <div class="overflow-y-auto p-3.5 flex-1 custom-scroll space-y-3.5" id="caddyModalScrollContainer">
+      <div class="overflow-y-auto p-4 flex-1 custom-scroll space-y-4" id="caddyModalScrollContainer">
         
         <!-- INTUITIVE 4-WAY WIND CONTROL BOX -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 shadow-md space-y-3">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-md space-y-3.5">
           
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
-              <span class="text-[10px] font-black uppercase text-slate-400">Target Hole:</span>
+              <span class="text-[11px] font-black uppercase text-slate-400">Target Hole:</span>
               <span id="caddyHoleDistBadge" class="bg-blue-600 text-white font-black text-xs px-2.5 py-0.5 rounded-lg shadow-sm">301 ft</span>
             </div>
-            <div class="text-[11px] font-bold text-emerald-400 flex items-center gap-1.5">
+            <div class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
               <span id="currentWindReadout">Headwind (10 mph)</span>
             </div>
           </div>
 
-          <!-- The 5 Direct Relative Wind Buttons -->
-          <div>
-            <label class="block text-[10px] font-black uppercase text-slate-300 mb-1.5">Select Wind on Tee Box</label>
-            <div class="grid grid-cols-2 gap-1.5 text-xs font-black">
-              <button onclick="setRelativeWind('headwind')" class="wind-btn py-2.5 px-2 rounded-xl bg-blue-600 text-white shadow border border-blue-400 flex items-center justify-center gap-1.5 active:scale-95" data-wind="headwind">
-                <span class="text-sm">💨</span>
-                <span>Headwind (In Face)</span>
-              </button>
-              <button onclick="setRelativeWind('tailwind')" class="wind-btn py-2.5 px-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center gap-1.5 active:scale-95" data-wind="tailwind">
-                <span class="text-sm">🍃</span>
-                <span>Tailwind (At Back)</span>
-              </button>
-              <button onclick="setRelativeWind('cross_right')" class="wind-btn py-2.5 px-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center gap-1.5 active:scale-95" data-wind="cross_right">
-                <span class="text-sm">➡️</span>
-                <span>Wind Cross Right</span>
-              </button>
-              <button onclick="setRelativeWind('cross_left')" class="wind-btn py-2.5 px-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center gap-1.5 active:scale-95" data-wind="cross_left">
-                <span class="text-sm">⬅️</span>
-                <span>Wind Cross Left</span>
+          <!-- Wind Selector -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
+            <div>
+              <label class="block text-[10px] font-black uppercase text-slate-300 mb-1.5">Select Wind on Tee Box</label>
+              <div class="grid grid-cols-2 gap-1.5 text-xs font-black">
+                <button onclick="setRelativeWind('headwind')" class="wind-btn py-2 px-2 rounded-xl bg-blue-600 text-white shadow border border-blue-400 flex items-center justify-center gap-1.5 active:scale-95" data-wind="headwind">
+                  <span class="text-sm">💨</span>
+                  <span>Headwind (Face)</span>
+                </button>
+                <button onclick="setRelativeWind('tailwind')" class="wind-btn py-2 px-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center gap-1.5 active:scale-95" data-wind="tailwind">
+                  <span class="text-sm">🍃</span>
+                  <span>Tailwind (Back)</span>
+                </button>
+                <button onclick="setRelativeWind('cross_right')" class="wind-btn py-2 px-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center gap-1.5 active:scale-95" data-wind="cross_right">
+                  <span class="text-sm">➡️</span>
+                  <span>Cross Right</span>
+                </button>
+                <button onclick="setRelativeWind('cross_left')" class="wind-btn py-2 px-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center gap-1.5 active:scale-95" data-wind="cross_left">
+                  <span class="text-sm">⬅️</span>
+                  <span>Cross Left</span>
+                </button>
+              </div>
+              <button onclick="setRelativeWind('calm')" class="wind-btn w-full mt-1.5 py-1.5 rounded-xl bg-slate-800 text-slate-400 text-xs font-bold border border-slate-700 active:scale-95" data-wind="calm">
+                ☀️ Calm / No Noticeable Wind
               </button>
             </div>
-            <button onclick="setRelativeWind('calm')" class="wind-btn w-full mt-1.5 py-1.5 rounded-xl bg-slate-800 text-slate-400 text-xs font-bold border border-slate-700 active:scale-95" data-wind="calm">
-              ☀️ Calm / No Noticeable Wind
-            </button>
+
+            <!-- Wind Speed Stepper -->
+            <div class="flex flex-col justify-center bg-slate-950 p-3 rounded-2xl border border-slate-800 gap-2">
+              <span class="text-[10px] font-black uppercase text-slate-400">Wind Speed Velocity</span>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                  <button onclick="adjustWindSpeed(-2)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-black text-xs active:scale-90 border border-slate-700 flex items-center justify-center">-</button>
+                  <span id="windSpeedLabel" class="font-mono text-sm font-black text-white w-16 text-center">10 mph</span>
+                  <button onclick="adjustWindSpeed(2)" class="w-8 h-8 rounded-lg bg-slate-800 text-white font-black text-xs active:scale-90 border border-slate-700 flex items-center justify-center">+</button>
+                </div>
+                <div class="flex gap-1.5">
+                  <button onclick="setDirectWindSpeed(5)" class="px-2.5 py-1 rounded-lg bg-slate-800 text-[11px] text-slate-300 font-bold border border-slate-700 active:scale-95">5</button>
+                  <button onclick="setDirectWindSpeed(10)" class="px-2.5 py-1 rounded-lg bg-blue-600 text-[11px] text-white font-black shadow active:scale-95">10</button>
+                  <button onclick="setDirectWindSpeed(15)" class="px-2.5 py-1 rounded-lg bg-slate-800 text-[11px] text-slate-300 font-bold border border-slate-700 active:scale-95">15</button>
+                  <button onclick="setDirectWindSpeed(20)" class="px-2.5 py-1 rounded-lg bg-slate-800 text-[11px] text-slate-300 font-bold border border-slate-700 active:scale-95">20</button>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Wind Speed Adjuster -->
-          <div class="flex items-center justify-between bg-slate-950 p-2 rounded-xl border border-slate-800">
-            <span class="text-[10px] font-black uppercase text-slate-400">Wind Speed:</span>
-            <div class="flex items-center gap-1.5">
-              <button onclick="adjustWindSpeed(-2)" class="w-7 h-7 rounded-lg bg-slate-800 text-white font-black text-xs active:scale-90 border border-slate-700 flex items-center justify-center">-</button>
-              <span id="windSpeedLabel" class="font-mono text-xs font-black text-white w-14 text-center">10 mph</span>
-              <button onclick="adjustWindSpeed(2)" class="w-7 h-7 rounded-lg bg-slate-800 text-white font-black text-xs active:scale-90 border border-slate-700 flex items-center justify-center">+</button>
-            </div>
-            <div class="flex gap-1">
-              <button onclick="setDirectWindSpeed(5)" class="px-2 py-0.5 rounded-lg bg-slate-800 text-[10px] text-slate-300 font-bold border border-slate-700 active:scale-95">5</button>
-              <button onclick="setDirectWindSpeed(10)" class="px-2 py-0.5 rounded-lg bg-blue-600 text-[10px] text-white font-black shadow active:scale-95">10</button>
-              <button onclick="setDirectWindSpeed(15)" class="px-2 py-0.5 rounded-lg bg-slate-800 text-[10px] text-slate-300 font-bold border border-slate-700 active:scale-95">15</button>
-              <button onclick="setDirectWindSpeed(20)" class="px-2 py-0.5 rounded-lg bg-slate-800 text-[10px] text-slate-300 font-bold border border-slate-700 active:scale-95">20</button>
-            </div>
-          </div>
-
-          <!-- 3-DISC RECOMMENDATIONS CONTAINER WITH DIRECT IN-CARD LOGGING -->
-          <div id="triDiscRecommendations" class="space-y-2 pt-1"></div>
+          <!-- 3-DISC RECOMMENDATIONS CONTAINER (Horizontal 3-column row on desktop) -->
+          <div id="triDiscRecommendations" class="pt-1"></div>
         </div>
 
         <!-- FULL 9 INNOVA DISC QUIVER HEADER -->
-        <div class="pt-1 flex items-center justify-between border-t border-slate-800">
+        <div class="pt-2 flex items-center justify-between border-t border-slate-800">
           <div>
             <h4 class="text-xs font-black text-white uppercase tracking-wider">All 9 Innova Bag Discs</h4>
             <p class="text-[10px] text-slate-400 font-medium">Courses, holes, ratings & Drive cards</p>
           </div>
-          <div class="flex gap-1 text-[10px] font-bold">
-            <button onclick="filterCaddyDiscs('all')" class="caddy-filter-btn px-2 py-0.5 rounded-lg bg-blue-600 text-white shadow">All</button>
-            <button onclick="filterCaddyDiscs('putter')" class="caddy-filter-btn px-2 py-0.5 rounded-lg bg-slate-800 text-slate-400">Putters</button>
-            <button onclick="filterCaddyDiscs('mid')" class="caddy-filter-btn px-2 py-0.5 rounded-lg bg-slate-800 text-slate-400">Mids</button>
-            <button onclick="filterCaddyDiscs('driver')" class="caddy-filter-btn px-2 py-0.5 rounded-lg bg-slate-800 text-slate-400">Drivers</button>
+          <div class="flex gap-1 text-[11px] font-bold">
+            <button onclick="filterCaddyDiscs('all')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white shadow">All (9)</button>
+            <button onclick="filterCaddyDiscs('putter')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400">Putters</button>
+            <button onclick="filterCaddyDiscs('mid')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400">Mids</button>
+            <button onclick="filterCaddyDiscs('driver')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400">Drivers</button>
           </div>
         </div>
 
-        <!-- 9 INNOVA DISC TIP CARDS LIST -->
-        <div id="caddyCardsContainer" class="space-y-3"></div>
+        <!-- 9 INNOVA DISC TIP CARDS LIST (3-column responsive grid on desktop: md:grid md:grid-cols-2 lg:grid-cols-3) -->
+        <div id="caddyCardsContainer" class="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-3"></div>
 
       </div>
     </div>
@@ -422,7 +428,7 @@
 
   <!-- CUSTOM COURSE PICKER MODAL -->
   <div id="modalCourse" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm w-full p-4 space-y-3 max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+    <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm md:max-w-md w-full p-4 space-y-3 max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
       
       <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 shrink-0">
         <div>
@@ -458,7 +464,7 @@
 
   <!-- GOOGLE DRIVE SYNC MODAL -->
   <div id="modalDriveSync" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm w-full p-5 space-y-4 max-h-[90vh] overflow-y-auto custom-scroll shadow-2xl">
+    <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm md:max-w-md w-full p-5 space-y-4 max-h-[90vh] overflow-y-auto custom-scroll shadow-2xl">
       <div class="flex items-center justify-between border-b border-slate-200 pb-3">
         <div class="flex items-center gap-2">
           <div class="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-xs font-black shadow">
@@ -489,7 +495,7 @@
 
   <!-- PLAYER ROSTER MANAGEMENT MODAL -->
   <div id="modalRoster" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm w-full p-5 space-y-4 max-h-[90vh] overflow-y-auto custom-scroll shadow-2xl">
+    <div class="bg-white text-slate-900 border border-slate-200 rounded-3xl max-w-sm md:max-w-md w-full p-5 space-y-4 max-h-[90vh] overflow-y-auto custom-scroll shadow-2xl">
       <div class="flex items-center justify-between border-b border-slate-200 pb-3">
         <h3 class="font-black text-slate-900 text-base">Match Players</h3>
         <button onclick="closeRosterModal()" class="text-slate-400 hover:text-slate-600">
@@ -514,8 +520,8 @@
   </div>
 
   <!-- SAVED HISTORY MODAL -->
-  <div id="modalHistory" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end">
-    <div class="bg-white text-slate-900 border-t border-slate-200 rounded-t-3xl max-w-lg mx-auto w-full max-h-[85vh] flex flex-col overflow-hidden shadow-2xl">
+  <div id="modalHistory" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end md:justify-center md:p-6">
+    <div class="bg-white text-slate-900 border-t md:border border-slate-200 rounded-t-3xl md:rounded-3xl max-w-lg md:max-w-2xl mx-auto w-full max-h-[85vh] flex flex-col overflow-hidden shadow-2xl">
       <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between bg-slate-50">
         <div>
           <h3 class="font-black text-lg text-slate-900">Saved Rounds</h3>
@@ -716,7 +722,7 @@
         holes: [
           { number: 1, dist: 227, par: 3 },
           { number: 2, dist: 280, par: 3 },
-          { number: 3, dist: 238, par: 3 },
+          { number: 3, dist: 291, par: 3 },
           { number: 4, dist: 291, par: 3 },
           { number: 5, dist: 336, par: 3 },
           { number: 6, dist: 352, par: 3 },
@@ -901,11 +907,11 @@
       }
     ];
 
-    const STORAGE_KEY = 'dg_round_v31';
-    const HISTORY_KEY = 'dg_history_v31';
+    const STORAGE_KEY = 'dg_round_v32';
+    const HISTORY_KEY = 'dg_history_v32';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v31';
-    const ROSTER_KEY = 'dg_roster_v31';
+    const TIMER_KEY = 'dg_timer_state_v32';
+    const ROSTER_KEY = 'dg_roster_v32';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
     const DISC_STATS_KEY = 'dg_disc_stats_v2';
     const REL_WIND_KEY = 'dg_rel_wind_v4';
@@ -1042,7 +1048,7 @@
     let activeSpeechRecognition = null;
     let isDictating = false;
 
-    // --- ENHANCED DISC STATS & COURSE/HOLE HISTORY ENGINE ---
+    // --- ENHANCED DISC STATS ENGINE ---
     function getDiscStats() {
       let stats = {};
       const saved = localStorage.getItem(DISC_STATS_KEY);
@@ -1221,9 +1227,9 @@
     function updateRelativeWindUI() {
       document.querySelectorAll('.wind-btn').forEach(btn => {
         if (btn.dataset.wind === relativeWindState.windType) {
-          btn.className = "wind-btn py-2.5 px-2 rounded-xl bg-blue-600 text-white shadow border border-blue-400 flex items-center justify-center gap-1.5 active:scale-95";
+          btn.className = "wind-btn py-2 px-2 rounded-xl bg-blue-600 text-white shadow border border-blue-400 flex items-center justify-center gap-1.5 active:scale-95";
         } else {
-          btn.className = "wind-btn py-2.5 px-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center gap-1.5 active:scale-95";
+          btn.className = "wind-btn py-2 px-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center gap-1.5 active:scale-95";
         }
       });
 
@@ -1242,9 +1248,9 @@
       if (relativeWindState.activeFilter !== 'all') {
         relativeWindState.activeFilter = 'all';
         document.querySelectorAll('.caddy-filter-btn').forEach(b => {
-          b.className = "caddy-filter-btn px-2 py-0.5 rounded-lg bg-slate-800 text-slate-400";
+          b.className = "caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400";
         });
-        document.querySelector('.caddy-filter-btn').className = "caddy-filter-btn px-2 py-0.5 rounded-lg bg-blue-600 text-white shadow";
+        document.querySelector('.caddy-filter-btn').className = "caddy-filter-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white shadow";
         renderCaddyDiscCards();
       }
 
@@ -1258,7 +1264,7 @@
       }
     }
 
-    // ACCURATE 3-DISC GENERATION WITH 1-TAP IN-CARD LOGGING
+    // ACCURATE 3-DISC GENERATION (Horizontal 3-column row on desktop)
     function renderTriDiscRecommendations() {
       const container = document.getElementById('triDiscRecommendations');
       const currentHole = roundState.holes[roundState.currentHoleIndex] || { distance: 300, number: 1 };
@@ -1360,16 +1366,16 @@
       };
 
       container.innerHTML = `
-        <div class="text-[10px] font-black uppercase text-amber-400 tracking-wider mb-1 flex items-center justify-between">
+        <div class="text-[10px] font-black uppercase text-amber-400 tracking-wider mb-1.5 flex items-center justify-between">
           <span>Top 3 Discs (#${currentHole.number} · ${dist} ft)</span>
           <span class="text-slate-400 font-semibold">${windNameMap[wind] || 'WIND ACTIVE'}</span>
         </div>
         ${lockoutWarning ? `<div class="p-2 rounded-xl bg-amber-950/60 border border-amber-500/40 text-[11px] text-amber-300 font-bold mb-2">${lockoutWarning}</div>` : ''}
-        <div class="space-y-2">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5">
           ${picks.map((p) => `
-            <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-2">
-              <div class="truncate flex-1">
-                <div class="flex items-center gap-1.5">
+            <div class="p-3 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between gap-2 shadow-sm">
+              <div>
+                <div class="flex items-center justify-between">
                   <span class="text-[10px] font-black uppercase text-blue-400">${p.role}</span>
                   <span class="text-[10px] font-mono text-slate-400 font-bold">(${p.type})</span>
                 </div>
@@ -1377,13 +1383,13 @@
                   <i class="fa-solid fa-compact-disc text-emerald-400 text-xs shrink-0"></i>
                   <span class="truncate">${p.name}</span>
                 </div>
-                <p class="text-[11px] text-slate-300 font-medium leading-tight mt-0.5">${p.why}</p>
+                <p class="text-[11px] text-slate-300 font-medium leading-tight mt-1">${p.why}</p>
               </div>
-              <div class="flex items-center gap-1.5 shrink-0">
-                <button onclick="scrollToDiscCard('${p.discId}')" title="Jump to tip card below" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center justify-center active:scale-95 text-xs">
+              <div class="pt-1.5 flex items-center gap-1.5 border-t border-slate-800/80">
+                <button onclick="scrollToDiscCard('${p.discId}')" title="Jump to tip card below" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center justify-center active:scale-95 text-xs">
                   <i class="fa-solid fa-eye text-xs"></i>
                 </button>
-                <button onclick="openLogThrowModal('${p.discId}')" class="px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-black text-xs flex items-center gap-1 shadow active:scale-95">
+                <button onclick="openLogThrowModal('${p.discId}')" class="flex-1 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs flex items-center justify-center gap-1 shadow active:scale-95">
                   <i class="fa-solid fa-thumbs-up text-[10px]"></i>
                   <span>Log</span>
                 </button>
@@ -1397,13 +1403,13 @@
     function filterCaddyDiscs(type) {
       relativeWindState.activeFilter = type;
       document.querySelectorAll('.caddy-filter-btn').forEach(btn => {
-        btn.className = "caddy-filter-btn px-2 py-0.5 rounded-lg bg-slate-800 text-slate-400";
+        btn.className = "caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400";
       });
-      event.target.className = "caddy-filter-btn px-2 py-0.5 rounded-lg bg-blue-600 text-white shadow";
+      event.target.className = "caddy-filter-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white shadow";
       renderCaddyDiscCards();
     }
 
-    // RENDER DISC TIP CARDS WITH COURSE/HOLE HISTORY AND RESET BUTTON
+    // RENDER DISC TIP CARDS (Desktop Responsive 3-Column Grid)
     function renderCaddyDiscCards() {
       const container = document.getElementById('caddyCardsContainer');
       container.innerHTML = '';
@@ -1417,7 +1423,7 @@
         const dStats = stats[d.id] || { throws: 0, likes: 0, notes: [], courses: {}, history: [] };
         const likeRate = dStats.throws > 0 ? Math.round((dStats.likes / dStats.throws) * 100) : null;
 
-        // Render Course and Hole Tracking History
+        // Render Course & Hole History
         let coursesHtml = '';
         if (dStats.courses && Object.keys(dStats.courses).length > 0) {
           const courseEntries = Object.keys(dStats.courses).map(cName => {
@@ -1434,7 +1440,7 @@
           coursesHtml = `
             <div class="p-2 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
               <div class="flex items-center justify-between text-[9px] font-black uppercase tracking-wider text-slate-400">
-                <span><i class="fa-solid fa-map-location-dot text-emerald-400 mr-1"></i>Courses & Holes Played</span>
+                <span><i class="fa-solid fa-map-location-dot text-emerald-400 mr-1"></i>Courses & Holes</span>
                 <span class="text-slate-400">${dStats.throws} Logged</span>
               </div>
               <div class="space-y-0.5 divide-y divide-slate-800/60 pt-0.5">
@@ -1445,7 +1451,7 @@
         } else {
           coursesHtml = `
             <div class="p-2 rounded-xl bg-slate-950/40 border border-slate-800/80 text-[10px] text-slate-400 italic flex items-center justify-between">
-              <span><i class="fa-solid fa-map-location-dot text-slate-500 mr-1.5"></i>No courses or holes logged yet</span>
+              <span><i class="fa-solid fa-map-location-dot text-slate-500 mr-1.5"></i>No courses logged yet</span>
               <span class="text-[9px] text-slate-400">0 Throws</span>
             </div>
           `;
@@ -1453,59 +1459,61 @@
 
         const card = document.createElement('div');
         card.id = `discCard_${d.id}`;
-        card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-3.5 shadow-md flex flex-col gap-2.5 transition-all duration-300";
+        card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-3.5 shadow-md flex flex-col justify-between gap-2.5 transition-all duration-300";
         card.innerHTML = `
-          <div class="flex items-start justify-between">
-            <div>
-              <div class="flex items-center gap-1.5">
-                <h4 class="text-sm font-black text-white">${d.name}</h4>
-                <span class="text-[9px] font-black uppercase px-2 py-0.2 rounded-full border ${d.categoryColor}">${d.category}</span>
+          <div>
+            <div class="flex items-start justify-between mb-1">
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <h4 class="text-sm font-black text-white">${d.name}</h4>
+                  <span class="text-[9px] font-black uppercase px-2 py-0.2 rounded-full border ${d.categoryColor}">${d.category}</span>
+                </div>
+                <p class="text-[10px] text-amber-400 font-bold mt-0.5">${d.specs}</p>
               </div>
-              <p class="text-[10px] text-amber-400 font-bold mt-0.5">${d.specs}</p>
+              <div class="text-right">
+                <span class="text-[9px] uppercase font-bold text-slate-400 block">Your Range</span>
+                <span class="text-xs font-black text-blue-400">${d.idealDist}</span>
+              </div>
             </div>
-            <div class="text-right">
-              <span class="text-[9px] uppercase font-bold text-slate-400 block">Your Range</span>
-              <span class="text-xs font-black text-blue-400">${d.idealDist}</span>
+
+            <!-- Flight Numbers & Lifetime Stats -->
+            <div class="grid grid-cols-5 gap-1 text-center bg-slate-950/80 rounded-xl p-1.5 border border-slate-800 my-2">
+              <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Speed</span><span class="text-xs font-black text-white">${d.numbers.speed}</span></div>
+              <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Glide</span><span class="text-xs font-black text-white">${d.numbers.glide}</span></div>
+              <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Turn</span><span class="text-xs font-black ${d.numbers.turn < 0 ? 'text-amber-400' : 'text-white'}">${d.numbers.turn}</span></div>
+              <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Fade</span><span class="text-xs font-black ${d.numbers.fade >= 3 ? 'text-rose-400' : 'text-white'}">${d.numbers.fade}</span></div>
+              <div class="border-l border-slate-800 pl-1">
+                <span class="text-[8px] font-bold uppercase text-emerald-400 block">Liked</span>
+                <span class="text-xs font-black text-emerald-400">${likeRate !== null ? likeRate + '%' : '-'}</span>
+              </div>
             </div>
+
+            <!-- Courses & Holes Box -->
+            ${coursesHtml}
+
+            <!-- When to use / Pitfalls -->
+            <div class="space-y-1.5 text-[11px] my-2">
+              <div class="p-2 rounded-xl bg-emerald-950/30 border border-emerald-900/40 text-slate-200">
+                <strong class="text-emerald-400 text-[10px] uppercase block mb-0.5"><i class="fa-solid fa-circle-check mr-1"></i>When to Throw</strong>
+                ${d.whenToUse}
+              </div>
+              <div class="p-2 rounded-xl bg-rose-950/30 border border-rose-900/40 text-slate-300">
+                <strong class="text-rose-400 text-[10px] uppercase block mb-0.5"><i class="fa-solid fa-circle-xmark mr-1"></i>Avoid When</strong>
+                ${d.whenAvoid}
+              </div>
+            </div>
+
+            <!-- Recent Commentary -->
+            ${dStats.notes && dStats.notes.length > 0 ? `
+              <div class="p-2 rounded-xl bg-slate-950 border border-slate-800 text-[10px] text-slate-300 mb-2">
+                <span class="text-slate-400 font-bold block mb-0.5">Last Commentary:</span>
+                "${dStats.notes[0]}"
+              </div>
+            ` : ''}
           </div>
 
-          <!-- Flight Numbers & Lifetime Stats -->
-          <div class="grid grid-cols-5 gap-1 text-center bg-slate-950/80 rounded-xl p-1.5 border border-slate-800">
-            <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Speed</span><span class="text-xs font-black text-white">${d.numbers.speed}</span></div>
-            <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Glide</span><span class="text-xs font-black text-white">${d.numbers.glide}</span></div>
-            <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Turn</span><span class="text-xs font-black ${d.numbers.turn < 0 ? 'text-amber-400' : 'text-white'}">${d.numbers.turn}</span></div>
-            <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Fade</span><span class="text-xs font-black ${d.numbers.fade >= 3 ? 'text-rose-400' : 'text-white'}">${d.numbers.fade}</span></div>
-            <div class="border-l border-slate-800 pl-1">
-              <span class="text-[8px] font-bold uppercase text-emerald-400 block">Liked</span>
-              <span class="text-xs font-black text-emerald-400">${likeRate !== null ? likeRate + '%' : '-'}</span>
-            </div>
-          </div>
-
-          <!-- Courses & Holes Tracking History Box -->
-          ${coursesHtml}
-
-          <!-- When to use / Pitfalls -->
-          <div class="space-y-1.5 text-[11px]">
-            <div class="p-2 rounded-xl bg-emerald-950/30 border border-emerald-900/40 text-slate-200">
-              <strong class="text-emerald-400 text-[10px] uppercase block mb-0.5"><i class="fa-solid fa-circle-check mr-1"></i>When to Throw</strong>
-              ${d.whenToUse}
-            </div>
-            <div class="p-2 rounded-xl bg-rose-950/30 border border-rose-900/40 text-slate-300">
-              <strong class="text-rose-400 text-[10px] uppercase block mb-0.5"><i class="fa-solid fa-circle-xmark mr-1"></i>Avoid When</strong>
-              ${d.whenAvoid}
-            </div>
-          </div>
-
-          <!-- Recent Commentary -->
-          ${dStats.notes && dStats.notes.length > 0 ? `
-            <div class="p-2 rounded-xl bg-slate-950 border border-slate-800 text-[10px] text-slate-300">
-              <span class="text-slate-400 font-bold block mb-0.5">Last Commentary:</span>
-              "${dStats.notes[0]}"
-            </div>
-          ` : ''}
-
-          <!-- Actions: Log, Drive Export & Single-Disc Reset -->
-          <div class="pt-1 flex items-center gap-2 border-t border-slate-800/80">
+          <!-- Actions -->
+          <div class="pt-1.5 flex items-center gap-2 border-t border-slate-800/80">
             <button onclick="openLogThrowModal('${d.id}')" class="flex-1 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs flex items-center justify-center gap-1.5 active:scale-95 shadow">
               <i class="fa-solid fa-thumbs-up text-[10px]"></i>
               <span>Log Shot (${dStats.throws})</span>
@@ -1565,7 +1573,7 @@
     function toggleSpeechDictation() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
-        alert("Voice dictation is supported natively in Safari! Tap your keyboard's microphone icon to dictate directly.");
+        alert("Voice dictation is supported natively in Safari and Chrome! Tap your keyboard microphone icon to dictate directly.");
         return;
       }
 
