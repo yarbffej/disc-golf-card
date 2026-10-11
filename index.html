@@ -126,7 +126,6 @@
       color: #1e293b !important;
       border-color: #cbd5e1 !important;
     }
-    /* Ensure action buttons preserve high contrast */
     body.theme-white #modalCaddy button.bg-blue-600,
     body.theme-white #modalCaddy button.bg-emerald-600,
     body.theme-white #modalCaddy button.bg-amber-500,
@@ -342,7 +341,6 @@
             <i class="fa-solid fa-rotate-left text-[9px]"></i>
             <span>Reset All</span>
           </button>
-          <!-- Caddy In-Modal Theme Palette Switcher -->
           <button onclick="toggleTheme()" id="btnPaletteCaddy" title="Switch Theme Background" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-palette text-xs"></i>
           </button>
@@ -625,6 +623,30 @@
           { number: 16, dist: 276, par: 3 },
           { number: 17, dist: 284, par: 3 },
           { number: 18, dist: 289, par: 3 }
+        ]
+      },
+      cedar_ridge: {
+        name: "Cedar Ridge",
+        totalHoles: 18,
+        holes: [
+          { number: 1, dist: 261, par: 3 },
+          { number: 2, dist: 289, par: 3 },
+          { number: 3, dist: 283, par: 3 },
+          { number: 4, dist: 392, par: 4 },
+          { number: 5, dist: 243, par: 3 },
+          { number: 6, dist: 456, par: 4 },
+          { number: 7, dist: 270, par: 3 },
+          { number: 8, dist: 301, par: 3 },
+          { number: 9, dist: 207, par: 3 },
+          { number: 10, dist: 147, par: 3 },
+          { number: 11, dist: 228, par: 3 },
+          { number: 12, dist: 138, par: 3 },
+          { number: 13, dist: 234, par: 3 },
+          { number: 14, dist: 258, par: 3 },
+          { number: 15, dist: 189, par: 3 },
+          { number: 16, dist: 613, par: 4 },
+          { number: 17, dist: 503, par: 4 },
+          { number: 18, dist: 332, par: 3 }
         ]
       },
       lexington_lake_red: {
@@ -996,11 +1018,11 @@
       }
     ];
 
-    const STORAGE_KEY = 'dg_round_v34';
-    const HISTORY_KEY = 'dg_history_v34';
+    const STORAGE_KEY = 'dg_round_v35';
+    const HISTORY_KEY = 'dg_history_v35';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v34';
-    const ROSTER_KEY = 'dg_roster_v34';
+    const TIMER_KEY = 'dg_timer_state_v35';
+    const ROSTER_KEY = 'dg_roster_v35';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
     const DISC_STATS_KEY = 'dg_disc_stats_v2';
     const REL_WIND_KEY = 'dg_rel_wind_v4';
@@ -2258,7 +2280,7 @@
 
       try {
         const canvas = await html2canvas(cardEl, {
-          scale: 1.5,
+          scale: 2,
           backgroundColor: '#ffffff',
           useCORS: true
         });
