@@ -28,6 +28,7 @@
     .custom-scroll::-webkit-scrollbar { display: none; }
     .custom-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
+    /* THEME: BLUE (NAVY / ROYAL) */
     body.theme-blue {
       background-color: #1e3a8a;
       color: #0f172a;
@@ -55,6 +56,7 @@
     }
     body.theme-blue .counter-number { color: #1e3a8a; }
 
+    /* THEME: WHITE (CRISP LIGHT / ROYAL CARDS) */
     body.theme-white {
       background-color: #f8fafc;
       color: #0f172a;
@@ -81,6 +83,60 @@
       border-color: #3b82f6;
     }
     body.theme-white .counter-number { color: #ffffff; }
+
+    /* CADDY MODAL THEME OVERRIDES (CRISP WHITE SWITCH) */
+    body.theme-white #modalCaddy .caddy-modal-window {
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+    body.theme-white #modalCaddy .caddy-header {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+    body.theme-white #modalCaddy .bg-slate-900 {
+      background-color: #ffffff !important;
+      border-color: #cbd5e1 !important;
+      color: #0f172a !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    body.theme-white #modalCaddy .bg-slate-950 {
+      background-color: #f1f5f9 !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+    body.theme-white #modalCaddy h3,
+    body.theme-white #modalCaddy h4,
+    body.theme-white #modalCaddy .text-white:not(button):not(.text-white-keep) {
+      color: #0f172a !important;
+    }
+    body.theme-white #modalCaddy .text-slate-300 {
+      color: #334155 !important;
+    }
+    body.theme-white #modalCaddy .text-slate-400 {
+      color: #64748b !important;
+    }
+    body.theme-white #modalCaddy .border-slate-800,
+    body.theme-white #modalCaddy .border-slate-700 {
+      border-color: #cbd5e1 !important;
+    }
+    body.theme-white #modalCaddy .bg-slate-800:not(.bg-blue-600):not(.bg-emerald-600) {
+      background-color: #e2e8f0 !important;
+      color: #1e293b !important;
+      border-color: #cbd5e1 !important;
+    }
+    /* Ensure action buttons preserve high contrast */
+    body.theme-white #modalCaddy button.bg-blue-600,
+    body.theme-white #modalCaddy button.bg-emerald-600,
+    body.theme-white #modalCaddy button.bg-amber-500,
+    body.theme-white #modalCaddy button.bg-rose-600,
+    body.theme-white #modalCaddy .bg-blue-600 span,
+    body.theme-white #modalCaddy .bg-emerald-600 span,
+    body.theme-white #modalCaddy .bg-blue-600 i,
+    body.theme-white #modalCaddy .bg-emerald-600 i {
+      color: #ffffff !important;
+    }
   </style>
 </head>
 <body id="appBody" class="theme-blue min-h-[100dvh] flex flex-col font-sans antialiased overflow-x-hidden pb-24">
@@ -115,15 +171,15 @@
             <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">4</span>
           </button>
 
-          <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-95 shadow-sm">
+          <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-user-group text-xs"></i>
           </button>
 
-          <button onclick="openDriveSyncModal()" title="Google Drive Cloud Setup" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-400 border border-white/20 flex items-center justify-center active:scale-95 shadow-sm">
+          <button onclick="openDriveSyncModal()" title="Google Drive Cloud Setup" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-400 border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-brands fa-google-drive text-xs"></i>
           </button>
 
-          <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-95 shadow-sm">
+          <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-palette text-xs"></i>
           </button>
         </div>
@@ -268,10 +324,10 @@
 
   <!-- INNOVA CADDY & 3-DISC RECOMMENDATION MODAL -->
   <div id="modalCaddy" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex-col justify-end md:justify-center md:p-6">
-    <div class="bg-slate-950 text-white border-t md:border border-slate-800 rounded-t-3xl md:rounded-3xl max-w-lg md:max-w-4xl lg:max-w-5xl mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden shadow-2xl">
+    <div class="caddy-modal-window bg-slate-950 text-white border-t md:border border-slate-800 rounded-t-3xl md:rounded-3xl max-w-lg md:max-w-4xl lg:max-w-5xl mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden shadow-2xl transition-colors duration-200">
       
-      <!-- Caddy Header -->
-      <div class="px-4 py-3 border-b border-slate-800 flex items-center justify-between bg-slate-900 shrink-0">
+      <!-- Caddy Header with Palette & Reset Buttons -->
+      <div class="caddy-header px-4 py-3 border-b border-slate-800 flex items-center justify-between bg-slate-900 shrink-0 transition-colors duration-200">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-black shadow text-sm">
             <i class="fa-solid fa-compact-disc"></i>
@@ -281,10 +337,14 @@
             <p class="text-[11px] text-slate-400 font-semibold">3-Disc Selection Based on Wind</p>
           </div>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5">
           <button onclick="resetAllDiscStats()" title="Reset All Disc Stats" class="px-2.5 py-1 rounded-lg bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-800/80 text-[10px] font-black flex items-center gap-1 active:scale-95 shadow-sm">
             <i class="fa-solid fa-rotate-left text-[9px]"></i>
             <span>Reset All</span>
+          </button>
+          <!-- Caddy In-Modal Theme Palette Switcher -->
+          <button onclick="toggleTheme()" id="btnPaletteCaddy" title="Switch Theme Background" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 flex items-center justify-center active:scale-90 shadow-sm">
+            <i class="fa-solid fa-palette text-xs"></i>
           </button>
           <button onclick="closeCaddyModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center">
             <i class="fa-solid fa-xmark text-sm"></i>
@@ -296,7 +356,7 @@
       <div class="overflow-y-auto p-4 flex-1 custom-scroll space-y-4" id="caddyModalScrollContainer">
         
         <!-- INTUITIVE 4-WAY WIND CONTROL BOX -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-md space-y-3.5">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-md space-y-3.5 transition-colors duration-200">
           
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -336,7 +396,7 @@
               </button>
             </div>
 
-            <div class="flex flex-col justify-center bg-slate-950 p-3 rounded-2xl border border-slate-800 gap-2">
+            <div class="flex flex-col justify-center bg-slate-950 p-3 rounded-2xl border border-slate-800 gap-2 transition-colors duration-200">
               <span class="text-[10px] font-black uppercase text-slate-400">Wind Speed Velocity</span>
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-1.5">
@@ -936,11 +996,11 @@
       }
     ];
 
-    const STORAGE_KEY = 'dg_round_v33';
-    const HISTORY_KEY = 'dg_history_v33';
+    const STORAGE_KEY = 'dg_round_v34';
+    const HISTORY_KEY = 'dg_history_v34';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v33';
-    const ROSTER_KEY = 'dg_roster_v33';
+    const TIMER_KEY = 'dg_timer_state_v34';
+    const ROSTER_KEY = 'dg_roster_v34';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
     const DISC_STATS_KEY = 'dg_disc_stats_v2';
     const REL_WIND_KEY = 'dg_rel_wind_v4';
@@ -999,7 +1059,7 @@
           { number: 2, distance: 103, par: 3, scores: { jeffery: 2, jack: 3 } },
           { number: 3, distance: 100, par: 3, scores: { jeffery: 3, jack: 3 } },
           { number: 4, distance: 146, par: 3, scores: { jeffery: 3, jack: 3 } },
-          { number: 5, distance: 111, par: 3, scores: { jeffery: 3, jack: 3 } },
+          { number: 5, distance: 111, par: 3, scores: { jeffery: 3, jack: 4 } },
           { number: 6, distance: 116, par: 3, scores: { jeffery: 3, jack: 3 } },
           { number: 7, distance: 84, par: 3, scores: { jeffery: 3, jack: 3 } },
           { number: 8, distance: 102, par: 3, scores: { jeffery: 3, jack: 3 } },
@@ -1377,7 +1437,7 @@
             { discId: "mako3", role: "3. Tunnel Placement", name: "Innova Mako3", type: "5 | 5 | 0 | 0", why: "Firm flat throw straight down fairway center." }
           ];
         } else {
-          // Multi-Shot Hole (>165 ft, e.g. Wolf Den 301 ft)
+          // Multi-Shot Hole (>165 ft)
           picks = [
             { discId: "mamba", role: "1. Shot 1 Full Tee Drive", name: "Innova Mamba (152g)", type: "11 | 6 | -5 | 1", why: "Tee Shot: Max carry (~145-150 ft) to fairway sweet spot." },
             { discId: "hawkeye", role: "2. Controlled Tee Alternative", name: "Innova Hawkeye", type: "7 | 5 | -1 | 1", why: "Fairway Drive: Tight placement if woods line the fairway." },
@@ -1402,7 +1462,7 @@
         ${lockoutWarning ? `<div class="p-2 rounded-xl bg-amber-950/60 border border-amber-500/40 text-[11px] text-amber-300 font-bold mb-2">${lockoutWarning}</div>` : ''}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5">
           ${picks.map((p) => `
-            <div class="p-3 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between gap-2 shadow-sm">
+            <div class="p-3 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col justify-between gap-2 shadow-sm transition-colors duration-200">
               <div>
                 <div class="flex items-center justify-between">
                   <span class="text-[10px] font-black uppercase text-blue-400">${p.role}</span>
@@ -1466,7 +1526,7 @@
           }).join('');
 
           coursesHtml = `
-            <div class="p-2 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
+            <div class="p-2 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1 transition-colors duration-200">
               <div class="flex items-center justify-between text-[9px] font-black uppercase tracking-wider text-slate-400">
                 <span><i class="fa-solid fa-map-location-dot text-emerald-400 mr-1"></i>Courses & Holes</span>
                 <span class="text-slate-400">${dStats.throws} Logged</span>
@@ -1478,7 +1538,7 @@
           `;
         } else {
           coursesHtml = `
-            <div class="p-2 rounded-xl bg-slate-950/40 border border-slate-800/80 text-[10px] text-slate-400 italic flex items-center justify-between">
+            <div class="p-2 rounded-xl bg-slate-950/40 border border-slate-800/80 text-[10px] text-slate-400 italic flex items-center justify-between transition-colors duration-200">
               <span><i class="fa-solid fa-map-location-dot text-slate-500 mr-1.5"></i>No courses logged yet</span>
               <span class="text-[9px] text-slate-400">0 Throws</span>
             </div>
@@ -1505,7 +1565,7 @@
             </div>
 
             <!-- Flight Numbers & Lifetime Stats -->
-            <div class="grid grid-cols-5 gap-1 text-center bg-slate-950/80 rounded-xl p-1.5 border border-slate-800 my-2">
+            <div class="grid grid-cols-5 gap-1 text-center bg-slate-950/80 rounded-xl p-1.5 border border-slate-800 my-2 transition-colors duration-200">
               <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Speed</span><span class="text-xs font-black text-white">${d.numbers.speed}</span></div>
               <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Glide</span><span class="text-xs font-black text-white">${d.numbers.glide}</span></div>
               <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Turn</span><span class="text-xs font-black ${d.numbers.turn < 0 ? 'text-amber-400' : 'text-white'}">${d.numbers.turn}</span></div>
@@ -1533,7 +1593,7 @@
 
             <!-- Recent Commentary -->
             ${dStats.notes && dStats.notes.length > 0 ? `
-              <div class="p-2 rounded-xl bg-slate-950 border border-slate-800 text-[10px] text-slate-300 mb-2">
+              <div class="p-2 rounded-xl bg-slate-950 border border-slate-800 text-[10px] text-slate-300 mb-2 transition-colors duration-200">
                 <span class="text-slate-400 font-bold block mb-0.5">Last Commentary:</span>
                 "${dStats.notes[0]}"
               </div>
@@ -1709,7 +1769,7 @@
       try {
         const canvas = await html2canvas(cardEl, {
           scale: 2,
-          backgroundColor: '#0f172a',
+          backgroundColor: document.body.classList.contains('theme-white') ? '#f8fafc' : '#0f172a',
           useCORS: true
         });
 
