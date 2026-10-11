@@ -115,15 +115,15 @@
             <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">4</span>
           </button>
 
-          <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
+          <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-95 shadow-sm">
             <i class="fa-solid fa-user-group text-xs"></i>
           </button>
 
-          <button onclick="openDriveSyncModal()" title="Google Drive Cloud Setup" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-400 border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
+          <button onclick="openDriveSyncModal()" title="Google Drive Cloud Setup" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-400 border border-white/20 flex items-center justify-center active:scale-95 shadow-sm">
             <i class="fa-brands fa-google-drive text-xs"></i>
           </button>
 
-          <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
+          <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-95 shadow-sm">
             <i class="fa-solid fa-palette text-xs"></i>
           </button>
         </div>
@@ -268,7 +268,7 @@
   <div id="modalCaddy" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex-col justify-end">
     <div class="bg-slate-950 text-white border-t border-slate-800 rounded-t-3xl max-w-lg mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden shadow-2xl">
       
-      <!-- Caddy Header -->
+      <!-- Caddy Header with Reset All Stats Button -->
       <div class="px-4 py-3 border-b border-slate-800 flex items-center justify-between bg-slate-900 shrink-0">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-black shadow text-sm">
@@ -279,9 +279,15 @@
             <p class="text-[11px] text-slate-400 font-semibold">3-Disc Selection Based on Wind</p>
           </div>
         </div>
-        <button onclick="closeCaddyModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center">
-          <i class="fa-solid fa-xmark text-sm"></i>
-        </button>
+        <div class="flex items-center gap-2">
+          <button onclick="resetAllDiscStats()" title="Reset All Disc Stats" class="px-2.5 py-1 rounded-lg bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-800/80 text-[10px] font-black flex items-center gap-1 active:scale-95 shadow-sm">
+            <i class="fa-solid fa-rotate-left text-[9px]"></i>
+            <span>Reset All</span>
+          </button>
+          <button onclick="closeCaddyModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
       </div>
 
       <!-- Scrollable Workspace -->
@@ -343,7 +349,7 @@
             </div>
           </div>
 
-          <!-- 3-DISC RECOMMENDATIONS CONTAINER WITH DIRECT LOG BUTTONS -->
+          <!-- 3-DISC RECOMMENDATIONS CONTAINER WITH DIRECT IN-CARD LOGGING -->
           <div id="triDiscRecommendations" class="space-y-2 pt-1"></div>
         </div>
 
@@ -351,7 +357,7 @@
         <div class="pt-1 flex items-center justify-between border-t border-slate-800">
           <div>
             <h4 class="text-xs font-black text-white uppercase tracking-wider">All 9 Innova Bag Discs</h4>
-            <p class="text-[10px] text-slate-400 font-medium">Log shots & ratings, or save PNG cards to Drive</p>
+            <p class="text-[10px] text-slate-400 font-medium">Courses, holes, ratings & Drive cards</p>
           </div>
           <div class="flex gap-1 text-[10px] font-bold">
             <button onclick="filterCaddyDiscs('all')" class="caddy-filter-btn px-2 py-0.5 rounded-lg bg-blue-600 text-white shadow">All</button>
@@ -895,14 +901,14 @@
       }
     ];
 
-    const STORAGE_KEY = 'dg_round_v30';
-    const HISTORY_KEY = 'dg_history_v30';
+    const STORAGE_KEY = 'dg_round_v31';
+    const HISTORY_KEY = 'dg_history_v31';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v30';
-    const ROSTER_KEY = 'dg_roster_v30';
+    const TIMER_KEY = 'dg_timer_state_v31';
+    const ROSTER_KEY = 'dg_roster_v31';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
-    const DISC_STATS_KEY = 'dg_disc_stats_v1';
-    const REL_WIND_KEY = 'dg_rel_wind_v3';
+    const DISC_STATS_KEY = 'dg_disc_stats_v2';
+    const REL_WIND_KEY = 'dg_rel_wind_v4';
 
     const INITIAL_ROSTER = [
       { id: 'jeffery', name: 'Jeffery', tag: 'J1', color: 'blue-600' },
@@ -1036,6 +1042,7 @@
     let activeSpeechRecognition = null;
     let isDictating = false;
 
+    // --- ENHANCED DISC STATS & COURSE/HOLE HISTORY ENGINE ---
     function getDiscStats() {
       let stats = {};
       const saved = localStorage.getItem(DISC_STATS_KEY);
@@ -1044,7 +1051,10 @@
       }
       INNOVA_DISCS.forEach(d => {
         if (!stats[d.id]) {
-          stats[d.id] = { throws: 0, likes: 0, notes: [] };
+          stats[d.id] = { throws: 0, likes: 0, notes: [], courses: {}, history: [] };
+        } else {
+          if (!stats[d.id].courses) stats[d.id].courses = {};
+          if (!stats[d.id].history) stats[d.id].history = [];
         }
       });
       return stats;
@@ -1052,6 +1062,27 @@
 
     function saveDiscStats(stats) {
       localStorage.setItem(DISC_STATS_KEY, JSON.stringify(stats));
+    }
+
+    function resetAllDiscStats() {
+      if (confirm("Reset ALL logged throws, likes, notes, courses, and holes for all 9 discs?")) {
+        localStorage.removeItem(DISC_STATS_KEY);
+        renderTriDiscRecommendations();
+        renderCaddyDiscCards();
+        alert("All 9 disc profiles reset to 0!");
+      }
+    }
+
+    function resetSingleDiscStats(discId) {
+      const disc = INNOVA_DISCS.find(d => d.id === discId);
+      const discName = disc ? disc.name : 'this disc';
+      if (confirm(`Reset stats, hole tracking, and notes for ${discName}?`)) {
+        const stats = getDiscStats();
+        stats[discId] = { throws: 0, likes: 0, notes: [], courses: {}, history: [] };
+        saveDiscStats(stats);
+        renderTriDiscRecommendations();
+        renderCaddyDiscCards();
+      }
     }
 
     function getHistory() {
@@ -1207,7 +1238,6 @@
       document.getElementById('windSpeedLabel').innerText = `${relativeWindState.windSpeed} mph`;
     }
 
-    // SCROLL DIRECTLY TO A DISC CARD BELOW AND HIGHLIGHT IT
     function scrollToDiscCard(discId) {
       if (relativeWindState.activeFilter !== 'all') {
         relativeWindState.activeFilter = 'all';
@@ -1228,7 +1258,7 @@
       }
     }
 
-    // ACCURATE 3-DISC GENERATION WITH IN-CARD 1-TAP LOGGING
+    // ACCURATE 3-DISC GENERATION WITH 1-TAP IN-CARD LOGGING
     function renderTriDiscRecommendations() {
       const container = document.getElementById('triDiscRecommendations');
       const currentHole = roundState.holes[roundState.currentHoleIndex] || { distance: 300, number: 1 };
@@ -1373,6 +1403,7 @@
       renderCaddyDiscCards();
     }
 
+    // RENDER DISC TIP CARDS WITH COURSE/HOLE HISTORY AND RESET BUTTON
     function renderCaddyDiscCards() {
       const container = document.getElementById('caddyCardsContainer');
       container.innerHTML = '';
@@ -1383,8 +1414,42 @@
         : INNOVA_DISCS.filter(d => d.type === relativeWindState.activeFilter);
 
       filtered.forEach(d => {
-        const dStats = stats[d.id] || { throws: 0, likes: 0, notes: [] };
+        const dStats = stats[d.id] || { throws: 0, likes: 0, notes: [], courses: {}, history: [] };
         const likeRate = dStats.throws > 0 ? Math.round((dStats.likes / dStats.throws) * 100) : null;
+
+        // Render Course and Hole Tracking History
+        let coursesHtml = '';
+        if (dStats.courses && Object.keys(dStats.courses).length > 0) {
+          const courseEntries = Object.keys(dStats.courses).map(cName => {
+            const cData = dStats.courses[cName];
+            const holeStr = cData.holes && cData.holes.length > 0 ? cData.holes.map(h => `#${h}`).join(', ') : 'None';
+            return `
+              <div class="flex items-start justify-between gap-1 text-[10px] py-0.5">
+                <span class="font-extrabold text-blue-300 truncate">${cName}</span>
+                <span class="text-slate-300 font-semibold shrink-0">Holes: <strong class="text-white">${holeStr}</strong> <span class="text-amber-400 font-black">(${cData.count}x)</span></span>
+              </div>
+            `;
+          }).join('');
+
+          coursesHtml = `
+            <div class="p-2 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
+              <div class="flex items-center justify-between text-[9px] font-black uppercase tracking-wider text-slate-400">
+                <span><i class="fa-solid fa-map-location-dot text-emerald-400 mr-1"></i>Courses & Holes Played</span>
+                <span class="text-slate-400">${dStats.throws} Logged</span>
+              </div>
+              <div class="space-y-0.5 divide-y divide-slate-800/60 pt-0.5">
+                ${courseEntries}
+              </div>
+            </div>
+          `;
+        } else {
+          coursesHtml = `
+            <div class="p-2 rounded-xl bg-slate-950/40 border border-slate-800/80 text-[10px] text-slate-400 italic flex items-center justify-between">
+              <span><i class="fa-solid fa-map-location-dot text-slate-500 mr-1.5"></i>No courses or holes logged yet</span>
+              <span class="text-[9px] text-slate-400">0 Throws</span>
+            </div>
+          `;
+        }
 
         const card = document.createElement('div');
         card.id = `discCard_${d.id}`;
@@ -1416,6 +1481,9 @@
             </div>
           </div>
 
+          <!-- Courses & Holes Tracking History Box -->
+          ${coursesHtml}
+
           <!-- When to use / Pitfalls -->
           <div class="space-y-1.5 text-[11px]">
             <div class="p-2 rounded-xl bg-emerald-950/30 border border-emerald-900/40 text-slate-200">
@@ -1436,8 +1504,8 @@
             </div>
           ` : ''}
 
-          <!-- Actions -->
-          <div class="pt-1 flex gap-2 border-t border-slate-800/80">
+          <!-- Actions: Log, Drive Export & Single-Disc Reset -->
+          <div class="pt-1 flex items-center gap-2 border-t border-slate-800/80">
             <button onclick="openLogThrowModal('${d.id}')" class="flex-1 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs flex items-center justify-center gap-1.5 active:scale-95 shadow">
               <i class="fa-solid fa-thumbs-up text-[10px]"></i>
               <span>Log Shot (${dStats.throws})</span>
@@ -1445,6 +1513,9 @@
             <button onclick="uploadDiscTipCardToDrive('${d.id}')" title="Upload Card PNG to Google Drive" class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-1 active:scale-95 shadow">
               <i class="fa-brands fa-google-drive text-xs"></i>
               <span>Drive</span>
+            </button>
+            <button onclick="resetSingleDiscStats('${d.id}')" title="Reset stats for ${d.name}" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-rose-950 text-slate-400 hover:text-rose-300 border border-slate-700 flex items-center justify-center active:scale-95 text-xs">
+              <i class="fa-solid fa-trash-can text-[11px]"></i>
             </button>
           </div>
         `;
@@ -1544,6 +1615,9 @@
       if (!activeLogDiscId) return;
 
       const note = document.getElementById('inputShotNote').value.trim();
+      const currentHole = roundState.holes[roundState.currentHoleIndex] || { number: 1, distance: 300 };
+      const courseName = roundState.courseName;
+
       const stats = getDiscStats();
       const current = stats[activeLogDiscId];
 
@@ -1554,10 +1628,35 @@
         if (current.notes.length > 5) current.notes.pop();
       }
 
+      // Course & Hole Tracking Breakdown
+      if (!current.courses) current.courses = {};
+      if (!current.courses[courseName]) {
+        current.courses[courseName] = { count: 0, holes: [] };
+      }
+      current.courses[courseName].count += 1;
+      if (!current.courses[courseName].holes.includes(currentHole.number)) {
+        current.courses[courseName].holes.push(currentHole.number);
+        current.courses[courseName].holes.sort((a, b) => a - b);
+      }
+
+      // Full Historical Record
+      if (!current.history) current.history = [];
+      current.history.unshift({
+        course: courseName,
+        hole: currentHole.number,
+        dist: currentHole.distance,
+        liked: activeLogLiked,
+        note: note,
+        date: roundState.date,
+        timestamp: Date.now()
+      });
+      if (current.history.length > 25) current.history.pop();
+
       saveDiscStats(stats);
       closeLogThrowModal();
+      renderTriDiscRecommendations();
       renderCaddyDiscCards();
-      alert("Throw saved to your lifetime disc stats!");
+      alert(`Shot saved on ${courseName} Hole #${currentHole.number}!`);
     }
 
     async function uploadDiscTipCardToDrive(discId) {
