@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Jeffery & Jack Disc Golf Scorecard (v48 Hub)</title>
+  <title>Jeffery & Jack Disc Golf Scorecard (v49 Hub)</title>
 
   <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -184,7 +184,7 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect, useRef } = React;
+    const { useState, useEffect } = React;
 
     // ============================================================================
     // INITIAL DATA: PACK GEAR, 12-DISC DUAL BAG, 16 COURSES & 9 ROUNDS
@@ -849,7 +849,7 @@
 
     const INITIAL_USER_EXPORT = {
       app: 'Jeffery & Jack Disc Golf Scorecard',
-      version: 'v48',
+      version: 'v49',
       exportDate: '2026-10-17T16:47:23.539Z',
       history: [
         {
@@ -1109,7 +1109,13 @@
 
     function getScoreTerm(score, par) {
       if (!score || score <= 0) {
-        return { label: 'Unscored', shortLabel: '—', textColor: 'text-slate-400', bgColor: 'bg-[#0D1120]', borderColor: 'border-slate-800' };
+        return {
+          label: 'Unscored',
+          shortLabel: '—',
+          textColor: 'text-slate-400',
+          bgColor: 'sub-control',
+          borderColor: 'border-slate-700'
+        };
       }
       if (score === 1) {
         return { label: 'Ace', shortLabel: 'ACE', textColor: 'accent-gold text-[#FACC15]', bgColor: 'bg-[#FACC15]/15', borderColor: 'border-[#FACC15]' };
@@ -1536,7 +1542,7 @@
 ${playerSummaries}
 
 ## 3. Full Round Voice Narration / Notes App Transcript
-${roundTranscript && roundTranscript.trim().length > 0 ? roundTranscript.trim() : '_(Paste your Apple Notes / Google Keep voice dictation here, or use the in-app mic recorder during your round)_'}
+${roundTranscript && roundTranscript.trim().length > 0 ? roundTranscript.trim() : '_(Paste your Apple Notes / Google Keep voice dictation here, or use your iPhone keyboard mic during your round)_'}
 
 ## 4. Hole-by-Hole Scorecard, Discs Thrown & Voice Notes
 ${holeLines}
@@ -1750,7 +1756,7 @@ ${jackBagLines}
                     <div className="sub-control p-3 rounded-xl border border-slate-700 space-y-2">
                       <div className="text-xs font-extrabold accent-lime text-[#39FF14]">🎙️ Reminder: Record Your Round Commentary!</div>
                       <p className="text-[11px] text-slate-300 leading-relaxed">
-                        Talk through your disc pulls, wind reads, flight shapes, and putts! Open your phone's Notes app with our starter template OR use the built-in Live Voice Dictation Mic right on each hole.
+                        Talk through your disc pulls, wind reads, flight shapes, and putts! Open your phone's Notes app with our starter template OR use your iPhone keyboard's built-in microphone right on each hole.
                       </p>
                       <div className="flex flex-col gap-1.5 pt-1">
                         <button
@@ -1906,7 +1912,7 @@ ${jackBagLines}
     }
 
     // ============================================================================
-    // VIEW 2: LIVE SCORECARD VIEW
+    // VIEW 2: LIVE SCORECARD VIEW (PROMINENT TIMER & NON-FREEZING VOICE REMINDER)
     // ============================================================================
     function LiveScorecardView({
       roundState,
@@ -1929,11 +1935,9 @@ ${jackBagLines}
       const [expandedShotDetails, setExpandedShotDetails] = useState({});
       const [confirmResetModal, setConfirmResetModal] = useState(false);
       const [saveConfirmBanner, setSaveConfirmBanner] = useState(null);
-      const [isListeningMic, setIsListeningMic] = useState(false);
       const [micStatusMessage, setMicStatusMessage] = useState(null);
       const [showDossierModal, setShowDossierModal] = useState(false);
       const [copiedDossier, setCopiedDossier] = useState(false);
-      const recognitionRef = useRef(null);
 
       useEffect(() => {
         if (roundState.windCondition && roundState.windCondition !== caddieScenario) {
@@ -1999,62 +2003,14 @@ ${jackBagLines}
         });
       };
 
-      const toggleLiveVoiceDictation = () => {
-        if (isListeningMic && recognitionRef.current) {
-          recognitionRef.current.stop();
-          setIsListeningMic(false);
-          return;
-        }
-        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRec) {
-          setMicStatusMessage('Tip: Tap inside the text box below and press the microphone icon on your iPhone keyboard!');
-          return;
-        }
-        try {
-          const recognition = new SpeechRec();
-          recognition.continuous = true;
-          recognition.interimResults = false;
-          recognition.lang = 'en-US';
-          recognition.onstart = () => {
-            setIsListeningMic(true);
-            setMicStatusMessage(`Listening on Hole #${currentHole.number}... Speak naturally!`);
-          };
-          recognition.onresult = (event) => {
-            let spokenChunk = '';
-            for (let i = event.resultIndex; i < event.results.length; i++) {
-              if (event.results[i].isFinal) spokenChunk += event.results[i][0].transcript + ' ';
-            }
-            if (spokenChunk.trim()) {
-              const cleanChunk = spokenChunk.trim();
-              setRoundState((prev) => {
-                const holeObj = prev.holes[prev.currentHoleIndex];
-                const prevHoleVoice = holeObj?.voiceTranscript ? `${holeObj.voiceTranscript} ${cleanChunk}` : cleanChunk;
-                const updatedHoles = prev.holes.map((h, idx) => (idx === prev.currentHoleIndex ? { ...h, voiceTranscript: prevHoleVoice } : h));
-                const logLine = `[Hole #${holeObj.number} · ${holeObj.distance}ft Par ${holeObj.par} · ${caddieScenario}]: ${cleanChunk}`;
-                const updatedRoundTranscript = prev.roundTranscript ? `${prev.roundTranscript}\n${logLine}` : logLine;
-                return { ...prev, holes: updatedHoles, roundTranscript: updatedRoundTranscript, voiceRecordingConfirmed: true };
-              });
-            }
-          };
-          recognition.onerror = () => {
-            setIsListeningMic(false);
-            setMicStatusMessage('Mic paused — you can also tap the text box below and use your iPhone keyboard mic!');
-          };
-          recognition.onend = () => setIsListeningMic(false);
-          recognitionRef.current = recognition;
-          recognition.start();
-        } catch {
-          setIsListeningMic(false);
-        }
-      };
-
       const handleShareToPhoneNotes = async () => {
         const template = `🎙️ ${roundState.courseName} — Hole #${currentHole.number} (${currentHole.distance}ft, Par ${currentHole.par}, Wind: ${caddieScenario.toUpperCase()})\nJeffery Pull: ${caddieDecision.primary?.name || 'Innova'} | Jack Pull: ${jackRecommendedDisc?.name || 'Discraft'}\nNotes: ${currentHole.voiceTranscript || ''}`;
         try { await navigator.clipboard.writeText(template); } catch {}
         if (navigator.share) {
           try { await navigator.share({ title: `${roundState.courseName} — Round Voice Notes`, text: template }); } catch {}
         } else {
-          setMicStatusMessage('Copied Hole & Wind header to clipboard!');
+          setMicStatusMessage('✓ Copied Hole & Wind header to clipboard — paste into your Notes app!');
+          setTimeout(() => setMicStatusMessage(null), 4000);
         }
       };
 
@@ -2081,10 +2037,6 @@ ${jackBagLines}
       };
 
       const goToHole = (index) => {
-        if (isListeningMic && recognitionRef.current) {
-          recognitionRef.current.stop();
-          setIsListeningMic(false);
-        }
         const safeIdx = Math.max(0, Math.min(roundState.holes.length - 1, index));
         setRoundState((prev) => ({ ...prev, currentHoleIndex: safeIdx }));
       };
@@ -2174,9 +2126,36 @@ ${jackBagLines}
         URL.revokeObjectURL(url);
       };
 
+      const isTimerUnstarted = !timerState.running && elapsedSeconds === 0;
+
       return (
         <div className="space-y-4">
-          {/* Top Course, Format & Timer Bar */}
+          {/* BIG UNSTARTED TIMER REMINDER BANNER (Shows whenever timer is at 00:00:00) */}
+          {isTimerUnstarted && (
+            <div className="neon-card rounded-2xl border-2 border-[#FF2E93] p-3.5 sm:px-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg">
+              <div className="flex items-center gap-3">
+                <span className="keep-white w-10 h-10 rounded-xl bg-[#FF2E93] text-white flex items-center justify-center text-lg font-extrabold shrink-0 animate-pulse">
+                  ⏱️
+                </span>
+                <div>
+                  <div className="font-extrabold text-sm sm:text-base text-white">
+                    Round Timer is at 00:00:00 — Ready to Tee Off?
+                  </div>
+                  <div className="text-xs text-slate-400">
+                    Tap the big Start button now (or it will auto-start as soon as you log Hole 1).
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={onToggleTimer}
+                className="keep-white min-h-[46px] px-6 py-2.5 rounded-xl bg-[#FF2E93] hover:bg-[#FF2E93]/90 text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 neon-border-pink active:scale-95 transition-transform shrink-0"
+              >
+                <span>▶ START ROUND TIMER</span>
+              </button>
+            </div>
+          )}
+
+          {/* Top Course, Format & Prominent Timer Bar */}
           <div className="neon-card rounded-2xl border border-slate-800 p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3.5">
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 flex-1">
               <div className="flex-1 max-w-xs">
@@ -2200,10 +2179,10 @@ ${jackBagLines}
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2.5">
               <button
                 onClick={() => setShowDossierModal(!showDossierModal)}
-                className="min-h-[38px] px-3 py-1.5 rounded-xl bg-[#39FF14] hover:bg-[#39FF14]/90 text-slate-950 font-bold text-xs flex items-center gap-1.5"
+                className="min-h-[42px] px-3.5 py-2 rounded-xl bg-[#39FF14] hover:bg-[#39FF14]/90 text-slate-950 font-bold text-xs flex items-center gap-1.5"
               >
                 <span>📓 NotebookLM / Gemini</span>
               </button>
@@ -2213,7 +2192,7 @@ ${jackBagLines}
                   <button
                     key={mode}
                     onClick={() => setRoundState((prev) => ({ ...prev, gameMode: mode }))}
-                    className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors ${
+                    className={`px-2.5 py-1.5 text-xs font-bold rounded-lg transition-colors ${
                       (roundState.gameMode || 'stroke') === mode
                         ? 'keep-white bg-[#FF2E93] text-white'
                         : 'text-slate-400'
@@ -2224,18 +2203,25 @@ ${jackBagLines}
                 ))}
               </div>
 
-              <div className="sub-control px-3 py-1.5 rounded-xl border border-slate-700 flex items-center gap-2">
-                <span className="font-mono-tabular text-xs font-extrabold text-white">{formatDuration(elapsedSeconds)}</span>
+              {/* BIG PROMINENT TIMER WIDGET */}
+              <div className="sub-tile px-3.5 py-1.5 rounded-xl border-2 border-slate-700 flex items-center gap-2.5">
+                <span className="font-mono-tabular text-sm sm:text-base font-extrabold text-white">
+                  ⏱️ {formatDuration(elapsedSeconds)}
+                </span>
                 <button
                   onClick={onToggleTimer}
-                  className="keep-white px-2 py-0.5 rounded bg-[#FF2E93] text-white text-[11px] font-bold"
+                  className={`min-h-[34px] px-4 py-1.5 rounded-lg text-xs sm:text-sm font-extrabold transition-transform active:scale-95 ${
+                    timerState.running
+                      ? 'bg-[#FACC15] text-slate-950'
+                      : 'keep-white bg-[#FF2E93] text-white neon-border-pink'
+                  }`}
                 >
-                  {timerState.running ? 'Pause' : 'Start'}
+                  {timerState.running ? '⏸ Pause' : '▶ START TIMER'}
                 </button>
                 <button
                   onClick={() => setConfirmResetModal(true)}
                   title="Reset Round Scores & Timer"
-                  className="text-xs text-slate-400 hover:text-rose-500 font-bold px-1"
+                  className="sub-control w-8 h-8 rounded-lg border border-slate-700 text-xs text-slate-400 hover:text-rose-500 font-extrabold flex items-center justify-center"
                 >
                   ↺
                 </button>
@@ -2274,7 +2260,7 @@ ${jackBagLines}
                 rows={4}
                 value={roundState.roundTranscript || ''}
                 onChange={(e) => setRoundState((prev) => ({ ...prev, roundTranscript: e.target.value }))}
-                placeholder="Paste your Apple Notes / Google Keep voice dictation here, or use the Live Voice Mic on each hole..."
+                placeholder="Paste your Apple Notes / Google Keep voice dictation here..."
                 className="sub-control w-full p-3 rounded-xl border border-slate-700 text-xs sm:text-sm text-white"
               />
             </div>
@@ -2345,7 +2331,7 @@ ${jackBagLines}
 
           {/* Main 2-Column Workspace */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-            {/* LEFT 7 COLS: Active Hole, Dual Caddie Pulls, Voice Mic, & Player Steppers */}
+            {/* LEFT 7 COLS: Active Hole, Dual Caddie Pulls, Voice Reminder, & Player Steppers */}
             <div className="lg:col-span-7 space-y-4">
               {/* Active Hole Header */}
               <div className="neon-card rounded-2xl border border-slate-800 p-4 space-y-3">
@@ -2527,35 +2513,30 @@ ${jackBagLines}
                   </div>
                 )}
 
-                {/* LIVE HOLE VOICE DICTATION & NOTES BAR */}
+                {/* BIG VISUAL VOICE REMINDER BANNER (NO FREEZING MIC SCRIPT) */}
                 <div className="sub-tile p-3 rounded-xl border border-slate-800 space-y-2">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="text-[11px] font-extrabold uppercase text-slate-400">
-                      🎙️ Hole #{currentHole.number} Voice Dictation & Notes
-                    </span>
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        onClick={toggleLiveVoiceDictation}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-bold ${
-                          isListeningMic ? 'keep-white bg-rose-600 text-white animate-pulse' : 'keep-white bg-[#FF2E93] text-white'
-                        }`}
-                      >
-                        {isListeningMic ? '⏹ Stop Recording' : '🎤 Tap to Talk'}
-                      </button>
-                      <button
-                        onClick={handleShareToPhoneNotes}
-                        className="sub-control px-2.5 py-1 rounded-lg border border-slate-700 text-xs font-bold text-white"
-                      >
-                        📤 Phone Notes
-                      </button>
+                    <div className="flex items-center gap-2">
+                      <span className="keep-white px-2.5 py-1 rounded-lg bg-[#FF2E93] text-white text-xs font-extrabold">
+                        🎙️ VOICE LOG REMINDER
+                      </span>
+                      <span className="text-xs font-bold text-white">
+                        Tap the box below & use your iPhone Keyboard Mic (or Notes App)
+                      </span>
                     </div>
+                    <button
+                      onClick={handleShareToPhoneNotes}
+                      className="sub-control px-2.5 py-1 rounded-lg border border-slate-700 text-xs font-bold text-white"
+                    >
+                      📤 Copy / Open Phone Notes
+                    </button>
                   </div>
                   {micStatusMessage && <p className="text-xs accent-cyan text-[#00F0FF] font-bold">{micStatusMessage}</p>}
                   <textarea
                     rows={2}
                     value={currentHole.voiceTranscript || ''}
                     onChange={(e) => updateCurrentHoleVoiceTranscript(e.target.value)}
-                    placeholder={`Talk or type what happened on Hole #${currentHole.number}...`}
+                    placeholder={`Tap here and press the 🎤 microphone key on your iPhone keyboard to dictate Hole #${currentHole.number}...`}
                     className="sub-control w-full p-2 rounded-lg border border-slate-700 text-xs sm:text-sm text-white"
                   />
                 </div>
@@ -3695,7 +3676,7 @@ ${jackBagLines}
         try {
           const payload = {
             app: 'Jeffery & Jack Disc Golf Scorecard',
-            version: 'v48',
+            version: 'v49',
             exportDate: new Date().toISOString(),
             history,
             roster,
@@ -3891,7 +3872,7 @@ ${jackBagLines}
 
       const handleExportJsonPayload = () => ({
         app: 'Jeffery & Jack Disc Golf Scorecard',
-        version: 'v48',
+        version: 'v49',
         exportDate: new Date().toISOString(),
         history,
         roster,
