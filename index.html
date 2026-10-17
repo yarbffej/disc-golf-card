@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Jeffery & Jack Disc Golf Scorecard (v46 Hub)</title>
+  <title>Jeffery & Jack Disc Golf Scorecard (v47 Hub)</title>
 
   <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -26,11 +26,14 @@
       --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
+    html {
+      font-size: 16px;
+    }
     body {
       font-family: var(--font-sans);
       background-color: #151C30;
       color: #0F172A;
-      line-height: 1.5;
+      line-height: 1.55;
       letter-spacing: 0.01em;
       -webkit-font-smoothing: antialiased;
       -webkit-tap-highlight-color: transparent;
@@ -49,6 +52,16 @@
       font-variant-numeric: tabular-nums;
     }
 
+    /* Enforce comfortable minimum font sizes so nothing is ever tiny */
+    .text-xs {
+      font-size: 0.875rem !important; /* 14px instead of 12px */
+      line-height: 1.35rem !important;
+    }
+    .text-sm {
+      font-size: 0.965rem !important; /* ~15.5px */
+      line-height: 1.45rem !important;
+    }
+
     /* ============================================================================
        1. MIDNIGHT NEON THEME (Dark Tiles on Deep Midnight Canvas)
        ============================================================================ */
@@ -62,6 +75,12 @@
     .theme-midnight .neon-card {
       background: linear-gradient(180deg, rgba(20, 26, 48, 0.96) 0%, rgba(13, 17, 33, 0.98) 100%);
       box-shadow: 0 10px 28px -6px rgba(0, 0, 0, 0.6);
+    }
+    .theme-midnight .sub-tile {
+      background-color: #0B0F1E !important;
+    }
+    .theme-midnight .sub-control {
+      background-color: #151C33 !important;
     }
 
     /* ============================================================================
@@ -843,7 +862,7 @@
 
     const INITIAL_USER_EXPORT = {
       app: 'Jeffery & Jack Disc Golf Scorecard',
-      version: 'v46',
+      version: 'v47',
       exportDate: '2026-10-17T16:47:23.539Z',
       history: [
         {
@@ -1094,7 +1113,7 @@
     };
 
     // ============================================================================
-    // ANALYTICS & FLIGHT SIMULATOR ENGINE (from src/utils/analytics.ts)
+    // ANALYTICS & FLIGHT SIMULATOR ENGINE
     // ============================================================================
     function formatRelativePar(diff) {
       if (diff === 0) return 'E';
@@ -1545,7 +1564,7 @@ ${jackBagLines}
     }
 
     // ============================================================================
-    // VIEW 1: HOME HUB & PRE-ROUND TEE-OFF WIZARD (from src/components/HomeHubView.tsx)
+    // VIEW 1: HOME HUB & PRE-ROUND TEE-OFF WIZARD
     // ============================================================================
     function HomeHubView({ courses, bag, history, roundState, onStartConfiguredRound, onResumeLiveRound, onNavigateTab }) {
       const [showStartWizard, setShowStartWizard] = useState(false);
@@ -1602,13 +1621,13 @@ ${jackBagLines}
           {/* Welcome Banner */}
           <div className="neon-card rounded-3xl border border-slate-800 p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div className="space-y-2 max-w-2xl">
-              <div className="text-xs font-extrabold uppercase tracking-widest accent-cyan text-[#00F0FF]">
+              <div className="text-xs sm:text-sm font-extrabold uppercase tracking-widest accent-cyan text-[#00F0FF]">
                 Welcome to the Tee Pad · Kansas City & JoCo Edition
               </div>
               <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-white">
                 What would you like to do today?
               </h1>
-              <p className="text-xs sm:text-sm text-slate-300">
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
                 Launch a new round with your wind & voice-recording checklist, inspect{' '}
                 <strong className="accent-pink text-[#FF2E93]">Jeffery's 9-Disc Innova Pack</strong> or{' '}
                 <strong className="accent-cyan text-[#00F0FF]">Jack's Discraft Lineup</strong>, or review past scorecards and course records.
@@ -1617,14 +1636,14 @@ ${jackBagLines}
             <div className="flex flex-wrap items-center gap-3 shrink-0">
               <button
                 onClick={() => setShowStartWizard(true)}
-                className="keep-white min-h-[52px] px-6 py-3 rounded-2xl bg-[#FF2E93] hover:bg-[#FF2E93]/90 text-white font-bold text-sm sm:text-base flex items-center gap-2 shadow-lg neon-border-pink transition-transform active:scale-95"
+                className="keep-white min-h-[54px] px-6 py-3.5 rounded-2xl bg-[#FF2E93] hover:bg-[#FF2E93]/90 text-white font-extrabold text-base flex items-center gap-2 shadow-lg neon-border-pink transition-transform active:scale-95"
               >
                 <span>▶ Play a Round</span>
               </button>
               {activeHolesScored > 0 && (
                 <button
                   onClick={onResumeLiveRound}
-                  className="min-h-[52px] px-5 py-3 rounded-2xl bg-[#39FF14] hover:bg-[#39FF14]/90 text-slate-950 font-bold text-xs sm:text-sm flex items-center gap-2 neon-border-lime"
+                  className="min-h-[54px] px-5 py-3.5 rounded-2xl bg-[#39FF14] hover:bg-[#39FF14]/90 text-slate-950 font-extrabold text-sm sm:text-base flex items-center gap-2 neon-border-lime"
                 >
                   <span>Resume {roundState.courseName} ({activeHolesScored}/{roundState.totalHoles}H)</span>
                 </button>
@@ -1637,16 +1656,16 @@ ${jackBagLines}
             <div className="neon-card rounded-3xl border-2 border-[#FF2E93] p-5 sm:p-6 space-y-6">
               <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
-                  <span className="text-[11px] font-extrabold uppercase tracking-wider accent-pink text-[#FF2E93] block">
+                  <span className="text-xs font-extrabold uppercase tracking-wider accent-pink text-[#FF2E93] block">
                     Pre-Round Tee-Off Checklist
                   </span>
-                  <h2 className="text-lg sm:text-xl font-extrabold text-white">
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-white">
                     Set Up Your Round: Course, Wind & Voice Recording
                   </h2>
                 </div>
                 <button
                   onClick={() => setShowStartWizard(false)}
-                  className="sub-control px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold text-slate-300"
+                  className="sub-control px-4 py-2 rounded-xl border border-slate-700 text-sm font-extrabold text-slate-300"
                 >
                   Close ✕
                 </button>
@@ -1656,10 +1675,10 @@ ${jackBagLines}
                 {/* STEP 1: CHOOSE COURSE */}
                 <div className="sub-tile p-4 rounded-2xl border border-slate-800 space-y-3">
                   <div className="flex items-center gap-2">
-                    <span className="keep-white w-6 h-6 rounded-full bg-[#FF2E93] text-white text-xs font-extrabold flex items-center justify-center">1</span>
-                    <h3 className="font-extrabold text-sm text-white">Choose Your Course ({courses.length})</h3>
+                    <span className="keep-white w-7 h-7 rounded-full bg-[#FF2E93] text-white text-sm font-extrabold flex items-center justify-center">1</span>
+                    <h3 className="font-extrabold text-base text-white">Choose Your Course ({courses.length})</h3>
                   </div>
-                  <p className="text-xs text-slate-400">Select which layout you and Jack are playing today:</p>
+                  <p className="text-xs sm:text-sm text-slate-400">Select which layout you and Jack are playing today:</p>
                   <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
                     {courses.map((c) => {
                       const isChosen = c.key === selectedCourseKey;
@@ -1668,19 +1687,19 @@ ${jackBagLines}
                         <button
                           key={c.key}
                           onClick={() => setSelectedCourseKey(c.key)}
-                          className={`w-full text-left p-3 rounded-xl border-2 transition-all flex items-center justify-between ${
+                          className={`w-full text-left p-3.5 rounded-xl border-2 transition-all flex items-center justify-between ${
                             isChosen
                               ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93]'
                               : 'sub-control text-white border-slate-700 hover:border-[#00F0FF]'
                           }`}
                         >
                           <div className="truncate pr-2">
-                            <div className={`font-bold text-xs sm:text-sm truncate ${isChosen ? 'keep-white text-white' : 'text-white'}`}>{c.name}</div>
-                            <div className={`text-[11px] ${isChosen ? 'keep-white text-white/90' : 'text-slate-400'}`}>
+                            <div className={`font-extrabold text-sm sm:text-base truncate ${isChosen ? 'keep-white text-white' : 'text-white'}`}>{c.name}</div>
+                            <div className={`text-xs ${isChosen ? 'keep-white text-white/90' : 'text-slate-400'}`}>
                               {c.location} · {c.totalHoles} Holes ({dist.toLocaleString()} ft)
                             </div>
                           </div>
-                          {isChosen && <span className="keep-white text-white font-black">✓</span>}
+                          {isChosen && <span className="keep-white text-white font-black text-base">✓</span>}
                         </button>
                       );
                     })}
@@ -1690,10 +1709,10 @@ ${jackBagLines}
                 {/* STEP 2: CHOOSE WIND */}
                 <div className="sub-tile p-4 rounded-2xl border border-slate-800 space-y-3">
                   <div className="flex items-center gap-2">
-                    <span className="keep-white w-6 h-6 rounded-full bg-[#FF2E93] text-white text-xs font-extrabold flex items-center justify-center">2</span>
-                    <h3 className="font-extrabold text-sm text-white">Select Today's Wind</h3>
+                    <span className="keep-white w-7 h-7 rounded-full bg-[#FF2E93] text-white text-sm font-extrabold flex items-center justify-center">2</span>
+                    <h3 className="font-extrabold text-base text-white">Select Today's Wind</h3>
                   </div>
-                  <p className="text-xs text-slate-400">Sets your live Tee-Box Caddie recommendations across every hole:</p>
+                  <p className="text-xs sm:text-sm text-slate-400">Sets your live Tee-Box Caddie recommendations across every hole:</p>
                   <div className="space-y-2.5">
                     {[
                       {
@@ -1723,11 +1742,11 @@ ${jackBagLines}
                               : 'sub-control text-white border-slate-700 hover:border-[#00F0FF]'
                           }`}
                         >
-                          <div className={`font-extrabold text-xs sm:text-sm flex items-center justify-between ${isSelected ? 'keep-white text-white' : 'text-white'}`}>
+                          <div className={`font-extrabold text-sm sm:text-base flex items-center justify-between ${isSelected ? 'keep-white text-white' : 'text-white'}`}>
                             <span>{w.title}</span>
                             {isSelected && <span className="keep-white">✓</span>}
                           </div>
-                          <p className={`text-[11px] mt-1 ${isSelected ? 'keep-white text-white/90' : 'text-slate-400'}`}>{w.desc}</p>
+                          <p className={`text-xs mt-1 leading-snug ${isSelected ? 'keep-white text-white/90' : 'text-slate-400'}`}>{w.desc}</p>
                         </button>
                       );
                     })}
@@ -1738,35 +1757,35 @@ ${jackBagLines}
                 <div className="sub-tile p-4 rounded-2xl border border-slate-800 flex flex-col justify-between space-y-3">
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
-                      <span className="keep-white w-6 h-6 rounded-full bg-[#FF2E93] text-white text-xs font-extrabold flex items-center justify-center">3</span>
-                      <h3 className="font-extrabold text-sm text-white">Start Voice / Notes Recording!</h3>
+                      <span className="keep-white w-7 h-7 rounded-full bg-[#FF2E93] text-white text-sm font-extrabold flex items-center justify-center">3</span>
+                      <h3 className="font-extrabold text-base text-white">Start Voice / Notes Recording!</h3>
                     </div>
-                    <div className="sub-control p-3 rounded-xl border border-slate-700 space-y-2">
-                      <div className="text-xs font-extrabold accent-lime text-[#39FF14]">🎙️ Reminder: Record Your Round Commentary!</div>
-                      <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <div className="sub-control p-3.5 rounded-xl border border-slate-700 space-y-2.5">
+                      <div className="text-sm font-extrabold accent-lime text-[#39FF14]">🎙️ Reminder: Record Your Round Commentary!</div>
+                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                         Talk through your disc pulls, wind reads, flight shapes, and putts! Open your phone's Notes app with our starter template OR use the built-in Live Voice Dictation Mic right on each hole.
                       </p>
                       <div className="flex flex-col gap-2 pt-1">
                         <button
                           onClick={handleOpenPhoneNotesShare}
-                          className="w-full py-2 px-3 rounded-xl bg-[#00F0FF] hover:bg-[#00F0FF]/90 text-slate-950 font-bold text-xs"
+                          className="w-full py-2.5 px-3 rounded-xl bg-[#00F0FF] hover:bg-[#00F0FF]/90 text-slate-950 font-extrabold text-xs sm:text-sm"
                         >
                           📤 Send Starter Template to Phone Notes App
                         </button>
                         <button
                           onClick={handleCopyNotesTemplate}
-                          className="sub-control w-full py-2 px-3 rounded-xl border border-slate-700 text-white font-bold text-xs"
+                          className="sub-control w-full py-2.5 px-3 rounded-xl border border-slate-700 text-white font-bold text-xs sm:text-sm"
                         >
                           {copiedNotesTemplate ? '✓ Copied Round Header!' : '📋 Copy Notes App Header to Clipboard'}
                         </button>
                       </div>
                     </div>
-                    <label className="flex items-center gap-2 text-xs font-bold text-white cursor-pointer pt-1">
+                    <label className="flex items-center gap-2.5 text-sm font-bold text-white cursor-pointer pt-1">
                       <input
                         type="checkbox"
                         checked={notesChecked}
                         onChange={(e) => setNotesChecked(e.target.checked)}
-                        className="w-4 h-4 rounded accent-[#39FF14]"
+                        className="w-5 h-5 rounded accent-[#39FF14]"
                       />
                       <span>My Notes app / voice recorder is ready to roll</span>
                     </label>
@@ -1774,7 +1793,7 @@ ${jackBagLines}
 
                   <button
                     onClick={handleConfirmTeeOff}
-                    className="w-full py-3.5 px-4 rounded-xl bg-[#39FF14] hover:bg-[#39FF14]/90 text-slate-950 font-extrabold text-sm shadow-lg neon-border-lime active:scale-95 transition-transform"
+                    className="w-full py-3.5 px-4 rounded-xl bg-[#39FF14] hover:bg-[#39FF14]/90 text-slate-950 font-extrabold text-base shadow-lg neon-border-lime active:scale-95 transition-transform"
                   >
                     Tee Off on Hole #1 at {chosenCourse.name} →
                   </button>
@@ -1788,26 +1807,26 @@ ${jackBagLines}
             {/* CARD 1: PLAY A ROUND */}
             <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col justify-between space-y-4">
               <div className="space-y-1.5">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider accent-pink text-[#FF2E93]">
+                <span className="text-xs font-extrabold uppercase tracking-wider accent-pink text-[#FF2E93]">
                   1 · Live On-Course Scorecard
                 </span>
-                <h2 className="text-lg sm:text-xl font-extrabold text-white">
+                <h2 className="text-xl sm:text-2xl font-extrabold text-white">
                   Play a Round & Record Voice Notes
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-300">
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
                   Choose from all {courses.length} KC courses, lock in today's wind condition, get reminded to record your voice commentary, and score hole-by-hole with live disc caddie pulls.
                 </p>
               </div>
               <div className="flex flex-wrap gap-2.5 pt-2">
                 <button
                   onClick={() => setShowStartWizard(true)}
-                  className="keep-white flex-1 min-h-[46px] px-4 py-2.5 rounded-xl bg-[#FF2E93] hover:bg-[#FF2E93]/90 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2"
+                  className="keep-white flex-1 min-h-[48px] px-4 py-2.5 rounded-xl bg-[#FF2E93] hover:bg-[#FF2E93]/90 text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-2"
                 >
                   <span>Start New Round Setup</span>
                 </button>
                 <button
                   onClick={() => onNavigateTab('live')}
-                  className="sub-control min-h-[46px] px-4 py-2.5 rounded-xl border border-slate-700 text-white font-bold text-xs sm:text-sm"
+                  className="sub-control min-h-[48px] px-4 py-2.5 rounded-xl border border-slate-700 text-white font-extrabold text-sm sm:text-base"
                 >
                   Open Scorecard →
                 </button>
@@ -1817,26 +1836,26 @@ ${jackBagLines}
             {/* CARD 2: REVIEW BAG DATA */}
             <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col justify-between space-y-4">
               <div className="space-y-1.5">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
+                <span className="text-xs font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
                   2 · Bag Data & Flight Lab
                 </span>
-                <h2 className="text-lg sm:text-xl font-extrabold text-white">
+                <h2 className="text-xl sm:text-2xl font-extrabold text-white">
                   Review Bag Data (Jeffery & Jack)
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-300">
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
                   Explore Jeffery's {jefferyDiscs.length}-Disc Innova Adventure Pack (Aviar, Sync, Pig, Rollo, Mako3, Roc3, Halo IT, Firebird, Mamba) or switch to Jack's {jackDiscs.length}-Disc Discraft Bag (Roach, Buzzz SS, Cicada).
                 </p>
               </div>
               <div className="flex flex-wrap gap-2.5 pt-2">
                 <button
                   onClick={() => onNavigateTab('courses', 'jeffery')}
-                  className="keep-white flex-1 min-h-[46px] px-4 py-2.5 rounded-xl bg-[#FF2E93] hover:bg-[#FF2E93]/90 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2"
+                  className="keep-white flex-1 min-h-[48px] px-4 py-2.5 rounded-xl bg-[#FF2E93] hover:bg-[#FF2E93]/90 text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-2"
                 >
                   <span>Jeffery's Innova Bag ({jefferyDiscs.length})</span>
                 </button>
                 <button
                   onClick={() => onNavigateTab('courses', 'jack')}
-                  className="flex-1 min-h-[46px] px-4 py-2.5 rounded-xl bg-[#00F0FF] hover:bg-[#00F0FF]/90 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2"
+                  className="flex-1 min-h-[48px] px-4 py-2.5 rounded-xl bg-[#00F0FF] hover:bg-[#00F0FF]/90 text-slate-950 font-extrabold text-sm sm:text-base flex items-center justify-center gap-2"
                 >
                   <span>Jack's Discraft Bag ({jackDiscs.length})</span>
                 </button>
@@ -1846,20 +1865,20 @@ ${jackBagLines}
             {/* CARD 3: ROUND HISTORY */}
             <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col justify-between space-y-4">
               <div className="space-y-1.5">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider accent-lime text-[#39FF14]">
+                <span className="text-xs font-extrabold uppercase tracking-wider accent-lime text-[#39FF14]">
                   3 · Round History & Voice Logs
                 </span>
-                <h2 className="text-lg sm:text-xl font-extrabold text-white">
+                <h2 className="text-xl sm:text-2xl font-extrabold text-white">
                   Review Round History ({history.length} Rounds)
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-300">
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
                   Browse every completed scorecard across Sar-Ko-Par, Mize Elementary, Black Hoof, Harmon, Wolf Den, and Art Nine — or export round transcripts for NotebookLM & Gemini.
                 </p>
               </div>
               <div className="flex pt-2">
                 <button
                   onClick={() => onNavigateTab('history')}
-                  className="flex-1 min-h-[46px] px-4 py-2.5 rounded-xl bg-[#39FF14] hover:bg-[#39FF14]/90 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2"
+                  className="flex-1 min-h-[48px] px-4 py-2.5 rounded-xl bg-[#39FF14] hover:bg-[#39FF14]/90 text-slate-950 font-extrabold text-sm sm:text-base flex items-center justify-center gap-2"
                 >
                   <span>Open Round History & Transcripts →</span>
                 </button>
@@ -1869,26 +1888,26 @@ ${jackBagLines}
             {/* CARD 4: COURSE HISTORY & RIVALRY */}
             <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col justify-between space-y-4">
               <div className="space-y-1.5">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider accent-gold text-[#FACC15]">
+                <span className="text-xs font-extrabold uppercase tracking-wider accent-gold text-[#FACC15]">
                   4 · Course History & Rivalry
                 </span>
-                <h2 className="text-lg sm:text-xl font-extrabold text-white">
+                <h2 className="text-xl sm:text-2xl font-extrabold text-white">
                   Course History & Jeffery vs. Jack Stats
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-300">
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
                   Compare Personal Bests and averages on every course, skins won, birdie percentages, and distance-slot scoring between Jeffery and Jack.
                 </p>
               </div>
               <div className="flex flex-wrap gap-2.5 pt-2">
                 <button
                   onClick={() => onNavigateTab('rivalry')}
-                  className="flex-1 min-h-[46px] px-4 py-2.5 rounded-xl bg-[#00F0FF] hover:bg-[#00F0FF]/90 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2"
+                  className="flex-1 min-h-[48px] px-4 py-2.5 rounded-xl bg-[#00F0FF] hover:bg-[#00F0FF]/90 text-slate-950 font-extrabold text-sm sm:text-base flex items-center justify-center gap-2"
                 >
                   <span>View Course Records & Rivalry</span>
                 </button>
                 <button
                   onClick={() => onNavigateTab('sync')}
-                  className="sub-control min-h-[46px] px-4 py-2.5 rounded-xl border border-slate-700 text-white font-bold text-xs sm:text-sm"
+                  className="sub-control min-h-[48px] px-4 py-2.5 rounded-xl border border-slate-700 text-white font-extrabold text-sm sm:text-base"
                 >
                   Roster & Backup
                 </button>
@@ -1900,7 +1919,7 @@ ${jackBagLines}
     }
 
     // ============================================================================
-    // VIEW 2: LIVE SCORECARD VIEW (from src/components/LiveScorecardView.tsx)
+    // VIEW 2: LIVE SCORECARD VIEW
     // ============================================================================
     function LiveScorecardView({
       roundState,
@@ -2171,16 +2190,16 @@ ${jackBagLines}
       return (
         <div className="space-y-5">
           {/* Top Course, Format & Timer Bar */}
-          <div className="neon-card rounded-2xl border border-slate-800 p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 flex-1">
-              <div className="flex-1 max-w-xs">
-                <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">
+              <div className="flex-1 max-w-sm">
+                <label className="block text-xs font-extrabold uppercase tracking-wider text-slate-400 mb-1">
                   Active Course Loop ({courses.length} Courses)
                 </label>
                 <select
                   value={roundState.courseKey}
                   onChange={(e) => onSwitchCourse(e.target.value)}
-                  className="sub-control w-full h-10 px-3 rounded-xl border border-slate-700 text-white font-bold text-xs sm:text-sm"
+                  className="sub-control w-full h-11 px-3.5 rounded-xl border border-slate-700 text-white font-extrabold text-sm sm:text-base"
                 >
                   {courses.map((c) => (
                     <option key={c.key} value={c.key}>
@@ -2189,15 +2208,15 @@ ${jackBagLines}
                   ))}
                 </select>
               </div>
-              <div className="text-xs font-bold text-slate-300 pt-2 sm:pt-4">
-                Par {totalCoursePar} · {totalCourseDistance.toLocaleString()} ft · Wind: <span className="uppercase accent-cyan text-[#00F0FF]">{caddieScenario}</span>
+              <div className="text-sm font-bold text-slate-300 pt-2 sm:pt-5">
+                Par {totalCoursePar} · {totalCourseDistance.toLocaleString()} ft · Wind: <span className="uppercase font-extrabold accent-cyan text-[#00F0FF]">{caddieScenario}</span>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2.5">
               <button
                 onClick={() => setShowDossierModal(!showDossierModal)}
-                className="min-h-[38px] px-3 py-1.5 rounded-xl bg-[#39FF14] hover:bg-[#39FF14]/90 text-slate-950 font-bold text-xs flex items-center gap-1.5"
+                className="min-h-[42px] px-4 py-2 rounded-xl bg-[#39FF14] hover:bg-[#39FF14]/90 text-slate-950 font-extrabold text-xs sm:text-sm flex items-center gap-1.5"
               >
                 <span>📓 NotebookLM / Gemini</span>
               </button>
@@ -2207,7 +2226,7 @@ ${jackBagLines}
                   <button
                     key={mode}
                     onClick={() => setRoundState((prev) => ({ ...prev, gameMode: mode }))}
-                    className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-colors ${
+                    className={`px-3 py-1.5 text-xs sm:text-sm font-extrabold rounded-lg transition-colors ${
                       (roundState.gameMode || 'stroke') === mode
                         ? 'keep-white bg-[#FF2E93] text-white'
                         : 'text-slate-400'
@@ -2218,18 +2237,18 @@ ${jackBagLines}
                 ))}
               </div>
 
-              <div className="sub-control px-3 py-1.5 rounded-xl border border-slate-700 flex items-center gap-2">
-                <span className="font-mono-tabular text-xs font-extrabold text-white">{formatDuration(elapsedSeconds)}</span>
+              <div className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 flex items-center gap-2.5">
+                <span className="font-mono-tabular text-sm font-extrabold text-white">{formatDuration(elapsedSeconds)}</span>
                 <button
                   onClick={onToggleTimer}
-                  className="keep-white px-2 py-0.5 rounded bg-[#FF2E93] text-white text-[11px] font-bold"
+                  className="keep-white px-2.5 py-1 rounded-lg bg-[#FF2E93] text-white text-xs font-extrabold"
                 >
                   {timerState.running ? 'Pause' : 'Start'}
                 </button>
                 <button
                   onClick={() => setConfirmResetModal(true)}
                   title="Reset Round Scores & Timer"
-                  className="text-xs text-slate-400 hover:text-rose-500 font-bold px-1"
+                  className="text-sm text-slate-400 hover:text-rose-500 font-extrabold px-1"
                 >
                   ↺
                 </button>
@@ -2242,23 +2261,23 @@ ${jackBagLines}
             <div className="neon-card rounded-2xl border-2 border-[#00F0FF] p-4 sm:p-5 space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <h3 className="font-extrabold text-sm sm:text-base text-white">
+                  <h3 className="font-extrabold text-base sm:text-lg text-white">
                     Round Voice Transcript & NotebookLM / Gemini Dossier
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs sm:text-sm text-slate-400">
                     Paste your phone Notes app voice dictation below (or dictate hole-by-hole), then copy or download for Gemini or NotebookLM!
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={handleCopyDossier}
-                    className="px-3 py-1.5 rounded-xl bg-[#00F0FF] text-slate-950 font-bold text-xs"
+                    className="px-3.5 py-2 rounded-xl bg-[#00F0FF] text-slate-950 font-extrabold text-xs sm:text-sm"
                   >
                     {copiedDossier ? '✓ Copied Dossier!' : '📋 Copy Full Dossier'}
                   </button>
                   <button
                     onClick={handleDownloadDossier}
-                    className="sub-control px-3 py-1.5 rounded-xl border border-slate-700 text-white font-bold text-xs"
+                    className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 text-white font-extrabold text-xs sm:text-sm"
                   >
                     ⬇ Download .MD
                   </button>
@@ -2269,13 +2288,13 @@ ${jackBagLines}
                 value={roundState.roundTranscript || ''}
                 onChange={(e) => setRoundState((prev) => ({ ...prev, roundTranscript: e.target.value }))}
                 placeholder="Paste your Apple Notes / Google Keep voice dictation here, or use the Live Voice Mic on each hole..."
-                className="sub-control w-full p-3 rounded-xl border border-slate-700 text-xs sm:text-sm text-white"
+                className="sub-control w-full p-3 rounded-xl border border-slate-700 text-sm text-white"
               />
             </div>
           )}
 
           {saveConfirmBanner && (
-            <div className="p-3.5 rounded-2xl bg-[#39FF14]/20 border border-[#39FF14] text-xs sm:text-sm font-bold text-white flex items-center justify-between">
+            <div className="p-3.5 rounded-2xl bg-[#39FF14]/20 border border-[#39FF14] text-sm font-bold text-white flex items-center justify-between">
               <span>{saveConfirmBanner}</span>
               <button onClick={() => setSaveConfirmBanner(null)} className="underline ml-4">Dismiss</button>
             </div>
@@ -2283,19 +2302,19 @@ ${jackBagLines}
 
           {confirmResetModal && (
             <div className="neon-card p-4 rounded-2xl border-2 border-[#FF2E93] flex flex-wrap items-center justify-between gap-3">
-              <span className="text-xs sm:text-sm font-bold text-white">
+              <span className="text-sm font-bold text-white">
                 Clear all scores on the current {roundState.courseName} scorecard and reset timer to 00:00:00?
               </span>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setConfirmResetModal(false)}
-                  className="sub-control px-3 py-1.5 text-xs font-bold text-slate-300 border border-slate-700 rounded-lg"
+                  className="sub-control px-3.5 py-2 text-xs sm:text-sm font-bold text-slate-300 border border-slate-700 rounded-lg"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={clearCurrentRoundScores}
-                  className="keep-white px-3 py-1.5 text-xs font-bold bg-[#FF2E93] text-white rounded-lg"
+                  className="keep-white px-3.5 py-2 text-xs sm:text-sm font-bold bg-[#FF2E93] text-white rounded-lg"
                 >
                   Clear Card & Reset
                 </button>
@@ -2304,8 +2323,8 @@ ${jackBagLines}
           )}
 
           {/* Hole Quick-Jump Carousel Strip */}
-          <div className="neon-card rounded-2xl border border-slate-800 p-3.5 space-y-2">
-            <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 space-y-2.5">
+            <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-slate-400">
               <span>Tap Hole to Jump ({totalHolesScoredAllPlayers}/{roundState.holes.length} Completed)</span>
               <span>Date: {roundState.date}</span>
             </div>
@@ -2319,7 +2338,7 @@ ${jackBagLines}
                   <button
                     key={h.number}
                     onClick={() => goToHole(idx)}
-                    className={`min-h-[46px] rounded-xl flex flex-col items-center justify-center transition-all border font-mono-tabular ${
+                    className={`min-h-[50px] rounded-xl flex flex-col items-center justify-center transition-all border font-mono-tabular ${
                       isCurrent
                         ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93] neon-border-pink'
                         : isScored
@@ -2327,8 +2346,8 @@ ${jackBagLines}
                         : 'sub-tile text-slate-400 border-slate-800'
                     }`}
                   >
-                    <span className={`text-xs font-extrabold ${isCurrent ? 'keep-white text-white' : ''}`}>{h.number}</span>
-                    <span className={`text-[10px] ${isCurrent ? 'keep-white text-white/90' : ''}`}>
+                    <span className={`text-sm font-extrabold ${isCurrent ? 'keep-white text-white' : ''}`}>{h.number}</span>
+                    <span className={`text-xs font-bold ${isCurrent ? 'keep-white text-white/90' : ''}`}>
                       {isScored ? `${p1Score || '-'}/${p2Score || '-'}` : `${h.distance}'`}
                     </span>
                   </button>
@@ -2342,34 +2361,34 @@ ${jackBagLines}
             {/* LEFT 7 COLS: Active Hole, Dual Caddie Pulls, Voice Mic, & Player Steppers */}
             <div className="lg:col-span-7 space-y-4">
               {/* Active Hole Header */}
-              <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3">
+              <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3.5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2.5">
                       <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-white">
                         Hole {currentHole.number}
                       </h2>
-                      <span className="px-2.5 py-1 rounded-lg sub-control border border-slate-700 text-xs font-extrabold text-white">
+                      <span className="px-3 py-1 rounded-lg sub-control border border-slate-700 text-sm font-extrabold text-white">
                         Par {currentHole.par} · {currentHole.distance} ft
                       </span>
-                      <span className="text-xs font-bold accent-cyan text-[#00F0FF]">
+                      <span className="text-xs sm:text-sm font-extrabold accent-cyan text-[#00F0FF]">
                         {currentHole.distance < 185 ? 'SPD 2–4 Slot' : currentHole.distance <= 240 ? 'SPD 5 Mid Slot' : 'SPD 7–11 Driver Slot'}
                       </span>
                     </div>
                     {currentHoleHint && (
-                      <p className="text-xs text-slate-400 mt-1">💡 {currentHoleHint}</p>
+                      <p className="text-xs sm:text-sm text-slate-400 mt-1.5 font-medium">💡 {currentHoleHint}</p>
                     )}
                   </div>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setEditingHoleSpec(!editingHoleSpec)}
-                      className="sub-control px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold text-white"
+                      className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 text-xs sm:text-sm font-extrabold text-white"
                     >
                       {editingHoleSpec ? 'Done Editing' : 'Edit Pin / Par'}
                     </button>
                     <button
                       onClick={fillParForUnscored}
-                      className="px-3 py-1.5 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold"
+                      className="px-3.5 py-2 rounded-xl bg-[#00F0FF] text-slate-950 text-xs sm:text-sm font-extrabold"
                     >
                       Quick Par All ({currentHole.par})
                     </button>
@@ -2377,15 +2396,15 @@ ${jackBagLines}
                 </div>
 
                 {editingHoleSpec && (
-                  <div className="sub-tile p-3 rounded-xl border border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="sub-tile p-3.5 rounded-xl border border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[10px] font-bold uppercase text-slate-400 mb-1">Hole {currentHole.number} Par</label>
+                      <label className="block text-xs font-bold uppercase text-slate-400 mb-1">Hole {currentHole.number} Par</label>
                       <div className="flex gap-1.5">
                         {[2, 3, 4, 5].map((pVal) => (
                           <button
                             key={pVal}
                             onClick={() => updateCurrentHoleSpec('par', pVal)}
-                            className={`flex-1 py-1.5 rounded-lg font-mono-tabular text-xs font-bold border ${
+                            className={`flex-1 py-2 rounded-lg font-mono-tabular text-xs sm:text-sm font-bold border ${
                               currentHole.par === pVal
                                 ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93]'
                                 : 'sub-control text-slate-300 border-slate-700'
@@ -2397,12 +2416,12 @@ ${jackBagLines}
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold uppercase text-slate-400 mb-1">Pin Distance (ft)</label>
+                      <label className="block text-xs font-bold uppercase text-slate-400 mb-1">Pin Distance (ft)</label>
                       <input
                         type="number"
                         value={currentHole.distance}
                         onChange={(e) => updateCurrentHoleSpec('distance', Number(e.target.value) || 100)}
-                        className="sub-control w-full h-9 px-3 rounded-lg border border-slate-700 font-mono-tabular text-sm font-bold text-white"
+                        className="sub-control w-full h-10 px-3 rounded-lg border border-slate-700 font-mono-tabular text-sm font-bold text-white"
                       />
                     </div>
                   </div>
@@ -2410,9 +2429,9 @@ ${jackBagLines}
 
                 {/* DUAL JEFFERY (INNOVA) & JACK (DISCRAFT) QUICK-PULL CADDIE SELECTOR */}
                 {caddieDecision.primary && (
-                  <div className="sub-tile p-3.5 rounded-2xl border border-slate-800 space-y-3">
+                  <div className="sub-tile p-4 rounded-2xl border border-slate-800 space-y-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="text-xs font-extrabold uppercase tracking-wider text-white">
+                      <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white">
                         🎯 Tee-Box Caddie Pulls ({currentHole.distance} ft)
                       </span>
                       <div className="sub-control p-1 rounded-lg border border-slate-700 flex gap-1">
@@ -2424,7 +2443,7 @@ ${jackBagLines}
                           <button
                             key={sc.id}
                             onClick={() => handleSelectWindScenario(sc.id)}
-                            className={`px-2 py-1 rounded text-[11px] font-bold transition-colors ${
+                            className={`px-2.5 py-1.5 rounded text-xs font-extrabold transition-colors ${
                               caddieScenario === sc.id
                                 ? 'keep-white bg-[#FF2E93] text-white'
                                 : 'text-slate-400'
@@ -2438,12 +2457,12 @@ ${jackBagLines}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {/* Jeffery's Pull */}
-                      <div className="sub-control p-3 rounded-xl border border-slate-700 flex flex-col justify-between space-y-2">
+                      <div className="sub-control p-3.5 rounded-xl border border-slate-700 flex flex-col justify-between space-y-2.5">
                         <div>
-                          <div className="text-[10px] font-extrabold uppercase accent-pink text-[#FF2E93]">
+                          <div className="text-xs font-extrabold uppercase accent-pink text-[#FF2E93]">
                             Jeffery's Innova Pack Pull
                           </div>
-                          <div className="text-sm font-extrabold text-white mt-0.5">
+                          <div className="text-base font-extrabold text-white mt-0.5">
                             {caddieDecision.primary.weightGrams ? `${caddieDecision.primary.weightGrams}g ` : ''}
                             {caddieDecision.primary.plastic !== 'Standard' ? `${caddieDecision.primary.plastic} ` : ''}
                             {caddieDecision.primary.name}{' '}
@@ -2451,12 +2470,12 @@ ${jackBagLines}
                               [{caddieDecision.primary.speed}|{caddieDecision.primary.glide}|{caddieDecision.primary.turn}|{caddieDecision.primary.fade}]
                             </span>
                           </div>
-                          <p className="text-[11px] text-slate-300 mt-1 leading-snug">{caddieDecision.shotCallout}</p>
+                          <p className="text-xs sm:text-sm text-slate-300 mt-1 leading-snug">{caddieDecision.shotCallout}</p>
                         </div>
                         <div className="flex items-center justify-between pt-1">
                           <button
                             onClick={() => updateShotMeta('jeffery', { discUsed: caddieDecision.primary?.name, scenarioUsed: caddieScenario })}
-                            className={`px-2.5 py-1 rounded-lg text-[11px] font-bold border ${
+                            className={`px-3 py-1.5 rounded-lg text-xs font-extrabold border ${
                               currentHole.meta?.jeffery?.discUsed === caddieDecision.primary.name
                                 ? 'bg-[#39FF14] text-slate-950 border-[#39FF14]'
                                 : 'sub-tile text-white border-slate-700'
@@ -2469,7 +2488,7 @@ ${jackBagLines}
                           {onOpenBagGuide && (
                             <button
                               onClick={() => onOpenBagGuide(caddieDecision.primary?.id, 'jeffery')}
-                              className="text-[11px] font-bold accent-pink text-[#FF2E93] underline"
+                              className="text-xs font-extrabold accent-pink text-[#FF2E93] underline"
                             >
                               Flight Lab →
                             </button>
@@ -2479,24 +2498,24 @@ ${jackBagLines}
 
                       {/* Jack's Pull */}
                       {jackRecommendedDisc && (
-                        <div className="sub-control p-3 rounded-xl border border-slate-700 flex flex-col justify-between space-y-2">
+                        <div className="sub-control p-3.5 rounded-xl border border-slate-700 flex flex-col justify-between space-y-2.5">
                           <div>
-                            <div className="text-[10px] font-extrabold uppercase accent-cyan text-[#00F0FF]">
+                            <div className="text-xs font-extrabold uppercase accent-cyan text-[#00F0FF]">
                               Jack's Discraft Lineup Pull
                             </div>
-                            <div className="text-sm font-extrabold text-white mt-0.5">
+                            <div className="text-base font-extrabold text-white mt-0.5">
                               {jackRecommendedDisc.weightGrams ? `${jackRecommendedDisc.weightGrams}g ` : ''}
                               Discraft {jackRecommendedDisc.name}{' '}
                               <span className="font-mono-tabular text-xs text-slate-400">
                                 [{jackRecommendedDisc.speed}|{jackRecommendedDisc.glide}|{jackRecommendedDisc.turn}|{jackRecommendedDisc.fade}]
                               </span>
                             </div>
-                            <p className="text-[11px] text-slate-300 mt-1 leading-snug">{jackRecommendedDisc.courseStrategy}</p>
+                            <p className="text-xs sm:text-sm text-slate-300 mt-1 leading-snug">{jackRecommendedDisc.courseStrategy}</p>
                           </div>
                           <div className="flex items-center justify-between pt-1">
                             <button
                               onClick={() => updateShotMeta('jack', { discUsed: jackRecommendedDisc.name, scenarioUsed: caddieScenario })}
-                              className={`px-2.5 py-1 rounded-lg text-[11px] font-bold border ${
+                              className={`px-3 py-1.5 rounded-lg text-xs font-extrabold border ${
                                 currentHole.meta?.jack?.discUsed === jackRecommendedDisc.name
                                   ? 'bg-[#39FF14] text-slate-950 border-[#39FF14]'
                                   : 'sub-tile text-white border-slate-700'
@@ -2509,7 +2528,7 @@ ${jackBagLines}
                             {onOpenBagGuide && (
                               <button
                                 onClick={() => onOpenBagGuide(jackRecommendedDisc.id, 'jack')}
-                                className="text-[11px] font-bold accent-cyan text-[#00F0FF] underline"
+                                className="text-xs font-extrabold accent-cyan text-[#00F0FF] underline"
                               >
                                 Jack's Bag →
                               </button>
@@ -2522,15 +2541,15 @@ ${jackBagLines}
                 )}
 
                 {/* LIVE HOLE VOICE DICTATION & NOTES BAR */}
-                <div className="sub-tile p-3 rounded-xl border border-slate-800 space-y-2">
+                <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-2.5">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="text-[11px] font-extrabold uppercase text-slate-400">
+                    <span className="text-xs sm:text-sm font-extrabold uppercase text-slate-400">
                       🎙️ Hole #{currentHole.number} Voice Dictation & Notes
                     </span>
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-2">
                       <button
                         onClick={toggleLiveVoiceDictation}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-bold ${
+                        className={`px-3 py-1.5 rounded-lg text-xs sm:text-sm font-extrabold ${
                           isListeningMic ? 'keep-white bg-rose-600 text-white animate-pulse' : 'keep-white bg-[#FF2E93] text-white'
                         }`}
                       >
@@ -2538,24 +2557,24 @@ ${jackBagLines}
                       </button>
                       <button
                         onClick={handleShareToPhoneNotes}
-                        className="sub-control px-2.5 py-1 rounded-lg border border-slate-700 text-xs font-bold text-white"
+                        className="sub-control px-3 py-1.5 rounded-lg border border-slate-700 text-xs sm:text-sm font-extrabold text-white"
                       >
                         📤 Phone Notes
                       </button>
                     </div>
                   </div>
-                  {micStatusMessage && <p className="text-[11px] accent-cyan text-[#00F0FF] font-bold">{micStatusMessage}</p>}
+                  {micStatusMessage && <p className="text-xs sm:text-sm accent-cyan text-[#00F0FF] font-bold">{micStatusMessage}</p>}
                   <textarea
                     rows={2}
                     value={currentHole.voiceTranscript || ''}
                     onChange={(e) => updateCurrentHoleVoiceTranscript(e.target.value)}
                     placeholder={`Talk or type what happened on Hole #${currentHole.number}...`}
-                    className="sub-control w-full p-2 rounded-lg border border-slate-700 text-xs text-white"
+                    className="sub-control w-full p-2.5 rounded-lg border border-slate-700 text-sm text-white"
                   />
                 </div>
 
                 {/* Historical Hole Memory Strip */}
-                <div className="text-xs text-slate-400 flex flex-wrap items-center justify-between gap-2 pt-1">
+                <div className="text-xs sm:text-sm text-slate-400 flex flex-wrap items-center justify-between gap-2 pt-1">
                   <span className="font-bold">
                     📊 Hole #{currentHole.number} History ({caddyInsight.roundsPlayed} rounds at {roundState.courseName}):
                   </span>
@@ -2563,7 +2582,7 @@ ${jackBagLines}
                     {activePlayers.map((p, idx) => {
                       const st = caddyInsight.playerStats[p.id];
                       return (
-                        <span key={p.id} className="font-bold text-white">
+                        <span key={p.id} className="font-extrabold text-white">
                           {idx > 0 && ' · '}
                           {p.name}: {st && st.bestScore !== null ? `Avg ${st.avgScore} (Best ${st.bestScore})` : 'First time'}
                         </span>
@@ -2584,26 +2603,26 @@ ${jackBagLines}
                   const playerBagList = player.id === 'jack' ? [...jackBag, ...jefferyBag] : [...jefferyBag, ...jackBag];
 
                   return (
-                    <div key={player.id} className="neon-card rounded-2xl border border-slate-800 p-4 space-y-3">
+                    <div key={player.id} className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3.5">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="keep-white w-8 h-8 rounded-xl bg-[#FF2E93] text-white font-extrabold text-xs flex items-center justify-center">
+                        <div className="flex items-center gap-2.5">
+                          <span className="keep-white w-9 h-9 rounded-xl bg-[#FF2E93] text-white font-extrabold text-sm flex items-center justify-center">
                             {player.tag || player.name.slice(0, 2).toUpperCase()}
                           </span>
                           <div>
-                            <div className="font-extrabold text-base text-white leading-tight">{player.name}</div>
-                            <div className="text-xs font-bold text-slate-400">
+                            <div className="font-extrabold text-lg text-white leading-tight">{player.name}</div>
+                            <div className="text-xs sm:text-sm font-bold text-slate-400">
                               Round: {playerStanding?.totalStrokes || 0} ({formatRelativePar(playerStanding?.relPar || 0)})
                             </div>
                           </div>
                         </div>
-                        <span className={`px-2.5 py-1 rounded-lg text-xs font-extrabold border ${scoreTerm.textColor} ${scoreTerm.bgColor} ${scoreTerm.borderColor}`}>
+                        <span className={`px-3 py-1 rounded-lg text-xs sm:text-sm font-extrabold border ${scoreTerm.textColor} ${scoreTerm.bgColor} ${scoreTerm.borderColor}`}>
                           {score > 0 ? `${scoreTerm.label} (${formatRelativePar(score - currentHole.par)})` : 'Unscored'}
                         </span>
                       </div>
 
                       {/* Score Stepper Row */}
-                      <div className="sub-tile p-2.5 rounded-xl border border-slate-800 flex items-center justify-between gap-2">
+                      <div className="sub-tile p-3 rounded-xl border border-slate-800 flex items-center justify-between gap-2">
                         <button
                           onClick={() => updateScore(player.id, score === 0 ? currentHole.par - 1 : score - 1)}
                           className="sub-control w-12 h-12 rounded-xl border border-slate-700 text-white font-mono-tabular text-2xl font-extrabold flex items-center justify-center active:scale-95"
@@ -2612,7 +2631,7 @@ ${jackBagLines}
                         </button>
                         <div className="text-center">
                           <span className="font-mono-tabular text-4xl font-extrabold text-white">{score > 0 ? score : '—'}</span>
-                          <span className="block text-[10px] uppercase font-bold text-slate-400">Throws</span>
+                          <span className="block text-xs uppercase font-bold text-slate-400">Throws</span>
                         </div>
                         <button
                           onClick={() => updateScore(player.id, score === 0 ? currentHole.par : score + 1)}
@@ -2623,22 +2642,22 @@ ${jackBagLines}
                       </div>
 
                       {/* Quick Birdie / Par / Bogey Buttons */}
-                      <div className="grid grid-cols-3 gap-1.5">
+                      <div className="grid grid-cols-3 gap-2">
                         <button
                           onClick={() => updateScore(player.id, Math.max(1, currentHole.par - 1))}
-                          className="py-2 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-xs active:scale-95"
+                          className="py-2.5 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-xs sm:text-sm active:scale-95"
                         >
                           Birdie ({currentHole.par - 1})
                         </button>
                         <button
                           onClick={() => updateScore(player.id, currentHole.par)}
-                          className="py-2 rounded-xl bg-[#00F0FF] text-slate-950 font-extrabold text-xs active:scale-95"
+                          className="py-2.5 rounded-xl bg-[#00F0FF] text-slate-950 font-extrabold text-xs sm:text-sm active:scale-95"
                         >
                           Par ({currentHole.par})
                         </button>
                         <button
                           onClick={() => updateScore(player.id, currentHole.par + 1)}
-                          className="keep-white py-2 rounded-xl bg-amber-600 text-white font-extrabold text-xs active:scale-95"
+                          className="keep-white py-2.5 rounded-xl bg-amber-600 text-white font-extrabold text-xs sm:text-sm active:scale-95"
                         >
                           Bogey ({currentHole.par + 1})
                         </button>
@@ -2648,19 +2667,19 @@ ${jackBagLines}
                       <div className="pt-1 border-t border-slate-800">
                         <button
                           onClick={() => setExpandedShotDetails((prev) => ({ ...prev, [player.id]: !prev[player.id] }))}
-                          className="text-[11px] font-bold text-slate-400 hover:underline"
+                          className="text-xs sm:text-sm font-bold text-slate-400 hover:underline"
                         >
                           {isExpanded ? '▲ Hide Disc & Throw Telemetry' : `+ Tag ${player.name}'s Disc / Putt / Fairway / OB`}
                         </button>
                         {isExpanded && (
-                          <div className="sub-tile p-2.5 rounded-xl border border-slate-800 mt-2 space-y-2">
-                            <div className="text-[10px] font-bold uppercase text-slate-400">{player.name}'s Disc Thrown:</div>
-                            <div className="flex flex-wrap gap-1">
+                          <div className="sub-tile p-3 rounded-xl border border-slate-800 mt-2 space-y-2">
+                            <div className="text-xs font-bold uppercase text-slate-400">{player.name}'s Disc Thrown:</div>
+                            <div className="flex flex-wrap gap-1.5">
                               {playerBagList.map((d) => (
                                 <button
                                   key={d.id}
                                   onClick={() => updateShotMeta(player.id, { discUsed: holeMeta.discUsed === d.name ? undefined : d.name })}
-                                  className={`px-2 py-1 rounded text-[11px] font-bold border ${
+                                  className={`px-2.5 py-1.5 rounded-lg text-xs font-extrabold border ${
                                     holeMeta.discUsed === d.name
                                       ? 'bg-[#39FF14] text-slate-950 border-[#39FF14]'
                                       : 'sub-control text-slate-300 border-slate-700'
@@ -2679,28 +2698,28 @@ ${jackBagLines}
               </div>
 
               {/* Bottom Hole Navigation Controls */}
-              <div className="neon-card rounded-2xl border border-slate-800 p-3.5 flex items-center justify-between gap-2">
+              <div className="neon-card rounded-2xl border border-slate-800 p-4 flex items-center justify-between gap-2">
                 <button
                   disabled={roundState.currentHoleIndex === 0}
                   onClick={() => goToHole(roundState.currentHoleIndex - 1)}
-                  className="sub-control min-h-[44px] px-4 rounded-xl border border-slate-700 disabled:opacity-40 text-white font-bold text-xs sm:text-sm"
+                  className="sub-control min-h-[46px] px-4 rounded-xl border border-slate-700 disabled:opacity-40 text-white font-extrabold text-sm sm:text-base"
                 >
                   ← Hole {Math.max(1, currentHole.number - 1)}
                 </button>
-                <span className="text-xs sm:text-sm font-extrabold text-white">
+                <span className="text-sm sm:text-base font-extrabold text-white">
                   Hole {currentHole.number} of {roundState.holes.length}
                 </span>
                 {roundState.currentHoleIndex < roundState.holes.length - 1 ? (
                   <button
                     onClick={() => goToHole(roundState.currentHoleIndex + 1)}
-                    className="min-h-[44px] px-5 rounded-xl bg-[#00F0FF] text-slate-950 font-extrabold text-xs sm:text-sm neon-border-cyan"
+                    className="min-h-[46px] px-5 rounded-xl bg-[#00F0FF] text-slate-950 font-extrabold text-sm sm:text-base neon-border-cyan"
                   >
                     Next: Hole {currentHole.number + 1} →
                   </button>
                 ) : (
                   <button
                     onClick={() => handleSaveRoundClick(false)}
-                    className="min-h-[44px] px-5 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-xs sm:text-sm neon-border-lime"
+                    className="min-h-[46px] px-5 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-sm sm:text-base neon-border-lime"
                   >
                     Finish & Save Round ✓
                   </button>
@@ -2710,11 +2729,11 @@ ${jackBagLines}
 
             {/* RIGHT 5 COLS: Live Standings & Full Scorecard Matrix */}
             <div className="lg:col-span-5 space-y-4">
-              <div className="neon-card rounded-2xl border border-slate-800 p-4 space-y-3">
+              <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-extrabold text-sm text-white">Live Standings & Course Record Pace</h3>
+                  <h3 className="font-extrabold text-base text-white">Live Standings & Course Record Pace</h3>
                   {skinsAndMatch && (
-                    <span className="text-xs font-extrabold accent-pink text-[#FF2E93]">
+                    <span className="text-xs sm:text-sm font-extrabold accent-pink text-[#FF2E93]">
                       {roundState.gameMode === 'skins'
                         ? `Skins: J1 ${skinsAndMatch.p1SkinsWon} · J2 ${skinsAndMatch.p2SkinsWon}`
                         : skinsAndMatch.matchStatusText}
@@ -2722,7 +2741,7 @@ ${jackBagLines}
                   )}
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs">
+                  <table className="w-full text-left text-sm">
                     <thead>
                       <tr className="border-b border-slate-800 text-slate-400">
                         <th className="py-2">Player</th>
@@ -2735,13 +2754,13 @@ ${jackBagLines}
                     <tbody className="divide-y divide-slate-800 font-bold text-white">
                       {liveStandings.map((st) => (
                         <tr key={st.player.id}>
-                          <td className="py-2">{st.player.name} ({st.player.tag})</td>
-                          <td className="py-2 font-mono-tabular">{st.holesCompleted}/{roundState.totalHoles}</td>
-                          <td className="py-2 font-mono-tabular accent-cyan text-[#00F0FF]">
+                          <td className="py-2.5">{st.player.name} ({st.player.tag})</td>
+                          <td className="py-2.5 font-mono-tabular">{st.holesCompleted}/{roundState.totalHoles}</td>
+                          <td className="py-2.5 font-mono-tabular accent-cyan text-[#00F0FF]">
                             {st.holesCompleted > 0 ? formatRelativePar(st.relPar) : 'E'}
                           </td>
-                          <td className="py-2 font-mono-tabular">{st.totalStrokes || '—'}</td>
-                          <td className="py-2 text-slate-400">
+                          <td className="py-2.5 font-mono-tabular">{st.totalStrokes || '—'}</td>
+                          <td className="py-2.5 text-slate-400">
                             {st.coursePB.bestTotal !== null ? `PB ${st.coursePB.bestTotal} · Avg ${st.coursePB.avgTotal}` : 'First Round'}
                           </td>
                         </tr>
@@ -2752,13 +2771,13 @@ ${jackBagLines}
               </div>
 
               {/* Full Scorecard Table */}
-              <div className="neon-card rounded-2xl border border-slate-800 p-4 space-y-3">
+              <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-extrabold text-sm text-white">Full Card — {roundState.courseName}</h3>
-                  <span className="text-[11px] text-slate-400">Tap any row to jump</span>
+                  <h3 className="font-extrabold text-base text-white">Full Card — {roundState.courseName}</h3>
+                  <span className="text-xs text-slate-400 font-semibold">Tap any row to jump</span>
                 </div>
                 <div className="overflow-x-auto max-h-96">
-                  <table className="w-full text-center text-xs">
+                  <table className="w-full text-center text-sm">
                     <thead className="border-b border-slate-800 text-slate-400">
                       <tr>
                         <th className="py-2 text-left pl-2">Hole</th>
@@ -2778,16 +2797,16 @@ ${jackBagLines}
                             onClick={() => goToHole(idx)}
                             className={`cursor-pointer ${isCurrent ? 'sub-tile font-extrabold' : ''}`}
                           >
-                            <td className="py-2 text-left pl-2 font-bold">
+                            <td className="py-2.5 text-left pl-2 font-bold">
                               #{h.number} {h.voiceTranscript ? '🎙️' : ''}
                             </td>
-                            <td className="py-2 text-slate-400">{h.distance}ft</td>
-                            <td className="py-2 text-slate-400">{h.par}</td>
+                            <td className="py-2.5 text-slate-400">{h.distance}ft</td>
+                            <td className="py-2.5 text-slate-400">{h.par}</td>
                             {activePlayers.map((p) => {
                               const sc = (h.scores && h.scores[p.id]) || 0;
                               const diff = sc - h.par;
                               return (
-                                <td key={p.id} className="py-2 font-extrabold">
+                                <td key={p.id} className="py-2.5 font-extrabold">
                                   {sc > 0 ? sc : '—'}
                                   {sc > 0 && diff < 0 ? ' ★' : ''}
                                 </td>
@@ -2812,16 +2831,16 @@ ${jackBagLines}
                   </table>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-2 pt-2">
+                <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
                   <button
                     onClick={() => handleSaveRoundClick(false)}
-                    className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white text-xs font-extrabold neon-border-pink"
+                    className="keep-white flex-1 py-3 px-4 rounded-xl bg-[#FF2E93] text-white text-sm font-extrabold neon-border-pink"
                   >
                     💾 Log Round to History
                   </button>
                   <button
                     onClick={() => handleSaveRoundClick(true)}
-                    className="flex-1 py-2.5 px-4 rounded-xl bg-[#39FF14] text-slate-950 text-xs font-extrabold neon-border-lime"
+                    className="flex-1 py-3 px-4 rounded-xl bg-[#39FF14] text-slate-950 text-sm font-extrabold neon-border-lime"
                   >
                     {webhookSyncStatus === 'syncing' ? 'Syncing...' : '☁️ Save & Sync Google Sheet'}
                   </button>
@@ -2834,7 +2853,7 @@ ${jackBagLines}
     }
 
     // ============================================================================
-    // VIEW 3: COURSES & BAG FLIGHT LAB (from src/components/CoursesAndBagView.tsx)
+    // VIEW 3: COURSES & BAG FLIGHT LAB
     // ============================================================================
     function CoursesAndBagView({
       courses,
@@ -2871,7 +2890,6 @@ ${jackBagLines}
       const selectedDisc = bag.find((d) => d.id === selectedDiscId) || visibleBag[0] || bag[0];
       const flightSvg = selectedDisc ? computeFlightPathSvg(selectedDisc, simWind, simRelease) : null;
       const activeCourse = courses.find((c) => c.key === selectedCourseKey) || courses[0];
-      const playerIds = roster.map((r) => r.id);
 
       const speedTiers = [
         { tier: 'SPD 7-11', label: 'SPD 7–11', sub: 'Fairway & Distance' },
@@ -2890,7 +2908,7 @@ ${jackBagLines}
           {/* Bag Owner Switcher Header */}
           <div className="neon-card rounded-2xl border border-slate-800 p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div>
-              <div className="text-[11px] font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
+              <div className="text-xs sm:text-sm font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
                 Jeffery Bray: 9-Disc Innova Adventure Pack · Jack: 3-Disc Discraft Lineup
               </div>
               <h2 className="text-xl sm:text-2xl font-extrabold text-white">Bag Data & 3×3 Flight Matrix</h2>
@@ -2898,7 +2916,7 @@ ${jackBagLines}
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => { setBagOwnerFilter('jeffery'); if (jefferyDiscs[0]) setSelectedDiscId(jefferyDiscs[0].id); }}
-                className={`px-3.5 py-2 rounded-xl text-xs font-extrabold ${
+                className={`px-4 py-2 rounded-xl text-sm font-extrabold ${
                   bagOwnerFilter === 'jeffery' ? 'keep-white bg-[#FF2E93] text-white' : 'sub-control text-slate-300'
                 }`}
               >
@@ -2906,7 +2924,7 @@ ${jackBagLines}
               </button>
               <button
                 onClick={() => { setBagOwnerFilter('jack'); if (jackDiscs[0]) setSelectedDiscId(jackDiscs[0].id); }}
-                className={`px-3.5 py-2 rounded-xl text-xs font-extrabold ${
+                className={`px-4 py-2 rounded-xl text-sm font-extrabold ${
                   bagOwnerFilter === 'jack' ? 'bg-[#00F0FF] text-slate-950' : 'sub-control text-slate-300'
                 }`}
               >
@@ -2914,7 +2932,7 @@ ${jackBagLines}
               </button>
               <button
                 onClick={() => setBagOwnerFilter('all')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-extrabold ${
+                className={`px-4 py-2 rounded-xl text-sm font-extrabold ${
                   bagOwnerFilter === 'all' ? 'bg-[#39FF14] text-slate-950' : 'sub-control text-slate-300'
                 }`}
               >
@@ -2924,14 +2942,14 @@ ${jackBagLines}
           </div>
 
           {/* Adventure Pack Gear Loadout Strip */}
-          <div className="neon-card rounded-2xl border border-slate-800 p-4 flex flex-wrap items-center justify-between gap-2">
-            <span className="text-xs font-extrabold text-white">🎒 Pink/Blue Adventure Pack Loadout Checklist:</span>
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3">
+            <span className="text-sm font-extrabold text-white">🎒 Pink/Blue Adventure Pack Loadout Checklist:</span>
             <div className="flex flex-wrap gap-2">
               {packGear.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => setPackGear((prev) => prev.map((g) => (g.id === item.id ? { ...g, packed: !g.packed } : g)))}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold border ${
+                  className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold border ${
                     item.packed ? 'sub-control text-white border-[#00F0FF]' : 'sub-tile text-slate-400 border-slate-700'
                   }`}
                 >
@@ -2946,25 +2964,25 @@ ${jackBagLines}
             {/* LEFT 7 COLS: 3x3 Slot Coverage Matrix */}
             <div className="lg:col-span-7 neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-4">
               <div>
-                <h3 className="font-extrabold text-base text-white">
+                <h3 className="font-extrabold text-lg text-white">
                   {bagOwnerFilter === 'jeffery'
                     ? "Jeffery's 3×3 Innova Slot Coverage Matrix"
                     : bagOwnerFilter === 'jack'
                     ? "Jack's Discraft Slot Coverage Matrix"
                     : 'Combined Card 3×3 Slot Coverage Matrix'}
                 </h3>
-                <p className="text-xs text-slate-400">Tap any disc card below to simulate its RHBH flight curve →</p>
+                <p className="text-xs sm:text-sm text-slate-400">Tap any disc card below to simulate its RHBH flight curve →</p>
               </div>
 
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-slate-800">
-                      <th className="p-2 text-xs font-extrabold text-slate-400 w-24">Speed Tier</th>
+                      <th className="p-2.5 text-xs sm:text-sm font-extrabold text-slate-400 w-28">Speed Tier</th>
                       {stabilityColumns.map((col) => (
-                        <th key={col.slot} className="p-2">
-                          <div className="text-xs font-extrabold text-white">{col.title}</div>
-                          <div className="text-[10px] text-slate-400">{col.sub}</div>
+                        <th key={col.slot} className="p-2.5">
+                          <div className="text-xs sm:text-sm font-extrabold text-white">{col.title}</div>
+                          <div className="text-xs text-slate-400">{col.sub}</div>
                         </th>
                       ))}
                     </tr>
@@ -2972,35 +2990,35 @@ ${jackBagLines}
                   <tbody className="divide-y divide-slate-800">
                     {speedTiers.map((row) => (
                       <tr key={row.tier}>
-                        <td className="p-2 align-top">
-                          <div className="text-xs font-extrabold text-white">{row.label}</div>
-                          <div className="text-[10px] text-slate-400">{row.sub}</div>
+                        <td className="p-2.5 align-top">
+                          <div className="text-sm font-extrabold text-white">{row.label}</div>
+                          <div className="text-xs text-slate-400">{row.sub}</div>
                         </td>
                         {stabilityColumns.map((col) => {
                           const cellDiscs = visibleBag.filter((d) => d.speedTier === row.tier && d.stabilitySlot === col.slot);
                           return (
-                            <td key={col.slot} className="p-2 align-top space-y-2">
+                            <td key={col.slot} className="p-2.5 align-top space-y-2">
                               {cellDiscs.map((d) => {
                                 const isSelected = selectedDisc?.id === d.id;
                                 return (
                                   <button
                                     key={d.id}
                                     onClick={() => setSelectedDiscId(d.id)}
-                                    className={`w-full text-left p-2.5 rounded-xl border-2 transition-all ${
+                                    className={`w-full text-left p-3 rounded-xl border-2 transition-all ${
                                       isSelected
                                         ? 'matrix-selected keep-white bg-[#131930] text-white border-[#FF2E93]'
                                         : 'sub-control text-white border-slate-700 hover:border-[#00F0FF]'
                                     }`}
                                   >
-                                    <div className="flex items-center justify-between">
-                                      <span className={`font-extrabold text-xs sm:text-sm ${isSelected ? 'keep-white text-white' : ''}`}>
+                                    <div className="flex items-center justify-between gap-1">
+                                      <span className={`font-extrabold text-sm sm:text-base ${isSelected ? 'keep-white text-white' : ''}`}>
                                         {d.name}
                                       </span>
-                                      <span className={`font-mono-tabular text-[10px] font-bold ${isSelected ? 'keep-white text-white/90' : 'text-slate-400'}`}>
+                                      <span className={`font-mono-tabular text-xs font-bold ${isSelected ? 'keep-white text-white/90' : 'text-slate-400'}`}>
                                         {d.speed}|{d.glide}|{d.turn}|{d.fade}
                                       </span>
                                     </div>
-                                    <div className={`text-[10px] truncate mt-0.5 ${isSelected ? 'keep-white text-white/80' : 'text-slate-400'}`}>
+                                    <div className={`text-xs truncate mt-0.5 font-semibold ${isSelected ? 'keep-white text-white/80' : 'text-slate-400'}`}>
                                       {d.weightGrams ? `${d.weightGrams}g ` : ''}{d.plastic}
                                     </div>
                                   </button>
@@ -3020,20 +3038,20 @@ ${jackBagLines}
             {selectedDisc && flightSvg && (
               <div className="lg:col-span-5 neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-4">
                 <div>
-                  <span className="text-[10px] font-extrabold uppercase accent-pink text-[#FF2E93]">
+                  <span className="text-xs font-extrabold uppercase accent-pink text-[#FF2E93]">
                     {selectedDisc.ownerId === 'jack' ? "Jack's Bag" : "Jeffery's Bag"} · {selectedDisc.brand} · {selectedDisc.slotCategory}
                   </span>
-                  <h3 className="text-lg font-extrabold text-white">
+                  <h3 className="text-xl font-extrabold text-white mt-0.5">
                     {selectedDisc.brand} {selectedDisc.name} — [{selectedDisc.speed} | {selectedDisc.glide} | {selectedDisc.turn} | {selectedDisc.fade}]
                   </h3>
-                  <p className="text-xs font-bold text-slate-400">
+                  <p className="text-xs sm:text-sm font-bold text-slate-400 mt-0.5">
                     {selectedDisc.plastic} {selectedDisc.weightGrams ? `· ${selectedDisc.weightGrams}g` : ''} · {selectedDisc.colorStamp}
                   </p>
                 </div>
 
                 {/* Wind & Release Angle Simulator Controls */}
-                <div className="sub-tile p-3 rounded-xl border border-slate-800 space-y-2">
-                  <div className="flex items-center justify-between text-xs font-bold text-white">
+                <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-2.5">
+                  <div className="flex items-center justify-between text-xs sm:text-sm font-extrabold text-white">
                     <span>RHBH Flight Simulator</span>
                     <span className="accent-cyan text-[#00F0FF]">
                       Range: {selectedDisc.idealMinFeet}–{selectedDisc.idealMaxFeet} ft (Est. {flightSvg.estimatedFeet} ft)
@@ -3044,7 +3062,7 @@ ${jackBagLines}
                       <button
                         key={w}
                         onClick={() => setSimWind(w)}
-                        className={`py-1.5 rounded-lg text-xs font-bold capitalize ${
+                        className={`py-2 rounded-lg text-xs sm:text-sm font-extrabold capitalize ${
                           simWind === w ? 'bg-[#00F0FF] text-slate-950' : 'sub-control text-slate-400'
                         }`}
                       >
@@ -3057,7 +3075,7 @@ ${jackBagLines}
                       <button
                         key={rel}
                         onClick={() => setSimRelease(rel)}
-                        className={`py-1.5 rounded-lg text-xs font-bold capitalize ${
+                        className={`py-2 rounded-lg text-xs sm:text-sm font-extrabold capitalize ${
                           simRelease === rel ? 'keep-white bg-[#FF2E93] text-white' : 'sub-control text-slate-400'
                         }`}
                       >
@@ -3078,25 +3096,25 @@ ${jackBagLines}
                     ].map((grid) => (
                       <g key={grid.ft}>
                         <line x1="20" y1={grid.y} x2="240" y2={grid.y} stroke="#1E293B" strokeDasharray="4 4" />
-                        <text x="24" y={grid.y - 4} fill="#64748B" fontSize="9" fontWeight="bold">{grid.ft} ft</text>
+                        <text x="24" y={grid.y - 4} fill="#94A3B8" fontSize="10" fontWeight="bold">{grid.ft} ft</text>
                       </g>
                     ))}
                     <line x1="130" y1="20" x2="130" y2="300" stroke="#334155" strokeDasharray="3 3" />
                     <path d={flightSvg.pathD} fill="none" stroke={selectedDisc.colorHex || '#00F0FF'} strokeWidth="4" strokeLinecap="round" />
                     <circle cx={flightSvg.endX} cy={flightSvg.endY} r="6" fill={selectedDisc.colorHex || '#00F0FF'} />
                     <rect x="110" y="292" width="40" height="8" rx="4" fill="#94A3B8" />
-                    <text x="130" y="313" textAnchor="middle" fill="#94A3B8" fontSize="9" fontWeight="bold">TEE PAD (RHBH)</text>
+                    <text x="130" y="313" textAnchor="middle" fill="#CBD5E1" fontSize="10" fontWeight="bold">TEE PAD (RHBH)</text>
                   </svg>
                 </div>
 
-                <div className="space-y-2 text-xs">
-                  <div className="sub-tile p-3 rounded-xl border border-slate-800">
-                    <strong className="block font-extrabold text-white mb-0.5">Mold & Flight Profile:</strong>
-                    <span className="text-slate-300">{selectedDisc.moldAndFlight}</span>
+                <div className="space-y-2.5 text-xs sm:text-sm">
+                  <div className="sub-tile p-3.5 rounded-xl border border-slate-800">
+                    <strong className="block font-extrabold text-white mb-1">Mold & Flight Profile:</strong>
+                    <span className="text-slate-300 leading-relaxed">{selectedDisc.moldAndFlight}</span>
                   </div>
-                  <div className="sub-tile p-3 rounded-xl border border-slate-800">
-                    <strong className="block font-extrabold text-white mb-0.5">Course Strategy:</strong>
-                    <span className="text-slate-300">{selectedDisc.courseStrategy}</span>
+                  <div className="sub-tile p-3.5 rounded-xl border border-slate-800">
+                    <strong className="block font-extrabold text-white mb-1">Course Strategy:</strong>
+                    <span className="text-slate-300 leading-relaxed">{selectedDisc.courseStrategy}</span>
                   </div>
                 </div>
               </div>
@@ -3107,16 +3125,16 @@ ${jackBagLines}
           <div className="neon-card rounded-2xl border border-slate-800 p-5 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h3 className="text-lg font-extrabold text-white">
+                <h3 className="text-lg sm:text-xl font-extrabold text-white">
                   Course Gameplan & Hole-by-Hole Disc Pulls ({activeCourse.name})
                 </h3>
-                <p className="text-xs text-slate-400">See which mold Jeffery and Jack should pull on every hole</p>
+                <p className="text-xs sm:text-sm text-slate-400">See which mold Jeffery and Jack should pull on every hole</p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <select
                   value={selectedCourseKey}
                   onChange={(e) => setSelectedCourseKey(e.target.value)}
-                  className="sub-control h-9 px-3 rounded-xl border border-slate-700 text-xs font-bold text-white"
+                  className="sub-control h-10 px-3.5 rounded-xl border border-slate-700 text-xs sm:text-sm font-extrabold text-white"
                 >
                   {courses.map((c) => (
                     <option key={c.key} value={c.key}>{c.name} ({c.totalHoles}H)</option>
@@ -3126,7 +3144,7 @@ ${jackBagLines}
                   <button
                     key={w}
                     onClick={() => setCourseWindPreview(w)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-bold capitalize ${
+                    className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold capitalize ${
                       courseWindPreview === w ? 'keep-white bg-[#FF2E93] text-white' : 'sub-control text-slate-400'
                     }`}
                   >
@@ -3135,7 +3153,7 @@ ${jackBagLines}
                 ))}
                 <button
                   onClick={() => onStartRoundAtCourse(activeCourse.key)}
-                  className="px-4 py-1.5 rounded-xl bg-[#39FF14] text-slate-950 text-xs font-extrabold"
+                  className="px-4 py-2 rounded-xl bg-[#39FF14] text-slate-950 text-xs sm:text-sm font-extrabold"
                 >
                   Tee Off Here →
                 </button>
@@ -3143,14 +3161,14 @@ ${jackBagLines}
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+              <table className="w-full text-left text-sm">
                 <thead className="border-b border-slate-800 text-slate-400">
                   <tr>
-                    <th className="py-2">Hole</th>
-                    <th className="py-2">Par</th>
-                    <th className="py-2">Distance</th>
-                    <th className="py-2">Jeffery's Innova Pull ({courseWindPreview})</th>
-                    <th className="py-2">Jack's Discraft Pull</th>
+                    <th className="py-2.5">Hole</th>
+                    <th className="py-2.5">Par</th>
+                    <th className="py-2.5">Distance</th>
+                    <th className="py-2.5">Jeffery's Innova Pull ({courseWindPreview})</th>
+                    <th className="py-2.5">Jack's Discraft Pull</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800 font-bold text-white">
@@ -3159,13 +3177,13 @@ ${jackBagLines}
                     const jackRec = recommendJackDisc(h.distance, bag);
                     return (
                       <tr key={h.number}>
-                        <td className="py-2">Hole #{h.number}</td>
-                        <td className="py-2">Par {h.par}</td>
-                        <td className="py-2 font-mono-tabular">{h.distance} ft</td>
-                        <td className="py-2 accent-pink text-[#FF2E93]">
+                        <td className="py-2.5">Hole #{h.number}</td>
+                        <td className="py-2.5">Par {h.par}</td>
+                        <td className="py-2.5 font-mono-tabular">{h.distance} ft</td>
+                        <td className="py-2.5 accent-pink text-[#FF2E93]">
                           {jeffRec.primary ? `${jeffRec.primary.weightGrams || ''}g ${jeffRec.primary.name}` : '—'}
                         </td>
-                        <td className="py-2 accent-cyan text-[#00F0FF]">
+                        <td className="py-2.5 accent-cyan text-[#00F0FF]">
                           {jackRec ? `${jackRec.weightGrams || ''}g ${jackRec.name}` : '—'}
                         </td>
                       </tr>
@@ -3180,7 +3198,7 @@ ${jackBagLines}
     }
 
     // ============================================================================
-    // VIEW 4: RIVALRY & ANALYTICS (from src/components/RivalryAnalyticsView.tsx)
+    // VIEW 4: RIVALRY & ANALYTICS
     // ============================================================================
     function RivalryAnalyticsView({ history, roster }) {
       const [courseFilter, setCourseFilter] = useState('ALL');
@@ -3198,15 +3216,15 @@ ${jackBagLines}
         <div className="space-y-6">
           <div className="neon-card rounded-2xl border border-slate-800 p-5 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <h2 className="text-xl font-extrabold text-white">{p1.name} vs. {p2.name} — Rivalry & Telemetry</h2>
-              <p className="text-xs text-slate-400">
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white">{p1.name} vs. {p2.name} — Rivalry & Telemetry</h2>
+              <p className="text-xs sm:text-sm text-slate-400">
                 Hole-by-hole performance breakdown across {filteredHistory.length} logged rounds ({p1Profile.holesPlayed} holes analyzed)
               </p>
             </div>
             <select
               value={courseFilter}
               onChange={(e) => setCourseFilter(e.target.value)}
-              className="sub-control h-10 px-3 rounded-xl border border-slate-700 text-xs font-bold text-white"
+              className="sub-control h-11 px-3.5 rounded-xl border border-slate-700 text-sm font-extrabold text-white"
             >
               <option value="ALL">All Courses ({history.length} Rounds)</option>
               {uniqueCourseNames.map((cName) => (
@@ -3217,46 +3235,46 @@ ${jackBagLines}
 
           {/* 4-Column Top KPI Strip */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="neon-card rounded-2xl border border-slate-800 p-4">
-              <span className="text-[11px] font-bold uppercase text-slate-400">Head-to-Head Match Record</span>
-              <div className="text-2xl font-extrabold text-white mt-1">
+            <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5">
+              <span className="text-xs font-extrabold uppercase text-slate-400">Head-to-Head Match Record</span>
+              <div className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
                 {h2h.p1Wins} – {h2h.p2Wins}{h2h.ties > 0 ? ` – ${h2h.ties}` : ''}
               </div>
-              <span className="text-[11px] text-slate-400">{p1.name} {h2h.p1Wins}W · {p2.name} {h2h.p2Wins}W</span>
+              <span className="text-xs sm:text-sm text-slate-400 font-semibold">{p1.name} {h2h.p1Wins}W · {p2.name} {h2h.p2Wins}W</span>
             </div>
-            <div className="neon-card rounded-2xl border border-slate-800 p-4">
-              <span className="text-[11px] font-bold uppercase text-slate-400">Individual Hole Skins Won</span>
-              <div className="text-2xl font-extrabold text-white mt-1">{h2h.p1Skins} vs {h2h.p2Skins}</div>
-              <span className="text-[11px] text-slate-400">{h2h.pushedHoles} Holes Pushed</span>
+            <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5">
+              <span className="text-xs font-extrabold uppercase text-slate-400">Individual Hole Skins Won</span>
+              <div className="text-2xl sm:text-3xl font-extrabold text-white mt-1">{h2h.p1Skins} vs {h2h.p2Skins}</div>
+              <span className="text-xs sm:text-sm text-slate-400 font-semibold">{h2h.pushedHoles} Holes Pushed</span>
             </div>
-            <div className="neon-card rounded-2xl border border-slate-800 p-4">
-              <span className="text-[11px] font-bold uppercase text-slate-400">9-Hole Avg Relative to Par</span>
-              <div className="text-2xl font-extrabold text-white mt-1">
+            <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5">
+              <span className="text-xs font-extrabold uppercase text-slate-400">9-Hole Avg Relative to Par</span>
+              <div className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
                 {p1.tag}: {formatRelativePar(p1Profile.avgRelParPer9)} / {p2.tag}: {formatRelativePar(p2Profile.avgRelParPer9)}
               </div>
-              <span className="text-[11px] text-slate-400">Normalized per 9 holes</span>
+              <span className="text-xs sm:text-sm text-slate-400 font-semibold">Normalized per 9 holes</span>
             </div>
-            <div className="neon-card rounded-2xl border border-slate-800 p-4">
-              <span className="text-[11px] font-bold uppercase text-slate-400">Total Birdies Carded</span>
-              <div className="text-2xl font-extrabold text-white mt-1">
+            <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5">
+              <span className="text-xs font-extrabold uppercase text-slate-400">Total Birdies Carded</span>
+              <div className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
                 {p1.name}: {p1Profile.birdies} · {p2.name}: {p2Profile.birdies}
               </div>
-              <span className="text-[11px] text-slate-400">Lifetime Birdie Count</span>
+              <span className="text-xs sm:text-sm text-slate-400 font-semibold">Lifetime Birdie Count</span>
             </div>
           </div>
 
           {/* Course Records Matrix */}
           <div className="neon-card rounded-2xl border border-slate-800 p-5 space-y-3">
-            <h3 className="text-base font-extrabold text-white">Course Records & Personal Bests Matrix</h3>
+            <h3 className="text-lg font-extrabold text-white">Course Records & Personal Bests Matrix</h3>
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+              <table className="w-full text-left text-sm">
                 <thead className="border-b border-slate-800 text-slate-400">
                   <tr>
-                    <th className="py-2">Course Name</th>
-                    <th className="py-2">{p1.name} PB</th>
-                    <th className="py-2">{p1.name} Avg</th>
-                    <th className="py-2">{p2.name} PB</th>
-                    <th className="py-2">{p2.name} Avg</th>
+                    <th className="py-2.5">Course Name</th>
+                    <th className="py-2.5">{p1.name} PB</th>
+                    <th className="py-2.5">{p1.name} Avg</th>
+                    <th className="py-2.5">{p2.name} PB</th>
+                    <th className="py-2.5">{p2.name} Avg</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800 font-bold text-white">
@@ -3265,15 +3283,15 @@ ${jackBagLines}
                     const p2Stat = getCoursePersonalBest(courseName, p2.id, history);
                     return (
                       <tr key={courseName}>
-                        <td className="py-2.5">{courseName}</td>
-                        <td className="py-2.5 accent-pink text-[#FF2E93]">
+                        <td className="py-3 font-extrabold">{courseName}</td>
+                        <td className="py-3 accent-pink text-[#FF2E93]">
                           {p1Stat.bestTotal !== null ? `${p1Stat.bestTotal} (${formatRelativePar(p1Stat.bestRelPar || 0)})` : '—'}
                         </td>
-                        <td className="py-2.5">{p1Stat.avgTotal ?? '—'}</td>
-                        <td className="py-2.5 accent-cyan text-[#00F0FF]">
+                        <td className="py-3">{p1Stat.avgTotal ?? '—'}</td>
+                        <td className="py-3 accent-cyan text-[#00F0FF]">
                           {p2Stat.bestTotal !== null ? `${p2Stat.bestTotal} (${formatRelativePar(p2Stat.bestRelPar || 0)})` : '—'}
                         </td>
-                        <td className="py-2.5">{p2Stat.avgTotal ?? '—'}</td>
+                        <td className="py-3">{p2Stat.avgTotal ?? '—'}</td>
                       </tr>
                     );
                   })}
@@ -3286,7 +3304,7 @@ ${jackBagLines}
     }
 
     // ============================================================================
-    // VIEW 5: COMPLETED ROUND HISTORY (from src/components/RoundHistoryView.tsx)
+    // VIEW 5: COMPLETED ROUND HISTORY
     // ============================================================================
     function RoundHistoryView({ history, bag, onDeleteRound, onReplayCourse, onSyncSingleRoundToWebhook }) {
       const [expandedRoundId, setExpandedRoundId] = useState(history[0]?.id ?? null);
@@ -3319,8 +3337,8 @@ ${jackBagLines}
       return (
         <div className="space-y-4">
           <div className="neon-card rounded-2xl border border-slate-800 p-5">
-            <h2 className="text-xl font-extrabold text-white">Completed Round Archive ({history.length})</h2>
-            <p className="text-xs text-slate-400">Tap any round below to expand full hole-by-hole scorecards & NotebookLM exports</p>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-white">Completed Round Archive ({history.length})</h2>
+            <p className="text-sm text-slate-400 mt-0.5">Tap any round below to expand full hole-by-hole scorecards & NotebookLM exports</p>
           </div>
 
           {history.map((round) => {
@@ -3333,57 +3351,57 @@ ${jackBagLines}
                   className="p-4 sm:p-5 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                 >
                   <div>
-                    <h3 className="font-extrabold text-base text-white">
+                    <h3 className="font-extrabold text-lg sm:text-xl text-white">
                       {round.courseName} · {round.totalHoles}H (Par {round.par})
                     </h3>
-                    <div className="text-xs text-slate-400">
+                    <div className="text-xs sm:text-sm font-semibold text-slate-400 mt-0.5">
                       {round.date} · ⏱ {round.duration} · {totalDistance.toLocaleString()} ft
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-5">
                     {round.players.map((pl) => {
                       const rel = pl.total - round.par;
                       return (
-                        <div key={pl.id} className="text-xs sm:text-sm font-extrabold text-white">
+                        <div key={pl.id} className="text-sm sm:text-base font-extrabold text-white">
                           {pl.name}: <span className="accent-cyan text-[#00F0FF]">{pl.total} ({formatRelativePar(rel)})</span>
                         </div>
                       );
                     })}
-                    <span className="text-xs font-bold text-slate-400">{isExpanded ? '▲' : '▼'}</span>
+                    <span className="text-sm font-extrabold text-slate-400">{isExpanded ? '▲' : '▼'}</span>
                   </div>
                 </div>
 
                 {isExpanded && (
-                  <div className="p-4 border-t border-slate-800 space-y-4 sub-tile">
+                  <div className="p-4 sm:p-5 border-t border-slate-800 space-y-4 sub-tile">
                     <div className="overflow-x-auto">
-                      <table className="w-full text-center text-xs font-mono-tabular">
+                      <table className="w-full text-center text-sm font-mono-tabular">
                         <thead>
                           <tr className="border-b border-slate-800 text-slate-400">
-                            <th className="py-1.5 text-left">Metric</th>
-                            {round.holes.map((h) => <th key={h.number} className="py-1.5">#{h.number}</th>)}
-                            <th className="py-1.5">Total</th>
+                            <th className="py-2 text-left">Metric</th>
+                            {round.holes.map((h) => <th key={h.number} className="py-2">#{h.number}</th>)}
+                            <th className="py-2">Total</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-800 text-white font-bold">
                           <tr>
-                            <td className="py-1.5 text-left text-slate-400">Dist</td>
-                            {round.holes.map((h) => <td key={h.number} className="py-1.5 text-slate-400">{h.distance}</td>)}
-                            <td className="py-1.5">{totalDistance}ft</td>
+                            <td className="py-2 text-left text-slate-400">Dist</td>
+                            {round.holes.map((h) => <td key={h.number} className="py-2 text-slate-400">{h.distance}</td>)}
+                            <td className="py-2 font-extrabold">{totalDistance}ft</td>
                           </tr>
                           <tr>
-                            <td className="py-1.5 text-left text-slate-400">Par</td>
-                            {round.holes.map((h) => <td key={h.number} className="py-1.5 text-slate-400">{h.par}</td>)}
-                            <td className="py-1.5">{round.par}</td>
+                            <td className="py-2 text-left text-slate-400">Par</td>
+                            {round.holes.map((h) => <td key={h.number} className="py-2 text-slate-400">{h.par}</td>)}
+                            <td className="py-2 font-extrabold">{round.par}</td>
                           </tr>
                           {round.players.map((pl) => (
                             <tr key={pl.id}>
-                              <td className="py-1.5 text-left font-extrabold">{pl.name}</td>
+                              <td className="py-2.5 text-left font-extrabold text-base">{pl.name}</td>
                               {round.holes.map((h) => (
-                                <td key={h.number} className="py-1.5 font-extrabold">
+                                <td key={h.number} className="py-2.5 font-extrabold text-base">
                                   {(h.scores && h.scores[pl.id]) || '—'}
                                 </td>
                               ))}
-                              <td className="py-1.5 font-extrabold accent-cyan text-[#00F0FF]">
+                              <td className="py-2.5 font-extrabold text-base accent-cyan text-[#00F0FF]">
                                 {pl.total} ({formatRelativePar(pl.total - round.par)})
                               </td>
                             </tr>
@@ -3392,28 +3410,28 @@ ${jackBagLines}
                       </table>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2.5 pt-1">
                       <button
                         onClick={() => onReplayCourse(round)}
-                        className="px-3.5 py-2 rounded-xl bg-[#39FF14] text-slate-950 text-xs font-extrabold"
+                        className="px-4 py-2.5 rounded-xl bg-[#39FF14] text-slate-950 text-xs sm:text-sm font-extrabold"
                       >
                         ▶ Play This Course Layout
                       </button>
                       <button
                         onClick={() => handleCopyRoundDossier(round)}
-                        className="px-3.5 py-2 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold"
+                        className="px-4 py-2.5 rounded-xl bg-[#00F0FF] text-slate-950 text-xs sm:text-sm font-extrabold"
                       >
                         {copiedRoundDossierId === round.id ? '✓ Copied for Gemini!' : '📓 Copy for Gemini / NotebookLM'}
                       </button>
                       <button
                         onClick={() => handleWebhookPush(round)}
-                        className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 text-xs font-bold text-white"
+                        className="sub-control px-4 py-2.5 rounded-xl border border-slate-700 text-xs sm:text-sm font-extrabold text-white"
                       >
                         {syncingId === round.id ? 'Pushing...' : '☁️ Push to Google Sheet'}
                       </button>
                       <button
                         onClick={() => { if (confirm('Delete this round?')) onDeleteRound(round.id); }}
-                        className="px-3 py-2 rounded-xl text-rose-500 text-xs font-bold"
+                        className="px-3.5 py-2.5 rounded-xl text-rose-500 text-xs sm:text-sm font-extrabold"
                       >
                         🗑 Delete
                       </button>
@@ -3428,7 +3446,7 @@ ${jackBagLines}
     }
 
     // ============================================================================
-    // VIEW 6: SYNC, ROSTER & BACKUP (from src/components/SyncAndRosterView.tsx)
+    // VIEW 6: SYNC, ROSTER & BACKUP
     // ============================================================================
     function SyncAndRosterView({
       roster,
@@ -3443,7 +3461,6 @@ ${jackBagLines}
     }) {
       const [newPlayerName, setNewPlayerName] = useState('');
       const [newPlayerTag, setNewPlayerTag] = useState('');
-      const [importText, setImportText] = useState('');
       const [statusMessage, setStatusMessage] = useState(null);
       const [copiedClipboard, setCopiedClipboard] = useState(false);
 
@@ -3497,7 +3514,7 @@ ${jackBagLines}
       return (
         <div className="space-y-6">
           {statusMessage && (
-            <div className="neon-card p-4 rounded-2xl border-2 border-[#39FF14] text-xs sm:text-sm font-bold text-white flex justify-between">
+            <div className="neon-card p-4 rounded-2xl border-2 border-[#39FF14] text-sm font-bold text-white flex justify-between">
               <span>{statusMessage.text}</span>
               <button onClick={() => setStatusMessage(null)} className="underline">Dismiss</button>
             </div>
@@ -3505,18 +3522,18 @@ ${jackBagLines}
 
           {/* Roster Management */}
           <div className="neon-card rounded-2xl border border-slate-800 p-5 space-y-4">
-            <h2 className="text-lg font-extrabold text-white">Player Roster & Active Card Selection</h2>
+            <h2 className="text-xl font-extrabold text-white">Player Roster & Active Card Selection</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {roster.map((player) => {
                 const isActive = activePlayerIds.includes(player.id);
                 return (
-                  <div key={player.id} className="sub-tile p-3 rounded-xl border border-slate-800 flex items-center justify-between">
-                    <div className="font-extrabold text-sm text-white">
+                  <div key={player.id} className="sub-tile p-3.5 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <div className="font-extrabold text-base text-white">
                       {player.tag} · {player.name}
                     </div>
                     <button
                       onClick={() => onToggleActivePlayer(player.id)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold ${
+                      className={`px-3.5 py-2 rounded-lg text-xs sm:text-sm font-extrabold ${
                         isActive ? 'bg-[#39FF14] text-slate-950' : 'sub-control text-slate-400'
                       }`}
                     >
@@ -3527,22 +3544,22 @@ ${jackBagLines}
               })}
             </div>
 
-            <form onSubmit={handleAddPlayer} className="flex flex-wrap gap-2 pt-2">
+            <form onSubmit={handleAddPlayer} className="flex flex-wrap gap-2.5 pt-2">
               <input
                 type="text"
                 value={newPlayerName}
                 onChange={(e) => setNewPlayerName(e.target.value)}
                 placeholder="New player name (e.g. Zack)"
-                className="sub-control h-10 px-3 rounded-xl border border-slate-700 text-white text-xs font-bold"
+                className="sub-control h-11 px-3.5 rounded-xl border border-slate-700 text-white text-sm font-bold"
               />
               <input
                 type="text"
                 value={newPlayerTag}
                 onChange={(e) => setNewPlayerTag(e.target.value)}
                 placeholder="Tag (Z1)"
-                className="sub-control w-24 h-10 px-3 rounded-xl border border-slate-700 text-white text-xs font-bold uppercase"
+                className="sub-control w-24 h-11 px-3.5 rounded-xl border border-slate-700 text-white text-sm font-bold uppercase"
               />
-              <button type="submit" className="keep-white h-10 px-4 rounded-xl bg-[#FF2E93] text-white text-xs font-extrabold">
+              <button type="submit" className="keep-white h-11 px-5 rounded-xl bg-[#FF2E93] text-white text-sm font-extrabold">
                 + Add Player
               </button>
             </form>
@@ -3550,27 +3567,27 @@ ${jackBagLines}
 
           {/* JSON Backup Export / Import */}
           <div className="neon-card rounded-2xl border border-slate-800 p-5 space-y-4">
-            <h2 className="text-lg font-extrabold text-white">JSON Data Export & Import (Phone ↔ Laptop)</h2>
-            <div className="flex flex-wrap gap-2.5">
+            <h2 className="text-xl font-extrabold text-white">JSON Data Export & Import (Phone ↔ Laptop)</h2>
+            <div className="flex flex-wrap gap-3">
               <button
                 onClick={handleDownloadJson}
-                className="px-4 py-2.5 rounded-xl bg-[#00F0FF] text-slate-950 font-extrabold text-xs"
+                className="px-4 py-2.5 rounded-xl bg-[#00F0FF] text-slate-950 font-extrabold text-sm"
               >
                 ⬇ Download .JSON Backup
               </button>
               <button
                 onClick={handleCopyJson}
-                className="sub-control px-4 py-2.5 rounded-xl border border-slate-700 text-white font-bold text-xs"
+                className="sub-control px-4 py-2.5 rounded-xl border border-slate-700 text-white font-extrabold text-sm"
               >
                 {copiedClipboard ? '✓ Copied JSON!' : '📋 Copy JSON to Clipboard'}
               </button>
-              <label className="px-4 py-2.5 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-xs cursor-pointer">
+              <label className="px-4 py-2.5 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-sm cursor-pointer">
                 ⬆ Upload .JSON File
                 <input type="file" accept=".json" onChange={handleFileUpload} className="hidden" />
               </label>
               <button
                 onClick={onResetToFactoryData}
-                className="sub-control px-4 py-2.5 rounded-xl border border-slate-700 text-slate-400 font-bold text-xs"
+                className="sub-control px-4 py-2.5 rounded-xl border border-slate-700 text-slate-400 font-extrabold text-sm"
               >
                 ↺ Restore Baseline Snapshot
               </button>
@@ -3579,12 +3596,12 @@ ${jackBagLines}
 
           {/* Webhook URL */}
           <div className="neon-card rounded-2xl border border-slate-800 p-5 space-y-2">
-            <h2 className="text-base font-extrabold text-white">Google Sheets / Drive Webhook URL</h2>
+            <h2 className="text-lg font-extrabold text-white">Google Sheets / Drive Webhook URL</h2>
             <input
               type="url"
               value={webhookUrl}
               onChange={(e) => setWebhookUrl(e.target.value)}
-              className="sub-control w-full h-10 px-3 rounded-xl border border-slate-700 font-mono-tabular text-xs text-white"
+              className="sub-control w-full h-11 px-3.5 rounded-xl border border-slate-700 font-mono-tabular text-sm text-white"
             />
           </div>
         </div>
@@ -3592,7 +3609,7 @@ ${jackBagLines}
     }
 
     // ============================================================================
-    // MAIN APP COMPONENT (from src/App.tsx)
+    // MAIN APP COMPONENT
     // ============================================================================
     const STORAGE_KEY = 'jj_disc_golf_v46_hub_state';
     const THEME_STORAGE_KEY = 'jj_disc_golf_bg_theme';
@@ -3691,7 +3708,7 @@ ${jackBagLines}
         try {
           const payload = {
             app: 'Jeffery & Jack Disc Golf Scorecard',
-            version: 'v46',
+            version: 'v47',
             exportDate: new Date().toISOString(),
             history,
             roster,
@@ -3887,7 +3904,7 @@ ${jackBagLines}
 
       const handleExportJsonPayload = () => ({
         app: 'Jeffery & Jack Disc Golf Scorecard',
-        version: 'v46',
+        version: 'v47',
         exportDate: new Date().toISOString(),
         history,
         roster,
@@ -3938,17 +3955,17 @@ ${jackBagLines}
       return (
         <div className={`${themeClass} min-h-screen pb-24 transition-colors duration-200`}>
           {/* Top Bar */}
-          <header className="bg-[#080B14]/95 border-b border-slate-800 px-4 py-3 sticky top-0 z-40 backdrop-blur-md">
+          <header className="bg-[#080B14]/95 border-b border-slate-800 px-4 py-3.5 sticky top-0 z-40 backdrop-blur-md">
             <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
               <a
                 href="#home"
                 onClick={(e) => { e.preventDefault(); setActiveTab('home'); }}
-                className="font-display text-base sm:text-xl font-extrabold tracking-normal whitespace-nowrap shrink-0 text-white"
+                className="font-display text-lg sm:text-xl font-extrabold tracking-normal whitespace-nowrap shrink-0 text-white"
               >
                 Jeffery & <span className="text-[#FF2E93]">Jack</span> Disc Golf
               </a>
 
-              <nav className="hidden md:flex items-center gap-6 text-xs sm:text-sm font-bold text-slate-300">
+              <nav className="hidden md:flex items-center gap-7 text-sm font-extrabold text-slate-300">
                 <button
                   onClick={() => setActiveTab('home')}
                   className={`py-1 border-b-2 ${activeTab === 'home' ? 'border-[#39FF14] text-[#39FF14]' : 'border-transparent hover:text-white'}`}
@@ -3977,7 +3994,7 @@ ${jackBagLines}
 
               <button
                 onClick={() => setActiveTab('sync')}
-                className={`px-3.5 py-1.5 text-xs font-extrabold rounded-xl ${
+                className={`px-4 py-2 text-xs sm:text-sm font-extrabold rounded-xl ${
                   activeTab === 'sync' ? 'bg-[#39FF14] text-slate-950' : 'bg-[#FF2E93] text-white'
                 }`}
               >
@@ -3987,29 +4004,34 @@ ${jackBagLines}
           </header>
 
           {/* Main Content Container */}
-          <main className="max-w-7xl mx-auto px-3.5 sm:px-6 py-4 space-y-5">
-            {/* Theme & Backdrop Switcher Bar */}
-            <div className="bg-[#080B14]/90 border border-slate-800 rounded-2xl p-2.5 flex flex-wrap items-center justify-between gap-2">
-              <span className="text-[11px] font-bold text-slate-300 pl-2">
-                🎨 Theme & Backdrop:
+          <main className="max-w-7xl mx-auto px-3.5 sm:px-6 py-5 space-y-5">
+            {/* High-Contrast Theme & Backdrop Switcher Card */}
+            <div className="neon-card border border-slate-800 rounded-2xl p-3.5 sm:px-5 flex flex-wrap items-center justify-between gap-3">
+              <span className="text-sm font-extrabold text-white flex items-center gap-2">
+                <span>🎨 Theme & Backdrop:</span>
               </span>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {[
                   { id: 'white', label: 'Indigo + White Tiles' },
                   { id: 'adventure', label: 'Pink/Blue + White Tiles' },
                   { id: 'turf', label: 'Fairway + White Tiles' },
                   { id: 'midnight', label: 'Midnight Dark Tiles' }
-                ].map((mode) => (
-                  <button
-                    key={mode.id}
-                    onClick={() => setBgTheme(mode.id)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                      bgTheme === mode.id ? 'keep-white bg-[#FF2E93] text-white' : 'text-slate-300 hover:text-white'
-                    }`}
-                  >
-                    {mode.label}
-                  </button>
-                ))}
+                ].map((mode) => {
+                  const isActive = bgTheme === mode.id;
+                  return (
+                    <button
+                      key={mode.id}
+                      onClick={() => setBgTheme(mode.id)}
+                      className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold border-2 transition-all ${
+                        isActive
+                          ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93] shadow-sm'
+                          : 'sub-control text-white border-slate-700 hover:border-[#00F0FF]'
+                      }`}
+                    >
+                      {mode.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -4073,7 +4095,7 @@ ${jackBagLines}
                 <div className="flex justify-end">
                   <button
                     onClick={() => setActiveTab('history')}
-                    className="sub-control px-4 py-2 rounded-xl border border-slate-700 text-xs font-extrabold text-white"
+                    className="sub-control px-4 py-2.5 rounded-xl border border-slate-700 text-xs sm:text-sm font-extrabold text-white"
                   >
                     Switch to Completed Round Scorecards →
                   </button>
@@ -4087,7 +4109,7 @@ ${jackBagLines}
                 <div className="flex justify-end">
                   <button
                     onClick={() => setActiveTab('rivalry')}
-                    className="px-4 py-2 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold"
+                    className="px-4 py-2.5 rounded-xl bg-[#00F0FF] text-slate-950 text-xs sm:text-sm font-extrabold"
                   >
                     View Course Records & Jeffery vs. Jack Rivalry Stats →
                   </button>
@@ -4132,11 +4154,11 @@ ${jackBagLines}
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`min-h-[54px] flex flex-col items-center justify-center text-[11px] transition-colors ${
-                    isActive ? `${item.color} font-extrabold` : 'text-slate-400'
+                  className={`min-h-[56px] flex flex-col items-center justify-center text-xs transition-colors ${
+                    isActive ? `${item.color} font-extrabold` : 'text-slate-300'
                   }`}
                 >
-                  <span className="text-base leading-none mb-0.5">{item.icon}</span>
+                  <span className="text-lg leading-none mb-0.5">{item.icon}</span>
                   <span>{item.label}</span>
                 </button>
               );
