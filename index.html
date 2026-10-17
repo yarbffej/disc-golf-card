@@ -28,7 +28,7 @@
     .custom-scroll::-webkit-scrollbar { display: none; }
     .custom-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* THEME: BLUE */
+    /* THEME: BLUE (DEFAULT - ROYAL BLUE BACKGROUND + WHITE CARDS) */
     body.theme-blue {
       background-color: #1e3a8a;
       color: #0f172a;
@@ -55,8 +55,25 @@
       border-color: #bfdbfe;
     }
     body.theme-blue .counter-number { color: #1e3a8a; }
+    body.theme-blue .caddy-shell {
+      background-color: #1e3a8a;
+      border-color: #3b82f6;
+    }
+    body.theme-blue .tip-good {
+      background-color: #ecfdf5;
+      border-color: #a7f3d0;
+      color: #064e3b;
+    }
+    body.theme-blue .tip-good-title { color: #047857; }
+    body.theme-blue .tip-avoid {
+      background-color: #fff1f2;
+      border-color: #fecdd3;
+      color: #881337;
+    }
+    body.theme-blue .tip-avoid-title { color: #be123c; }
+    body.theme-blue .spec-badge { color: #1d4ed8; }
 
-    /* THEME: WHITE */
+    /* THEME: WHITE (LIGHT BACKGROUND + ROYAL BLUE CARDS) */
     body.theme-white {
       background-color: #f8fafc;
       color: #0f172a;
@@ -83,59 +100,23 @@
       border-color: #3b82f6;
     }
     body.theme-white .counter-number { color: #ffffff; }
-
-    /* CADDY MODAL THEME OVERRIDES */
-    body.theme-white #modalCaddy .caddy-modal-window {
-      background-color: #f8fafc !important;
-      color: #0f172a !important;
-      border-color: #cbd5e1 !important;
+    body.theme-white .caddy-shell {
+      background-color: #f1f5f9;
+      border-color: #cbd5e1;
     }
-    body.theme-white #modalCaddy .caddy-header {
-      background-color: #ffffff !important;
-      border-color: #e2e8f0 !important;
-      color: #0f172a !important;
+    body.theme-white .tip-good {
+      background-color: rgba(6, 78, 59, 0.55);
+      border-color: rgba(52, 211, 153, 0.4);
+      color: #ecfdf5;
     }
-    body.theme-white #modalCaddy .bg-slate-900 {
-      background-color: #ffffff !important;
-      border-color: #cbd5e1 !important;
-      color: #0f172a !important;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    body.theme-white .tip-good-title { color: #6ee7b7; }
+    body.theme-white .tip-avoid {
+      background-color: rgba(136, 19, 55, 0.55);
+      border-color: rgba(251, 113, 133, 0.4);
+      color: #ffe4e6;
     }
-    body.theme-white #modalCaddy .bg-slate-950 {
-      background-color: #f1f5f9 !important;
-      border-color: #e2e8f0 !important;
-      color: #0f172a !important;
-    }
-    body.theme-white #modalCaddy h3,
-    body.theme-white #modalCaddy h4,
-    body.theme-white #modalCaddy .text-white:not(button):not(.text-white-keep) {
-      color: #0f172a !important;
-    }
-    body.theme-white #modalCaddy .text-slate-300 {
-      color: #334155 !important;
-    }
-    body.theme-white #modalCaddy .text-slate-400 {
-      color: #64748b !important;
-    }
-    body.theme-white #modalCaddy .border-slate-800,
-    body.theme-white #modalCaddy .border-slate-700 {
-      border-color: #cbd5e1 !important;
-    }
-    body.theme-white #modalCaddy .bg-slate-800:not(.bg-blue-600):not(.bg-emerald-600) {
-      background-color: #e2e8f0 !important;
-      color: #1e293b !important;
-      border-color: #cbd5e1 !important;
-    }
-    body.theme-white #modalCaddy button.bg-blue-600,
-    body.theme-white #modalCaddy button.bg-emerald-600,
-    body.theme-white #modalCaddy button.bg-amber-500,
-    body.theme-white #modalCaddy button.bg-rose-600,
-    body.theme-white #modalCaddy .bg-blue-600 span,
-    body.theme-white #modalCaddy .bg-emerald-600 span,
-    body.theme-white #modalCaddy .bg-blue-600 i,
-    body.theme-white #modalCaddy .bg-emerald-600 i {
-      color: #ffffff !important;
-    }
+    body.theme-white .tip-avoid-title { color: #fda4af; }
+    body.theme-white .spec-badge { color: #fde047; }
   </style>
 </head>
 <body id="appBody" class="theme-blue min-h-[100dvh] flex flex-col font-sans antialiased overflow-x-hidden pb-24">
@@ -154,8 +135,8 @@
           </div>
           <div class="truncate">
             <div class="flex items-center gap-1.5">
-              <span id="headerCourseName" class="font-black text-sm tracking-tight truncate">Wolf Den @ Mission Trail</span>
-              <span id="headerHoleCountBadge" class="text-[10px] bg-white text-blue-900 px-1.5 py-0.2 rounded font-black shadow-sm shrink-0">18H</span>
+              <span id="headerCourseName" class="font-black text-sm tracking-tight truncate">Sar-Ko-Par Trails</span>
+              <span id="headerHoleCountBadge" class="text-[10px] bg-white text-blue-900 px-1.5 py-0.2 rounded font-black shadow-sm shrink-0">9H</span>
             </div>
             <div class="text-[11px] opacity-75 font-semibold" id="headerPriorRoundIndicator">Prior match found</div>
           </div>
@@ -173,23 +154,23 @@
             <span id="historyCountBadge" class="px-1.5 py-0.2 rounded-full bg-slate-950 text-amber-300 text-[10px] font-black">8</span>
           </button>
 
-          <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
+          <button onclick="openRosterModal()" title="Manage Players" class="w-8 h-8 rounded-xl bg-blue-700 hover:bg-blue-600 text-white border border-blue-400 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-user-group text-xs"></i>
           </button>
 
-          <button onclick="openDriveSyncModal()" title="Cloud Sync & Backup Transfer" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-400 border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
+          <button onclick="openDriveSyncModal()" title="Cloud Sync & Backup Transfer" class="w-8 h-8 rounded-xl bg-blue-700 hover:bg-blue-600 text-emerald-300 border border-blue-400 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-cloud-arrow-up text-xs"></i>
           </button>
 
-          <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center active:scale-90 shadow-sm">
+          <button onclick="toggleTheme()" id="btnPalette" title="Switch Theme" class="w-8 h-8 rounded-xl bg-blue-700 hover:bg-blue-600 text-white border border-blue-400 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-palette text-xs"></i>
           </button>
         </div>
       </div>
 
       <!-- Stopwatch & Match Ticker -->
-      <div class="flex items-center justify-between gap-2 pt-1 border-t border-white/15">
-        <div class="flex items-center gap-1.5 bg-slate-950/40 border border-white/20 px-2 py-0.5 rounded-xl shadow-inner">
+      <div class="flex items-center justify-between gap-2 pt-1 border-t border-blue-400/30">
+        <div class="flex items-center gap-1.5 bg-slate-950/60 border border-white/20 px-2 py-0.5 rounded-xl shadow-inner">
           <div class="flex items-center gap-1">
             <span class="inline-block w-2 h-2 rounded-full bg-slate-400" id="timerPulseDot"></span>
             <span id="timerDisplay" class="text-xs font-mono font-black tracking-wider text-white">00:00:00</span>
@@ -219,10 +200,10 @@
         </button>
 
         <div class="text-center">
-          <div class="text-[10px] uppercase tracking-wider font-extrabold text-blue-600">HOLE</div>
+          <div class="text-[10px] uppercase tracking-wider font-extrabold card-subtext">HOLE</div>
           <div class="flex items-baseline justify-center gap-1">
             <span id="currentHoleLabel" class="text-3xl font-black card-title leading-none">1</span>
-            <span id="totalHolesMaxLabel" class="text-xs card-subtext font-semibold">/ 18</span>
+            <span id="totalHolesMaxLabel" class="text-xs card-subtext font-semibold">/ 9</span>
           </div>
         </div>
 
@@ -246,7 +227,7 @@
         <div>
           <span class="text-[10px] font-bold uppercase card-subtext block tracking-wide">DISTANCE</span>
           <div class="flex items-baseline gap-1">
-            <span id="distanceDisplay" class="text-2xl font-black card-title leading-tight">301</span>
+            <span id="distanceDisplay" class="text-2xl font-black card-title leading-tight">138</span>
             <span class="text-xs card-subtext font-semibold">ft</span>
           </div>
         </div>
@@ -297,7 +278,7 @@
         <div id="scorecardCardElement" class="p-3 bg-white rounded-2xl border-2 border-blue-200 shadow-sm">
           <div class="flex items-center justify-between border-b border-slate-200 pb-2 mb-2">
             <div>
-              <div class="font-black text-slate-900 text-sm" id="captureCardTitle">Wolf Den @ Mission Trail</div>
+              <div class="font-black text-slate-900 text-sm" id="captureCardTitle">Sar-Ko-Par Trails</div>
               <div class="text-[11px] text-slate-500 font-bold" id="captureCardMeta">Today · ⏱ 00:00:00</div>
             </div>
             <div class="px-2 py-1 rounded-lg bg-blue-50 text-blue-900 text-xs font-black" id="captureCardWinner">
@@ -319,99 +300,51 @@
     </div>
   </div>
 
-  <!-- INNOVA CADDY & 9-DISC DIRECTIONAL FLIGHT MATRIX (NO WIND) -->
-  <div id="modalCaddy" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex-col justify-end md:justify-center md:p-6">
-    <div class="caddy-modal-window bg-slate-950 text-white border-t md:border border-slate-800 rounded-t-3xl md:rounded-3xl max-w-lg md:max-w-4xl lg:max-w-5xl mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden shadow-2xl transition-colors duration-200">
+  <!-- INNOVA CADDY & 9-DISC DIRECTIONAL FLIGHT MATRIX (ROYAL BLUE + WHITE CARDS) -->
+  <div id="modalCaddy" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end md:justify-center md:p-6">
+    <div class="caddy-shell border-t md:border-2 rounded-t-3xl md:rounded-3xl max-w-lg md:max-w-4xl lg:max-w-5xl mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden shadow-2xl transition-colors duration-200">
       
-      <!-- Caddy Header -->
-      <div class="caddy-header px-4 py-3 border-b border-slate-800 flex items-center justify-between bg-slate-900 shrink-0 transition-colors duration-200">
+      <!-- Caddy Header (Matches Main App Header) -->
+      <div class="app-header px-4 py-3 border-b flex items-center justify-between shrink-0 transition-colors duration-200">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-black shadow text-sm">
             <i class="fa-solid fa-compact-disc"></i>
           </div>
           <div>
-            <h3 class="font-black text-sm text-white">Innova Bag Caddy</h3>
-            <p class="text-[11px] text-slate-400 font-semibold">Directional Flight Matrix (Left · Straight · Right)</p>
+            <h3 class="font-black text-sm">Innova Bag Caddy</h3>
+            <p class="text-[11px] opacity-80 font-semibold">3 Drivers · 3 Midranges · 3 Putters (Left · Straight · Right)</p>
           </div>
         </div>
         <div class="flex items-center gap-1.5">
-          <button onclick="resetAllDiscStats()" title="Reset All Disc Stats" class="px-2.5 py-1 rounded-lg bg-rose-950/80 hover:bg-rose-900 text-rose-300 border border-rose-800/80 text-[10px] font-black flex items-center gap-1 active:scale-95 shadow-sm">
-            <i class="fa-solid fa-rotate-left text-[9px]"></i>
-            <span>Reset Stats</span>
-          </button>
-          <button onclick="toggleTheme()" id="btnPaletteCaddy" title="Switch Theme Background" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 flex items-center justify-center active:scale-90 shadow-sm">
+          <button onclick="toggleTheme()" id="btnPaletteCaddy" title="Switch Theme Background" class="w-8 h-8 rounded-xl bg-blue-700 hover:bg-blue-600 text-white border border-blue-400 flex items-center justify-center active:scale-90 shadow-sm">
             <i class="fa-solid fa-palette text-xs"></i>
           </button>
-          <button onclick="closeCaddyModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center">
+          <button onclick="closeCaddyModal()" class="w-8 h-8 rounded-full bg-blue-900 text-white hover:bg-blue-800 border border-blue-400 flex items-center justify-center">
             <i class="fa-solid fa-xmark text-sm"></i>
           </button>
         </div>
       </div>
 
-      <!-- Caddy Body: Filter Chips & 3x3 Disc Showcase -->
-      <div class="overflow-y-auto p-4 flex-1 custom-scroll space-y-4" id="caddyModalScrollContainer">
+      <!-- Caddy Body: Filter Bar & 3x3 White Cards on Blue Background -->
+      <div class="overflow-y-auto p-4 flex-1 custom-scroll space-y-3.5" id="caddyModalScrollContainer">
         
-        <!-- Current Hole Badge & Quick Filter Chips -->
-        <div class="flex items-center justify-between bg-slate-900 border border-slate-800 rounded-2xl px-3.5 py-2.5 shadow-sm">
+        <!-- Filter Bar (White Card on Blue Background) -->
+        <div class="app-card rounded-2xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 shadow-md">
           <div class="flex items-center gap-2">
-            <span class="text-[10px] font-black uppercase text-slate-400">Target Hole:</span>
-            <span id="caddyHoleDistBadge" class="bg-blue-600 text-white font-black text-xs px-2.5 py-0.5 rounded-lg shadow-sm">301 ft</span>
+            <span class="text-[10px] font-black uppercase card-subtext">Current Hole:</span>
+            <span id="caddyHoleDistBadge" class="bg-blue-600 text-white font-black text-xs px-2.5 py-0.5 rounded-lg shadow-sm">138 ft</span>
           </div>
-          <div class="flex gap-1 text-[11px] font-bold">
-            <button onclick="filterCaddyDiscs('all')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white shadow">All (9)</button>
-            <button onclick="filterCaddyDiscs('driver')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400">Drivers (3)</button>
-            <button onclick="filterCaddyDiscs('mid')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400">Mids (3)</button>
-            <button onclick="filterCaddyDiscs('putter')" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400">Putters (3)</button>
+          <div class="flex gap-1.5 text-[11px] font-black">
+            <button onclick="filterCaddyDiscs('all', this)" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white shadow">All (9)</button>
+            <button onclick="filterCaddyDiscs('driver', this)" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-200 text-slate-800 hover:bg-slate-300">Drivers (3)</button>
+            <button onclick="filterCaddyDiscs('mid', this)" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-200 text-slate-800 hover:bg-slate-300">Mids (3)</button>
+            <button onclick="filterCaddyDiscs('putter', this)" class="caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-200 text-slate-800 hover:bg-slate-300">Putters (3)</button>
           </div>
         </div>
 
-        <!-- 9 INNOVA DISC DIRECTIONAL FLIGHT CARDS (Responsive 3-Column Grid) -->
-        <div id="caddyCardsContainer" class="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-3"></div>
+        <!-- 9 INNOVA DISC DIRECTIONAL FLIGHT CARDS (3-Column Grid on Desktop) -->
+        <div id="caddyCardsContainer" class="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-3.5"></div>
 
-      </div>
-    </div>
-  </div>
-
-  <!-- THROW LOG MODAL -->
-  <div id="modalLogThrow" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-sm w-full p-4 space-y-3 text-white shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-        <div>
-          <h4 class="font-black text-sm text-white" id="logThrowDiscTitle">Log Shot</h4>
-          <p class="text-[11px] text-slate-400 font-semibold" id="logThrowHoleMeta">Hole 1 · Wolf Den</p>
-        </div>
-        <button onclick="closeLogThrowModal()" class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center">
-          <i class="fa-solid fa-xmark text-sm"></i>
-        </button>
-      </div>
-
-      <div>
-        <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Did you like this shot?</label>
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="setLogLiked(true)" id="btnLogLikedYes" class="py-2.5 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 border-2 border-emerald-400">
-            <i class="fa-solid fa-thumbs-up"></i>
-            <span>Liked it!</span>
-          </button>
-          <button onclick="setLogLiked(false)" id="btnLogLikedNo" class="py-2.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 border border-slate-700">
-            <i class="fa-solid fa-thumbs-down"></i>
-            <span>Missed Line</span>
-          </button>
-        </div>
-      </div>
-
-      <div>
-        <div class="flex items-center justify-between mb-1">
-          <label class="text-[10px] font-black uppercase text-slate-400">Commentary & Feel</label>
-          <button onclick="toggleSpeechDictation()" id="btnDictateVoice" class="text-[10px] px-2 py-0.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold flex items-center gap-1 active:scale-95 shadow">
-            <i class="fa-solid fa-microphone" id="dictateIcon"></i>
-            <span id="dictateLabel">Dictate</span>
-          </button>
-        </div>
-        <textarea id="inputShotNote" rows="2" placeholder="e.g. Pure flat release, parked 10 ft from pole..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white font-medium text-xs focus:outline-none focus:border-blue-500"></textarea>
-      </div>
-
-      <div class="pt-1 flex gap-2">
-        <button onclick="saveLoggedThrow()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-black text-xs active:scale-95 shadow">Save Throw to Stats</button>
       </div>
     </div>
   </div>
@@ -585,6 +518,21 @@
           { number: 18, dist: 289, par: 3 }
         ]
       },
+      sarko: {
+        name: "Sar-Ko-Par Trails",
+        totalHoles: 9,
+        holes: [
+          { number: 1, dist: 138, par: 3 },
+          { number: 2, dist: 192, par: 3 },
+          { number: 3, dist: 162, par: 3 },
+          { number: 4, dist: 162, par: 3 },
+          { number: 5, dist: 144, par: 3 },
+          { number: 6, dist: 165, par: 3 },
+          { number: 7, dist: 139, par: 3 },
+          { number: 8, dist: 171, par: 3 },
+          { number: 9, dist: 141, par: 3 }
+        ]
+      },
       cedar_ridge: {
         name: "Cedar Ridge",
         totalHoles: 18,
@@ -682,21 +630,6 @@
           { number: 7, dist: 84, par: 3 },
           { number: 8, dist: 102, par: 3 },
           { number: 9, dist: 137, par: 3 }
-        ]
-      },
-      sarko: {
-        name: "Sar-Ko-Par Trails",
-        totalHoles: 9,
-        holes: [
-          { number: 1, dist: 128, par: 3 },
-          { number: 2, dist: 197, par: 3 },
-          { number: 3, dist: 167, par: 3 },
-          { number: 4, dist: 165, par: 3 },
-          { number: 5, dist: 131, par: 3 },
-          { number: 6, dist: 125, par: 3 },
-          { number: 7, dist: 139, par: 3 },
-          { number: 8, dist: 204, par: 3 },
-          { number: 9, dist: 121, par: 3 }
         ]
       },
       jacks_backyard: {
@@ -858,30 +791,26 @@
       }
     };
 
-    // 9 INNOVA DISCS WITH PROMINENT DIRECTIONAL FLIGHT PATHS
+    // 9 INNOVA DISCS DIRECTIONAL FLIGHT MATRIX (3 DRIVERS · 3 MIDS · 3 PUTTERS)
     const INNOVA_DISCS = [
       {
         id: "firebird",
         name: "Innova Firebird",
         type: "driver",
-        direction: "left",
         directionLabel: "⬅️ FINISHES LEFT",
-        directionBadge: "bg-rose-950 text-rose-300 border border-rose-800",
-        category: "Utility Overstable Driver",
+        directionBadge: "bg-rose-600 text-white border border-rose-700 shadow-xs",
         specs: "Champion I-Dye · 170g · Multicolor · White Stamp",
         numbers: { speed: 9, glide: 3, turn: 0, fade: 4 },
         idealDist: "120 - 150 ft",
-        whenToUse: "Aggressive left finish, grass flare skips, headwind fighter, and escape doglegs.",
+        whenToUse: "Aggressive left hook, grass flare skips, headwind fighter, and sharp left doglegs.",
         whenAvoid: "Straight narrow tunnels or high tailwinds."
       },
       {
         id: "it",
         name: "Innova IT",
         type: "driver",
-        direction: "straight",
         directionLabel: "⬆️ GOES STRAIGHT",
-        directionBadge: "bg-blue-950 text-blue-300 border border-blue-800",
-        category: "Easy Glide Fairway",
+        directionBadge: "bg-blue-600 text-white border border-blue-700 shadow-xs",
         specs: "High-Glide Fairway Driver (7 | 6 | -2 | 1)",
         numbers: { speed: 7, glide: 6, turn: -2, fade: 1 },
         idealDist: "130 - 155 ft",
@@ -892,10 +821,8 @@
         id: "mamba",
         name: "Innova Mamba",
         type: "driver",
-        direction: "right",
         directionLabel: "➡️ DRIFTS RIGHT",
-        directionBadge: "bg-amber-950 text-amber-300 border border-amber-800",
-        category: "Lightweight Distance",
+        directionBadge: "bg-amber-500 text-white border border-amber-600 shadow-xs",
         specs: "Star Plastic · 152g (Ultra-Lightweight!) · Pink · Blue Stamp",
         numbers: { speed: 11, glide: 6, turn: -5, fade: 1 },
         idealDist: "140 - 165+ ft",
@@ -906,24 +833,20 @@
         id: "roc3",
         name: "Innova Roc3",
         type: "mid",
-        direction: "left",
         directionLabel: "⬅️ FINISHES LEFT",
-        directionBadge: "bg-rose-950 text-rose-300 border border-rose-800",
-        category: "Overstable Midrange",
+        directionBadge: "bg-rose-600 text-white border border-rose-700 shadow-xs",
         specs: "DX Plastic · 174g · Turquoise · Orange Stamp",
         numbers: { speed: 5, glide: 4, turn: 0, fade: 3 },
         idealDist: "100 - 140 ft",
-        whenToUse: "Dependable sweeping hyzer finish, placement shots, and cutting through moderate breeze.",
+        whenToUse: "Dependable sweeping left hyzer finish, placement shots, and cutting through moderate breeze.",
         whenAvoid: "Right-drifting fairways or dead-straight low tunnels."
       },
       {
         id: "mako3",
         name: "Innova Mako3",
         type: "mid",
-        direction: "straight",
         directionLabel: "⬆️ GOES STRAIGHT",
-        directionBadge: "bg-blue-950 text-blue-300 border border-blue-800",
-        category: "Laser Midrange",
+        directionBadge: "bg-blue-600 text-white border border-blue-700 shadow-xs",
         specs: "Premium Midrange · 0 Turn · 0 Fade",
         numbers: { speed: 5, glide: 5, turn: 0, fade: 0 },
         idealDist: "90 - 140 ft",
@@ -934,10 +857,8 @@
         id: "rollo",
         name: "Innova Rollo",
         type: "mid",
-        direction: "right",
         directionLabel: "➡️ DRIFTS RIGHT",
-        directionBadge: "bg-amber-950 text-amber-300 border border-amber-800",
-        category: "Turnover / Roller",
+        directionBadge: "bg-amber-500 text-white border border-amber-600 shadow-xs",
         specs: "Star Plastic · 172g · Orange · Silver Stamp",
         numbers: { speed: 5, glide: 6, turn: -4, fade: 1 },
         idealDist: "110 - 145 ft",
@@ -948,24 +869,20 @@
         id: "pig",
         name: "Innova Pig",
         type: "putter",
-        direction: "left",
         directionLabel: "⬅️ FINISHES LEFT",
-        directionBadge: "bg-rose-950 text-rose-300 border border-rose-800",
-        category: "Overstable Approach",
+        directionBadge: "bg-rose-600 text-white border border-rose-700 shadow-xs",
         specs: "Galactic XT Factory Second · 175g · Green",
         numbers: { speed: 3, glide: 1, turn: 0, fade: 3 },
         idealDist: "40 - 100 ft",
-        whenToUse: "Drop-and-stick approach that dumps left and stops dead with zero rollaway. Great forehand grip.",
+        whenToUse: "Drop-and-stick approach that hooks left and stops dead with zero rollaway. Great forehand grip.",
         whenAvoid: "Long glidey fairway drives."
       },
       {
         id: "sync",
         name: "Innova Sync",
         type: "putter",
-        direction: "straight",
         directionLabel: "⬆️ GOES STRAIGHT",
-        directionBadge: "bg-blue-950 text-blue-300 border border-blue-800",
-        category: "Throwing Putter",
+        directionBadge: "bg-blue-600 text-white border border-blue-700 shadow-xs",
         specs: "Star Plastic · 175g · Red · Blue Stamp",
         numbers: { speed: 3, glide: 3, turn: 0, fade: 1 },
         idealDist: "75 - 120 ft",
@@ -976,10 +893,8 @@
         id: "aviar",
         name: "Innova Aviar",
         type: "putter",
-        direction: "straight",
         directionLabel: "⬆️ GOES STRAIGHT",
-        directionBadge: "bg-blue-950 text-blue-300 border border-blue-800",
-        category: "Putt & Approach",
+        directionBadge: "bg-blue-600 text-white border border-blue-700 shadow-xs",
         specs: "Baseline Beadless Putt & Approach",
         numbers: { speed: 2, glide: 3, turn: 0, fade: 1 },
         idealDist: "10 - 75 ft",
@@ -988,21 +903,43 @@
       }
     ];
 
-    const STORAGE_KEY = 'dg_round_v39';
-    const HISTORY_KEY = 'dg_history_v39';
+    const STORAGE_KEY = 'dg_round_v40';
+    const HISTORY_KEY = 'dg_history_v40';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v39';
-    const ROSTER_KEY = 'dg_roster_v39';
+    const TIMER_KEY = 'dg_timer_state_v40';
+    const ROSTER_KEY = 'dg_roster_v40';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
-    const DISC_STATS_KEY = 'dg_disc_stats_v2';
 
     const INITIAL_ROSTER = [
       { id: 'jeffery', name: 'Jeffery', tag: 'J1', color: 'blue-600' },
       { id: 'jack', name: 'Jack', tag: 'J2', color: 'blue-800' }
     ];
 
-    // COMPLETE SEEDED ARCHIVE (INCLUDES OCTOBER 14 MIZE ROUND)
+    // COMPLETE SEEDED ARCHIVE (INCLUDES OCT 15 SAR-KO-PAR & DEDUPLICATED BLACK HOOF)
     const SEEDED_ROUNDS = [
+      {
+        id: 1792169030880,
+        courseName: "Sar-Ko-Par Trails",
+        totalHoles: 9,
+        date: "2026-10-15",
+        duration: "00:27:05",
+        par: 27,
+        players: [
+          { id: "jeffery", name: "Jeffery", tag: "J1", total: 26 },
+          { id: "jack", name: "Jack", tag: "J2", total: 28 }
+        ],
+        holes: [
+          { number: 1, par: 3, distance: 138, scores: { jeffery: 2, jack: 3 } },
+          { number: 2, par: 3, distance: 192, scores: { jeffery: 3, jack: 3 } },
+          { number: 3, par: 3, distance: 162, scores: { jeffery: 3, jack: 3 } },
+          { number: 4, par: 3, distance: 162, scores: { jeffery: 3, jack: 3 } },
+          { number: 5, par: 3, distance: 144, scores: { jeffery: 3, jack: 2 } },
+          { number: 6, par: 3, distance: 165, scores: { jeffery: 3, jack: 4 } },
+          { number: 7, par: 3, distance: 139, scores: { jeffery: 3, jack: 3 } },
+          { number: 8, par: 3, distance: 171, scores: { jeffery: 3, jack: 3 } },
+          { number: 9, par: 3, distance: 141, scores: { jeffery: 3, jack: 4 } }
+        ]
+      },
       {
         id: 1792021924301,
         courseName: "Mize Elementary",
@@ -1027,15 +964,15 @@
         ]
       },
       {
-        id: 1728682740000,
+        id: 1791933418327,
         courseName: "Black Hoof Flying Disc",
         totalHoles: 9,
         date: "2026-10-11",
         duration: "00:31:11",
         par: 27,
         players: [
-          { id: 'jeffery', name: 'Jeffery', total: 32 },
-          { id: 'jack', name: 'Jack', total: 34 }
+          { id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 32 },
+          { id: 'jack', name: 'Jack', tag: 'J2', total: 34 }
         ],
         holes: [
           { number: 1, distance: 199, par: 3, scores: { jeffery: 3, jack: 3 } },
@@ -1050,37 +987,14 @@
         ]
       },
       {
-        id: 1728678303000,
-        courseName: "Harmon & Santa Fe Parks",
-        totalHoles: 9,
-        date: "2026-10-11",
-        duration: "00:25:03",
-        par: 24,
-        players: [
-          { id: 'jeffery', name: 'Jeffery', total: 35 },
-          { id: 'jack', name: 'Jack', total: 38 }
-        ],
-        holes: [
-          { number: 1, distance: 292, par: 3, scores: { jeffery: 4, jack: 4 } },
-          { number: 2, distance: 320, par: 3, scores: { jeffery: 5, jack: 5 } },
-          { number: 3, distance: 225, par: 3, scores: { jeffery: 4, jack: 3 } },
-          { number: 4, distance: 225, par: 3, scores: { jeffery: 4, jack: 4 } },
-          { number: 5, distance: 247, par: 3, scores: { jeffery: 4, jack: 4 } },
-          { number: 6, distance: 160, par: 2, scores: { jeffery: 3, jack: 4 } },
-          { number: 7, distance: 190, par: 2, scores: { jeffery: 3, jack: 4 } },
-          { number: 8, distance: 198, par: 2, scores: { jeffery: 5, jack: 6 } },
-          { number: 9, distance: 235, par: 3, scores: { jeffery: 3, jack: 4 } }
-        ]
-      },
-      {
-        id: 1728677822000,
+        id: 1791850213964,
         courseName: "Harmon & Santa Fe Parks",
         totalHoles: 9,
         date: "2026-10-11",
         duration: "00:17:02",
         par: 23,
         players: [
-          { id: 'jeffery', name: 'Jeffery', total: 33 }
+          { id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 33 }
         ],
         holes: [
           { number: 1, distance: 292, par: 3, scores: { jeffery: 4 } },
@@ -1095,6 +1009,29 @@
         ]
       },
       {
+        id: 1791848700432,
+        courseName: "Harmon & Santa Fe Parks",
+        totalHoles: 9,
+        date: "2026-10-11",
+        duration: "00:25:03",
+        par: 24,
+        players: [
+          { id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 35 },
+          { id: 'jack', name: 'Jack', tag: 'J2', total: 38 }
+        ],
+        holes: [
+          { number: 1, distance: 292, par: 3, scores: { jeffery: 4, jack: 4 } },
+          { number: 2, distance: 320, par: 3, scores: { jeffery: 5, jack: 5 } },
+          { number: 3, distance: 225, par: 3, scores: { jeffery: 4, jack: 3 } },
+          { number: 4, distance: 225, par: 3, scores: { jeffery: 4, jack: 4 } },
+          { number: 5, distance: 247, par: 3, scores: { jeffery: 4, jack: 4 } },
+          { number: 6, distance: 160, par: 2, scores: { jeffery: 3, jack: 4 } },
+          { number: 7, distance: 190, par: 2, scores: { jeffery: 3, jack: 4 } },
+          { number: 8, distance: 198, par: 2, scores: { jeffery: 5, jack: 6 } },
+          { number: 9, distance: 235, par: 3, scores: { jeffery: 3, jack: 4 } }
+        ]
+      },
+      {
         id: 1728514800000,
         courseName: "Wolf Den @ Mission Trail",
         totalHoles: 18,
@@ -1102,8 +1039,8 @@
         duration: "01:49:00",
         par: 54,
         players: [
-          { id: 'jeffery', name: 'Jeffery', total: 75 },
-          { id: 'jack', name: 'Jack', total: 91 }
+          { id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 75 },
+          { id: 'jack', name: 'Jack', tag: 'J2', total: 91 }
         ],
         holes: [
           { number: 1, distance: 301, par: 3, scores: { jeffery: 3, jack: 4 } },
@@ -1134,8 +1071,8 @@
         duration: "00:27:53",
         par: 27,
         players: [
-          { id: 'jeffery', name: 'Jeffery', total: 26 },
-          { id: 'jack', name: 'Jack', total: 28 }
+          { id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 26 },
+          { id: 'jack', name: 'Jack', tag: 'J2', total: 28 }
         ],
         holes: [
           { number: 1, distance: 132, par: 3, scores: { jeffery: 3, jack: 4 } },
@@ -1157,8 +1094,8 @@
         duration: "00:29:11",
         par: 27,
         players: [
-          { id: 'jeffery', name: 'Jeffery', total: 27 },
-          { id: 'jack', name: 'Jack', total: 33 }
+          { id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 27 },
+          { id: 'jack', name: 'Jack', tag: 'J2', total: 33 }
         ],
         holes: [
           { number: 1, distance: 128, par: 3, scores: { jeffery: 2, jack: 4 } },
@@ -1180,8 +1117,8 @@
         duration: "00:38:11",
         par: 27,
         players: [
-          { id: 'jeffery', name: 'Jeffery', total: 35 },
-          { id: 'jack', name: 'Jack', total: 41 }
+          { id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 35 },
+          { id: 'jack', name: 'Jack', tag: 'J2', total: 41 }
         ],
         holes: [
           { number: 1, distance: 218, par: 3, scores: { jeffery: 3, jack: 4 } },
@@ -1199,9 +1136,9 @@
 
     let roster = [];
     let roundState = {
-      courseKey: 'wolf_den',
-      courseName: "Wolf Den @ Mission Trail",
-      totalHoles: 18,
+      courseKey: 'sarko',
+      courseName: "Sar-Ko-Par Trails",
+      totalHoles: 9,
       date: new Date().toISOString().split('T')[0],
       currentHoleIndex: 0,
       holes: []
@@ -1211,12 +1148,7 @@
     let timerState = { running: false, startTime: null, accumulatedMs: 0 };
     let caddyActiveFilter = 'all';
 
-    let activeLogDiscId = null;
-    let activeLogLiked = true;
-    let activeSpeechRecognition = null;
-    let isDictating = false;
-
-    // HISTORY AUTO-MERGER
+    // HISTORY AUTO-MERGER & CLEANER
     function getHistory() {
       let history = [];
       const savedHist = localStorage.getItem(HISTORY_KEY);
@@ -1225,7 +1157,7 @@
       }
       
       if (!Array.isArray(history) || history.length === 0) {
-        ['dg_history_v38', 'dg_history_v37', 'dg_history_v36', 'dg_history_v35', 'dg_history_v34', 'dg_history_v33'].forEach(k => {
+        ['dg_history_v39', 'dg_history_v38', 'dg_history_v37', 'dg_history_v36', 'dg_history_v35'].forEach(k => {
           if (history.length === 0) {
             const old = localStorage.getItem(k);
             if (old) {
@@ -1238,6 +1170,24 @@
       if (!Array.isArray(history) || history.length === 0) {
         history = SEEDED_ROUNDS;
       } else {
+        // Remove old 00:00:00 duplicate Black Hoof entry and normalize jack_3999
+        history = history.filter(h => !(h.courseName === "Black Hoof Flying Disc" && h.duration === "00:00:00"));
+        history.forEach(h => {
+          if (h.players) {
+            h.players.forEach(p => {
+              if (p.id === 'jack_3999') { p.id = 'jack'; p.tag = 'J2'; }
+            });
+          }
+          if (h.holes) {
+            h.holes.forEach(hole => {
+              if (hole.scores && hole.scores.jack_3999 !== undefined) {
+                hole.scores.jack = hole.scores.jack_3999;
+                delete hole.scores.jack_3999;
+              }
+            });
+          }
+        });
+
         SEEDED_ROUNDS.forEach(sr => {
           if (!history.some(h => h.id === sr.id || (h.courseName === sr.courseName && h.date === sr.date && h.duration === sr.duration))) {
             history.push(sr);
@@ -1267,46 +1217,6 @@
       return r;
     }
 
-    function getDiscStats() {
-      let stats = {};
-      const saved = localStorage.getItem(DISC_STATS_KEY);
-      if (saved) {
-        try { stats = JSON.parse(saved); } catch(e){}
-      }
-      INNOVA_DISCS.forEach(d => {
-        if (!stats[d.id]) {
-          stats[d.id] = { throws: 0, likes: 0, notes: [], courses: {}, history: [] };
-        } else {
-          if (!stats[d.id].courses) stats[d.id].courses = {};
-          if (!stats[d.id].history) stats[d.id].history = [];
-        }
-      });
-      return stats;
-    }
-
-    function saveDiscStats(stats) {
-      localStorage.setItem(DISC_STATS_KEY, JSON.stringify(stats));
-    }
-
-    function resetAllDiscStats() {
-      if (confirm("Reset ALL logged throws, likes, notes, courses, and holes for all 9 discs?")) {
-        localStorage.removeItem(DISC_STATS_KEY);
-        renderCaddyDiscCards();
-        alert("All 9 disc profiles reset to 0!");
-      }
-    }
-
-    function resetSingleDiscStats(discId) {
-      const disc = INNOVA_DISCS.find(d => d.id === discId);
-      const discName = disc ? disc.name : 'this disc';
-      if (confirm(`Reset stats, hole tracking, and notes for ${discName}?`)) {
-        const stats = getDiscStats();
-        stats[discId] = { throws: 0, likes: 0, notes: [], courses: {}, history: [] };
-        saveDiscStats(stats);
-        renderCaddyDiscCards();
-      }
-    }
-
     function init() {
       applyTheme(localStorage.getItem(THEME_KEY) || 'theme-blue');
       roster = getRoster();
@@ -1322,7 +1232,7 @@
         try { roundState = JSON.parse(saved); } catch(e){}
       }
       if (!roundState.holes || roundState.holes.length === 0) {
-        loadPresetData('wolf_den');
+        loadPresetData('sarko');
       }
 
       updateHistoryCountBadge();
@@ -1359,7 +1269,7 @@
     }
 
     function openCaddyModal() {
-      const currentHole = roundState.holes[roundState.currentHoleIndex] || { distance: 300 };
+      const currentHole = roundState.holes[roundState.currentHoleIndex] || { distance: 138 };
       document.getElementById('caddyHoleDistBadge').innerText = `${currentHole.distance} ft`;
       renderCaddyDiscCards();
       document.getElementById('modalCaddy').classList.remove('hidden');
@@ -1371,132 +1281,91 @@
       document.getElementById('modalCaddy').classList.remove('flex');
     }
 
-    function filterCaddyDiscs(type) {
+    function filterCaddyDiscs(type, btnEl) {
       caddyActiveFilter = type;
       document.querySelectorAll('.caddy-filter-btn').forEach(btn => {
-        btn.className = "caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400";
+        btn.className = "caddy-filter-btn px-2.5 py-1 rounded-lg bg-slate-200 text-slate-800 hover:bg-slate-300";
       });
-      event.target.className = "caddy-filter-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white shadow";
+      if (btnEl) {
+        btnEl.className = "caddy-filter-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white shadow";
+      }
       renderCaddyDiscCards();
     }
 
-    // RENDER DIRECTIONAL FLIGHT MATRIX DISCS
+    // RENDER CLEAN DIRECTIONAL FLIGHT MATRIX CARDS (WHITE CARDS ON ROYAL BLUE BACKGROUND)
     function renderCaddyDiscCards() {
       const container = document.getElementById('caddyCardsContainer');
       container.innerHTML = '';
 
-      const stats = getDiscStats();
       const filtered = caddyActiveFilter === 'all'
         ? INNOVA_DISCS
         : INNOVA_DISCS.filter(d => d.type === caddyActiveFilter);
 
       filtered.forEach(d => {
-        const dStats = stats[d.id] || { throws: 0, likes: 0, notes: [], courses: {}, history: [] };
-        const likeRate = dStats.throws > 0 ? Math.round((dStats.likes / dStats.throws) * 100) : null;
-
-        let coursesHtml = '';
-        if (dStats.courses && Object.keys(dStats.courses).length > 0) {
-          const courseEntries = Object.keys(dStats.courses).map(cName => {
-            const cData = dStats.courses[cName];
-            const holeStr = cData.holes && cData.holes.length > 0 ? cData.holes.map(h => `#${h}`).join(', ') : 'None';
-            return `
-              <div class="flex items-start justify-between gap-1 text-[10px] py-0.5">
-                <span class="font-extrabold text-blue-300 truncate">${cName}</span>
-                <span class="text-slate-300 font-semibold shrink-0">Holes: <strong class="text-white">${holeStr}</strong> <span class="text-amber-400 font-black">(${cData.count}x)</span></span>
-              </div>
-            `;
-          }).join('');
-
-          coursesHtml = `
-            <div class="p-2 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1 transition-colors duration-200">
-              <div class="flex items-center justify-between text-[9px] font-black uppercase tracking-wider text-slate-400">
-                <span><i class="fa-solid fa-map-location-dot text-emerald-400 mr-1"></i>Courses & Holes</span>
-                <span class="text-slate-400">${dStats.throws} Logged</span>
-              </div>
-              <div class="space-y-0.5 divide-y divide-slate-800/60 pt-0.5">
-                ${courseEntries}
-              </div>
-            </div>
-          `;
-        } else {
-          coursesHtml = `
-            <div class="p-2 rounded-xl bg-slate-950/40 border border-slate-800/80 text-[10px] text-slate-400 italic flex items-center justify-between transition-colors duration-200">
-              <span><i class="fa-solid fa-map-location-dot text-slate-500 mr-1.5"></i>No courses logged yet</span>
-              <span class="text-[9px] text-slate-400">0 Throws</span>
-            </div>
-          `;
-        }
-
         const card = document.createElement('div');
         card.id = `discCard_${d.id}`;
-        card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-3.5 shadow-md flex flex-col justify-between gap-2.5 transition-all duration-300";
+        card.className = "app-card rounded-2xl p-4 shadow-lg flex flex-col justify-between gap-2.5 transition-all duration-200";
         card.innerHTML = `
           <div>
-            <!-- Top Row: Mold Name & Direction Badge -->
-            <div class="flex items-start justify-between mb-1.5">
+            <!-- Top Row: Mold Name & Direction Pill -->
+            <div class="flex items-start justify-between gap-2 mb-1">
               <div>
-                <div class="flex items-center gap-1.5">
-                  <h4 class="text-base font-black text-white leading-tight">${d.name}</h4>
-                  <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-md ${d.directionBadge}">
+                <div class="flex flex-wrap items-center gap-1.5">
+                  <h4 class="text-base font-black card-title leading-tight">${d.name}</h4>
+                  <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-lg ${d.directionBadge}">
                     ${d.directionLabel}
                   </span>
                 </div>
-                <p class="text-[10px] text-amber-400 font-bold mt-0.5">${d.specs}</p>
+                <p class="text-[11px] spec-badge font-extrabold mt-1">${d.specs}</p>
               </div>
-              <div class="text-right">
-                <span class="text-[9px] uppercase font-bold text-slate-400 block">Range</span>
-                <span class="text-xs font-black text-blue-400">${d.idealDist}</span>
-              </div>
-            </div>
-
-            <!-- Flight Numbers & Lifetime Like % -->
-            <div class="grid grid-cols-5 gap-1 text-center bg-slate-950/80 rounded-xl p-1.5 border border-slate-800 my-2 transition-colors duration-200">
-              <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Speed</span><span class="text-xs font-black text-white">${d.numbers.speed}</span></div>
-              <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Glide</span><span class="text-xs font-black text-white">${d.numbers.glide}</span></div>
-              <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Turn</span><span class="text-xs font-black ${d.numbers.turn < 0 ? 'text-amber-400' : 'text-white'}">${d.numbers.turn}</span></div>
-              <div><span class="text-[8px] font-bold uppercase text-slate-400 block">Fade</span><span class="text-xs font-black ${d.numbers.fade >= 3 ? 'text-rose-400' : 'text-white'}">${d.numbers.fade}</span></div>
-              <div class="border-l border-slate-800 pl-1">
-                <span class="text-[8px] font-bold uppercase text-emerald-400 block">Liked</span>
-                <span class="text-xs font-black text-emerald-400">${likeRate !== null ? likeRate + '%' : '-'}</span>
+              <div class="text-right shrink-0">
+                <span class="text-[9px] uppercase font-bold card-subtext block">Range</span>
+                <span class="text-xs font-black card-title">${d.idealDist}</span>
               </div>
             </div>
 
-            <!-- Direction & Usage Note -->
-            <div class="space-y-1.5 text-[11px] my-2">
-              <div class="p-2 rounded-xl bg-emerald-950/30 border border-emerald-900/40 text-slate-200">
-                <strong class="text-emerald-400 text-[10px] uppercase block mb-0.5"><i class="fa-solid fa-bullseye mr-1"></i>Flight & When to Throw</strong>
+            <!-- 4-Column Flight Numbers Box (Matches Main Scorecard Counter Box) -->
+            <div class="counter-box grid grid-cols-4 gap-1 text-center rounded-xl p-2 border my-2.5">
+              <div>
+                <span class="text-[9px] font-bold uppercase card-subtext block">Speed</span>
+                <span class="text-base font-black counter-number">${d.numbers.speed}</span>
+              </div>
+              <div class="border-l border-blue-200/50">
+                <span class="text-[9px] font-bold uppercase card-subtext block">Glide</span>
+                <span class="text-base font-black counter-number">${d.numbers.glide}</span>
+              </div>
+              <div class="border-l border-blue-200/50">
+                <span class="text-[9px] font-bold uppercase card-subtext block">Turn</span>
+                <span class="text-base font-black counter-number">${d.numbers.turn}</span>
+              </div>
+              <div class="border-l border-blue-200/50">
+                <span class="text-[9px] font-bold uppercase card-subtext block">Fade</span>
+                <span class="text-base font-black counter-number">${d.numbers.fade}</span>
+              </div>
+            </div>
+
+            <!-- High-Contrast Flight & Avoid Tips -->
+            <div class="space-y-2 text-xs">
+              <div class="tip-good p-2.5 rounded-xl border leading-snug font-medium">
+                <strong class="tip-good-title text-[10px] font-black uppercase block mb-0.5">
+                  <i class="fa-solid fa-bullseye mr-1"></i>Flight & When to Throw
+                </strong>
                 ${d.whenToUse}
               </div>
-              <div class="p-2 rounded-xl bg-rose-950/30 border border-rose-900/40 text-slate-300">
-                <strong class="text-rose-400 text-[10px] uppercase block mb-0.5"><i class="fa-solid fa-circle-xmark mr-1"></i>Avoid When</strong>
+              <div class="tip-avoid p-2.5 rounded-xl border leading-snug font-medium">
+                <strong class="tip-avoid-title text-[10px] font-black uppercase block mb-0.5">
+                  <i class="fa-solid fa-circle-xmark mr-1"></i>Avoid When
+                </strong>
                 ${d.whenAvoid}
               </div>
             </div>
-
-            <!-- Courses & Holes Box -->
-            ${coursesHtml}
-
-            <!-- Recent Commentary -->
-            ${dStats.notes && dStats.notes.length > 0 ? `
-              <div class="p-2 rounded-xl bg-slate-950 border border-slate-800 text-[10px] text-slate-300 mb-2 transition-colors duration-200">
-                <span class="text-slate-400 font-bold block mb-0.5">Last Commentary:</span>
-                "${dStats.notes[0]}"
-              </div>
-            ` : ''}
           </div>
 
-          <!-- Bottom Actions -->
-          <div class="pt-1.5 flex items-center gap-2 border-t border-slate-800/80">
-            <button onclick="openLogThrowModal('${d.id}')" class="flex-1 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs flex items-center justify-center gap-1.5 active:scale-95 shadow">
-              <i class="fa-solid fa-thumbs-up text-[10px]"></i>
-              <span>Log Shot (${dStats.throws})</span>
-            </button>
-            <button onclick="uploadDiscTipCardToDrive('${d.id}')" title="Upload Card PNG to Google Drive" class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-1 active:scale-95 shadow">
+          <!-- Save Card PNG to Google Drive Button -->
+          <div class="pt-2 border-t border-slate-200/40 flex justify-end">
+            <button onclick="uploadDiscTipCardToDrive('${d.id}')" title="Save Card PNG to Google Drive" class="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs flex items-center justify-center gap-1.5 active:scale-95 shadow">
               <i class="fa-brands fa-google-drive text-xs"></i>
-              <span>Drive</span>
-            </button>
-            <button onclick="resetSingleDiscStats('${d.id}')" title="Reset stats for ${d.name}" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-rose-950 text-slate-400 hover:text-rose-300 border border-slate-700 flex items-center justify-center active:scale-95 text-xs">
-              <i class="fa-solid fa-trash-can text-[11px]"></i>
+              <span>Save Card to Google Drive</span>
             </button>
           </div>
         `;
@@ -1504,148 +1373,14 @@
       });
     }
 
-    // --- THROW LOGGING & VOICE DICTATION ---
-    function openLogThrowModal(discId) {
-      activeLogDiscId = discId;
-      activeLogLiked = true;
-      const disc = INNOVA_DISCS.find(d => d.id === discId);
-      const currentHole = roundState.holes[roundState.currentHoleIndex] || { number: 1, distance: 300 };
-
-      document.getElementById('logThrowDiscTitle').innerText = `Log Shot: ${disc.name}`;
-      document.getElementById('logThrowHoleMeta').innerText = `Hole #${currentHole.number} (${currentHole.distance} ft) · ${roundState.courseName}`;
-      document.getElementById('inputShotNote').value = '';
-      setLogLiked(true);
-
-      document.getElementById('modalLogThrow').classList.remove('hidden');
-      document.getElementById('modalLogThrow').classList.add('flex');
-    }
-
-    function closeLogThrowModal() {
-      if (activeSpeechRecognition && isDictating) {
-        activeSpeechRecognition.stop();
-        isDictating = false;
-      }
-      document.getElementById('modalLogThrow').classList.add('hidden');
-      document.getElementById('modalLogThrow').classList.remove('flex');
-    }
-
-    function setLogLiked(liked) {
-      activeLogLiked = liked;
-      const yesBtn = document.getElementById('btnLogLikedYes');
-      const noBtn = document.getElementById('btnLogLikedNo');
-
-      if (liked) {
-        yesBtn.className = "py-2.5 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 border-2 border-emerald-400";
-        noBtn.className = "py-2.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 border border-slate-700";
-      } else {
-        yesBtn.className = "py-2.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 border border-slate-700";
-        noBtn.className = "py-2.5 rounded-xl bg-rose-600 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow active:scale-95 border-2 border-rose-400";
-      }
-    }
-
-    function toggleSpeechDictation() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        alert("Voice dictation is supported natively in Safari and Chrome! Tap your keyboard microphone icon to dictate directly.");
-        return;
-      }
-
-      const btn = document.getElementById('btnDictateVoice');
-      const label = document.getElementById('dictateLabel');
-
-      if (!isDictating) {
-        activeSpeechRecognition = new SpeechRecognition();
-        activeSpeechRecognition.continuous = false;
-        activeSpeechRecognition.interimResults = false;
-        activeSpeechRecognition.lang = 'en-US';
-
-        activeSpeechRecognition.onstart = () => {
-          isDictating = true;
-          btn.className = "text-[10px] px-2 py-0.5 rounded-lg bg-rose-600 text-white font-black flex items-center gap-1 animate-pulse";
-          label.innerText = "Listening...";
-        };
-
-        activeSpeechRecognition.onresult = (e) => {
-          const text = e.results[0][0].transcript;
-          const textarea = document.getElementById('inputShotNote');
-          textarea.value = (textarea.value ? textarea.value + ' ' : '') + text;
-        };
-
-        activeSpeechRecognition.onerror = () => {
-          isDictating = false;
-          btn.className = "text-[10px] px-2 py-0.5 rounded-lg bg-blue-600 text-white font-bold flex items-center gap-1";
-          label.innerText = "Dictate";
-        };
-
-        activeSpeechRecognition.onend = () => {
-          isDictating = false;
-          btn.className = "text-[10px] px-2 py-0.5 rounded-lg bg-blue-600 text-white font-bold flex items-center gap-1";
-          label.innerText = "Dictate";
-        };
-
-        activeSpeechRecognition.start();
-      } else {
-        activeSpeechRecognition.stop();
-        isDictating = false;
-        btn.className = "text-[10px] px-2 py-0.5 rounded-lg bg-blue-600 text-white font-bold flex items-center gap-1";
-        label.innerText = "Dictate";
-      }
-    }
-
-    function saveLoggedThrow() {
-      if (!activeLogDiscId) return;
-
-      const note = document.getElementById('inputShotNote').value.trim();
-      const currentHole = roundState.holes[roundState.currentHoleIndex] || { number: 1, distance: 300 };
-      const courseName = roundState.courseName;
-
-      const stats = getDiscStats();
-      const current = stats[activeLogDiscId];
-
-      current.throws += 1;
-      if (activeLogLiked) current.likes += 1;
-      if (note) {
-        current.notes.unshift(note);
-        if (current.notes.length > 5) current.notes.pop();
-      }
-
-      if (!current.courses) current.courses = {};
-      if (!current.courses[courseName]) {
-        current.courses[courseName] = { count: 0, holes: [] };
-      }
-      current.courses[courseName].count += 1;
-      if (!current.courses[courseName].holes.includes(currentHole.number)) {
-        current.courses[courseName].holes.push(currentHole.number);
-        current.courses[courseName].holes.sort((a, b) => a - b);
-      }
-
-      if (!current.history) current.history = [];
-      current.history.unshift({
-        course: courseName,
-        hole: currentHole.number,
-        dist: currentHole.distance,
-        liked: activeLogLiked,
-        note: note,
-        date: roundState.date,
-        timestamp: Date.now()
-      });
-      if (current.history.length > 25) current.history.pop();
-
-      saveDiscStats(stats);
-      closeLogThrowModal();
-      renderCaddyDiscCards();
-      alert(`Shot saved on ${courseName} Hole #${currentHole.number}!`);
-    }
-
     // FULL DATASET EXPORT/IMPORT
     function exportFullDataset() {
       try {
         const fullBackup = {
           app: "Jeffery & Jack Disc Golf Scorecard",
-          version: "v39",
+          version: "v40",
           exportDate: new Date().toISOString(),
           history: getHistory(),
-          discStats: getDiscStats(),
           roster: getRoster(),
           roundState: roundState,
           webhookUrl: localStorage.getItem(WEBHOOK_KEY) || '',
@@ -1680,13 +1415,12 @@
       reader.onload = function(e) {
         try {
           const data = JSON.parse(e.target.result);
-          if (!data.history && !data.discStats && !data.roster) {
+          if (!data.history && !data.roster) {
             throw new Error("File is missing valid scorecard data.");
           }
 
-          if (confirm("Restore full data set from this backup? Your saved rounds, disc stats, and rosters will sync to this device.")) {
+          if (confirm("Restore full data set from this backup? Your saved rounds and rosters will sync to this device.")) {
             if (data.history) localStorage.setItem(HISTORY_KEY, JSON.stringify(data.history));
-            if (data.discStats) localStorage.setItem(DISC_STATS_KEY, JSON.stringify(data.discStats));
             if (data.roster) localStorage.setItem(ROSTER_KEY, JSON.stringify(data.roster));
             if (data.webhookUrl) localStorage.setItem(WEBHOOK_KEY, data.webhookUrl);
             if (data.roundState) localStorage.setItem(STORAGE_KEY, JSON.stringify(data.roundState));
@@ -1789,7 +1523,7 @@
       try {
         const canvas = await html2canvas(cardEl, {
           scale: 2,
-          backgroundColor: document.body.classList.contains('theme-white') ? '#f8fafc' : '#0f172a',
+          backgroundColor: document.body.classList.contains('theme-white') ? '#1d4ed8' : '#ffffff',
           useCORS: true
         });
 
