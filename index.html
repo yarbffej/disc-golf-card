@@ -190,11 +190,11 @@
     </div>
   </header>
 
-  <!-- MAIN SCORING CARD (Desktop Responsive) -->
-  <main class="flex-1 px-3.5 py-2.5 max-w-lg md:max-w-5xl mx-auto w-full flex flex-col justify-between gap-2.5">
+  <!-- MAIN SCORING CARD (Compact & Proportional on Laptop, Full-Height on Phone) -->
+  <main class="flex-1 md:flex-none px-3.5 py-2.5 md:py-6 max-w-lg md:max-w-5xl mx-auto w-full flex flex-col justify-between md:justify-start gap-2.5 md:gap-4">
     
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 shrink-0">
-      <div class="app-card rounded-2xl p-2.5 flex items-center justify-between shadow-md">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 md:gap-4 shrink-0">
+      <div class="app-card rounded-2xl p-2.5 md:px-4 md:py-3 flex items-center justify-between shadow-md">
         <button onclick="prevHole()" id="btnPrevHoleTop" class="w-11 h-11 rounded-xl bg-blue-900 text-white active:scale-90 flex items-center justify-center font-bold text-base disabled:opacity-30 disabled:pointer-events-none transition shadow">
           <i class="fa-solid fa-chevron-left"></i>
         </button>
@@ -212,7 +212,7 @@
         </button>
       </div>
 
-      <div class="app-card rounded-xl p-3 flex items-center justify-between shadow-sm">
+      <div class="app-card rounded-2xl p-3 md:px-4 md:py-3 flex items-center justify-between shadow-sm">
         <div>
           <span class="text-[10px] font-bold uppercase card-subtext block tracking-wide">PAR</span>
           <span id="parDisplay" class="text-2xl font-black card-title leading-tight">3</span>
@@ -223,7 +223,7 @@
         </div>
       </div>
 
-      <div class="app-card rounded-xl p-3 flex items-center justify-between shadow-sm">
+      <div class="app-card rounded-2xl p-3 md:px-4 md:py-3 flex items-center justify-between shadow-sm">
         <div>
           <span class="text-[10px] font-bold uppercase card-subtext block tracking-wide">DISTANCE</span>
           <div class="flex items-baseline gap-1">
@@ -237,7 +237,7 @@
       </div>
     </div>
 
-    <div id="playerFairwayCards" class="flex-1 flex flex-col justify-around gap-2.5 md:grid md:grid-cols-2 md:gap-4 md:items-stretch"></div>
+    <div id="playerFairwayCards" class="flex-1 md:flex-none flex flex-col justify-around gap-2.5 md:grid md:grid-cols-2 md:gap-4 md:items-start"></div>
   </main>
 
   <!-- BOTTOM DOCK -->
@@ -300,11 +300,11 @@
     </div>
   </div>
 
-  <!-- INNOVA CADDY & 9-DISC DIRECTIONAL FLIGHT MATRIX (ROYAL BLUE + WHITE CARDS) -->
+  <!-- INNOVA CADDY & 9-DISC DIRECTIONAL FLIGHT MATRIX -->
   <div id="modalCaddy" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end md:justify-center md:p-6">
     <div class="caddy-shell border-t md:border-2 rounded-t-3xl md:rounded-3xl max-w-lg md:max-w-4xl lg:max-w-5xl mx-auto w-full max-h-[94vh] flex flex-col overflow-hidden shadow-2xl transition-colors duration-200">
       
-      <!-- Caddy Header (Matches Main App Header) -->
+      <!-- Caddy Header -->
       <div class="app-header px-4 py-3 border-b flex items-center justify-between shrink-0 transition-colors duration-200">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-black shadow text-sm">
@@ -325,10 +325,10 @@
         </div>
       </div>
 
-      <!-- Caddy Body: Filter Bar & 3x3 White Cards on Blue Background -->
+      <!-- Caddy Body -->
       <div class="overflow-y-auto p-4 flex-1 custom-scroll space-y-3.5" id="caddyModalScrollContainer">
         
-        <!-- Filter Bar (White Card on Blue Background) -->
+        <!-- Filter Bar -->
         <div class="app-card rounded-2xl px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 shadow-md">
           <div class="flex items-center gap-2">
             <span class="text-[10px] font-black uppercase card-subtext">Current Hole:</span>
@@ -342,7 +342,7 @@
           </div>
         </div>
 
-        <!-- 9 INNOVA DISC DIRECTIONAL FLIGHT CARDS (3-Column Grid on Desktop) -->
+        <!-- 9 INNOVA DISC DIRECTIONAL FLIGHT CARDS -->
         <div id="caddyCardsContainer" class="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-3.5"></div>
 
       </div>
@@ -791,7 +791,7 @@
       }
     };
 
-    // 9 INNOVA DISCS DIRECTIONAL FLIGHT MATRIX (3 DRIVERS · 3 MIDS · 3 PUTTERS)
+    // 9 INNOVA DISCS DIRECTIONAL FLIGHT MATRIX (SINGLE-LINE SPECS, NO DUPLICATE NUMBERS)
     const INNOVA_DISCS = [
       {
         id: "firebird",
@@ -799,7 +799,7 @@
         type: "driver",
         directionLabel: "⬅️ FINISHES LEFT",
         directionBadge: "bg-rose-600 text-white border border-rose-700 shadow-xs",
-        specs: "Champion I-Dye · 170g · Multicolor · White Stamp",
+        specs: "Champion I-Dye · 170g · Multicolor",
         numbers: { speed: 9, glide: 3, turn: 0, fade: 4 },
         idealDist: "120 - 150 ft",
         whenToUse: "Aggressive left hook, grass flare skips, headwind fighter, and sharp left doglegs.",
@@ -811,7 +811,7 @@
         type: "driver",
         directionLabel: "⬆️ GOES STRAIGHT",
         directionBadge: "bg-blue-600 text-white border border-blue-700 shadow-xs",
-        specs: "High-Glide Fairway Driver (7 | 6 | -2 | 1)",
+        specs: "High-Glide Fairway Driver",
         numbers: { speed: 7, glide: 6, turn: -2, fade: 1 },
         idealDist: "130 - 155 ft",
         whenToUse: "Effortless straight fairway penetration. Massive Glide (6) floats forward with smooth power.",
@@ -823,7 +823,7 @@
         type: "driver",
         directionLabel: "➡️ DRIFTS RIGHT",
         directionBadge: "bg-amber-500 text-white border border-amber-600 shadow-xs",
-        specs: "Star Plastic · 152g (Ultra-Lightweight!) · Pink · Blue Stamp",
+        specs: "Star Plastic · 152g Lightweight · Pink",
         numbers: { speed: 11, glide: 6, turn: -5, fade: 1 },
         idealDist: "140 - 165+ ft",
         whenToUse: "Tailwind bomber! Ultra-light 152g weight flips up and drifts right for max easy distance.",
@@ -835,7 +835,7 @@
         type: "mid",
         directionLabel: "⬅️ FINISHES LEFT",
         directionBadge: "bg-rose-600 text-white border border-rose-700 shadow-xs",
-        specs: "DX Plastic · 174g · Turquoise · Orange Stamp",
+        specs: "DX Plastic · 174g · Turquoise",
         numbers: { speed: 5, glide: 4, turn: 0, fade: 3 },
         idealDist: "100 - 140 ft",
         whenToUse: "Dependable sweeping left hyzer finish, placement shots, and cutting through moderate breeze.",
@@ -847,7 +847,7 @@
         type: "mid",
         directionLabel: "⬆️ GOES STRAIGHT",
         directionBadge: "bg-blue-600 text-white border border-blue-700 shadow-xs",
-        specs: "Premium Midrange · 0 Turn · 0 Fade",
+        specs: "Star Plastic · Laser Midrange",
         numbers: { speed: 5, glide: 5, turn: 0, fade: 0 },
         idealDist: "90 - 140 ft",
         whenToUse: "Pure laser beam. Zero turn, zero fade; stays locked straight through narrow wooded gaps.",
@@ -859,7 +859,7 @@
         type: "mid",
         directionLabel: "➡️ DRIFTS RIGHT",
         directionBadge: "bg-amber-500 text-white border border-amber-600 shadow-xs",
-        specs: "Star Plastic · 172g · Orange · Silver Stamp",
+        specs: "Star Plastic · 172g · Orange",
         numbers: { speed: 5, glide: 6, turn: -4, fade: 1 },
         idealDist: "110 - 145 ft",
         whenToUse: "Effortless right curve on backhand throws. Glides right smoothly and lands soft; great roller.",
@@ -871,7 +871,7 @@
         type: "putter",
         directionLabel: "⬅️ FINISHES LEFT",
         directionBadge: "bg-rose-600 text-white border border-rose-700 shadow-xs",
-        specs: "Galactic XT Factory Second · 175g · Green",
+        specs: "Galactic XT · 175g · Green",
         numbers: { speed: 3, glide: 1, turn: 0, fade: 3 },
         idealDist: "40 - 100 ft",
         whenToUse: "Drop-and-stick approach that hooks left and stops dead with zero rollaway. Great forehand grip.",
@@ -883,7 +883,7 @@
         type: "putter",
         directionLabel: "⬆️ GOES STRAIGHT",
         directionBadge: "bg-blue-600 text-white border border-blue-700 shadow-xs",
-        specs: "Star Plastic · 175g · Red · Blue Stamp",
+        specs: "Star Plastic · 175g · Red",
         numbers: { speed: 3, glide: 3, turn: 0, fade: 1 },
         idealDist: "75 - 120 ft",
         whenToUse: "Driving putter off the tee for short par 3s. Clean beadless release with a dead-straight flight.",
@@ -895,7 +895,7 @@
         type: "putter",
         directionLabel: "⬆️ GOES STRAIGHT",
         directionBadge: "bg-blue-600 text-white border border-blue-700 shadow-xs",
-        specs: "Baseline Beadless Putt & Approach",
+        specs: "Baseline Putt & Approach",
         numbers: { speed: 2, glide: 3, turn: 0, fade: 1 },
         idealDist: "10 - 75 ft",
         whenToUse: "Direct putts inside Circle 1/2. Floaty touch upshots directly at the pole that land softly.",
@@ -903,11 +903,11 @@
       }
     ];
 
-    const STORAGE_KEY = 'dg_round_v40';
-    const HISTORY_KEY = 'dg_history_v40';
+    const STORAGE_KEY = 'dg_round_v41';
+    const HISTORY_KEY = 'dg_history_v41';
     const THEME_KEY = 'dg_theme_mode_v2';
-    const TIMER_KEY = 'dg_timer_state_v40';
-    const ROSTER_KEY = 'dg_roster_v40';
+    const TIMER_KEY = 'dg_timer_state_v41';
+    const ROSTER_KEY = 'dg_roster_v41';
     const WEBHOOK_KEY = 'dg_drive_webhook_url';
 
     const INITIAL_ROSTER = [
@@ -915,7 +915,7 @@
       { id: 'jack', name: 'Jack', tag: 'J2', color: 'blue-800' }
     ];
 
-    // COMPLETE SEEDED ARCHIVE (INCLUDES OCT 15 SAR-KO-PAR & DEDUPLICATED BLACK HOOF)
+    // COMPLETE SEEDED ARCHIVE
     const SEEDED_ROUNDS = [
       {
         id: 1792169030880,
@@ -1157,7 +1157,7 @@
       }
       
       if (!Array.isArray(history) || history.length === 0) {
-        ['dg_history_v39', 'dg_history_v38', 'dg_history_v37', 'dg_history_v36', 'dg_history_v35'].forEach(k => {
+        ['dg_history_v40', 'dg_history_v39', 'dg_history_v38', 'dg_history_v37', 'dg_history_v36'].forEach(k => {
           if (history.length === 0) {
             const old = localStorage.getItem(k);
             if (old) {
@@ -1170,7 +1170,6 @@
       if (!Array.isArray(history) || history.length === 0) {
         history = SEEDED_ROUNDS;
       } else {
-        // Remove old 00:00:00 duplicate Black Hoof entry and normalize jack_3999
         history = history.filter(h => !(h.courseName === "Black Hoof Flying Disc" && h.duration === "00:00:00"));
         history.forEach(h => {
           if (h.players) {
@@ -1292,7 +1291,7 @@
       renderCaddyDiscCards();
     }
 
-    // RENDER CLEAN DIRECTIONAL FLIGHT MATRIX CARDS (WHITE CARDS ON ROYAL BLUE BACKGROUND)
+    // RENDER CLEAN DIRECTIONAL FLIGHT MATRIX CARDS (SINGLE-LINE SUBHEADERS)
     function renderCaddyDiscCards() {
       const container = document.getElementById('caddyCardsContainer');
       container.innerHTML = '';
@@ -1307,16 +1306,16 @@
         card.className = "app-card rounded-2xl p-4 shadow-lg flex flex-col justify-between gap-2.5 transition-all duration-200";
         card.innerHTML = `
           <div>
-            <!-- Top Row: Mold Name & Direction Pill -->
-            <div class="flex items-start justify-between gap-2 mb-1">
-              <div>
-                <div class="flex flex-wrap items-center gap-1.5">
-                  <h4 class="text-base font-black card-title leading-tight">${d.name}</h4>
-                  <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-lg ${d.directionBadge}">
+            <!-- Top Row: Mold Name & Range -->
+            <div class="flex items-start justify-between gap-2">
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <h4 class="text-base font-black card-title leading-tight truncate">${d.name}</h4>
+                  <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-lg shrink-0 ${d.directionBadge}">
                     ${d.directionLabel}
                   </span>
                 </div>
-                <p class="text-[11px] spec-badge font-extrabold mt-1">${d.specs}</p>
+                <p class="text-[11px] spec-badge font-extrabold mt-1 truncate whitespace-nowrap">${d.specs}</p>
               </div>
               <div class="text-right shrink-0">
                 <span class="text-[9px] uppercase font-bold card-subtext block">Range</span>
@@ -1324,7 +1323,7 @@
               </div>
             </div>
 
-            <!-- 4-Column Flight Numbers Box (Matches Main Scorecard Counter Box) -->
+            <!-- 4-Column Flight Numbers Box -->
             <div class="counter-box grid grid-cols-4 gap-1 text-center rounded-xl p-2 border my-2.5">
               <div>
                 <span class="text-[9px] font-bold uppercase card-subtext block">Speed</span>
@@ -1378,7 +1377,7 @@
       try {
         const fullBackup = {
           app: "Jeffery & Jack Disc Golf Scorecard",
-          version: "v40",
+          version: "v41",
           exportDate: new Date().toISOString(),
           history: getHistory(),
           roster: getRoster(),
@@ -2121,9 +2120,9 @@
         const badgeHtml = getBadgeHtml(score, h.par);
 
         const card = document.createElement('div');
-        card.className = "app-card rounded-2xl p-4 shadow-lg flex flex-col justify-between flex-1 relative overflow-hidden";
+        card.className = "app-card rounded-2xl p-4 md:p-5 shadow-lg flex flex-col justify-between flex-1 md:flex-none md:gap-3 relative overflow-hidden";
         card.innerHTML = `
-          <div class="flex items-center justify-between mb-1">
+          <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="w-7 h-7 rounded-lg bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow">${p.tag}</span>
               <div>
@@ -2137,24 +2136,24 @@
             <div>${badgeHtml}</div>
           </div>
 
-          <div class="counter-box grid grid-cols-5 items-center gap-2 my-1.5 p-2 rounded-xl border flex-1 max-h-24">
-            <button onclick="adjustPlayerScore('${p.id}', -1)" class="col-span-1 h-full min-h-[3.8rem] rounded-xl bg-blue-900 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
+          <div class="counter-box grid grid-cols-5 items-center gap-2 my-1.5 md:my-1 p-2 md:py-3.5 rounded-xl border flex-1 md:flex-none max-h-24 md:max-h-none">
+            <button onclick="adjustPlayerScore('${p.id}', -1)" class="col-span-1 h-full min-h-[3.8rem] md:min-h-[4.2rem] rounded-xl bg-blue-900 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
               <i class="fa-solid fa-minus"></i>
             </button>
             <div class="col-span-3 text-center flex flex-col justify-center">
               <span class="text-5xl font-black counter-number leading-none tracking-tight">${score}</span>
               <span class="block text-[10px] card-subtext uppercase font-bold tracking-widest mt-1">Throws</span>
             </div>
-            <button onclick="adjustPlayerScore('${p.id}', 1)" class="col-span-1 h-full min-h-[3.8rem] rounded-xl bg-blue-600 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
+            <button onclick="adjustPlayerScore('${p.id}', 1)" class="col-span-1 h-full min-h-[3.8rem] md:min-h-[4.2rem] rounded-xl bg-blue-600 text-white text-2xl font-black active:scale-95 flex items-center justify-center shadow">
               <i class="fa-solid fa-plus"></i>
             </button>
           </div>
 
-          <div class="grid grid-cols-4 gap-1.5 mt-1">
-            <button onclick="setPlayerScorePreset('${p.id}', 1)" class="py-2.5 px-1 rounded-xl bg-amber-500 text-white font-black text-xs active:scale-95 shadow-sm">Ace (1)</button>
-            <button onclick="setPlayerScorePreset('${p.id}', 'birdie')" class="py-2.5 px-1 rounded-xl bg-emerald-600 text-white font-black text-xs active:scale-95 shadow-sm">Birdie</button>
-            <button onclick="setPlayerScorePreset('${p.id}', 'par')" class="py-2.5 px-1 rounded-xl bg-blue-700 text-white font-black text-xs active:scale-95 shadow-sm">Par</button>
-            <button onclick="setPlayerScorePreset('${p.id}', 'bogey')" class="py-2.5 px-1 rounded-xl bg-orange-600 text-white font-black text-xs active:scale-95 shadow-sm">Bogey</button>
+          <div class="grid grid-cols-4 gap-1.5">
+            <button onclick="setPlayerScorePreset('${p.id}', 1)" class="py-2.5 md:py-3 px-1 rounded-xl bg-amber-500 text-white font-black text-xs active:scale-95 shadow-sm">Ace (1)</button>
+            <button onclick="setPlayerScorePreset('${p.id}', 'birdie')" class="py-2.5 md:py-3 px-1 rounded-xl bg-emerald-600 text-white font-black text-xs active:scale-95 shadow-sm">Birdie</button>
+            <button onclick="setPlayerScorePreset('${p.id}', 'par')" class="py-2.5 md:py-3 px-1 rounded-xl bg-blue-700 text-white font-black text-xs active:scale-95 shadow-sm">Par</button>
+            <button onclick="setPlayerScorePreset('${p.id}', 'bogey')" class="py-2.5 md:py-3 px-1 rounded-xl bg-orange-600 text-white font-black text-xs active:scale-95 shadow-sm">Bogey</button>
           </div>
         `;
         container.appendChild(card);
