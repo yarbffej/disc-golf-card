@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Jeffery & Jack Disc Golf Scorecard (v49 Hub)</title>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>Jeffery & Jack Disc Golf Scorecard (v50 Hub)</title>
 
   <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,6 +35,15 @@
       -webkit-font-smoothing: antialiased;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      overflow-x: clip;
+    }
+    /* iPhone Notch / Dynamic Island Safe-Area Protection */
+    .safe-header {
+      padding-top: max(calc(env(safe-area-inset-top, 0px) + 0.75rem), 0.85rem);
+      padding-bottom: 0.75rem;
+    }
+    .safe-bottom-nav {
+      padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.35rem);
     }
     .font-display {
       font-family: var(--font-display);
@@ -849,7 +858,7 @@
 
     const INITIAL_USER_EXPORT = {
       app: 'Jeffery & Jack Disc Golf Scorecard',
-      version: 'v49',
+      version: 'v50',
       exportDate: '2026-10-17T16:47:23.539Z',
       history: [
         {
@@ -2521,7 +2530,7 @@ ${jackBagLines}
                         🎙️ VOICE LOG REMINDER
                       </span>
                       <span className="text-xs font-bold text-white">
-                        Tap the box below & use your iPhone Keyboard Mic (or Notes App)
+                        Record Audio in Notes App (or tap box & use keyboard mic)
                       </span>
                     </div>
                     <button
@@ -3676,7 +3685,7 @@ ${jackBagLines}
         try {
           const payload = {
             app: 'Jeffery & Jack Disc Golf Scorecard',
-            version: 'v49',
+            version: 'v50',
             exportDate: new Date().toISOString(),
             history,
             roster,
@@ -3872,7 +3881,7 @@ ${jackBagLines}
 
       const handleExportJsonPayload = () => ({
         app: 'Jeffery & Jack Disc Golf Scorecard',
-        version: 'v49',
+        version: 'v50',
         exportDate: new Date().toISOString(),
         history,
         roster,
@@ -3921,10 +3930,10 @@ ${jackBagLines}
           : 'theme-midnight';
 
       return (
-        <div className={`${themeClass} min-h-screen pb-24 transition-colors duration-200`}>
-          {/* Top Bar */}
-          <header className="bg-[#080B14]/95 border-b border-slate-800 px-4 py-3 sticky top-0 z-40 backdrop-blur-md">
-            <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        <div className={`${themeClass} min-h-screen pb-28 transition-colors duration-200`}>
+          {/* Top Bar with iPhone Notch / Dynamic Island Safe-Area Protection */}
+          <header className="safe-header bg-[#080B14]/95 border-b border-slate-800 px-4 sticky top-0 z-40 backdrop-blur-md shadow-md">
+            <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
               <a
                 href="#home"
                 onClick={(e) => { e.preventDefault(); setActiveTab('home'); }}
@@ -3962,7 +3971,7 @@ ${jackBagLines}
 
               <button
                 onClick={() => setActiveTab('sync')}
-                className={`px-3.5 py-1.5 text-xs font-extrabold rounded-xl ${
+                className={`px-3.5 py-1.5 text-xs font-extrabold rounded-xl shrink-0 ${
                   activeTab === 'sync' ? 'bg-[#39FF14] text-slate-950' : 'bg-[#FF2E93] text-white'
                 }`}
               >
@@ -4109,7 +4118,7 @@ ${jackBagLines}
           </main>
 
           {/* Mobile Fixed Bottom Thumb-Zone Navigation Bar */}
-          <nav className="fixed bottom-0 left-0 right-0 z-40 bg-[#080B14]/95 border-t border-slate-800 grid grid-cols-5 md:hidden pb-[env(safe-area-inset-bottom)]">
+          <nav className="safe-bottom-nav fixed bottom-0 left-0 right-0 z-40 bg-[#080B14]/95 border-t border-slate-800 grid grid-cols-5 md:hidden">
             {[
               { id: 'home', label: 'Home Hub', icon: '🏠', color: 'text-[#39FF14]' },
               { id: 'live', label: 'Play Round', icon: '📋', color: 'text-[#FF2E93]' },
