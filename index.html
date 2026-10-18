@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Jeffery & Jack Disc Golf Scorecard (v52 Collector Edition)</title>
+  <title>Jeffery & Jack Disc Golf Scorecard (v53 Collector Edition)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -424,7 +424,7 @@
     ];
 
     const INITIAL_USER_EXPORT = {
-      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v52', exportDate: '2026-10-17T16:47:23.539Z',
+      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v53', exportDate: '2026-10-17T16:47:23.539Z',
       history: [
         { id: 1792169030880, courseName: 'Sar-Ko-Par Trails', totalHoles: 9, date: '2026-10-15', duration: '00:27:05', par: 27,
           players: [{ id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 26 }, { id: 'jack', name: 'Jack', tag: 'J2', total: 28 }],
@@ -577,7 +577,7 @@
       return count;
     }
 
-    // INTERACTIVE 3D FLIPPABLE TRADING CARD COMPONENT (WITH ISOLATED HIGH-CONTRAST BACK COLORS)
+    // INTERACTIVE 3D FLIPPABLE TRADING CARD COMPONENT (LARGER BACK FONTS & FULL CARD FILL)
     function FlippableTradingCard({ disc, history = [], onSelectForSim, onEnlarge }) {
       const [isFlipped, setIsFlipped] = useState(false);
       const [imgError, setImgError] = useState(false);
@@ -604,88 +604,96 @@
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full p-4 flex flex-col justify-between bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 cb-white border-4 border-amber-400/80 rounded-2xl">
+                  <div className="w-full h-full p-5 flex flex-col justify-between bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 cb-white border-4 border-amber-400/80 rounded-2xl">
                     <div className="flex items-center justify-between border-b border-white/20 pb-2">
-                      <span className="text-[10px] font-mono-tabular font-extrabold cb-gold">{disc.cardNumber || 'COLLECTOR CARD'}</span>
-                      <span className="px-2 py-0.5 rounded bg-white/10 font-mono-tabular text-xs font-extrabold cb-white">{disc.speed}|{disc.glide}|{disc.turn}|{disc.fade}</span>
+                      <span className="text-xs font-mono-tabular font-extrabold cb-gold">{disc.cardNumber || 'COLLECTOR CARD'}</span>
+                      <span className="px-2.5 py-0.5 rounded bg-white/10 font-mono-tabular text-xs font-extrabold cb-white">{disc.speed}|{disc.glide}|{disc.turn}|{disc.fade}</span>
                     </div>
-                    <div className="my-auto text-center space-y-2">
-                      <div className="w-24 h-24 rounded-full mx-auto border-4 border-white/40 flex items-center justify-center shadow-inner" style={{ backgroundColor: disc.colorHex || '#FF2E93' }}>
-                        <span className="font-display font-black cb-dark text-sm uppercase tracking-tighter text-center px-1">{disc.name}</span>
+                    <div className="my-auto text-center space-y-2.5">
+                      <div className="w-28 h-28 rounded-full mx-auto border-4 border-white/40 flex items-center justify-center shadow-inner" style={{ backgroundColor: disc.colorHex || '#FF2E93' }}>
+                        <span className="font-display font-black cb-dark text-base uppercase tracking-tighter text-center px-2">{disc.name}</span>
                       </div>
-                      <div className="font-display font-extrabold text-base cb-white">{disc.brand} {disc.plastic} {disc.name}</div>
-                      <div className="text-[11px] cb-gold font-bold">{disc.slotCategory}</div>
+                      <div className="font-display font-extrabold text-lg cb-white">{disc.brand} {disc.plastic} {disc.name}</div>
+                      <div className="text-xs cb-gold font-bold">{disc.slotCategory}</div>
                     </div>
-                    <div className="text-center text-[10px] font-mono-tabular uppercase tracking-wider bg-black/40 py-1.5 rounded-lg border border-white/15 cb-white">
+                    <div className="text-center text-xs font-mono-tabular uppercase tracking-wider bg-black/40 py-2 rounded-lg border border-white/15 cb-white">
                       SPD {disc.speed} · GLD {disc.glide} · TRN {disc.turn} · FDE {disc.fade}
                     </div>
                   </div>
                 )}
 
-                <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-slate-950/90 cb-gold border border-amber-400/50 text-[10px] font-extrabold tracking-wide shadow-lg">
+                <div className="absolute top-2.5 right-2.5 px-3 py-1 rounded-full bg-slate-950/90 cb-gold border border-amber-400/50 text-xs font-extrabold tracking-wide shadow-lg">
                   🔄 Tap to Flip
                 </div>
               </div>
 
-              {/* BACK FACE: 1990s MARVEL MASTERPIECES / IMPEL STATS DOSSIER */}
-              <div className="card-3d-face card-3d-back p-3.5 sm:p-4 flex flex-col justify-between">
-                <div className="space-y-2">
-                  {/* Top Collector Header */}
-                  <div className="flex items-center justify-between border-b border-amber-400/40 pb-1.5">
-                    <span className="text-[10px] font-mono-tabular font-extrabold cb-gold tracking-wider">
+              {/* BACK FACE: FULL-HEIGHT, LARGE-FONT 1990s IMPEL STATS DOSSIER */}
+              <div className="card-3d-face card-3d-back p-4 sm:p-5 flex flex-col justify-between">
+                {/* 1. Top Collector Header & Title */}
+                <div>
+                  <div className="flex items-center justify-between border-b border-amber-400/40 pb-2">
+                    <span className="text-xs sm:text-sm font-mono-tabular font-extrabold cb-gold tracking-wider">
                       {disc.cardNumber || '199X EDITION'} · {disc.orderNumber || '1010 DISCS'}
                     </span>
-                    <span className={`px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${directionBadge.bg}`}>
+                    <span className={`px-2.5 py-1 rounded-md text-[11px] sm:text-xs font-extrabold uppercase ${directionBadge.bg}`}>
                       {directionBadge.text}
                     </span>
                   </div>
 
-                  <div>
-                    <h4 className="font-display text-base sm:text-lg font-black cb-white leading-tight">
+                  <div className="mt-2">
+                    <h4 className="font-display text-xl sm:text-2xl font-black cb-white leading-tight">
                       {disc.brand} {disc.plastic} {disc.name}
                     </h4>
-                    <div className="text-[11px] font-bold cb-gold mt-0.5">
+                    <div className="text-xs sm:text-sm font-extrabold cb-gold mt-0.5">
                       {disc.weightGrams ? `${disc.weightGrams}g · ` : ''}{disc.slotCategory} · Range: {disc.idealMinFeet}–{disc.idealMaxFeet} ft
-                    </div>
-                  </div>
-
-                  {/* Impel-Style 4-Stat Power Matrix Bars */}
-                  <div className="bg-slate-950/90 p-2.5 rounded-xl border border-slate-700 space-y-1.5">
-                    <div className="flex items-center justify-between text-[10px] font-mono-tabular font-extrabold">
-                      <span className="cb-muted">FLIGHT RATING MATRIX</span>
-                      <span className="cb-cyan">[{disc.speed} | {disc.glide} | {disc.turn} | {disc.fade}]</span>
-                    </div>
-                    {[
-                      { label: 'SPD', val: disc.speed, pct: Math.min(100, (disc.speed / 12) * 100), color: 'bg-pink-500' },
-                      { label: 'GLD', val: disc.glide, pct: Math.min(100, (disc.glide / 7) * 100), color: 'bg-cyan-400' },
-                      { label: 'TRN', val: disc.turn, pct: Math.min(100, ((Math.abs(disc.turn) + 1) / 6) * 100), color: 'bg-amber-400' },
-                      { label: 'FDE', val: disc.fade, pct: Math.min(100, ((disc.fade + 0.5) / 5) * 100), color: 'bg-lime-400' }
-                    ].map((stat) => (
-                      <div key={stat.label} className="flex items-center gap-2 text-[10px] font-mono-tabular">
-                        <span className="w-7 font-bold cb-muted">{stat.label}</span>
-                        <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
-                          <div className={`h-full ${stat.color}`} style={{ width: `${stat.pct}%` }} />
-                        </div>
-                        <span className="w-6 text-right font-extrabold cb-white">{stat.val}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* High-Contrast Dossier Lore & Course Strategy */}
-                  <div className="space-y-1.5 text-[11px] leading-snug">
-                    <div className="bg-slate-950/75 p-2 rounded-lg border border-slate-700/80">
-                      <strong className="cb-gold uppercase text-[9px] font-extrabold block mb-0.5">Mold & Flight Dossier:</strong>
-                      <span className="cb-light block">{disc.moldAndFlight}</span>
-                    </div>
-                    <div className="bg-slate-950/75 p-2 rounded-lg border border-slate-700/80">
-                      <strong className="cb-cyan uppercase text-[9px] font-extrabold block mb-0.5">On-Course Strategy:</strong>
-                      <span className="cb-light block">{disc.courseStrategy}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Card Back Footer */}
-                <div className="pt-1.5 border-t border-amber-400/30 flex items-center justify-between text-[10px] font-extrabold">
+                {/* 2. Impel-Style 4-Stat Power Matrix Bars (Larger Text & Thicker Bars) */}
+                <div className="bg-slate-950/90 p-3 rounded-xl border border-slate-700 space-y-2 my-2">
+                  <div className="flex items-center justify-between text-xs sm:text-sm font-mono-tabular font-extrabold">
+                    <span className="cb-muted">FLIGHT RATING MATRIX</span>
+                    <span className="cb-cyan">[{disc.speed} | {disc.glide} | {disc.turn} | {disc.fade}]</span>
+                  </div>
+                  {[
+                    { label: 'SPD', val: disc.speed, pct: Math.min(100, (disc.speed / 12) * 100), color: 'bg-pink-500' },
+                    { label: 'GLD', val: disc.glide, pct: Math.min(100, (disc.glide / 7) * 100), color: 'bg-cyan-400' },
+                    { label: 'TRN', val: disc.turn, pct: Math.min(100, ((Math.abs(disc.turn) + 1) / 6) * 100), color: 'bg-amber-400' },
+                    { label: 'FDE', val: disc.fade, pct: Math.min(100, ((disc.fade + 0.5) / 5) * 100), color: 'bg-lime-400' }
+                  ].map((stat) => (
+                    <div key={stat.label} className="flex items-center gap-2.5 text-xs sm:text-sm font-mono-tabular">
+                      <span className="w-8 font-extrabold cb-muted">{stat.label}</span>
+                      <div className="flex-1 h-2.5 sm:h-3 bg-slate-800 rounded-full overflow-hidden">
+                        <div className={`h-full ${stat.color}`} style={{ width: `${stat.pct}%` }} />
+                      </div>
+                      <span className="w-6 text-right font-extrabold cb-white">{stat.val}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* 3. Full-Fill Dossier Lore & Course Strategy Boxes */}
+                <div className="flex-1 flex flex-col justify-evenly gap-2.5 my-1">
+                  <div className="flex-1 bg-slate-950/80 p-3 rounded-xl border border-slate-700/80 flex flex-col justify-center">
+                    <strong className="cb-gold uppercase text-xs font-extrabold block mb-1 tracking-wide">
+                      Mold & Flight Dossier:
+                    </strong>
+                    <span className="cb-light text-xs sm:text-sm leading-relaxed block">
+                      {disc.moldAndFlight}
+                    </span>
+                  </div>
+                  <div className="flex-1 bg-slate-950/80 p-3 rounded-xl border border-slate-700/80 flex flex-col justify-center">
+                    <strong className="cb-cyan uppercase text-xs font-extrabold block mb-1 tracking-wide">
+                      On-Course Strategy:
+                    </strong>
+                    <span className="cb-light text-xs sm:text-sm leading-relaxed block">
+                      {disc.courseStrategy}
+                    </span>
+                  </div>
+                </div>
+
+                {/* 4. Card Back Footer */}
+                <div className="pt-2 border-t border-amber-400/30 flex items-center justify-between text-xs sm:text-sm font-extrabold">
                   <span className="cb-lime">Logged Throws: {loggedThrows}</span>
                   <span className="cb-gold">🔄 Tap to Flip Front</span>
                 </div>
@@ -698,7 +706,7 @@
             {onSelectForSim && (
               <button
                 onClick={(e) => { e.stopPropagation(); onSelectForSim(disc.id); }}
-                className="flex-1 py-1.5 px-2.5 rounded-lg sub-control border border-slate-700 text-xs font-extrabold text-white hover:border-[#00F0FF] truncate"
+                className="flex-1 py-2 px-3 rounded-lg sub-control border border-slate-700 text-xs sm:text-sm font-extrabold text-white hover:border-[#00F0FF] truncate"
               >
                 🛸 Flight Radar ({disc.name})
               </button>
@@ -706,7 +714,7 @@
             {onEnlarge && (
               <button
                 onClick={(e) => { e.stopPropagation(); onEnlarge(disc); }}
-                className="py-1.5 px-2.5 rounded-lg bg-[#FF2E93] text-white keep-white text-xs font-extrabold shrink-0"
+                className="py-2 px-3 rounded-lg bg-[#FF2E93] text-white keep-white text-xs sm:text-sm font-extrabold shrink-0"
               >
                 🔍 Zoom
               </button>
@@ -919,7 +927,7 @@
           <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <div className="space-y-1.5 max-w-2xl">
               <div className="text-xs font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
-                Welcome to the Tee Pad · Collector Card Edition (v52)
+                Welcome to the Tee Pad · Collector Card Edition (v53)
               </div>
               <h1 className="font-display text-xl sm:text-2xl font-extrabold text-white">
                 What would you like to do today?
@@ -2311,7 +2319,7 @@
       useEffect(() => {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v52', exportDate: new Date().toISOString(),
+            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v53', exportDate: new Date().toISOString(),
             history, roster, roundState, webhookUrl, timerState, courses, bag
           }));
         } catch {}
@@ -2429,7 +2437,7 @@
       };
 
       const handleExportJsonPayload = () => ({
-        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v52', exportDate: new Date().toISOString(),
+        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v53', exportDate: new Date().toISOString(),
         history, roster, roundState, webhookUrl, timerState, courses, bag
       });
 
