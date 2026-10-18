@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Jeffery & Jack Disc Golf Scorecard (v57 Collector Edition)</title>
+  <title>Jeffery & Jack Disc Golf Scorecard (v60 Collector Edition)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -157,7 +157,7 @@
     const { useState, useEffect } = React;
 
     // ============================================================================
-    // INITIAL DATA: PACK GEAR, 12-DISC DUAL BAG, 17 COURSES (WITH WYANDOTTE) & 9 ROUNDS
+    // INITIAL DATA: PACK GEAR, 12-DISC DUAL BAG (ALL 12 TRADING CARDS!), 17 COURSES & 10 ROUNDS
     // ============================================================================
     const INITIAL_PACK_GEAR = [
       { id: 'gear-pack', name: 'Innova Adventure Pack (Pink/Blue)', category: 'Primary Bag', orderRef: '1010 Discs', packed: true },
@@ -268,37 +268,38 @@
         caddieScenarios: ['tailwind'], caddieRoleNote: '152g Star Mamba — Featherlight Tailwind Bomber & Uphill Cheat Code',
         spotterWarning: 'Keep safely holstered in Kansas headwinds!'
       },
+      // JACK'S 3 HOLOGRAPHIC DISCRAFT TRADING CARDS
       {
-        id: 'discraft-roach', ownerId: 'jack', cardNumber: 'JACK #01',
-        name: 'Roach', brand: 'Discraft', slotCategory: 'Beadless Putt & Approach', plastic: 'Discraft Lineup', weightGrams: 174,
-        colorStamp: "Jack's Primary Putter", orderNumber: '#277696', type: 'Putter',
-        speedTier: 'SPD 2-4', stabilitySlot: 'Neutral', speed: 2, glide: 4, turn: -1, fade: 1, colorHex: '#00F0FF',
+        id: 'discraft-roach', ownerId: 'jack', cardNumber: 'JACK #01 OF 03', cardImage: 'card_discraft_roach.jpg',
+        name: 'Roach', brand: 'Discraft', slotCategory: 'Beadless Putt & Approach', plastic: 'Z-Line', weightGrams: 174,
+        colorStamp: 'Hot Pink / Cracked-Ice Holo', orderNumber: '#277696', sku: 'DC-ROACH', type: 'Putter',
+        speedTier: 'SPD 2-4', stabilitySlot: 'Neutral', speed: 2, glide: 3, turn: 0, fade: 1, colorHex: '#00F0FF',
         idealMinFeet: 0, idealMaxFeet: 175,
-        moldAndFlight: "Jack's main beadless putter and short approach disc. Extra-glide neutral profile that floats straight to the chains.",
-        courseStrategy: "Jack's Circle 1 & Circle 2 putting putter plus straight touch approaches on short holes.",
-        transcriptStats: 'Send post-round transcript to update Jack stats.',
+        moldAndFlight: "Jack's main beadless putter and short approach disc. Straight, floaty profile that aims dead at the chains with a soft landing.",
+        courseStrategy: "Jack's Circle 1 & Circle 2 putting putter plus straight touch approaches inside 175 ft.",
+        transcriptStats: 'Send post-round transcript to populate Jack Circle 1/2 putt & approach stats.',
         caddieScenarios: ['calm', 'tailwind'], isSynergyAddon: true
       },
       {
-        id: 'discraft-buzzz-ss', ownerId: 'jack', cardNumber: 'JACK #02',
-        name: 'Buzzz SS', brand: 'Discraft', slotCategory: 'Understable-Neutral Midrange', plastic: 'Discraft Lineup', weightGrams: 175,
-        colorStamp: "Jack's Workhorse Midrange", orderNumber: '#277696', type: 'Midrange',
+        id: 'discraft-buzzz-ss', ownerId: 'jack', cardNumber: 'JACK #02 OF 03', cardImage: 'card_discraft_buzzz_ss.jpg',
+        name: 'Buzzz SS', brand: 'Discraft', slotCategory: 'Understable-Neutral Midrange', plastic: 'ESP', weightGrams: 175,
+        colorStamp: 'Lavender Swirl / Rainbow Hornet Stamp', orderNumber: '#277696', sku: 'DC-BUZZZSS', type: 'Midrange',
         speedTier: 'SPD 5', stabilitySlot: 'Understable', speed: 5, glide: 4, turn: -2, fade: 1, colorHex: '#39FF14',
         idealMinFeet: 175, idealMaxFeet: 255,
-        moldAndFlight: "Jack's smooth point-and-shoot midrange. Effortless hyzer-flip to flat flight with a gentle right drift.",
-        courseStrategy: "Jack's go-to midrange for 175–255 ft holes, wooded gaps, and controlled turnovers.",
-        transcriptStats: 'Send post-round transcript to update Jack stats.',
+        moldAndFlight: "Jack's smooth point-and-shoot ESP midrange. Effortless hyzer-flip to flat flight with a gentle right drift and clean finish.",
+        courseStrategy: "Jack's workhorse midrange for 175–255 ft fairways, wooded gaps, and controlled turnovers.",
+        transcriptStats: 'Send post-round transcript to populate Jack midrange fairway hit & approach stats.',
         caddieScenarios: ['calm', 'tailwind'], isSynergyAddon: true
       },
       {
-        id: 'discraft-cicada', ownerId: 'jack', cardNumber: 'JACK #03',
-        name: 'Cicada', brand: 'Discraft', slotCategory: 'Neutral Fairway Driver', plastic: 'Discraft Lineup', weightGrams: 170,
-        colorStamp: "Jack's Fairway Driver", orderNumber: '#277696', type: 'Fairway Driver',
+        id: 'discraft-cicada', ownerId: 'jack', cardNumber: 'JACK #03 OF 03', cardImage: 'card_discraft_cicada.jpg',
+        name: 'Cicada', brand: 'Discraft', slotCategory: 'Neutral Fairway Driver', plastic: 'Z-Line (1994 Edition)', weightGrams: 170,
+        colorStamp: 'Neon Yellow / 16-Bit Forest Foil', orderNumber: '#277696', sku: 'DC-CICADA', type: 'Fairway Driver',
         speedTier: 'SPD 7-11', stabilitySlot: 'Neutral', speed: 7, glide: 6, turn: -1, fade: 1, colorHex: '#FACC15',
         idealMinFeet: 235, idealMaxFeet: 330,
-        moldAndFlight: "Jack's high-glide 7-speed fairway driver. Holds a laser-straight line off the tee with 6 glide for maximum fairway carry.",
-        courseStrategy: "Jack's primary driver on holes 235+ ft and long par 3/4 tee shots.",
-        transcriptStats: 'Send post-round transcript to update Jack stats.',
+        moldAndFlight: "Jack's high-glide 7-speed fairway driver. Holds a laser-straight line off the tee with massive 6 glide and minimal fade.",
+        courseStrategy: "Jack's primary driver on holes 235+ ft and long Par 3 / Par 4 tee shots.",
+        transcriptStats: 'Send post-round transcript to populate Jack tee drive distance & fairway stats.',
         caddieScenarios: ['calm', 'headwind', 'tailwind'], isSynergyAddon: true
       }
     ];
@@ -462,8 +463,40 @@
     ];
 
     const INITIAL_USER_EXPORT = {
-      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v57', exportDate: '2026-10-17T16:47:23.539Z',
+      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v60', exportDate: '2026-10-18T22:39:00.000Z',
       history: [
+        {
+          id: 1792350000000,
+          courseName: 'Wyandotte County Park',
+          totalHoles: 18,
+          date: '2026-10-18',
+          duration: '02:06:03',
+          par: 63,
+          players: [
+            { id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 97 },
+            { id: 'jack', name: 'Jack', tag: 'J2', total: 108 }
+          ],
+          holes: [
+            { number: 1, distance: 555, par: 4, scores: { jeffery: 6, jack: 6 } },
+            { number: 2, distance: 548, par: 4, scores: { jeffery: 7, jack: 7 } },
+            { number: 3, distance: 441, par: 3, scores: { jeffery: 5, jack: 5 } },
+            { number: 4, distance: 487, par: 4, scores: { jeffery: 7, jack: 6 } },
+            { number: 5, distance: 262, par: 3, scores: { jeffery: 3, jack: 4 } },
+            { number: 6, distance: 407, par: 3, scores: { jeffery: 4, jack: 6 } },
+            { number: 7, distance: 550, par: 4, scores: { jeffery: 6, jack: 8 } },
+            { number: 8, distance: 337, par: 3, scores: { jeffery: 7, jack: 7 } },
+            { number: 9, distance: 366, par: 3, scores: { jeffery: 5, jack: 5 } },
+            { number: 10, distance: 500, par: 4, scores: { jeffery: 6, jack: 6 } },
+            { number: 11, distance: 283, par: 3, scores: { jeffery: 4, jack: 5 } },
+            { number: 12, distance: 520, par: 4, scores: { jeffery: 6, jack: 7 } },
+            { number: 13, distance: 685, par: 4, scores: { jeffery: 7, jack: 8 } },
+            { number: 14, distance: 562, par: 4, scores: { jeffery: 6, jack: 7 } },
+            { number: 15, distance: 361, par: 3, scores: { jeffery: 4, jack: 5 } },
+            { number: 16, distance: 429, par: 3, scores: { jeffery: 5, jack: 5 } },
+            { number: 17, distance: 617, par: 4, scores: { jeffery: 6, jack: 7 } },
+            { number: 18, distance: 386, par: 3, scores: { jeffery: 3, jack: 4 } }
+          ]
+        },
         { id: 1792169030880, courseName: 'Sar-Ko-Par Trails', totalHoles: 9, date: '2026-10-15', duration: '00:27:05', par: 27,
           players: [{ id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 26 }, { id: 'jack', name: 'Jack', tag: 'J2', total: 28 }],
           holes: [
@@ -614,34 +647,11 @@
       return mentions;
     }
 
-    function computeLiveSkinsAndMatch(holes, p1Id, p2Id) {
-      let p1SkinsWon = 0, p2SkinsWon = 0, carryover = 0, p1HolesUp = 0;
-      const holeWinners = {};
-      for (const h of holes) {
-        const s1 = (h.scores && h.scores[p1Id]) || 0;
-        const s2 = (h.scores && h.scores[p2Id]) || 0;
-        if (s1 === 0 || s2 === 0) { holeWinners[h.number] = { winner: 'unplayed', skinsAwarded: 0 }; continue; }
-        const pot = 1 + carryover;
-        if (s1 < s2) { p1SkinsWon += pot; carryover = 0; p1HolesUp += 1; holeWinners[h.number] = { winner: p1Id, skinsAwarded: pot }; }
-        else if (s2 < s1) { p2SkinsWon += pot; carryover = 0; p1HolesUp -= 1; holeWinners[h.number] = { winner: p2Id, skinsAwarded: pot }; }
-        else { carryover += 1; holeWinners[h.number] = { winner: 'push', skinsAwarded: 0 }; }
-      }
-      let matchStatusText = 'All Square (AS)';
-      if (p1HolesUp > 0) matchStatusText = `${p1Id === 'jeffery' ? 'Jeffery' : 'P1'} ${p1HolesUp} UP`;
-      else if (p1HolesUp < 0) matchStatusText = `${p2Id === 'jack' ? 'Jack' : 'P2'} ${Math.abs(p1HolesUp)} UP`;
-      return { p1SkinsWon, p2SkinsWon, currentCarryover: carryover, matchStatusText, holeWinners };
-    }
-
-    // RETURNS ALL 3 RECOMMENDED DISCS IN ORDER: 1. DRIVER -> 2. MID-RANGE -> 3. PUTTER
+    // RETURNS ALL 3 RECOMMENDED INNOVA DISCS FOR JEFFERY: 1. DRIVER -> 2. MID-RANGE -> 3. PUTTER
     function recommendThreeDiscLineup(distanceFeet, scenario, bag) {
       const byId = (id) => bag.find((d) => d.id === id) || null;
 
-      let driver = null;
-      let driverNote = '';
-      let midrange = null;
-      let midNote = '';
-      let putter = null;
-      let putterNote = '';
+      let driver = null, driverNote = '', midrange = null, midNote = '', putter = null, putterNote = '';
 
       if (scenario === 'headwind') {
         driver = byId('innova-firebird');
@@ -658,7 +668,6 @@
         putter = byId('innova-sync');
         putterNote = 'Smooth throwing putter that holds straight or gentle turnover lines.';
       } else {
-        // Calm / Straight Tunnel
         if (distanceFeet >= 305) {
           driver = byId('innova-mamba');
           driverNote = 'Release on a slight hyzer; stands up, turns right, and glides forever.';
@@ -677,6 +686,39 @@
         { slotLabel: '2. MID-RANGE (FAIRWAY / APPROACH)', disc: midrange, note: midNote, badgeColor: 'bg-[#00F0FF] text-slate-950' },
         { slotLabel: '3. PUTTER (GREEN / CHAINS)', disc: putter, note: putterNote, badgeColor: 'bg-[#39FF14] text-slate-950' }
       ].filter((item) => item.disc !== null);
+    }
+
+    // RETURNS ALL 3 DISCRAFT DISCS FOR JACK: 1. DRIVER (CICADA) -> 2. MID-RANGE (BUZZZ SS) -> 3. PUTTER (ROACH)
+    function recommendJackThreeDiscLineup(bag) {
+      const byId = (id) => bag.find((d) => d.id === id) || null;
+      return [
+        {
+          slotLabel: "1. JACK'S DRIVER (TEE SHOT)",
+          disc: byId('discraft-cicada'),
+          note: 'High-glide 7-speed fairway driver for straight tee carry on 235+ ft holes.',
+          badgeColor: 'bg-[#FACC15] text-slate-950'
+        },
+        {
+          slotLabel: "2. JACK'S MID-RANGE (FAIRWAY)",
+          disc: byId('discraft-buzzz-ss'),
+          note: 'Smooth point-and-shoot ESP midrange for 175–255 ft fairways & wooded gaps.',
+          badgeColor: 'bg-[#39FF14] text-slate-950'
+        },
+        {
+          slotLabel: "3. JACK'S PUTTER (CHAINS)",
+          disc: byId('discraft-roach'),
+          note: 'Straight beadless putter for touch upshots inside 175 ft and Circle 1/2 putts.',
+          badgeColor: 'bg-[#00F0FF] text-slate-950'
+        }
+      ].filter((item) => item.disc !== null);
+    }
+
+    function recommendJackDisc(distanceFeet, bag) {
+      const jackDiscs = bag.filter((d) => d.ownerId === 'jack');
+      const byId = (id) => jackDiscs.find((d) => d.id === id) || null;
+      if (distanceFeet < 175) return byId('discraft-roach') || jackDiscs[0] || null;
+      if (distanceFeet <= 240) return byId('discraft-buzzz-ss') || jackDiscs[0] || null;
+      return byId('discraft-cicada') || jackDiscs[0] || null;
     }
 
     // INTERACTIVE 3D FLIPPABLE TRADING CARD COMPONENT (COMPACT 3-BOX BACK)
@@ -859,19 +901,37 @@
       const matching = history.filter(
         (r) => r.courseName.toLowerCase() === courseName.toLowerCase() && r.players.some((p) => p.id === playerId && p.total > 0)
       );
-      if (matching.length === 0) return { bestTotal: null, bestRelPar: null, avgTotal: null, roundsCount: 0 };
+      if (matching.length === 0) return { bestTotal: null, bestRelPar: null, avgTotal: null, roundsCount: 0, strokeDrop: null, firstScore: null, latestScore: null };
       let bestTotal = Infinity, bestRelPar = Infinity, sumTotal = 0;
       for (const r of matching) {
         const p = r.players.find((pl) => pl.id === playerId);
         sumTotal += p.total;
         if (p.total < bestTotal) { bestTotal = p.total; bestRelPar = p.total - r.par; }
       }
-      return { bestTotal, bestRelPar, avgTotal: Number((sumTotal / matching.length).toFixed(1)), roundsCount: matching.length };
+      const firstScore = matching[matching.length - 1].players.find((pl) => pl.id === playerId)?.total ?? null;
+      const latestScore = matching[0].players.find((pl) => pl.id === playerId)?.total ?? null;
+      const strokeDrop = matching.length >= 2 && firstScore !== null && latestScore !== null ? latestScore - firstScore : null;
+      return {
+        bestTotal,
+        bestRelPar,
+        avgTotal: Number((sumTotal / matching.length).toFixed(1)),
+        roundsCount: matching.length,
+        strokeDrop,
+        firstScore,
+        latestScore
+      };
     }
 
     function computePlayerCareerProfile(playerId, history) {
       let roundsPlayed = 0, holesPlayed = 0, totalStrokes = 0, totalPar = 0, aces = 0, birdies = 0, pars = 0, bogeys = 0, doubleOrWorse = 0;
       let bestRoundRelPar = null;
+      const brackets = [
+        { label: 'Putters & Touch (< 185 ft)', min: 0, max: 184, count: 0, diffSum: 0 },
+        { label: 'Mid-Range Slot (185–239 ft)', min: 185, max: 239, count: 0, diffSum: 0 },
+        { label: 'Fairway Driver (240–299 ft)', min: 240, max: 299, count: 0, diffSum: 0 },
+        { label: 'Distance Driver (300+ ft)', min: 300, max: 9999, count: 0, diffSum: 0 }
+      ];
+
       for (const round of history) {
         const pSummary = round.players.find((p) => p.id === playerId);
         if (!pSummary) continue;
@@ -887,39 +947,22 @@
           if (s === 1) aces++;
           const d = s - h.par;
           if (d <= -1) birdies++; else if (d === 0) pars++; else if (d === 1) bogeys++; else doubleOrWorse++;
+          const b = brackets.find((br) => h.distance >= br.min && h.distance <= br.max);
+          if (b) { b.count++; b.diffSum += d; }
         }
       }
       const overallRelPar = totalStrokes - totalPar;
       const avgRelParPer9 = holesPlayed > 0 ? Number(((overallRelPar / holesPlayed) * 9).toFixed(1)) : 0;
-      return { playerId, roundsPlayed, holesPlayed, totalStrokes, totalPar, overallRelPar, avgRelParPer9, aces, birdies, pars, bogeys, doubleOrWorse, bestRoundRelPar };
-    }
-
-    function computeHeadToHead(p1Id, p2Id, history) {
-      let sharedRounds = 0, p1Wins = 0, p2Wins = 0, ties = 0, sharedHoles = 0, p1Skins = 0, p2Skins = 0, pushedHoles = 0;
-      for (const r of history) {
-        const p1 = r.players.find((p) => p.id === p1Id);
-        const p2 = r.players.find((p) => p.id === p2Id);
-        if (!p1 || !p2) continue;
-        sharedRounds++;
-        if (p1.total < p2.total) p1Wins++; else if (p2.total < p1.total) p2Wins++; else ties++;
-        for (const h of r.holes) {
-          const s1 = h.scores ? h.scores[p1Id] : 0;
-          const s2 = h.scores ? h.scores[p2Id] : 0;
-          if (s1 > 0 && s2 > 0) {
-            sharedHoles++;
-            if (s1 < s2) p1Skins++; else if (s2 < s1) p2Skins++; else pushedHoles++;
-          }
-        }
-      }
-      return { sharedRounds, p1Wins, p2Wins, ties, sharedHoles, p1Skins, p2Skins, pushedHoles };
-    }
-
-    function recommendJackDisc(distanceFeet, bag) {
-      const jackDiscs = bag.filter((d) => d.ownerId === 'jack');
-      const byId = (id) => jackDiscs.find((d) => d.id === id) || null;
-      if (distanceFeet < 175) return byId('discraft-roach') || jackDiscs[0] || null;
-      if (distanceFeet <= 240) return byId('discraft-buzzz-ss') || jackDiscs[0] || null;
-      return byId('discraft-cicada') || jackDiscs[0] || null;
+      const parOrBetterPct = holesPlayed > 0 ? Math.round(((birdies + pars) / holesPlayed) * 100) : 0;
+      return {
+        playerId, roundsPlayed, holesPlayed, totalStrokes, totalPar, overallRelPar,
+        avgRelParPer9, parOrBetterPct, aces, birdies, pars, bogeys, doubleOrWorse, bestRoundRelPar,
+        distanceBrackets: brackets.map((b) => ({
+          label: b.label,
+          holesCount: b.count,
+          avgRelPar: b.count > 0 ? Number((b.diffSum / b.count).toFixed(2)) : 0
+        }))
+      };
     }
 
     function computeFlightPathSvg(disc, wind = 'calm', releaseAngle = 'flat') {
@@ -943,7 +986,7 @@
     }
 
     // ============================================================================
-    // VIEW 1: HOME HUB & PRE-ROUND TEE-OFF WIZARD (EXTRA LARGE NOTES & TEE-OFF BUTTONS)
+    // VIEW 1: HOME HUB & PRE-ROUND TEE-OFF WIZARD
     // ============================================================================
     function HomeHubView({
       courses, bag, history, roundState,
@@ -961,7 +1004,7 @@
 
       const buildNotesAppStarterTemplate = () => {
         const today = new Date().toISOString().slice(0, 10);
-        return `🎙️ DISC GOLF ROUND VOICE LOG — ${chosenCourse.name}\nDate: ${today}\nWind Condition: ${selectedWind.toUpperCase()}\nPlayers: Jeffery (9-Disc Innova Adventure Pack) & Jack (Discraft Lineup)\n\n--- RECORD AUDIO IN APPLE NOTES BELOW ---\nHole 1 (${chosenCourse.holes[0]?.distance || 555}ft, Par ${chosenCourse.holes[0]?.par || 4}): `;
+        return `🎙️ DISC GOLF ROUND VOICE LOG — ${chosenCourse.name}\nDate: ${today}\nWind Condition: ${selectedWind.toUpperCase()}\nPlayers: Jeffery (9-Disc Innova Adventure Pack) & Jack (3-Disc Discraft Lineup)\n\n--- RECORD AUDIO IN APPLE NOTES BELOW ---\nHole 1 (${chosenCourse.holes[0]?.distance || 555}ft, Par ${chosenCourse.holes[0]?.par || 4}): `;
       };
 
       const handleCopyAndOpenNotes = async () => {
@@ -1046,7 +1089,6 @@
                 </div>
               </div>
 
-              {/* STEP 3: BIG REMINDER TO COPY HEADER & START APPLE NOTES AUDIO RECORD */}
               <div className="sub-tile p-4 rounded-xl border-2 border-[#00F0FF] flex flex-col justify-between space-y-3">
                 <div className="space-y-2.5">
                   <h3 className="font-extrabold text-sm sm:text-base text-white">
@@ -1089,14 +1131,14 @@
           <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <div className="space-y-1.5 max-w-2xl">
               <div className="text-xs font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
-                Welcome to the Tee Pad · Collector Card Edition (v57)
+                Welcome to the Tee Pad · 12-Card Collector Edition (v60)
               </div>
               <h1 className="font-display text-xl sm:text-2xl font-extrabold text-white">
-                Ready for Wyandotte County Park?
+                Wyandotte County Park Round Logged (`97` & `108`)!
               </h1>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Wyandotte County Park (Veteran Baskets — 18 Holes, Par 63, 8,294 ft) is loaded! Launch your round, flip through{' '}
-                <strong className="accent-pink text-[#FF2E93]">Jeffery's 9 Holographic 3D Innova Trading Cards</strong>, or review past scorecards by course.
+                Today's 18-hole Wyandotte County Park round (`02:06:03`) is saved in your archive! Launch a round, flip through{' '}
+                <strong className="accent-cyan text-[#00F0FF]">all 12 Holographic 3D Trading Cards</strong>, or check your updated Personal Progress stats.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2.5 shrink-0">
@@ -1107,10 +1149,10 @@
                 <span>▶ Play a Round</span>
               </button>
               <button
-                onClick={() => onNavigateTab('courses', 'jeffery')}
+                onClick={() => onNavigateTab('courses', 'all')}
                 className="min-h-[46px] px-4 py-2.5 rounded-xl bg-[#00F0FF] hover:bg-[#00F0FF]/90 text-slate-950 font-extrabold text-xs sm:text-sm flex items-center gap-2 neon-border-cyan"
               >
-                <span>🃏 Flip 3D Disc Cards (9)</span>
+                <span>🃏 Flip All 12 3D Cards</span>
               </button>
               {activeHolesScored > 0 && (
                 <button
@@ -1127,8 +1169,8 @@
             <div className="neon-card rounded-2xl border border-slate-800 p-5 flex flex-col justify-between space-y-3.5">
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-pink text-[#FF2E93]">1 · Live On-Course Scorecard</span>
-                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Play a Round & 3-Disc Tee-Box Caddie</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Score hole-by-hole across all {courses.length} courses with 3-disc caddie recommendations (Driver, Mid-Range & Putter) on every hole.</p>
+                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Play a Round & Dual 3-Disc Tee-Box Caddie</h2>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Score hole-by-hole across all {courses.length} courses with 3-card caddie lineups (Driver, Mid-Range & Putter) for both Jeffery and Jack.</p>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => { setShowStartWizard(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text-sm">Start New Round Setup</button>
@@ -1139,12 +1181,12 @@
             <div className="neon-card rounded-2xl border border-slate-800 p-5 flex flex-col justify-between space-y-3.5">
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">2 · 3D Collector Binder & Flight Lab</span>
-                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">3D Flippable Trading Card Binder</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Tap any of Jeffery's {jefferyDiscs.length} holographic Innova cards to flip to its 3-box Impel stat & transcript back.</p>
+                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">3D Flippable Trading Card Binder (12 Cards)</h2>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Flip through Jeffery's {jefferyDiscs.length} Innova cards or Jack's {jackDiscs.length} new Discraft cards (Cicada, Buzzz SS & Roach).</p>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => onNavigateTab('courses', 'jeffery')} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text-sm">Jeffery's 3D Cards ({jefferyDiscs.length})</button>
-                <button onClick={() => onNavigateTab('courses', 'jack')} className="flex-1 py-2.5 px-4 rounded-xl bg-[#00F0FF] text-slate-950 font-bold text-xs sm:text-sm">Jack's Discraft Bag ({jackDiscs.length})</button>
+                <button onClick={() => onNavigateTab('courses', 'jack')} className="flex-1 py-2.5 px-4 rounded-xl bg-[#00F0FF] text-slate-950 font-bold text-xs sm:text-sm">Jack's 3D Cards ({jackDiscs.length})</button>
               </div>
             </div>
 
@@ -1152,19 +1194,19 @@
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-lime text-[#39FF14]">3 · Course-Grouped Round History</span>
                 <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Review History by Course ({history.length} Rounds)</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Tap any course name (Sar-Ko-Par, Mize, Black Hoof, Harmon, Wolf Den, Art Nine) to expand all rounds played there.</p>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Tap any course name (including today's Wyandotte County Park round!) to expand all scorecards played there.</p>
               </div>
               <button onClick={() => onNavigateTab('history')} className="w-full py-2.5 px-4 rounded-xl bg-[#39FF14] text-slate-950 font-bold text-xs sm:text-sm">Open Course History →</button>
             </div>
 
             <div className="neon-card rounded-2xl border border-slate-800 p-5 flex flex-col justify-between space-y-3.5">
               <div>
-                <span className="text-[11px] font-extrabold uppercase tracking-wider accent-gold text-[#FACC15]">4 · Course Records & Rivalry</span>
-                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Course Records & Jeffery vs. Jack Stats</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Compare Personal Bests, skins won, and birdie percentages between Jeffery and Jack.</p>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider accent-gold text-[#FACC15]">4 · Personal Progress & Course Records</span>
+                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">You vs. Yourself — Personal Best Telemetry</h2>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Track how many strokes you and Jack shave off your own Personal Bests, course averages, and distance slots.</p>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => onNavigateTab('rivalry')} className="flex-1 py-2.5 px-4 rounded-xl bg-[#00F0FF] text-slate-950 font-bold text-xs sm:text-sm">View Rivalry Stats</button>
+                <button onClick={() => onNavigateTab('rivalry')} className="flex-1 py-2.5 px-4 rounded-xl bg-[#00F0FF] text-slate-950 font-bold text-xs sm:text-sm">View Personal Progress Stats</button>
                 <button onClick={() => onNavigateTab('sync')} className="sub-control py-2.5 px-4 rounded-xl border border-slate-700 text-white font-bold text-xs sm:text-sm">Roster & Backup</button>
               </div>
             </div>
@@ -1174,7 +1216,7 @@
     }
 
     // ============================================================================
-    // VIEW 2: LIVE SCORECARD VIEW (OVERSIZED TIMER & NOTES AUDIO RECORD REMINDERS)
+    // VIEW 2: LIVE SCORECARD VIEW (DUAL 3-CARD LINEUPS FOR JEFFERY & JACK)
     // ============================================================================
     function LiveScorecardView({
       roundState, setRoundState, roster, history, courses, bag,
@@ -1206,7 +1248,7 @@
 
       const jefferyBag = bag.filter((d) => d.ownerId !== 'jack');
       const threeDiscLineup = recommendThreeDiscLineup(currentHole.distance, caddieScenario, jefferyBag.length > 0 ? jefferyBag : bag);
-      const jackRecommendedDisc = recommendJackDisc(currentHole.distance, bag);
+      const jackThreeDiscLineup = recommendJackThreeDiscLineup(bag);
 
       const formatDuration = (secs) => {
         const hrs = Math.floor(secs / 3600), mins = Math.floor((secs % 3600) / 60), s = secs % 60;
@@ -1224,7 +1266,7 @@
 
       const handleCopyHeaderForNotes = async () => {
         const lineupNames = threeDiscLineup.map((item) => item.disc.name).join(' → ');
-        const template = `🎙️ DISC GOLF ROUND VOICE LOG — ${roundState.courseName}\nDate: ${roundState.date} · Wind: ${caddieScenario.toUpperCase()}\nHole #${currentHole.number} (${currentHole.distance}ft, Par ${currentHole.par})\nJeffery 3-Disc Lineup: ${lineupNames} | Jack Pull: ${jackRecommendedDisc?.name || 'Discraft'}\n\n--- RECORD AUDIO IN APPLE NOTES BELOW ---\n`;
+        const template = `🎙️ DISC GOLF ROUND VOICE LOG — ${roundState.courseName}\nDate: ${roundState.date} · Wind: ${caddieScenario.toUpperCase()}\nHole #${currentHole.number} (${currentHole.distance}ft, Par ${currentHole.par})\nJeffery 3-Disc Lineup: ${lineupNames} | Jack 3-Disc Lineup: Cicada → Buzzz SS → Roach\n\n--- RECORD AUDIO IN APPLE NOTES BELOW ---\n`;
         try {
           await navigator.clipboard.writeText(template);
           setCopiedNotesConfirm(true);
@@ -1289,7 +1331,6 @@
         return { player, totalStrokes, parThru, holesCompleted, relPar: totalStrokes - parThru, birdiesCount, coursePB: getCoursePersonalBest(roundState.courseName, player.id, history) };
       });
 
-      const skinsAndMatch = activePlayers.length >= 2 ? computeLiveSkinsAndMatch(roundState.holes, activePlayers[0].id, activePlayers[1].id) : null;
       const totalHolesScoredAllPlayers = roundState.holes.filter((h) => activePlayers.every((p) => ((h.scores && h.scores[p.id]) || 0) > 0)).length;
       const totalCoursePar = roundState.holes.reduce((sum, h) => sum + h.par, 0);
       const totalCourseDistance = roundState.holes.reduce((sum, h) => sum + h.distance, 0);
@@ -1320,7 +1361,11 @@
                 <FlippableTradingCard
                   disc={modalCardDisc}
                   history={history}
-                  onSelectForSim={(discId) => { setModalCardDisc(null); if (onOpenBagGuide) onOpenBagGuide(discId, 'jeffery'); }}
+                  onSelectForSim={(discId) => {
+                    const owner = modalCardDisc.ownerId === 'jack' ? 'jack' : 'jeffery';
+                    setModalCardDisc(null);
+                    if (onOpenBagGuide) onOpenBagGuide(discId, owner);
+                  }}
                 />
               </div>
             </div>
@@ -1480,11 +1525,11 @@
                   </div>
                 )}
 
-                {/* ALL 3 DISC RECOMMENDATIONS IN ORDER: 1. DRIVER -> 2. MID-RANGE -> 3. PUTTER */}
-                <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-3">
+                {/* DUAL 3-DISC CADDIE LINEUPS: JEFFERY'S 3 INNOVA CARDS + JACK'S 3 DISCRAFT CARDS */}
+                <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-3.5">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-xs font-extrabold uppercase tracking-wider text-white">
-                      🎯 Hole #{currentHole.number} 3-Disc Lineup ({currentHole.distance} ft)
+                      🎯 Hole #{currentHole.number} 3-Disc Lineups ({currentHole.distance} ft)
                     </span>
                     <div className="sub-control p-1 rounded-lg border border-slate-700 flex gap-1">
                       {[
@@ -1497,65 +1542,100 @@
                     </div>
                   </div>
 
-                  {/* Jeffery's 3-Card Lineup: Driver -> Mid-Range -> Putter */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                    {threeDiscLineup.map((item) => (
-                      <div key={item.slotLabel} className="sub-control p-2.5 rounded-xl border border-slate-700 flex flex-col justify-between space-y-2">
-                        <div>
-                          <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${item.badgeColor}`}>
-                            {item.slotLabel}
-                          </span>
-                          <div className="flex items-start gap-2 mt-2">
-                            {item.disc.cardImage && (
-                              <img
-                                src={item.disc.cardImage}
-                                alt={item.disc.name}
-                                onClick={() => setModalCardDisc(item.disc)}
-                                onError={(e) => { e.target.style.display = 'none'; }}
-                                title="Tap to open 3D Flippable Card"
-                                className="w-12 h-16 object-cover rounded-lg border border-amber-400 shadow cursor-pointer shrink-0 hover:scale-105 transition-transform"
-                              />
-                            )}
-                            <div className="min-w-0">
-                              <div className="text-xs font-extrabold text-white leading-tight">
-                                {item.disc.weightGrams ? `${item.disc.weightGrams}g ` : ''}{item.disc.plastic} {item.disc.name}
-                              </div>
-                              <div className="font-mono-tabular text-[10px] font-bold accent-cyan text-[#00F0FF] mt-0.5">
-                                [{item.disc.speed} | {item.disc.glide} | {item.disc.turn} | {item.disc.fade}]
+                  {/* Jeffery's 3-Card Innova Lineup: Driver -> Mid-Range -> Putter */}
+                  <div className="space-y-1.5">
+                    <div className="text-[11px] font-extrabold uppercase accent-pink text-[#FF2E93]">
+                      Jeffery's 3-Disc Innova Lineup (Driver → Mid-Range → Putter):
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                      {threeDiscLineup.map((item) => (
+                        <div key={item.slotLabel} className="sub-control p-2.5 rounded-xl border border-slate-700 flex flex-col justify-between space-y-2">
+                          <div>
+                            <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${item.badgeColor}`}>
+                              {item.slotLabel}
+                            </span>
+                            <div className="flex items-start gap-2 mt-2">
+                              {item.disc.cardImage && (
+                                <img
+                                  src={item.disc.cardImage}
+                                  alt={item.disc.name}
+                                  onClick={() => setModalCardDisc(item.disc)}
+                                  onError={(e) => { e.target.style.display = 'none'; }}
+                                  title="Tap to open 3D Flippable Card"
+                                  className="w-12 h-16 object-cover rounded-lg border border-amber-400 shadow cursor-pointer shrink-0 hover:scale-105 transition-transform"
+                                />
+                              )}
+                              <div className="min-w-0">
+                                <div className="text-xs font-extrabold text-white leading-tight">
+                                  {item.disc.weightGrams ? `${item.disc.weightGrams}g ` : ''}{item.disc.plastic} {item.disc.name}
+                                </div>
+                                <div className="font-mono-tabular text-[10px] font-bold accent-cyan text-[#00F0FF] mt-0.5">
+                                  [{item.disc.speed} | {item.disc.glide} | {item.disc.turn} | {item.disc.fade}]
+                                </div>
                               </div>
                             </div>
+                            <p className="text-[11px] text-slate-300 mt-1.5 leading-snug">{item.note}</p>
                           </div>
-                          <p className="text-[11px] text-slate-300 mt-1.5 leading-snug">{item.note}</p>
+                          <button
+                            onClick={() => setModalCardDisc(item.disc)}
+                            className="w-full py-1 px-2 rounded-lg sub-tile border border-slate-700 text-[10px] font-extrabold accent-pink text-[#FF2E93] hover:underline text-center"
+                          >
+                            🃏 Flip 3D Card →
+                          </button>
                         </div>
-                        <button
-                          onClick={() => setModalCardDisc(item.disc)}
-                          className="w-full py-1 px-2 rounded-lg sub-tile border border-slate-700 text-[10px] font-extrabold accent-pink text-[#FF2E93] hover:underline text-center"
-                        >
-                          🃏 Flip 3D Card →
-                        </button>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
 
-                  {/* Jack's Discraft Lineup Bar */}
-                  {jackRecommendedDisc && (
-                    <div className="sub-control px-3 py-2 rounded-xl border border-slate-700 flex flex-wrap items-center justify-between gap-2">
-                      <div className="text-xs">
-                        <span className="font-extrabold uppercase accent-cyan text-[#00F0FF] mr-2">Jack's Discraft Lineup:</span>
-                        <span className="font-extrabold text-white">
-                          1. Driver: 170g Cicada [7|6|-1|1] · 2. Mid: 175g Buzzz SS [5|4|-2|1] · 3. Putter: 174g Roach [2|4|-1|1]
-                        </span>
+                  {/* Jack's 3-Card Discraft Lineup: Cicada -> Buzzz SS -> Roach */}
+                  {jackThreeDiscLineup.length > 0 && (
+                    <div className="space-y-1.5 pt-2 border-t border-slate-700/70">
+                      <div className="text-[11px] font-extrabold uppercase accent-cyan text-[#00F0FF]">
+                        Jack's 3-Disc Discraft Lineup (Driver → Mid-Range → Putter):
                       </div>
-                      {onOpenBagGuide && (
-                        <button onClick={() => onOpenBagGuide(jackRecommendedDisc.id, 'jack')} className="text-[11px] font-bold accent-cyan text-[#00F0FF] underline shrink-0">
-                          Jack's Bag →
-                        </button>
-                      )}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        {jackThreeDiscLineup.map((item) => (
+                          <div key={item.slotLabel} className="sub-control p-2.5 rounded-xl border border-slate-700 flex flex-col justify-between space-y-2">
+                            <div>
+                              <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${item.badgeColor}`}>
+                                {item.slotLabel}
+                              </span>
+                              <div className="flex items-start gap-2 mt-2">
+                                {item.disc.cardImage && (
+                                  <img
+                                    src={item.disc.cardImage}
+                                    alt={item.disc.name}
+                                    onClick={() => setModalCardDisc(item.disc)}
+                                    onError={(e) => { e.target.style.display = 'none'; }}
+                                    title="Tap to open Jack's 3D Flippable Card"
+                                    className="w-12 h-16 object-cover rounded-lg border border-cyan-400 shadow cursor-pointer shrink-0 hover:scale-105 transition-transform"
+                                  />
+                                )}
+                                <div className="min-w-0">
+                                  <div className="text-xs font-extrabold text-white leading-tight">
+                                    {item.disc.weightGrams ? `${item.disc.weightGrams}g ` : ''}{item.disc.brand} {item.disc.name}
+                                  </div>
+                                  <div className="font-mono-tabular text-[10px] font-bold accent-cyan text-[#00F0FF] mt-0.5">
+                                    [{item.disc.speed} | {item.disc.glide} | {item.disc.turn} | {item.disc.fade}]
+                                  </div>
+                                </div>
+                              </div>
+                              <p className="text-[11px] text-slate-300 mt-1.5 leading-snug">{item.note}</p>
+                            </div>
+                            <button
+                              onClick={() => setModalCardDisc(item.disc)}
+                              className="w-full py-1 px-2 rounded-lg sub-tile border border-slate-700 text-[10px] font-extrabold accent-cyan text-[#00F0FF] hover:underline text-center"
+                            >
+                              🃏 Flip Jack's Card →
+                            </button>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
 
-                {/* LARGE APPLE NOTES AUDIO RECORD REMINDER BUTTON (NO TEXTBOX CLUTTER) */}
+                {/* LARGE APPLE NOTES AUDIO RECORD REMINDER BUTTON */}
                 <div className="sub-tile p-3.5 rounded-xl border-2 border-[#00F0FF]/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-2">
@@ -1579,7 +1659,7 @@
                 </div>
 
                 <div className="text-xs text-slate-400 flex flex-wrap items-center justify-between gap-2 pt-0.5">
-                  <span className="font-bold">📊 Hole #{currentHole.number} History ({caddyInsight.roundsPlayed} rounds at {roundState.courseName}):</span>
+                  <span className="font-bold">📊 Hole #{currentHole.number} Personal History ({caddyInsight.roundsPlayed} rounds at {roundState.courseName}):</span>
                   <div>
                     {activePlayers.map((p, idx) => {
                       const st = caddyInsight.playerStats[p.id];
@@ -1634,7 +1714,7 @@
                 })}
               </div>
 
-              {/* Prev / Next Hole Navigation (Automatically Scrolls Back to Top of Hole Card!) */}
+              {/* Prev / Next Hole Navigation */}
               <div className="neon-card rounded-2xl border border-slate-800 p-3.5 flex items-center justify-between gap-2">
                 <button
                   disabled={roundState.currentHoleIndex === 0}
@@ -1662,17 +1742,17 @@
               </div>
             </div>
 
-            {/* RIGHT 5 COLS: Live Standings & Full Scorecard */}
+            {/* RIGHT 5 COLS: Personal Best Pace & Full Scorecard */}
             <div className="lg:col-span-5 space-y-4">
               <div className="neon-card rounded-2xl border border-slate-800 p-4 space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-extrabold text-sm text-white">Live Standings & Course Record Pace</h3>
-                  {skinsAndMatch && <span className="text-xs font-extrabold accent-pink text-[#FF2E93]">{skinsAndMatch.matchStatusText}</span>}
+                  <h3 className="font-extrabold text-sm text-white">Personal Pace vs. Your Course PB</h3>
+                  <span className="text-xs font-extrabold accent-cyan text-[#00F0FF]">You vs. Yourself</span>
                 </div>
                 <table className="w-full text-left text-xs sm:text-sm">
                   <thead>
                     <tr className="border-b border-slate-800 text-slate-400">
-                      <th className="py-1.5">Player</th><th className="py-1.5">Thru</th><th className="py-1.5">+/-</th><th className="py-1.5">Strokes</th><th className="py-1.5">Course PB / Avg</th>
+                      <th className="py-1.5">Player</th><th className="py-1.5">Thru</th><th className="py-1.5">+/-</th><th className="py-1.5">Strokes</th><th className="py-1.5">Your Course PB / Avg</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800 font-bold text-white">
@@ -1682,7 +1762,7 @@
                         <td className="py-2 font-mono-tabular">{st.holesCompleted}/{roundState.totalHoles}</td>
                         <td className="py-2 font-mono-tabular accent-cyan text-[#00F0FF]">{st.holesCompleted > 0 ? formatRelativePar(st.relPar) : 'E'}</td>
                         <td className="py-2 font-mono-tabular">{st.totalStrokes || '—'}</td>
-                        <td className="py-2 text-slate-400 text-xs">{st.coursePB.bestTotal !== null ? `PB ${st.coursePB.bestTotal} · Avg ${st.coursePB.avgTotal}` : 'First Round'}</td>
+                        <td className="py-2 text-slate-400 text-xs">{st.coursePB.bestTotal !== null ? `PB ${st.coursePB.bestTotal} · Avg ${st.coursePB.avgTotal}` : 'Setting 1st PB!'}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -1796,13 +1876,13 @@
                 onClick={() => { setBagOwnerFilter('jack'); if (jackDiscs[0]) setSelectedDiscId(jackDiscs[0].id); }}
                 className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold ${bagOwnerFilter === 'jack' ? 'bg-[#00F0FF] text-slate-950' : 'sub-control text-slate-300'}`}
               >
-                Jack's Discraft Bag ({jackDiscs.length})
+                Jack's 3-Card Discraft Binder ({jackDiscs.length})
               </button>
               <button
                 onClick={() => setBagOwnerFilter('all')}
                 className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold ${bagOwnerFilter === 'all' ? 'bg-[#39FF14] text-slate-950' : 'sub-control text-slate-300'}`}
               >
-                All Discs ({bag.length})
+                All 12 Collector Cards ({bag.length})
               </button>
             </div>
           </div>
@@ -1811,7 +1891,7 @@
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
               <div>
                 <h3 className="font-extrabold text-base sm:text-lg text-white">
-                  🃏 {bagOwnerFilter === 'jeffery' ? "Jeffery's 9-Pocket Holographic Trading Card Binder" : bagOwnerFilter === 'jack' ? "Jack's Discraft Lineup Cards" : 'Complete 12-Disc Collector Binder'}
+                  🃏 {bagOwnerFilter === 'jeffery' ? "Jeffery's 9-Pocket Holographic Innova Card Binder" : bagOwnerFilter === 'jack' ? "Jack's 3-Card Holographic Discraft Binder" : 'Complete 12-Card Family Collector Binder'}
                 </h3>
                 <p className="text-xs text-slate-400">
                   Tap any card to flip between the holographic front artwork and the 3-box Impel stat & transcript back!
@@ -1873,7 +1953,7 @@
                     onChange={(e) => setSelectedDiscId(e.target.value)}
                     className="sub-control h-9 px-3 rounded-xl border border-slate-700 text-xs font-extrabold text-white"
                   >
-                    {bag.map((d) => <option key={d.id} value={d.id}>{d.name} [{d.speed}|{d.glide}|{d.turn}|{d.fade}]</option>)}
+                    {bag.map((d) => <option key={d.id} value={d.id}>{d.brand} {d.name} [{d.speed}|{d.glide}|{d.turn}|{d.fade}]</option>)}
                   </select>
                 </div>
 
@@ -1936,11 +2016,13 @@
                   <tr>
                     <th className="py-2">Hole</th><th className="py-2">Par</th><th className="py-2">Distance</th>
                     <th className="py-2">1. Driver</th><th className="py-2">2. Mid-Range</th><th className="py-2">3. Putter</th>
+                    <th className="py-2">Jack's Discraft Pull</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800 font-bold text-white">
                   {activeCourse.holes.map((h) => {
                     const lineup = recommendThreeDiscLineup(h.distance, courseWindPreview, jefferyDiscs);
+                    const jackRec = recommendJackDisc(h.distance, bag);
                     return (
                       <tr key={h.number}>
                         <td className="py-2">Hole #{h.number}</td>
@@ -1953,6 +2035,13 @@
                             </button>
                           </td>
                         ))}
+                        <td className="py-2">
+                          {jackRec ? (
+                            <button onClick={() => setZoomedCardDisc(jackRec)} className="accent-cyan text-[#00F0FF] hover:underline">
+                              🃏 {jackRec.name}
+                            </button>
+                          ) : '—'}
+                        </td>
                       </tr>
                     );
                   })}
@@ -1965,7 +2054,7 @@
     }
 
     // ============================================================================
-    // VIEW 4: RIVALRY & ANALYTICS
+    // VIEW 4: YOU VS. YOURSELF — PERSONAL PROGRESS & COURSE PB TELEMETRY
     // ============================================================================
     function RivalryAnalyticsView({ history, roster }) {
       const [courseFilter, setCourseFilter] = useState('ALL');
@@ -1974,16 +2063,23 @@
 
       const uniqueCourseNames = Array.from(new Set(history.map((r) => r.courseName)));
       const filteredHistory = courseFilter === 'ALL' ? history : history.filter((r) => r.courseName === courseFilter);
-      const h2h = computeHeadToHead(p1.id, p2.id, filteredHistory);
       const p1Profile = computePlayerCareerProfile(p1.id, filteredHistory);
       const p2Profile = computePlayerCareerProfile(p2.id, filteredHistory);
 
       return (
         <div className="space-y-5">
+          {/* Header & Course Filter */}
           <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <h2 className="text-lg sm:text-xl font-extrabold text-white">{p1.name} vs. {p2.name} — Rivalry & Telemetry</h2>
-              <p className="text-xs text-slate-400">Hole-by-hole breakdown across {filteredHistory.length} logged rounds ({p1Profile.holesPlayed} holes analyzed)</p>
+              <span className="text-[11px] font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
+                You vs. Past You · Self-Improvement Telemetry
+              </span>
+              <h2 className="text-lg sm:text-xl font-extrabold text-white">
+                {p1.name} & {p2.name} — Personal Progress & Course Bests
+              </h2>
+              <p className="text-xs text-slate-400">
+                Competing against your own Personal Bests across {filteredHistory.length} logged rounds ({p1Profile.holesPlayed} holes tracked)
+              </p>
             </div>
             <select value={courseFilter} onChange={(e) => setCourseFilter(e.target.value)} className="sub-control h-10 px-3 rounded-xl border border-slate-700 text-xs sm:text-sm font-bold text-white">
               <option value="ALL">All Courses ({history.length} Rounds)</option>
@@ -1991,36 +2087,138 @@
             </select>
           </div>
 
+          {/* 4-Column Self-Rivalry KPI Strip */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
             <div className="neon-card rounded-2xl border border-slate-800 p-4">
-              <span className="text-[11px] font-bold uppercase text-slate-400">Head-to-Head Record</span>
-              <div className="text-xl sm:text-2xl font-extrabold text-white mt-1">{h2h.p1Wins} – {h2h.p2Wins}{h2h.ties > 0 ? ` – ${h2h.ties}` : ''}</div>
-              <span className="text-xs text-slate-400">{p1.name} {h2h.p1Wins}W · {p2.name} {h2h.p2Wins}W</span>
+              <span className="text-[11px] font-bold uppercase text-slate-400">Personal Best vs. Par</span>
+              <div className="text-lg sm:text-xl font-extrabold text-white mt-1">
+                {p1.tag}: {p1Profile.bestRoundRelPar ? `${p1Profile.bestRoundRelPar.score} (${formatRelativePar(p1Profile.bestRoundRelPar.diff)})` : '—'} ·{' '}
+                {p2.tag}: {p2Profile.bestRoundRelPar ? `${p2Profile.bestRoundRelPar.score} (${formatRelativePar(p2Profile.bestRoundRelPar.diff)})` : '—'}
+              </div>
+              <span className="text-xs text-slate-400">Best 9/18-Hole Score to Beat</span>
             </div>
+
             <div className="neon-card rounded-2xl border border-slate-800 p-4">
-              <span className="text-[11px] font-bold uppercase text-slate-400">Individual Holes Won</span>
-              <div className="text-xl sm:text-2xl font-extrabold text-white mt-1">{h2h.p1Skins} vs {h2h.p2Skins}</div>
-              <span className="text-xs text-slate-400">{h2h.pushedHoles} Holes Tied</span>
+              <span className="text-[11px] font-bold uppercase text-slate-400">Par or Better Save %</span>
+              <div className="text-xl sm:text-2xl font-extrabold text-white mt-1">
+                {p1.tag}: {p1Profile.parOrBetterPct}% · {p2.tag}: {p2Profile.parOrBetterPct}%
+              </div>
+              <span className="text-xs text-slate-400">Holes Scored at Par or Birdie</span>
             </div>
+
             <div className="neon-card rounded-2xl border border-slate-800 p-4">
-              <span className="text-[11px] font-bold uppercase text-slate-400">9-Hole Avg vs Par</span>
-              <div className="text-xl sm:text-2xl font-extrabold text-white mt-1">{p1.tag}: {formatRelativePar(p1Profile.avgRelParPer9)} / {p2.tag}: {formatRelativePar(p2Profile.avgRelParPer9)}</div>
-              <span className="text-xs text-slate-400">Normalized per 9 holes</span>
+              <span className="text-[11px] font-bold uppercase text-slate-400">9-Hole Avg vs. Par</span>
+              <div className="text-xl sm:text-2xl font-extrabold text-white mt-1">
+                {p1.tag}: {formatRelativePar(p1Profile.avgRelParPer9)} / {p2.tag}: {formatRelativePar(p2Profile.avgRelParPer9)}
+              </div>
+              <span className="text-xs text-slate-400">Your Personal Baseline Pace</span>
             </div>
+
             <div className="neon-card rounded-2xl border border-slate-800 p-4">
-              <span className="text-[11px] font-bold uppercase text-slate-400">Total Birdies</span>
-              <div className="text-xl sm:text-2xl font-extrabold text-white mt-1">{p1.name}: {p1Profile.birdies} · {p2.name}: {p2Profile.birdies}</div>
-              <span className="text-xs text-slate-400">Lifetime Birdie Count</span>
+              <span className="text-[11px] font-bold uppercase text-slate-400">Career Birdies & Pars</span>
+              <div className="text-lg sm:text-xl font-extrabold text-white mt-1">
+                {p1.tag}: {p1Profile.birdies}B / {p1Profile.pars}P · {p2.tag}: {p2Profile.birdies}B / {p2Profile.pars}P
+              </div>
+              <span className="text-xs text-slate-400">Lifetime Birdies (B) & Pars (P)</span>
             </div>
           </div>
 
+          {/* Side-by-Side Individual Self-Improvement Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { player: p1, profile: p1Profile, badgeBg: 'bg-[#FF2E93]' },
+              { player: p2, profile: p2Profile, badgeBg: 'bg-[#00F0FF] text-slate-950' }
+            ].map(({ player, profile, badgeBg }) => {
+              const totalH = Math.max(1, profile.holesPlayed);
+              const birdiePct = Math.round((profile.birdies / totalH) * 100);
+              const parPct = Math.round((profile.pars / totalH) * 100);
+              const bogeyPct = Math.round((profile.bogeys / totalH) * 100);
+
+              return (
+                <div key={player.id} className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3.5">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                    <div className="flex items-center gap-2.5">
+                      <span className={`w-8 h-8 rounded-xl font-extrabold text-xs flex items-center justify-center ${badgeBg}`}>
+                        {player.tag}
+                      </span>
+                      <div>
+                        <h3 className="font-extrabold text-base text-white">{player.name} vs. {player.name}</h3>
+                        <p className="text-xs text-slate-400">{profile.roundsPlayed} Rounds · {profile.holesPlayed} Holes · {profile.totalStrokes} Throws</p>
+                      </div>
+                    </div>
+                    {profile.bestRoundRelPar && (
+                      <div className="text-right">
+                        <span className="text-[10px] font-bold uppercase text-slate-400 block">Personal Best</span>
+                        <span className="text-xs font-extrabold accent-lime text-[#39FF14]">
+                          {profile.bestRoundRelPar.score} ({formatRelativePar(profile.bestRoundRelPar.diff)}) @ {profile.bestRoundRelPar.courseName}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Scoring Breakdown Pill Bar */}
+                  <div className="sub-tile p-3 rounded-xl border border-slate-800 space-y-1.5">
+                    <div className="flex items-center justify-between text-xs font-bold text-white">
+                      <span>Personal Scoring Breakdown</span>
+                      <span className="text-slate-400">{birdiePct}% Birdie · {parPct}% Par · {bogeyPct}% Bogey</span>
+                    </div>
+                    <div className="grid grid-cols-4 gap-1.5 text-center pt-1">
+                      <div className="sub-control p-1.5 rounded-lg border border-slate-700">
+                        <span className="block text-sm font-extrabold accent-lime text-[#39FF14]">{profile.birdies}</span>
+                        <span className="text-[10px] font-bold text-slate-400">Birdies</span>
+                      </div>
+                      <div className="sub-control p-1.5 rounded-lg border border-slate-700">
+                        <span className="block text-sm font-extrabold accent-cyan text-[#00F0FF]">{profile.pars}</span>
+                        <span className="text-[10px] font-bold text-slate-400">Pars</span>
+                      </div>
+                      <div className="sub-control p-1.5 rounded-lg border border-slate-700">
+                        <span className="block text-sm font-extrabold text-amber-500">{profile.bogeys}</span>
+                        <span className="text-[10px] font-bold text-slate-400">Bogeys</span>
+                      </div>
+                      <div className="sub-control p-1.5 rounded-lg border border-slate-700">
+                        <span className="block text-sm font-extrabold accent-pink text-[#FF2E93]">{profile.doubleOrWorse}</span>
+                        <span className="text-[10px] font-bold text-slate-400">Double+</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Distance Bracket Averages */}
+                  <div className="space-y-1.5">
+                    <div className="text-xs font-extrabold text-white">Your Scoring Average by Hole Distance:</div>
+                    <div className="grid grid-cols-2 gap-2">
+                      {profile.distanceBrackets.map((br) => (
+                        <div key={br.label} className="sub-tile px-3 py-2 rounded-xl border border-slate-800 flex items-center justify-between text-xs">
+                          <div>
+                            <div className="font-bold text-white">{br.label}</div>
+                            <div className="text-[10px] text-slate-400">{br.holesCount} holes played</div>
+                          </div>
+                          <span className="font-mono-tabular font-extrabold accent-cyan text-[#00F0FF]">
+                            {br.holesCount > 0 ? `${br.avgRelPar > 0 ? '+' : ''}${br.avgRelPar}` : '—'}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Course Personal Bests & Self-Improvement Matrix */}
           <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3">
-            <h3 className="text-base font-extrabold text-white">Course Records & Personal Bests Matrix</h3>
+            <div>
+              <h3 className="text-base font-extrabold text-white">Course Personal Bests & Stroke Improvement Matrix</h3>
+              <p className="text-xs text-slate-400">See your Personal Best (PB), average, and stroke drop from your first round to your latest round at each course</p>
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs sm:text-sm">
                 <thead className="border-b border-slate-800 text-slate-400">
                   <tr>
-                    <th className="py-2">Course Name</th><th className="py-2">{p1.name} PB</th><th className="py-2">{p1.name} Avg</th><th className="py-2">{p2.name} PB</th><th className="py-2">{p2.name} Avg</th>
+                    <th className="py-2">Course Name</th>
+                    <th className="py-2">{p1.name} PB (Avg)</th>
+                    <th className="py-2">{p1.name} Progress</th>
+                    <th className="py-2">{p2.name} PB (Avg)</th>
+                    <th className="py-2">{p2.name} Progress</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800 font-bold text-white">
@@ -2030,10 +2228,26 @@
                     return (
                       <tr key={courseName}>
                         <td className="py-2.5">{courseName}</td>
-                        <td className="py-2.5 accent-pink text-[#FF2E93]">{p1Stat.bestTotal !== null ? `${p1Stat.bestTotal} (${formatRelativePar(p1Stat.bestRelPar || 0)})` : '—'}</td>
-                        <td className="py-2.5">{p1Stat.avgTotal ?? '—'}</td>
-                        <td className="py-2.5 accent-cyan text-[#00F0FF]">{p2Stat.bestTotal !== null ? `${p2Stat.bestTotal} (${formatRelativePar(p2Stat.bestRelPar || 0)})` : '—'}</td>
-                        <td className="py-2.5">{p2Stat.avgTotal ?? '—'}</td>
+                        <td className="py-2.5 accent-pink text-[#FF2E93]">
+                          {p1Stat.bestTotal !== null ? `${p1Stat.bestTotal} (${formatRelativePar(p1Stat.bestRelPar || 0)}) · Avg ${p1Stat.avgTotal}` : '—'}
+                        </td>
+                        <td className="py-2.5 text-xs">
+                          {p1Stat.strokeDrop !== null ? (
+                            <span className={p1Stat.strokeDrop <= 0 ? 'accent-lime text-[#39FF14] font-extrabold' : 'text-slate-400'}>
+                              {p1Stat.firstScore} → {p1Stat.latestScore} ({p1Stat.strokeDrop <= 0 ? `${p1Stat.strokeDrop} strokes!` : `+${p1Stat.strokeDrop}`})
+                            </span>
+                          ) : '1st Baseline Set'}
+                        </td>
+                        <td className="py-2.5 accent-cyan text-[#00F0FF]">
+                          {p2Stat.bestTotal !== null ? `${p2Stat.bestTotal} (${formatRelativePar(p2Stat.bestRelPar || 0)}) · Avg ${p2Stat.avgTotal}` : '—'}
+                        </td>
+                        <td className="py-2.5 text-xs">
+                          {p2Stat.strokeDrop !== null ? (
+                            <span className={p2Stat.strokeDrop <= 0 ? 'accent-lime text-[#39FF14] font-extrabold' : 'text-slate-400'}>
+                              {p2Stat.firstScore} → {p2Stat.latestScore} ({p2Stat.strokeDrop <= 0 ? `${p2Stat.strokeDrop} strokes!` : `+${p2Stat.strokeDrop}`})
+                            </span>
+                          ) : '1st Baseline Set'}
+                        </td>
                       </tr>
                     );
                   })}
@@ -2311,7 +2525,7 @@
     }
 
     // ============================================================================
-    // MAIN APP COMPONENT (AUTO-SCROLLS TO TOP ON EVERY TAB CHANGE)
+    // MAIN APP COMPONENT (AUTO-MERGES NEW ROUNDS INTO EXISTING LOCALSTORAGE)
     // ============================================================================
     const STORAGE_KEY = 'jj_disc_golf_v46_hub_state';
     const THEME_STORAGE_KEY = 'jj_disc_golf_bg_theme';
@@ -2335,10 +2549,26 @@
         window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
       };
 
+      // Automatically merge any new rounds in INITIAL_USER_EXPORT.history (like today's 2026-10-18 Wyandotte round!) into localStorage
       const [history, setHistory] = useState(() => {
         try {
           const saved = localStorage.getItem(STORAGE_KEY);
-          if (saved) { const parsed = JSON.parse(saved); if (Array.isArray(parsed.history) && parsed.history.length > 0) return parsed.history; }
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed.history) && parsed.history.length > 0) {
+              const merged = [...parsed.history];
+              for (const defaultRound of INITIAL_USER_EXPORT.history) {
+                const alreadyExists = merged.some(
+                  (r) => r.id === defaultRound.id || (r.courseName === defaultRound.courseName && r.date === defaultRound.date && r.duration === defaultRound.duration)
+                );
+                if (!alreadyExists) {
+                  merged.push(defaultRound);
+                }
+              }
+              merged.sort((a, b) => b.id - a.id);
+              return merged;
+            }
+          }
         } catch {}
         return INITIAL_USER_EXPORT.history;
       });
@@ -2418,7 +2648,7 @@
       useEffect(() => {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v57', exportDate: new Date().toISOString(),
+            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v60', exportDate: new Date().toISOString(),
             history, roster, roundState, webhookUrl, timerState, courses, bag
           }));
         } catch {}
@@ -2537,7 +2767,7 @@
       };
 
       const handleExportJsonPayload = () => ({
-        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v57', exportDate: new Date().toISOString(),
+        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v60', exportDate: new Date().toISOString(),
         history, roster, roundState, webhookUrl, timerState, courses, bag
       });
 
@@ -2576,7 +2806,7 @@
                 <button onClick={() => switchTabAndScrollTop('home')} className={`py-1 border-b-2 ${activeTab === 'home' ? 'border-[#39FF14] text-[#39FF14]' : 'border-transparent hover:text-white'}`}>Home Hub</button>
                 <button onClick={() => switchTabAndScrollTop('live')} className={`py-1 border-b-2 ${activeTab === 'live' ? 'border-[#FF2E93] text-[#FF2E93]' : 'border-transparent hover:text-white'}`}>Live Scorecard</button>
                 <button onClick={() => switchTabAndScrollTop('courses')} className={`py-1 border-b-2 ${activeTab === 'courses' ? 'border-[#00F0FF] text-[#00F0FF]' : 'border-transparent hover:text-white'}`}>3D Cards & Flight Lab</button>
-                <button onClick={() => switchTabAndScrollTop('history')} className={`py-1 border-b-2 ${activeTab === 'history' || activeTab === 'rivalry' ? 'border-[#FACC15] text-[#FACC15]' : 'border-transparent hover:text-white'}`}>Round & Course History</button>
+                <button onClick={() => switchTabAndScrollTop('history')} className={`py-1 border-b-2 ${activeTab === 'history' || activeTab === 'rivalry' ? 'border-[#FACC15] text-[#FACC15]' : 'border-transparent hover:text-white'}`}>History & Personal Stats</button>
               </nav>
 
               <button onClick={() => switchTabAndScrollTop('sync')} className={`px-3.5 py-1.5 text-xs font-extrabold rounded-xl shrink-0 ${activeTab === 'sync' ? 'bg-[#39FF14] text-slate-950' : 'bg-[#FF2E93] text-white'}`}>
@@ -2645,7 +2875,7 @@
             {activeTab === 'history' && (
               <div className="space-y-4">
                 <div className="flex justify-end">
-                  <button onClick={() => switchTabAndScrollTop('rivalry')} className="px-3.5 py-2 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold">View Course Records & Jeffery vs. Jack Rivalry Stats →</button>
+                  <button onClick={() => switchTabAndScrollTop('rivalry')} className="px-3.5 py-2 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold">View You vs. Yourself Personal Progress Stats →</button>
                 </div>
                 <RoundHistoryView
                   history={history} roster={roster} bag={bag}
@@ -2671,7 +2901,7 @@
               { id: 'live', label: 'Play Round', icon: '📋', color: 'text-[#FF2E93]' },
               { id: 'courses', label: '3D Cards', icon: '🃏', color: 'text-[#00F0FF]' },
               { id: 'history', label: 'History', icon: '🕒', color: 'text-[#FACC15]' },
-              { id: 'rivalry', label: 'Stats', icon: '🏆', color: 'text-[#C026D3]' }
+              { id: 'rivalry', label: 'My Stats', icon: '📈', color: 'text-[#C026D3]' }
             ].map((item) => {
               const isActive = activeTab === item.id;
               return (
