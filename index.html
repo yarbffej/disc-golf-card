@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Jeffery & Jack Disc Golf Scorecard (v56 Collector Edition)</title>
+  <title>Jeffery & Jack Disc Golf Scorecard (v57 Collector Edition)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -462,7 +462,7 @@
     ];
 
     const INITIAL_USER_EXPORT = {
-      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v56', exportDate: '2026-10-17T16:47:23.539Z',
+      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v57', exportDate: '2026-10-17T16:47:23.539Z',
       history: [
         { id: 1792169030880, courseName: 'Sar-Ko-Par Trails', totalHoles: 9, date: '2026-10-15', duration: '00:27:05', par: 27,
           players: [{ id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 26 }, { id: 'jack', name: 'Jack', tag: 'J2', total: 28 }],
@@ -612,6 +612,24 @@
         }
       }
       return mentions;
+    }
+
+    function computeLiveSkinsAndMatch(holes, p1Id, p2Id) {
+      let p1SkinsWon = 0, p2SkinsWon = 0, carryover = 0, p1HolesUp = 0;
+      const holeWinners = {};
+      for (const h of holes) {
+        const s1 = (h.scores && h.scores[p1Id]) || 0;
+        const s2 = (h.scores && h.scores[p2Id]) || 0;
+        if (s1 === 0 || s2 === 0) { holeWinners[h.number] = { winner: 'unplayed', skinsAwarded: 0 }; continue; }
+        const pot = 1 + carryover;
+        if (s1 < s2) { p1SkinsWon += pot; carryover = 0; p1HolesUp += 1; holeWinners[h.number] = { winner: p1Id, skinsAwarded: pot }; }
+        else if (s2 < s1) { p2SkinsWon += pot; carryover = 0; p1HolesUp -= 1; holeWinners[h.number] = { winner: p2Id, skinsAwarded: pot }; }
+        else { carryover += 1; holeWinners[h.number] = { winner: 'push', skinsAwarded: 0 }; }
+      }
+      let matchStatusText = 'All Square (AS)';
+      if (p1HolesUp > 0) matchStatusText = `${p1Id === 'jeffery' ? 'Jeffery' : 'P1'} ${p1HolesUp} UP`;
+      else if (p1HolesUp < 0) matchStatusText = `${p2Id === 'jack' ? 'Jack' : 'P2'} ${Math.abs(p1HolesUp)} UP`;
+      return { p1SkinsWon, p2SkinsWon, currentCarryover: carryover, matchStatusText, holeWinners };
     }
 
     // RETURNS ALL 3 RECOMMENDED DISCS IN ORDER: 1. DRIVER -> 2. MID-RANGE -> 3. PUTTER
@@ -1071,7 +1089,7 @@
           <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <div className="space-y-1.5 max-w-2xl">
               <div className="text-xs font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
-                Welcome to the Tee Pad · Collector Card Edition (v56)
+                Welcome to the Tee Pad · Collector Card Edition (v57)
               </div>
               <h1 className="font-display text-xl sm:text-2xl font-extrabold text-white">
                 Ready for Wyandotte County Park?
@@ -1346,7 +1364,7 @@
             </div>
           )}
 
-          {/* Clean Top Course & Oversized Timer Bar (No Stroke/Skins/Match or Transcript Drawer Clutter) */}
+          {/* Clean Top Course & Oversized Timer Bar */}
           <div className="neon-card rounded-2xl border border-slate-800 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 flex-1">
               <div className="flex-1 max-w-xs">
@@ -2400,7 +2418,7 @@
       useEffect(() => {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v56', exportDate: new Date().toISOString(),
+            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v57', exportDate: new Date().toISOString(),
             history, roster, roundState, webhookUrl, timerState, courses, bag
           }));
         } catch {}
@@ -2519,7 +2537,7 @@
       };
 
       const handleExportJsonPayload = () => ({
-        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v56', exportDate: new Date().toISOString(),
+        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v57', exportDate: new Date().toISOString(),
         history, roster, roundState, webhookUrl, timerState, courses, bag
       });
 
