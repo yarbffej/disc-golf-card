@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Jeffery & Jack Disc Golf Scorecard (v60 Collector Edition)</title>
+  <title>Jeffery & Jack Disc Golf Scorecard (v62 Collector Edition)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -157,11 +157,11 @@
     const { useState, useEffect } = React;
 
     // ============================================================================
-    // INITIAL DATA: PACK GEAR, 12-DISC DUAL BAG (ALL 12 TRADING CARDS!), 17 COURSES & 10 ROUNDS
+    // INITIAL DATA: PACK GEAR, 12-DISC DUAL BAG (WITH 10/18 WYANDOTTE LOGS), 17 COURSES & 10 ROUNDS
     // ============================================================================
     const INITIAL_PACK_GEAR = [
       { id: 'gear-pack', name: 'Innova Adventure Pack (Pink/Blue)', category: 'Primary Bag', orderRef: '1010 Discs', packed: true },
-      { id: 'gear-retriever', name: 'Dynamic Discs Retriever', category: 'Disc Recovery', orderRef: 'Order #279091', packed: true },
+      { id: 'gear-retriever', name: 'Dynamic Discs Retriever (10/18 H14 Pond Save!)', category: 'Disc Recovery', orderRef: 'Order #279091', packed: true },
       { id: 'gear-towel', name: '1010 Microfiber Towel', category: 'Grip & Dry', orderRef: 'Order #279091', packed: true },
       { id: 'gear-gripbag', name: '1010 AceBag Grip Bag', category: 'Hand Dry', orderRef: 'Order #279091', packed: true }
     ];
@@ -175,7 +175,7 @@
         idealMinFeet: 0, idealMaxFeet: 150,
         moldAndFlight: 'Foundational beadless putter with a palm-filling profile. Dead straight inside the circle with a subtle low-speed finish.',
         courseStrategy: 'Circle 1 & Circle 2 chains hunter, plus soft uphill touch approaches (100–150 ft) that settle flat at the pole.',
-        transcriptStats: 'Send your Apple Notes audio transcript after the round to populate Circle 1/2 putt % & approach notes.',
+        transcriptStats: '10/18 Wyandotte: Drained H13 putt; hovered dead straight into chains on H14 pond hole; band-hit tap-in on H15.',
         caddieScenarios: ['calm'], caddieRoleNote: 'Circle 1/2 Putt & 100–150 ft Touch Approach'
       },
       {
@@ -185,9 +185,9 @@
         speedTier: 'SPD 2-4', stabilitySlot: 'Neutral', speed: 3, glide: 3, turn: 0, fade: 1, colorHex: '#FF2A54',
         idealMinFeet: 120, idealMaxFeet: 195,
         moldAndFlight: 'Low-profile Star throwing putter at max 175g weight built to handle full-power tee shots without wobbling or burning over.',
-        courseStrategy: 'Dead-straight tunnel tee shots in calm air, or smooth anhyzer turnovers when shaping right-turning lines under 195 ft.',
-        transcriptStats: 'Send your Apple Notes audio transcript after the round to populate tunnel tee accuracy & flight notes.',
-        caddieScenarios: ['calm', 'tailwind'], caddieRoleNote: '175g Star Sync — Straight Tunnel Tee / Tailwind Anhyzer'
+        courseStrategy: 'Dead-straight tunnel tee shots, L→R crosswind approaches, or long putts outside Circle 2 (120–195 ft).',
+        transcriptStats: '10/18 Wyandotte: Beat out Aviar on H17 long approach ("Sync is better from farther away—felt real good").',
+        caddieScenarios: ['calm', 'tailwind', 'cross_lr'], caddieRoleNote: '175g Star Sync — Straight Tunnel Tee & Long Approach'
       },
       {
         id: 'innova-pig', ownerId: 'jeffery', cardNumber: '#03 OF 09', cardImage: 'card_xt_pig.jpg',
@@ -196,9 +196,9 @@
         speedTier: 'SPD 2-4', stabilitySlot: 'Overstable', speed: 4, glide: 1, turn: 0, fade: 3, colorHex: '#39FF14',
         idealMinFeet: 90, idealMaxFeet: 200,
         moldAndFlight: 'Thick, blunt rim featuring a recessed Thumbtrack for backhand and forehand grip. Refuses to float long in Kansas winds, dumping left.',
-        courseStrategy: 'Forehand flick approaches inside 200 feet, headwind upshots, and death putts where sailing long is OB.',
-        transcriptStats: 'Send your Apple Notes audio transcript after the round to populate forehand flick & scramble save stats.',
-        caddieScenarios: ['headwind'], caddieRoleNote: '175g Galactic XT Pig — Headwind & Forehand Flick Brick'
+        courseStrategy: 'Forehand flick approaches inside 200 feet, headwind/crosswind upshots, and death putts where sailing long is OB.',
+        transcriptStats: '10/18 Wyandotte: Handled H16 branches & cold grip; parked H18 upshot right at the pin to secure closing Par 3!',
+        caddieScenarios: ['headwind', 'cross_rl'], caddieRoleNote: '175g Galactic XT Pig — Headwind & Forehand Flick Brick'
       },
       {
         id: 'innova-rollo', ownerId: 'jeffery', cardNumber: '#04 OF 09', cardImage: 'card_star_rollo.jpg',
@@ -208,7 +208,7 @@
         idealMinFeet: 175, idealMaxFeet: 250,
         moldAndFlight: 'Wide-diameter midrange with a smooth rounded rim designed for effortless right-turning glide and instant ground rollers.',
         courseStrategy: 'Get-out-of-jail scramble disc. Ideal for awkward stances in the woods, right-turning doglegs, and easy backhand rollers.',
-        transcriptStats: 'Send your Apple Notes audio transcript after the round to populate turnover & roller distance logs.',
+        transcriptStats: '10/18 Wyandotte: Hole #17 MVP! Called the shot on 617ft Par 4 ("Flips over, rolls right when I needed to—insane!").',
         caddieScenarios: ['tailwind'], caddieRoleNote: '172g Star Rollo — Right-Turning Dogleg, Scramble & Roller'
       },
       {
@@ -218,9 +218,9 @@
         speedTier: 'SPD 5', stabilitySlot: 'Neutral', speed: 5, glide: 5, turn: 0, fade: 0, colorHex: '#00FF9D',
         idealMinFeet: 180, idealMaxFeet: 250,
         moldAndFlight: 'Flat-topped, wide-diameter, and beadless for a clean release. Zero turn and zero fade hold your exact release angle to the ground.',
-        courseStrategy: 'Tight wooded hallways with zero room to drift left or right, pure anhyzer pans, and form-check fieldwork.',
-        transcriptStats: 'Send your Apple Notes audio transcript after the round to populate fairway tunnel hit % & flight notes.',
-        caddieScenarios: ['calm'], caddieRoleNote: 'Glow Mako3 — Zero-Drift Wooded Hallway Truth-Teller'
+        courseStrategy: 'Tight wooded hallways with zero room to drift left or right, flat crosswind lines, and awkward scramble angles.',
+        transcriptStats: '10/18 Wyandotte: Pure H15 upshot ("That\'s beautiful, that\'s the best!"); carved awkward H18 tee angle to set up Par 3.',
+        caddieScenarios: ['calm', 'cross_lr'], caddieRoleNote: 'Glow Mako3 — Zero-Drift Wooded Hallway Truth-Teller'
       },
       {
         id: 'innova-roc3', ownerId: 'jeffery', cardNumber: '#06 OF 09', cardImage: 'card_dx_roc3.jpg',
@@ -229,9 +229,9 @@
         speedTier: 'SPD 5', stabilitySlot: 'Overstable', speed: 5, glide: 4, turn: 0, fade: 3, colorHex: '#00E5FF',
         idealMinFeet: 185, idealMaxFeet: 260,
         moldAndFlight: 'Faster, flatter evolution of the classic beaded Roc. At 174g, delivers a straight push with a strong late left fade in the breeze.',
-        courseStrategy: 'Stock open-fairway midrange shots requiring a dependable left finish and wind resistance.',
-        transcriptStats: 'Send your Apple Notes audio transcript after the round to populate headwind mid & hyzer placement stats.',
-        caddieScenarios: ['headwind'], caddieRoleNote: '174g DX Roc3 — Breeze-Fighter Mid with Dependable Left Finish'
+        courseStrategy: 'Stock open-fairway midrange shots requiring a dependable left finish in headwinds and R→L crosswinds.',
+        transcriptStats: '10/18 Wyandotte: Ready for gusty open fairways & R→L crosswinds where Mako3 needs extra fade protection.',
+        caddieScenarios: ['headwind', 'cross_rl'], caddieRoleNote: '174g DX Roc3 — Breeze-Fighter Mid with Dependable Left Finish'
       },
       {
         id: 'innova-it', ownerId: 'jeffery', cardNumber: '#07 OF 09', cardImage: 'card_purple_halo_it.jpg',
@@ -240,9 +240,9 @@
         speedTier: 'SPD 7-11', stabilitySlot: 'Neutral', speed: 7, glide: 6, turn: -2, fade: 1, colorHex: '#C026D3',
         idealMinFeet: 235, idealMaxFeet: 320,
         moldAndFlight: 'Rounded convex bottom wing feels as comfortable as a midrange. Thrown on a slight hyzer, pops flat and glides along a tight S-curve.',
-        courseStrategy: 'Primary wooded fairway driver, effortless 70%-power placement shots, and sweeping hyzer-flips.',
-        transcriptStats: 'Send your Apple Notes audio transcript after the round to populate fairway carry distance & hyzer-flip notes.',
-        caddieScenarios: ['calm'], caddieRoleNote: '170g Halo Star IT — Effortless Hyzer-Flip & Wooded Fairway Workhorse'
+        courseStrategy: 'Primary wooded fairway driver, effortless 70%-power placement shots, and R→L crosswind hyzer-flips.',
+        transcriptStats: '10/18 Wyandotte: Won the Hole #16 tee mulligan over Mamba ("That was the IT—felt real nice going out!").',
+        caddieScenarios: ['calm', 'cross_rl'], caddieRoleNote: '170g Halo Star IT — Effortless Hyzer-Flip & Wooded Fairway Workhorse'
       },
       {
         id: 'innova-firebird', ownerId: 'jeffery', cardNumber: '#08 OF 09', cardImage: 'card_champion_firebird.jpg',
@@ -251,9 +251,9 @@
         speedTier: 'SPD 7-11', stabilitySlot: 'Overstable', speed: 9, glide: 3, turn: 0, fade: 4, colorHex: '#FACC15',
         idealMinFeet: 225, idealMaxFeet: 315,
         moldAndFlight: 'Blunt nose, flat profile, and comfortable 1.9 cm rim. In durable Champion plastic, its 3 glide and 4 fade laugh at 30 mph headwinds.',
-        courseStrategy: 'Heavy headwind drives, power forehands, big flare skips around 90-degree doglegs, and overhand escapes.',
-        transcriptStats: 'Send your Apple Notes audio transcript after the round to populate headwind drive & skip-shot logs.',
-        caddieScenarios: ['headwind'], caddieRoleNote: '170g Champ Firebird — 30mph Kansas Headwind Fighter & Flare Skipper',
+        courseStrategy: 'Heavy headwinds, L→R crosswinds (where understable discs get lifted right), power forehands, and flare skips.',
+        transcriptStats: '10/18 Wyandotte: Best driver pull on water holes like H14 when headwinds or L→R crosswinds push Mamba off line.',
+        caddieScenarios: ['headwind', 'cross_lr'], caddieRoleNote: '170g Champ Firebird — 30mph Kansas Headwind & Crosswind Fighter',
         spotterWarning: 'Spotter tip: Watch the I-Dye Multicolor pattern closely in autumn leaves!'
       },
       {
@@ -263,8 +263,8 @@
         speedTier: 'SPD 7-11', stabilitySlot: 'Understable', speed: 11, glide: 6, turn: -5, fade: 1, colorHex: '#FF2E93',
         idealMinFeet: 275, idealMaxFeet: 400,
         moldAndFlight: 'Pairing -5 high-speed turn with a featherlight 152g Star weight creates effortless distance. Released on a hyzer, stands up and glides forever.',
-        courseStrategy: 'Max-distance tailwind bombs, long Par 4s at Wyandotte, and uphill drives. Keep holstered in headwinds!',
-        transcriptStats: 'Send your Apple Notes audio transcript after the round to populate max-distance bomb & tailwind logs.',
+        courseStrategy: 'Max-distance tailwind bombs and open Par 4s. Keep release low and holster in headwinds or water crosswinds!',
+        transcriptStats: '10/18 Wyandotte: Crushed H16 fairway bomb ("Now that went far!") & sky-high H17 drive that tombstoned straight up in the ground!',
         caddieScenarios: ['tailwind'], caddieRoleNote: '152g Star Mamba — Featherlight Tailwind Bomber & Uphill Cheat Code',
         spotterWarning: 'Keep safely holstered in Kansas headwinds!'
       },
@@ -277,7 +277,7 @@
         idealMinFeet: 0, idealMaxFeet: 175,
         moldAndFlight: "Jack's main beadless putter and short approach disc. Straight, floaty profile that aims dead at the chains with a soft landing.",
         courseStrategy: "Jack's Circle 1 & Circle 2 putting putter plus straight touch approaches inside 175 ft.",
-        transcriptStats: 'Send post-round transcript to populate Jack Circle 1/2 putt & approach stats.',
+        transcriptStats: "10/18 Wyandotte: Solid green putter across all 18 holes, capping the round with a clean 4 on Hole #18 ('Good job, Jack!').",
         caddieScenarios: ['calm', 'tailwind'], isSynergyAddon: true
       },
       {
@@ -288,7 +288,7 @@
         idealMinFeet: 175, idealMaxFeet: 255,
         moldAndFlight: "Jack's smooth point-and-shoot ESP midrange. Effortless hyzer-flip to flat flight with a gentle right drift and clean finish.",
         courseStrategy: "Jack's workhorse midrange for 175–255 ft fairways, wooded gaps, and controlled turnovers.",
-        transcriptStats: 'Send post-round transcript to populate Jack midrange fairway hit & approach stats.',
+        transcriptStats: "10/18 Wyandotte: Jack crushed his 'Very Purple' ESP Buzzz SS on Hole #16 ('Wow, Jack—that was fantastic!') for a Par-3 5.",
         caddieScenarios: ['calm', 'tailwind'], isSynergyAddon: true
       },
       {
@@ -299,7 +299,7 @@
         idealMinFeet: 235, idealMaxFeet: 330,
         moldAndFlight: "Jack's high-glide 7-speed fairway driver. Holds a laser-straight line off the tee with massive 6 glide and minimal fade.",
         courseStrategy: "Jack's primary driver on holes 235+ ft and long Par 3 / Par 4 tee shots.",
-        transcriptStats: 'Send post-round transcript to populate Jack tee drive distance & fairway stats.',
+        transcriptStats: "10/18 Wyandotte: Beautiful drives on H14 & H15, plus his highest tree-high launch yet on Hole #17!",
         caddieScenarios: ['calm', 'headwind', 'tailwind'], isSynergyAddon: true
       }
     ];
@@ -324,11 +324,11 @@
           { number: 11, par: 3, distance: 283, hint: '283ft birdie look — 170g Halo Star IT or 174g DX Roc3.' },
           { number: 12, par: 4, distance: 520, hint: '520ft Par 4 — 152g Star Mamba tailwind bomb or Halo Star IT placement.' },
           { number: 13, par: 4, distance: 685, hint: '685ft monster Par 4 (longest on course!) — two full driver pulls + Galactic XT Pig upshot.' },
-          { number: 14, par: 4, distance: 562, hint: '562ft Par 4 — 152g Star Mamba or Halo Star IT off the tee.' },
-          { number: 15, par: 3, distance: 361, hint: '361ft Par 3 — 152g Star Mamba or 170g Halo Star IT.' },
-          { number: 16, par: 3, distance: 429, hint: '429ft Par 3 — big fairway drive + stick-and-stop XT Pig approach.' },
-          { number: 17, par: 4, distance: 617, hint: '617ft Par 4 — 152g Star Mamba max-air drive + Halo IT second shot.' },
-          { number: 18, par: 3, distance: 386, hint: '386ft finishing Par 3 — empty the tank with Star Mamba or Halo Star IT!' }
+          { number: 14, par: 4, distance: 562, hint: '562ft Par 4 Pond Hole — play smart around water; keep Dynamic Discs Retriever handy!' },
+          { number: 15, par: 3, distance: 361, hint: '361ft Par 3 — Mamba/Halo IT tee shot + Glow Mako3 upshot to the pin.' },
+          { number: 16, par: 3, distance: 429, hint: '429ft Par 3 — 170g Halo Star IT off the tee + Mamba/Buzzz SS fairway carry.' },
+          { number: 17, par: 4, distance: 617, hint: '617ft Par 4 — Mamba tee drive + 172g Star Rollo right-turning roller + Star Sync approach!' },
+          { number: 18, par: 3, distance: 386, hint: '386ft finishing Par 3 (shorter pin) — Glow Mako3 off the tee + Galactic XT Pig drop-in!' }
         ]
       },
       { key: 'sarko', name: 'Sar-Ko-Par Trails', location: 'Lenexa, KS', totalHoles: 9, holes: [
@@ -463,7 +463,7 @@
     ];
 
     const INITIAL_USER_EXPORT = {
-      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v60', exportDate: '2026-10-18T22:39:00.000Z',
+      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v62', exportDate: '2026-10-18T23:15:00.000Z',
       history: [
         {
           id: 1792350000000,
@@ -472,6 +472,8 @@
           date: '2026-10-18',
           duration: '02:06:03',
           par: 63,
+          windCondition: 'cross_lr',
+          roundTranscript: 'Back 9 Audio Log (H13–H18): H13 Aviar (AVR) putt for 7. H14 Pond Hole: Mamba pushed left by wind, rescued wet disc with Dynamic Discs Retriever grabber, hovered Aviar in for 6. H15: Left-to-right crosswind, Jack Cicada drive, Jeffery Mamba + Glow Mako3 (make go) approach, Aviar hit top band for 4. H16 (429ft): Halo IT (the it) felt real nice on tee mulligan, Mamba bombed fairway, Jack crushed Very Purple ESP Buzzz SS, Galactic XT Pig & Roach for 5s. H17 (617ft): Jeffery wicked sky-high Mamba drive that tombstoned straight up in the ground, Jack launched his highest tree-high drive yet, Star Rollo (road low) flipped and rolled right on command, Star Sync (sink) long approach for 6. H18 (386ft): Glow Mako3 (makeo three) off tee + Galactic XT Pig drop-in for closing Par 3!',
           players: [
             { id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 97 },
             { id: 'jack', name: 'Jack', tag: 'J2', total: 108 }
@@ -489,12 +491,12 @@
             { number: 10, distance: 500, par: 4, scores: { jeffery: 6, jack: 6 } },
             { number: 11, distance: 283, par: 3, scores: { jeffery: 4, jack: 5 } },
             { number: 12, distance: 520, par: 4, scores: { jeffery: 6, jack: 7 } },
-            { number: 13, distance: 685, par: 4, scores: { jeffery: 7, jack: 8 } },
-            { number: 14, distance: 562, par: 4, scores: { jeffery: 6, jack: 7 } },
-            { number: 15, distance: 361, par: 3, scores: { jeffery: 4, jack: 5 } },
-            { number: 16, distance: 429, par: 3, scores: { jeffery: 5, jack: 5 } },
-            { number: 17, distance: 617, par: 4, scores: { jeffery: 6, jack: 7 } },
-            { number: 18, distance: 386, par: 3, scores: { jeffery: 3, jack: 4 } }
+            { number: 13, distance: 685, par: 4, scores: { jeffery: 7, jack: 8 }, voiceTranscript: 'Finished 685ft Par 4 with Star Aviar (AVR) putt for 7.' },
+            { number: 14, distance: 562, par: 4, scores: { jeffery: 6, jack: 7 }, voiceTranscript: 'Pond hole! Wind pushed Mamba left; rescued disc from water edge with Dynamic Discs Retriever grabber; hovered Star Aviar in for 6.' },
+            { number: 15, distance: 361, par: 3, scores: { jeffery: 4, jack: 5 }, voiceTranscript: 'L→R crosswind; Jack beautiful Cicada drive; Jeffery pink Mamba + pure Glow Mako3 upshot; Aviar hit top band for tap-in 4.' },
+            { number: 16, distance: 429, par: 3, scores: { jeffery: 5, jack: 5 }, voiceTranscript: '429ft: Halo Star IT felt real nice on tee mulligan; bombed Mamba second shot; Jack crushed Very Purple ESP Buzzz SS; XT Pig & Roach for 5s.' },
+            { number: 17, distance: 617, par: 4, scores: { jeffery: 6, jack: 7 }, voiceTranscript: 'Wicked sky-high Mamba drive that tombstoned straight up in the ground; Jack launched his highest tree-high drive yet; Star Rollo flipped and rolled right on command; Star Sync long approach for 6.' },
+            { number: 18, distance: 386, par: 3, scores: { jeffery: 3, jack: 4 }, voiceTranscript: 'Shorter pin: Glow Mako3 off awkward tee angle + Galactic XT Pig drop at the pole for closing Par 3 (Jack 4)!' }
           ]
         },
         { id: 1792169030880, courseName: 'Sar-Ko-Par Trails', totalHoles: 9, date: '2026-10-15', duration: '00:27:05', par: 27,
@@ -616,7 +618,7 @@
     };
 
     // ============================================================================
-    // ANALYTICS, 3-DISC CADDIE LINEUP & 3D FLIPPABLE CARD COMPONENT
+    // ANALYTICS, PHONETIC TRANSCRIPT SCANNER, 5-WIND CADDIE & 3D CARD ENGINE
     // ============================================================================
     function formatRelativePar(diff) {
       if (diff === 0) return 'E';
@@ -635,22 +637,42 @@
       return { label: `+${diff}`, shortLabel: `+${diff}`, textColor: 'accent-pink text-[#FF2E93]', bgColor: 'bg-[#FF2E93]/25', borderColor: 'border-[#FF2E93]' };
     }
 
-    function scanTranscriptMentionsForDisc(discName, history) {
+    // Phonetic Apple Notes alias scanner ("AVR", "80R", "make go", "robo", "road low", "sink", "tombstone", "very purple", etc.)
+    const DISC_PHONETIC_ALIASES = {
+      'innova-aviar': ['aviar', 'avr', '80r'],
+      'innova-sync': ['sync', 'sink'],
+      'innova-pig': ['pig'],
+      'innova-rollo': ['rollo', 'robo', 'road low'],
+      'innova-mako3': ['mako', 'make go', 'make coat', 'makeo'],
+      'innova-roc3': ['roc3', 'roc'],
+      'innova-it': ['halo it', 'the it', 'star it'],
+      'innova-firebird': ['firebird'],
+      'innova-mamba': ['mamba', 'mama', 'tombstone', 'tomahawk'],
+      'discraft-roach': ['roach'],
+      'discraft-buzzz-ss': ['buzzz', 'very purple'],
+      'discraft-cicada': ['cicada', 'tree-high']
+    };
+
+    function scanTranscriptMentionsForDisc(disc, history) {
       let mentions = 0;
-      const cleanName = discName.replace(' (F2)', '').replace('Halo ', '').toLowerCase();
+      const aliases = DISC_PHONETIC_ALIASES[disc.id] || [disc.name.toLowerCase()];
+      const matchesAny = (text) => {
+        if (!text) return false;
+        const lower = text.toLowerCase();
+        return aliases.some((alias) => lower.includes(alias));
+      };
       for (const r of history) {
-        if (r.roundTranscript && r.roundTranscript.toLowerCase().includes(cleanName)) mentions++;
+        if (matchesAny(r.roundTranscript)) mentions++;
         for (const h of r.holes || []) {
-          if (h.voiceTranscript && h.voiceTranscript.toLowerCase().includes(cleanName)) mentions++;
+          if (matchesAny(h.voiceTranscript)) mentions++;
         }
       }
       return mentions;
     }
 
-    // RETURNS ALL 3 RECOMMENDED INNOVA DISCS FOR JEFFERY: 1. DRIVER -> 2. MID-RANGE -> 3. PUTTER
+    // RETURNS ALL 3 RECOMMENDED INNOVA DISCS FOR JEFFERY (NOW WITH CROSSWIND L->R & R->L!)
     function recommendThreeDiscLineup(distanceFeet, scenario, bag) {
       const byId = (id) => bag.find((d) => d.id === id) || null;
-
       let driver = null, driverNote = '', midrange = null, midNote = '', putter = null, putterNote = '';
 
       if (scenario === 'headwind') {
@@ -667,6 +689,20 @@
         midNote = 'Effortless right-turning glide (RHBH), scramble pan, or instant roller.';
         putter = byId('innova-sync');
         putterNote = 'Smooth throwing putter that holds straight or gentle turnover lines.';
+      } else if (scenario === 'cross_lr') {
+        driver = byId('innova-firebird');
+        driverNote = 'L→R Crosswind: Throw flat! Hyzers get lifted right by L→R wind; Firebird holds the line.';
+        midrange = byId('innova-mako3');
+        midNote = 'L→R Crosswind: Release dead flat so the left-to-right breeze cannot get under the wing.';
+        putter = byId('innova-sync');
+        putterNote = 'L→R Crosswind: Low-profile 175g Star Sync cuts side breeze cleaner than a tall putter.';
+      } else if (scenario === 'cross_rl') {
+        driver = byId('innova-it');
+        driverNote = 'R→L Crosswind: Aim slightly right; let R→L breeze ride the top of the wing to center.';
+        midrange = byId('innova-roc3');
+        midNote = 'R→L Crosswind: Trusty overstable finish resists getting flipped by right-to-left gusts.';
+        putter = byId('innova-pig');
+        putterNote = 'R→L Crosswind: Heavy 175g XT Pig refuses to get blown past the basket on side-wind putts.';
       } else {
         if (distanceFeet >= 305) {
           driver = byId('innova-mamba');
@@ -688,7 +724,7 @@
       ].filter((item) => item.disc !== null);
     }
 
-    // RETURNS ALL 3 DISCRAFT DISCS FOR JACK: 1. DRIVER (CICADA) -> 2. MID-RANGE (BUZZZ SS) -> 3. PUTTER (ROACH)
+    // RETURNS ALL 3 DISCRAFT DISCS FOR JACK
     function recommendJackThreeDiscLineup(bag) {
       const byId = (id) => bag.find((d) => d.id === id) || null;
       return [
@@ -725,7 +761,7 @@
     function FlippableTradingCard({ disc, history = [], onSelectForSim, onEnlarge }) {
       const [isFlipped, setIsFlipped] = useState(false);
       const [imgError, setImgError] = useState(false);
-      const transcriptMentions = scanTranscriptMentionsForDisc(disc.name, history);
+      const transcriptMentions = scanTranscriptMentionsForDisc(disc, history);
 
       const directionBadge =
         disc.stabilitySlot === 'Overstable'
@@ -831,7 +867,7 @@
                       <div className="flex items-center justify-between">
                         <strong className="cb-lime uppercase text-[9px] font-extrabold">🎙️ Transcript Log Stats:</strong>
                         {transcriptMentions > 0 && (
-                          <span className="text-[9px] font-mono-tabular font-extrabold cb-lime">{transcriptMentions} Transcript Mentions</span>
+                          <span className="text-[9px] font-mono-tabular font-extrabold cb-lime">{transcriptMentions} Logged Mentions</span>
                         )}
                       </div>
                       <span className="cb-light block">
@@ -975,8 +1011,9 @@
       let effTurn = disc.turn + (wind === 'headwind' ? -1.5 : wind === 'tailwind' ? 1.0 : 0) + (releaseAngle === 'hyzer' ? 1.5 : releaseAngle === 'anhyzer' ? -1.8 : 0);
       let effFade = Math.max(0, disc.fade + (wind === 'headwind' ? -0.8 : wind === 'tailwind' ? 0.6 : 0) + (releaseAngle === 'hyzer' ? 0.8 : releaseAngle === 'anhyzer' ? -1.0 : 0));
 
-      const turnPullX = Math.min(235, Math.max(45, startX + (-effTurn) * 16));
-      const netLateral = (-effTurn) * 10 - effFade * 15;
+      const crossDrift = wind === 'cross_lr' ? 20 : wind === 'cross_rl' ? -20 : 0;
+      const turnPullX = Math.min(235, Math.max(45, startX + (-effTurn) * 16 + crossDrift * 0.6));
+      const netLateral = (-effTurn) * 10 - effFade * 15 + crossDrift;
       const endX = Math.min(235, Math.max(25, Math.round(startX + netLateral)));
       const cp1X = startX + (turnPullX - startX) * 0.45;
       const cp1Y = Math.round(startY - (startY - endY) * 0.35);
@@ -984,6 +1021,14 @@
       const cp2Y = Math.round(startY - (startY - endY) * 0.78);
       return { pathD: `M ${startX} ${startY} C ${Math.round(cp1X)} ${cp1Y}, ${Math.round(cp2X)} ${cp2Y}, ${endX} ${endY}`, endX, endY, estimatedFeet: estFeet };
     }
+
+    const WIND_OPTIONS = [
+      { id: 'calm', label: '☀️ Calm / Tunnel', shortLabel: '☀️ Calm' },
+      { id: 'headwind', label: '💨 Headwind', shortLabel: '💨 Headwind' },
+      { id: 'tailwind', label: '🍃 Tailwind', shortLabel: '🍃 Tailwind' },
+      { id: 'cross_lr', label: '➡️ Crosswind (L→R)', shortLabel: '➡️ Cross L→R' },
+      { id: 'cross_rl', label: '⬅️ Crosswind (R→L)', shortLabel: '⬅️ Cross R→L' }
+    ];
 
     // ============================================================================
     // VIEW 1: HOME HUB & PRE-ROUND TEE-OFF WIZARD
@@ -1038,7 +1083,7 @@
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-2.5">
                 <h3 className="font-extrabold text-sm text-white">1. Choose Your Course ({courses.length})</h3>
-                <div className="space-y-1.5 max-h-60 overflow-y-auto pr-1">
+                <div className="space-y-1.5 max-h-64 overflow-y-auto pr-1">
                   {courses.map((c) => {
                     const isChosen = c.key === selectedCourseKey;
                     const dist = c.holes.reduce((s, h) => s + h.distance, 0);
@@ -1062,27 +1107,29 @@
                 </div>
               </div>
 
-              <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-2.5">
-                <h3 className="font-extrabold text-sm text-white">2. Select Today's Wind</h3>
-                <div className="space-y-2">
+              <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-2">
+                <h3 className="font-extrabold text-sm text-white">2. Select Today's Wind (5 Modes)</h3>
+                <div className="space-y-1.5">
                   {[
                     { id: 'calm', title: '☀️ Calm / Straight Tunnel', desc: '1. Halo IT / Mamba · 2. Glow Mako3 · 3. Star Aviar' },
                     { id: 'headwind', title: '💨 Headwind / Gusty Breeze', desc: '1. Champ Firebird · 2. DX Roc3 · 3. Galactic XT Pig' },
-                    { id: 'tailwind', title: '🍃 Tailwind / Pushing Breeze', desc: '1. 152g Star Mamba · 2. Star Rollo · 3. Star Sync' }
+                    { id: 'tailwind', title: '🍃 Tailwind / Pushing Breeze', desc: '1. 152g Star Mamba · 2. Star Rollo · 3. Star Sync' },
+                    { id: 'cross_lr', title: '➡️ Crosswind (Left → Right)', desc: 'Throw flat! 1. Firebird · 2. Glow Mako3 · 3. Star Sync' },
+                    { id: 'cross_rl', title: '⬅️ Crosswind (Right → Left)', desc: 'Hyzer/Stable: 1. Halo IT · 2. DX Roc3 · 3. XT Pig' }
                   ].map((w) => {
                     const isSelected = selectedWind === w.id;
                     return (
                       <button
                         key={w.id}
                         onClick={() => setSelectedWind(w.id)}
-                        className={`w-full text-left p-3 rounded-xl border-2 transition-all ${
+                        className={`w-full text-left p-2.5 rounded-xl border-2 transition-all ${
                           isSelected ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93]' : 'sub-control text-white border-slate-700'
                         }`}
                       >
-                        <div className={`font-bold text-xs sm:text-sm flex justify-between ${isSelected ? 'keep-white text-white' : 'text-white'}`}>
+                        <div className={`font-bold text-xs flex justify-between ${isSelected ? 'keep-white text-white' : 'text-white'}`}>
                           <span>{w.title}</span>{isSelected && <span className="keep-white">✓</span>}
                         </div>
-                        <p className={`text-[11px] mt-0.5 ${isSelected ? 'keep-white text-white/90' : 'text-slate-400'}`}>{w.desc}</p>
+                        <p className={`text-[10.5px] mt-0.5 ${isSelected ? 'keep-white text-white/90' : 'text-slate-400'}`}>{w.desc}</p>
                       </button>
                     );
                   })}
@@ -1131,14 +1178,14 @@
           <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <div className="space-y-1.5 max-w-2xl">
               <div className="text-xs font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
-                Welcome to the Tee Pad · 12-Card Collector Edition (v60)
+                Welcome to the Tee Pad · 12-Card Collector Edition (v62)
               </div>
               <h1 className="font-display text-xl sm:text-2xl font-extrabold text-white">
-                Wyandotte County Park Round Logged (`97` & `108`)!
+                10/18 Wyandotte Card Stats & Crosswind Caddie Live!
               </h1>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Today's 18-hole Wyandotte County Park round (`02:06:03`) is saved in your archive! Launch a round, flip through{' '}
-                <strong className="accent-cyan text-[#00F0FF]">all 12 Holographic 3D Trading Cards</strong>, or check your updated Personal Progress stats.
+                Your 3D card backs now feature today's Wyandotte voice-transcript stats (Mamba H17 tombstone, Rollo H17 roller, Halo IT H16 mulligan, Mako3 H18 Par 3, Jack's Purple Buzzz SS) plus{' '}
+                <strong className="accent-pink text-[#FF2E93]">Crosswind (L→R / R→L)</strong> caddie modes!
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2.5 shrink-0">
@@ -1169,8 +1216,8 @@
             <div className="neon-card rounded-2xl border border-slate-800 p-5 flex flex-col justify-between space-y-3.5">
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-pink text-[#FF2E93]">1 · Live On-Course Scorecard</span>
-                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Play a Round & Dual 3-Disc Tee-Box Caddie</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Score hole-by-hole across all {courses.length} courses with 3-card caddie lineups (Driver, Mid-Range & Putter) for both Jeffery and Jack.</p>
+                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Play a Round & 5-Wind Tee-Box Caddie</h2>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Score hole-by-hole across all {courses.length} courses with Calm, Headwind, Tailwind, Crosswind L→R, and Crosswind R→L 3-card lineups.</p>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => { setShowStartWizard(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text-sm">Start New Round Setup</button>
@@ -1182,7 +1229,7 @@
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">2 · 3D Collector Binder & Flight Lab</span>
                 <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">3D Flippable Trading Card Binder (12 Cards)</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Flip through Jeffery's {jefferyDiscs.length} Innova cards or Jack's {jackDiscs.length} new Discraft cards (Cicada, Buzzz SS & Roach).</p>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Flip any card to see its updated 10/18 Wyandotte transcript stats & logged mention counter in Box #3!</p>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => onNavigateTab('courses', 'jeffery')} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text-sm">Jeffery's 3D Cards ({jefferyDiscs.length})</button>
@@ -1216,7 +1263,7 @@
     }
 
     // ============================================================================
-    // VIEW 2: LIVE SCORECARD VIEW (DUAL 3-CARD LINEUPS FOR JEFFERY & JACK)
+    // VIEW 2: LIVE SCORECARD VIEW (5-WIND SELECTOR + DUAL 3-CARD LINEUPS)
     // ============================================================================
     function LiveScorecardView({
       roundState, setRoundState, roster, history, courses, bag,
@@ -1371,7 +1418,7 @@
             </div>
           )}
 
-          {/* BIG DUAL TEE-OFF REMINDER BANNER (START TIMER + COPY HEADER FOR NOTES AUDIO RECORD) */}
+          {/* BIG DUAL TEE-OFF REMINDER BANNER */}
           {isTimerUnstarted && (
             <div className="neon-card rounded-2xl border-2 border-[#FF2E93] p-4 sm:p-5 space-y-3.5 shadow-lg">
               <div className="flex items-center gap-3">
@@ -1423,7 +1470,7 @@
                 </select>
               </div>
               <div className="text-xs sm:text-sm font-bold text-slate-300 pt-1 sm:pt-4">
-                Par {totalCoursePar} · {totalCourseDistance.toLocaleString()} ft · Wind: <span className="uppercase font-extrabold accent-cyan text-[#00F0FF]">{caddieScenario}</span>
+                Par {totalCoursePar} · {totalCourseDistance.toLocaleString()} ft · Wind: <span className="uppercase font-extrabold accent-cyan text-[#00F0FF]">{caddieScenario.replace('_', ' ')}</span>
               </div>
             </div>
 
@@ -1525,19 +1572,23 @@
                   </div>
                 )}
 
-                {/* DUAL 3-DISC CADDIE LINEUPS: JEFFERY'S 3 INNOVA CARDS + JACK'S 3 DISCRAFT CARDS */}
+                {/* DUAL 3-DISC CADDIE LINEUPS WITH 5-WAY WIND SELECTOR (INCLUDING CROSSWINDS!) */}
                 <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-3.5">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="text-xs font-extrabold uppercase tracking-wider text-white">
-                      🎯 Hole #{currentHole.number} 3-Disc Lineups ({currentHole.distance} ft)
+                  <div className="space-y-2">
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-white block">
+                      🎯 Hole #{currentHole.number} 3-Disc Lineups ({currentHole.distance} ft) — Tap Wind:
                     </span>
-                    <div className="sub-control p-1 rounded-lg border border-slate-700 flex gap-1">
-                      {[
-                        { id: 'calm', label: '☀️ Calm / Tunnel' },
-                        { id: 'headwind', label: '💨 Headwind / Flick' },
-                        { id: 'tailwind', label: '🍃 Tailwind / Dogleg R' }
-                      ].map((sc) => (
-                        <button key={sc.id} onClick={() => handleSelectWindScenario(sc.id)} className={`px-2 py-1 rounded text-[11px] font-bold ${caddieScenario === sc.id ? 'keep-white bg-[#FF2E93] text-white' : 'text-slate-400'}`}>{sc.label}</button>
+                    <div className="sub-control p-1 rounded-xl border border-slate-700 flex flex-wrap gap-1">
+                      {WIND_OPTIONS.map((sc) => (
+                        <button
+                          key={sc.id}
+                          onClick={() => handleSelectWindScenario(sc.id)}
+                          className={`flex-1 min-w-[92px] px-2 py-1.5 rounded-lg text-[11px] font-extrabold transition-colors ${
+                            caddieScenario === sc.id ? 'keep-white bg-[#FF2E93] text-white' : 'text-slate-400'
+                          }`}
+                        >
+                          {sc.label}
+                        </button>
                       ))}
                     </div>
                   </div>
@@ -1862,7 +1913,7 @@
                 Interactive 3D Trading Card Binder & Flight Simulator
               </div>
               <h2 className="text-lg sm:text-xl font-extrabold text-white">
-                Tap Any Card Below to Flip 180° for Dossier, Strategy & Transcript Stats
+                Tap Any Card Below to Flip 180° for Dossier, Strategy & 10/18 Wyandotte Stats
               </h2>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -1959,12 +2010,20 @@
 
                 <div className="sub-tile p-3 rounded-xl border border-slate-800 space-y-2">
                   <div className="flex items-center justify-between text-xs font-bold text-white">
-                    <span>Select Wind & Release Angle</span>
+                    <span>Select Wind (5 Modes) & Release Angle</span>
                     <span className="accent-cyan text-[#00F0FF]">Est. Flight: {flightSvg.estimatedFeet} ft</span>
                   </div>
-                  <div className="grid grid-cols-3 gap-1.5">
-                    {['calm', 'headwind', 'tailwind'].map((w) => (
-                      <button key={w} onClick={() => setSimWind(w)} className={`py-1.5 rounded-lg text-xs font-bold capitalize ${simWind === w ? 'bg-[#00F0FF] text-slate-950' : 'sub-control text-slate-400'}`}>{w}</button>
+                  <div className="grid grid-cols-5 gap-1">
+                    {WIND_OPTIONS.map((w) => (
+                      <button
+                        key={w.id}
+                        onClick={() => setSimWind(w.id)}
+                        className={`py-1.5 px-1 rounded-lg text-[10.5px] font-extrabold truncate ${
+                          simWind === w.id ? 'bg-[#00F0FF] text-slate-950' : 'sub-control text-slate-400'
+                        }`}
+                      >
+                        {w.shortLabel}
+                      </button>
                     ))}
                   </div>
                   <div className="grid grid-cols-3 gap-1.5">
@@ -2003,8 +2062,8 @@
                 <select value={selectedCourseKey} onChange={(e) => setSelectedCourseKey(e.target.value)} className="sub-control h-9 px-3 rounded-xl border border-slate-700 text-xs font-bold text-white">
                   {courses.map((c) => <option key={c.key} value={c.key}>{c.name} ({c.totalHoles}H)</option>)}
                 </select>
-                {['calm', 'headwind', 'tailwind'].map((w) => (
-                  <button key={w} onClick={() => setCourseWindPreview(w)} className={`px-3 py-1.5 rounded-xl text-xs font-bold capitalize ${courseWindPreview === w ? 'keep-white bg-[#FF2E93] text-white' : 'sub-control text-slate-400'}`}>{w} Plan</button>
+                {WIND_OPTIONS.map((w) => (
+                  <button key={w.id} onClick={() => setCourseWindPreview(w.id)} className={`px-2.5 py-1.5 rounded-xl text-xs font-bold ${courseWindPreview === w.id ? 'keep-white bg-[#FF2E93] text-white' : 'sub-control text-slate-400'}`}>{w.shortLabel}</button>
                 ))}
                 <button onClick={() => onStartRoundAtCourse(activeCourse.key)} className="px-3.5 py-1.5 rounded-xl bg-[#39FF14] text-slate-950 text-xs font-extrabold">Tee Off Here →</button>
               </div>
@@ -2068,7 +2127,6 @@
 
       return (
         <div className="space-y-5">
-          {/* Header & Course Filter */}
           <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4">
             <div>
               <span className="text-[11px] font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
@@ -2087,7 +2145,6 @@
             </select>
           </div>
 
-          {/* 4-Column Self-Rivalry KPI Strip */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
             <div className="neon-card rounded-2xl border border-slate-800 p-4">
               <span className="text-[11px] font-bold uppercase text-slate-400">Personal Best vs. Par</span>
@@ -2123,7 +2180,6 @@
             </div>
           </div>
 
-          {/* Side-by-Side Individual Self-Improvement Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
               { player: p1, profile: p1Profile, badgeBg: 'bg-[#FF2E93]' },
@@ -2156,7 +2212,6 @@
                     )}
                   </div>
 
-                  {/* Scoring Breakdown Pill Bar */}
                   <div className="sub-tile p-3 rounded-xl border border-slate-800 space-y-1.5">
                     <div className="flex items-center justify-between text-xs font-bold text-white">
                       <span>Personal Scoring Breakdown</span>
@@ -2182,7 +2237,6 @@
                     </div>
                   </div>
 
-                  {/* Distance Bracket Averages */}
                   <div className="space-y-1.5">
                     <div className="text-xs font-extrabold text-white">Your Scoring Average by Hole Distance:</div>
                     <div className="grid grid-cols-2 gap-2">
@@ -2204,7 +2258,6 @@
             })}
           </div>
 
-          {/* Course Personal Bests & Self-Improvement Matrix */}
           <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3">
             <div>
               <h3 className="text-base font-extrabold text-white">Course Personal Bests & Stroke Improvement Matrix</h3>
@@ -2260,7 +2313,7 @@
     }
 
     // ============================================================================
-    // VIEW 5: COURSE-GROUPED ROUND HISTORY
+    // VIEW 5: COURSE-GROUPED ROUND HISTORY (WITH HOLE VOICE NOTES!)
     // ============================================================================
     function RoundHistoryView({ history, onDeleteRound, onReplayCourse, onSyncSingleRoundToWebhook }) {
       const courseGroups = [];
@@ -2285,7 +2338,7 @@
               Course Round Archive ({courseGroups.length} Courses · {history.length} Total Rounds)
             </h2>
             <p className="text-xs sm:text-sm text-slate-400">
-              Tap any course below to view the rounds played there, or expand a round for hole-by-hole scorecards
+              Tap any course below to view the rounds played there, or expand a round for hole-by-hole scorecards & voice notes
             </p>
           </div>
 
@@ -2336,6 +2389,7 @@
                     {group.rounds.map((round, rIdx) => {
                       const isExpanded = expandedRoundId === round.id;
                       const totalDistance = round.holes.reduce((acc, h) => acc + (h.distance || 0), 0);
+                      const holesWithVoice = round.holes.filter((h) => h.voiceTranscript);
 
                       return (
                         <div key={round.id} className="sub-control rounded-xl border border-slate-700 overflow-hidden">
@@ -2345,7 +2399,7 @@
                           >
                             <div>
                               <div className="font-extrabold text-xs sm:text-sm text-white">
-                                Round #{group.rounds.length - rIdx} — {round.date}
+                                Round #{group.rounds.length - rIdx} — {round.date} {round.roundTranscript ? '🎙️' : ''}
                               </div>
                               <div className="text-[11px] text-slate-400">
                                 ⏱ {round.duration} · {round.totalHoles}H (Par {round.par}) · {totalDistance.toLocaleString()} ft
@@ -2394,6 +2448,17 @@
                                   </tbody>
                                 </table>
                               </div>
+
+                              {holesWithVoice.length > 0 && (
+                                <div className="sub-tile p-3 rounded-xl border border-slate-700 space-y-1.5 text-xs">
+                                  <div className="font-extrabold accent-pink text-[#FF2E93]">🎙️ On-Course Voice Log Highlights:</div>
+                                  {holesWithVoice.map((h) => (
+                                    <div key={h.number} className="text-slate-300">
+                                      <strong className="text-white">Hole #{h.number} ({h.distance}ft, Par {h.par}):</strong> {h.voiceTranscript}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
 
                               <div className="flex flex-wrap items-center gap-2">
                                 <button onClick={() => onReplayCourse(round)} className="px-3 py-1.5 rounded-xl bg-[#39FF14] text-slate-950 text-xs font-extrabold">▶ Play This Course Layout</button>
@@ -2525,7 +2590,7 @@
     }
 
     // ============================================================================
-    // MAIN APP COMPONENT (AUTO-MERGES NEW ROUNDS INTO EXISTING LOCALSTORAGE)
+    // MAIN APP COMPONENT (AUTO-SYNCS 10/18 WYANDOTTE TRANSCRIPT & CARD BACK STATS)
     // ============================================================================
     const STORAGE_KEY = 'jj_disc_golf_v46_hub_state';
     const THEME_STORAGE_KEY = 'jj_disc_golf_bg_theme';
@@ -2549,21 +2614,21 @@
         window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
       };
 
-      // Automatically merge any new rounds in INITIAL_USER_EXPORT.history (like today's 2026-10-18 Wyandotte round!) into localStorage
       const [history, setHistory] = useState(() => {
         try {
           const saved = localStorage.getItem(STORAGE_KEY);
           if (saved) {
             const parsed = JSON.parse(saved);
             if (Array.isArray(parsed.history) && parsed.history.length > 0) {
-              const merged = [...parsed.history];
+              const merged = parsed.history.map((r) => {
+                const matchDefault = INITIAL_USER_EXPORT.history.find((dr) => dr.id === r.id);
+                return matchDefault ? { ...r, ...matchDefault } : r;
+              });
               for (const defaultRound of INITIAL_USER_EXPORT.history) {
                 const alreadyExists = merged.some(
                   (r) => r.id === defaultRound.id || (r.courseName === defaultRound.courseName && r.date === defaultRound.date && r.duration === defaultRound.duration)
                 );
-                if (!alreadyExists) {
-                  merged.push(defaultRound);
-                }
+                if (!alreadyExists) merged.push(defaultRound);
               }
               merged.sort((a, b) => b.id - a.id);
               return merged;
@@ -2587,9 +2652,13 @@
           if (saved) {
             const parsed = JSON.parse(saved);
             if (Array.isArray(parsed.courses) && parsed.courses.length > 0) {
-              const existingKeys = new Set(parsed.courses.map((c) => c.key));
+              const updatedCourses = parsed.courses.map((c) => {
+                const matchDefault = INITIAL_COURSE_TEMPLATES.find((dc) => dc.key === c.key);
+                return matchDefault ? matchDefault : c;
+              });
+              const existingKeys = new Set(updatedCourses.map((c) => c.key));
               const missingDefaults = INITIAL_COURSE_TEMPLATES.filter((c) => !existingKeys.has(c.key));
-              return [...missingDefaults, ...parsed.courses];
+              return [...missingDefaults, ...updatedCourses];
             }
           }
         } catch {}
@@ -2604,7 +2673,7 @@
             if (Array.isArray(parsed.bag) && parsed.bag.length > 0) {
               return parsed.bag.map((d) => {
                 const defaultMatch = INITIAL_DISC_BAG.find((initD) => initD.id === d.id);
-                return defaultMatch ? { ...d, ...defaultMatch, transcriptStats: d.transcriptStats || defaultMatch.transcriptStats } : d;
+                return defaultMatch ? { ...d, ...defaultMatch } : d;
               });
             }
           }
@@ -2648,7 +2717,7 @@
       useEffect(() => {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v60', exportDate: new Date().toISOString(),
+            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v62', exportDate: new Date().toISOString(),
             history, roster, roundState, webhookUrl, timerState, courses, bag
           }));
         } catch {}
@@ -2767,7 +2836,7 @@
       };
 
       const handleExportJsonPayload = () => ({
-        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v60', exportDate: new Date().toISOString(),
+        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v62', exportDate: new Date().toISOString(),
         history, roster, roundState, webhookUrl, timerState, courses, bag
       });
 
