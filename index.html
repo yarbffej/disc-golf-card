@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Jeffery & Jack Disc Golf Scorecard (v51 Collector Edition)</title>
+  <title>Jeffery & Jack Disc Golf Scorecard (v52 Collector Edition)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,7 +44,7 @@
     .font-mono-tabular { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
 
     /* ============================================================================
-       3D FLIPPABLE TRADING CARD ENGINE (iOS Safari & Desktop Hardware Accelerated)
+       3D FLIPPABLE TRADING CARD ENGINE (Isolated High-Contrast Back Colors)
        ============================================================================ */
     .card-3d-scene {
       perspective: 1200px;
@@ -82,14 +82,17 @@
     .card-3d-back {
       transform: rotateY(180deg);
       -webkit-transform: rotateY(180deg);
-      background: linear-gradient(165deg, #0f172a 0%, #1e1b4b 55%, #090d16 100%);
-      color: #F8FAFC !important;
+      background: linear-gradient(165deg, #0f172a 0%, #1e1b4b 55%, #090d16 100%) !important;
       box-shadow: 0 14px 28px -6px rgba(0, 0, 0, 0.7), inset 0 0 0 3px #eab308;
     }
-    /* Preserve white/gold text inside the dark 90s trading card back regardless of page theme */
-    .card-3d-back, .card-3d-back * {
-      color: inherit;
-    }
+    /* High-contrast collector card back typography (immune to light-theme overrides) */
+    .cb-white { color: #FFFFFF !important; }
+    .cb-light { color: #F8FAFC !important; }
+    .cb-muted { color: #CBD5E1 !important; }
+    .cb-gold  { color: #FDE047 !important; }
+    .cb-cyan  { color: #38BDF8 !important; }
+    .cb-lime  { color: #4ADE80 !important; }
+    .cb-dark  { color: #0F172A !important; }
 
     /* ============================================================================
        THEME MODES
@@ -167,7 +170,7 @@
       {
         id: 'innova-aviar', ownerId: 'jeffery', cardNumber: '#01 OF 09', cardImage: 'card_star_aviar.jpg',
         name: 'Aviar', brand: 'Innova', slotCategory: 'Putt & Approach', plastic: 'Star', weightGrams: 175,
-        colorStamp: 'Royal Blue / Red Stamp', orderNumber: '#277696', sku: '529480', type: 'Putter',
+        colorStamp: 'Royal Blue / Red Foil Stamp', orderNumber: '#277696', sku: '529480', type: 'Putter',
         speedTier: 'SPD 2-4', stabilitySlot: 'Neutral', speed: 2, glide: 3, turn: 0, fade: 1, colorHex: '#00F0FF',
         idealMinFeet: 0, idealMaxFeet: 150,
         moldAndFlight: 'The foundational beadless disc golf putter with a comfortable, palm-filling profile. Dead straight inside the circle with a subtle low-speed finish.',
@@ -421,7 +424,7 @@
     ];
 
     const INITIAL_USER_EXPORT = {
-      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v51', exportDate: '2026-10-17T16:47:23.539Z',
+      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v52', exportDate: '2026-10-17T16:47:23.539Z',
       history: [
         { id: 1792169030880, courseName: 'Sar-Ko-Par Trails', totalHoles: 9, date: '2026-10-15', duration: '00:27:05', par: 27,
           players: [{ id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 26 }, { id: 'jack', name: 'Jack', tag: 'J2', total: 28 }],
@@ -574,7 +577,7 @@
       return count;
     }
 
-    // INTERACTIVE 3D FLIPPABLE TRADING CARD COMPONENT
+    // INTERACTIVE 3D FLIPPABLE TRADING CARD COMPONENT (WITH ISOLATED HIGH-CONTRAST BACK COLORS)
     function FlippableTradingCard({ disc, history = [], onSelectForSim, onEnlarge }) {
       const [isFlipped, setIsFlipped] = useState(false);
       const [imgError, setImgError] = useState(false);
@@ -582,10 +585,10 @@
 
       const directionBadge =
         disc.stabilitySlot === 'Overstable'
-          ? { text: '⬅️ FADES LEFT', bg: 'bg-rose-600' }
+          ? { text: '⬅️ FADES LEFT', bg: 'bg-rose-600 cb-white' }
           : disc.stabilitySlot === 'Understable'
-          ? { text: '➡️ TURNS RIGHT', bg: 'bg-amber-500 text-slate-950' }
-          : { text: '⬆️ STRAIGHT LASER', bg: 'bg-cyan-400 text-slate-950' };
+          ? { text: '➡️ TURNS RIGHT', bg: 'bg-amber-400 cb-dark' }
+          : { text: '⬆️ STRAIGHT LASER', bg: 'bg-cyan-400 cb-dark' };
 
       return (
         <div className="space-y-2">
@@ -601,37 +604,35 @@
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  /* Stylized Foil Fallback if image file hasn't been uploaded to GitHub yet */
-                  <div className="w-full h-full p-4 flex flex-col justify-between bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white border-4 border-amber-400/80 rounded-2xl">
+                  <div className="w-full h-full p-4 flex flex-col justify-between bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 cb-white border-4 border-amber-400/80 rounded-2xl">
                     <div className="flex items-center justify-between border-b border-white/20 pb-2">
-                      <span className="text-[10px] font-mono-tabular font-extrabold text-amber-300">{disc.cardNumber || 'COLLECTOR CARD'}</span>
-                      <span className="px-2 py-0.5 rounded bg-white/10 font-mono-tabular text-xs font-extrabold">{disc.speed}|{disc.glide}|{disc.turn}|{disc.fade}</span>
+                      <span className="text-[10px] font-mono-tabular font-extrabold cb-gold">{disc.cardNumber || 'COLLECTOR CARD'}</span>
+                      <span className="px-2 py-0.5 rounded bg-white/10 font-mono-tabular text-xs font-extrabold cb-white">{disc.speed}|{disc.glide}|{disc.turn}|{disc.fade}</span>
                     </div>
                     <div className="my-auto text-center space-y-2">
                       <div className="w-24 h-24 rounded-full mx-auto border-4 border-white/40 flex items-center justify-center shadow-inner" style={{ backgroundColor: disc.colorHex || '#FF2E93' }}>
-                        <span className="font-display font-black text-slate-950 text-sm uppercase tracking-tighter text-center px-1">{disc.name}</span>
+                        <span className="font-display font-black cb-dark text-sm uppercase tracking-tighter text-center px-1">{disc.name}</span>
                       </div>
-                      <div className="font-display font-extrabold text-base text-white">{disc.brand} {disc.plastic} {disc.name}</div>
-                      <div className="text-[11px] text-amber-300 font-bold">Upload <code className="bg-black/40 px-1 rounded">{disc.cardImage || 'card.jpg'}</code> to GitHub</div>
+                      <div className="font-display font-extrabold text-base cb-white">{disc.brand} {disc.plastic} {disc.name}</div>
+                      <div className="text-[11px] cb-gold font-bold">{disc.slotCategory}</div>
                     </div>
-                    <div className="text-center text-[10px] font-mono-tabular uppercase tracking-wider bg-black/40 py-1.5 rounded-lg border border-white/15">
+                    <div className="text-center text-[10px] font-mono-tabular uppercase tracking-wider bg-black/40 py-1.5 rounded-lg border border-white/15 cb-white">
                       SPD {disc.speed} · GLD {disc.glide} · TRN {disc.turn} · FDE {disc.fade}
                     </div>
                   </div>
                 )}
 
-                {/* Floating Flip Hint Pill */}
-                <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-slate-950/85 text-amber-300 border border-amber-400/50 text-[10px] font-extrabold tracking-wide shadow-lg backdrop-blur-xs">
+                <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-slate-950/90 cb-gold border border-amber-400/50 text-[10px] font-extrabold tracking-wide shadow-lg">
                   🔄 Tap to Flip
                 </div>
               </div>
 
               {/* BACK FACE: 1990s MARVEL MASTERPIECES / IMPEL STATS DOSSIER */}
-              <div className="card-3d-face card-3d-back p-3.5 sm:p-4 flex flex-col justify-between text-white">
+              <div className="card-3d-face card-3d-back p-3.5 sm:p-4 flex flex-col justify-between">
                 <div className="space-y-2">
                   {/* Top Collector Header */}
                   <div className="flex items-center justify-between border-b border-amber-400/40 pb-1.5">
-                    <span className="text-[10px] font-mono-tabular font-extrabold text-amber-300 tracking-wider">
+                    <span className="text-[10px] font-mono-tabular font-extrabold cb-gold tracking-wider">
                       {disc.cardNumber || '199X EDITION'} · {disc.orderNumber || '1010 DISCS'}
                     </span>
                     <span className={`px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${directionBadge.bg}`}>
@@ -640,19 +641,19 @@
                   </div>
 
                   <div>
-                    <h4 className="font-display text-base sm:text-lg font-black text-white leading-tight">
+                    <h4 className="font-display text-base sm:text-lg font-black cb-white leading-tight">
                       {disc.brand} {disc.plastic} {disc.name}
                     </h4>
-                    <div className="text-[11px] font-bold text-amber-300">
+                    <div className="text-[11px] font-bold cb-gold mt-0.5">
                       {disc.weightGrams ? `${disc.weightGrams}g · ` : ''}{disc.slotCategory} · Range: {disc.idealMinFeet}–{disc.idealMaxFeet} ft
                     </div>
                   </div>
 
                   {/* Impel-Style 4-Stat Power Matrix Bars */}
-                  <div className="bg-slate-950/80 p-2.5 rounded-xl border border-slate-700 space-y-1.5">
+                  <div className="bg-slate-950/90 p-2.5 rounded-xl border border-slate-700 space-y-1.5">
                     <div className="flex items-center justify-between text-[10px] font-mono-tabular font-extrabold">
-                      <span className="text-slate-300">FLIGHT RATING MATRIX</span>
-                      <span className="text-cyan-300">[{disc.speed} | {disc.glide} | {disc.turn} | {disc.fade}]</span>
+                      <span className="cb-muted">FLIGHT RATING MATRIX</span>
+                      <span className="cb-cyan">[{disc.speed} | {disc.glide} | {disc.turn} | {disc.fade}]</span>
                     </div>
                     {[
                       { label: 'SPD', val: disc.speed, pct: Math.min(100, (disc.speed / 12) * 100), color: 'bg-pink-500' },
@@ -661,32 +662,32 @@
                       { label: 'FDE', val: disc.fade, pct: Math.min(100, ((disc.fade + 0.5) / 5) * 100), color: 'bg-lime-400' }
                     ].map((stat) => (
                       <div key={stat.label} className="flex items-center gap-2 text-[10px] font-mono-tabular">
-                        <span className="w-7 font-bold text-slate-300">{stat.label}</span>
+                        <span className="w-7 font-bold cb-muted">{stat.label}</span>
                         <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
                           <div className={`h-full ${stat.color}`} style={{ width: `${stat.pct}%` }} />
                         </div>
-                        <span className="w-5 text-right font-extrabold text-white">{stat.val}</span>
+                        <span className="w-6 text-right font-extrabold cb-white">{stat.val}</span>
                       </div>
                     ))}
                   </div>
 
-                  {/* Dossier Lore & Course Strategy */}
+                  {/* High-Contrast Dossier Lore & Course Strategy */}
                   <div className="space-y-1.5 text-[11px] leading-snug">
-                    <div className="bg-white/5 p-2 rounded-lg border border-white/10">
-                      <strong className="text-amber-300 uppercase text-[9px] block">Mold & Flight Dossier:</strong>
-                      <span className="text-slate-200 line-clamp-3">{disc.moldAndFlight}</span>
+                    <div className="bg-slate-950/75 p-2 rounded-lg border border-slate-700/80">
+                      <strong className="cb-gold uppercase text-[9px] font-extrabold block mb-0.5">Mold & Flight Dossier:</strong>
+                      <span className="cb-light block">{disc.moldAndFlight}</span>
                     </div>
-                    <div className="bg-white/5 p-2 rounded-lg border border-white/10">
-                      <strong className="text-cyan-300 uppercase text-[9px] block">On-Course Strategy:</strong>
-                      <span className="text-slate-200 line-clamp-2">{disc.courseStrategy}</span>
+                    <div className="bg-slate-950/75 p-2 rounded-lg border border-slate-700/80">
+                      <strong className="cb-cyan uppercase text-[9px] font-extrabold block mb-0.5">On-Course Strategy:</strong>
+                      <span className="cb-light block">{disc.courseStrategy}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Card Back Footer */}
-                <div className="pt-1.5 border-t border-amber-400/30 flex items-center justify-between text-[10px] font-bold">
-                  <span className="text-lime-300">Logged Throws: {loggedThrows}</span>
-                  <span className="text-amber-300">🔄 Tap to Flip Front</span>
+                <div className="pt-1.5 border-t border-amber-400/30 flex items-center justify-between text-[10px] font-extrabold">
+                  <span className="cb-lime">Logged Throws: {loggedThrows}</span>
+                  <span className="cb-gold">🔄 Tap to Flip Front</span>
                 </div>
               </div>
             </div>
@@ -918,7 +919,7 @@
           <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <div className="space-y-1.5 max-w-2xl">
               <div className="text-xs font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
-                Welcome to the Tee Pad · Collector Card Edition (v51)
+                Welcome to the Tee Pad · Collector Card Edition (v52)
               </div>
               <h1 className="font-display text-xl sm:text-2xl font-extrabold text-white">
                 What would you like to do today?
@@ -992,7 +993,7 @@
                   <h3 className="font-extrabold text-sm text-white">2. Select Today's Wind</h3>
                   <div className="space-y-2">
                     {[
-                      { id: 'calm', title: '☀️ Calm / Straight Tunnel', desc: 'Pull Aviar, Star Sync, Glow Mako3 & 170g Halo Star IT.' },
+                      { id: 'calm', title: '☀️ Calm / Straight Tunnel', desc: 'Pull Star Aviar, Star Sync, Glow Mako3 & 170g Halo Star IT.' },
                       { id: 'headwind', title: '💨 Headwind / Gusty Breeze', desc: 'Pull 175g Galactic XT Pig, 174g DX Roc3 & 170g Champ Firebird.' },
                       { id: 'tailwind', title: '🍃 Tailwind / Pushing Breeze', desc: 'Unleash 152g Star Mamba, 172g Star Rollo & Star Sync.' }
                     ].map((w) => {
@@ -1242,11 +1243,11 @@
           {modalCardDisc && (
             <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setModalCardDisc(null)}>
               <div className="max-w-sm w-full space-y-3" onClick={(e) => e.stopPropagation()}>
-                <div className="flex items-center justify-between text-white px-1">
-                  <span className="text-xs font-extrabold uppercase tracking-wider text-amber-300">
+                <div className="flex items-center justify-between px-1">
+                  <span className="text-xs font-extrabold uppercase tracking-wider cb-gold">
                     🃏 Tap Card to Flip Front / Back
                   </span>
-                  <button onClick={() => setModalCardDisc(null)} className="px-3 py-1 rounded-lg bg-white/10 text-white text-xs font-extrabold">
+                  <button onClick={() => setModalCardDisc(null)} className="px-3 py-1 rounded-lg bg-white/10 cb-white text-xs font-extrabold">
                     Close ✕
                   </button>
                 </div>
@@ -1297,7 +1298,7 @@
             </div>
 
             <div className="flex flex-wrap items-center gap-2.5">
-              <button onClick={() => setShowDossierModal(!showDossierModal)} className="min-h-[42px] px-3.5 py-2 rounded-xl bg-[#39FF14] text-slate-950 font-bold text-xs flex items-center gap-1.5">
+              <button onClick={() => setShowDossierModal(!showDossierModal)} className="min-h-[42px] px-3.5 py-2 rounded-xl bg-[#39FF14] hover:bg-[#39FF14]/90 text-slate-950 font-bold text-xs flex items-center gap-1.5">
                 <span>📓 NotebookLM / Gemini</span>
               </button>
 
@@ -1739,9 +1740,9 @@
           {zoomedCardDisc && (
             <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setZoomedCardDisc(null)}>
               <div className="max-w-sm w-full space-y-3" onClick={(e) => e.stopPropagation()}>
-                <div className="flex items-center justify-between text-white px-1">
-                  <span className="text-xs font-extrabold uppercase tracking-wider text-amber-300">🃏 Tap Card to Flip 180°</span>
-                  <button onClick={() => setZoomedCardDisc(null)} className="px-3 py-1 rounded-lg bg-white/10 text-white text-xs font-extrabold">Close ✕</button>
+                <div className="flex items-center justify-between px-1">
+                  <span className="text-xs font-extrabold uppercase tracking-wider cb-gold">🃏 Tap Card to Flip 180°</span>
+                  <button onClick={() => setZoomedCardDisc(null)} className="px-3 py-1 rounded-lg bg-white/10 cb-white text-xs font-extrabold">Close ✕</button>
                 </div>
                 <FlippableTradingCard disc={zoomedCardDisc} history={history} />
               </div>
@@ -2263,7 +2264,7 @@
         return INITIAL_COURSE_TEMPLATES;
       });
 
-      // Always merge cardImage & cardNumber from INITIAL_DISC_BAG so existing localStorage bags get the 9 new card images automatically!
+      // Ensure canonical card specs (Star Aviar, Glow Mako3, cardImage, cardNumber) always sync cleanly
       const [bag, setBag] = useState(() => {
         try {
           const saved = localStorage.getItem(STORAGE_KEY);
@@ -2272,7 +2273,7 @@
             if (Array.isArray(parsed.bag) && parsed.bag.length > 0) {
               return parsed.bag.map((d) => {
                 const defaultMatch = INITIAL_DISC_BAG.find((initD) => initD.id === d.id);
-                return defaultMatch ? { ...defaultMatch, ...d, cardImage: defaultMatch.cardImage, cardNumber: defaultMatch.cardNumber } : d;
+                return defaultMatch ? { ...d, ...defaultMatch } : d;
               });
             }
           }
@@ -2310,7 +2311,7 @@
       useEffect(() => {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v51', exportDate: new Date().toISOString(),
+            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v52', exportDate: new Date().toISOString(),
             history, roster, roundState, webhookUrl, timerState, courses, bag
           }));
         } catch {}
@@ -2428,7 +2429,7 @@
       };
 
       const handleExportJsonPayload = () => ({
-        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v51', exportDate: new Date().toISOString(),
+        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v52', exportDate: new Date().toISOString(),
         history, roster, roundState, webhookUrl, timerState, courses, bag
       });
 
