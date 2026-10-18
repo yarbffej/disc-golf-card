@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Jeffery & Jack Disc Golf Scorecard (v53 Collector Edition)</title>
+  <title>Jeffery & Jack Disc Golf Scorecard (v54 Collector Edition)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,7 +44,7 @@
     .font-mono-tabular { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
 
     /* ============================================================================
-       3D FLIPPABLE TRADING CARD ENGINE (Isolated High-Contrast Back Colors)
+       3D FLIPPABLE TRADING CARD ENGINE (Compact 3-Box Back Layout, Zero Overflow)
        ============================================================================ */
     .card-3d-scene {
       perspective: 1200px;
@@ -157,7 +157,7 @@
     const { useState, useEffect } = React;
 
     // ============================================================================
-    // INITIAL DATA: PACK GEAR, 12-DISC DUAL BAG (WITH TRADING CARD IMAGES), 16 COURSES & 9 ROUNDS
+    // INITIAL DATA: PACK GEAR, 12-DISC DUAL BAG, 17 COURSES (WITH WYANDOTTE) & 9 ROUNDS
     // ============================================================================
     const INITIAL_PACK_GEAR = [
       { id: 'gear-pack', name: 'Innova Adventure Pack (Pink/Blue)', category: 'Primary Bag', orderRef: '1010 Discs', packed: true },
@@ -173,8 +173,9 @@
         colorStamp: 'Royal Blue / Red Foil Stamp', orderNumber: '#277696', sku: '529480', type: 'Putter',
         speedTier: 'SPD 2-4', stabilitySlot: 'Neutral', speed: 2, glide: 3, turn: 0, fade: 1, colorHex: '#00F0FF',
         idealMinFeet: 0, idealMaxFeet: 150,
-        moldAndFlight: 'The foundational beadless disc golf putter with a comfortable, palm-filling profile. Dead straight inside the circle with a subtle low-speed finish.',
-        courseStrategy: 'Dedicated Circle 1 and Circle 2 chains hunter, plus soft, lofted uphill touch approaches (100–150 ft) that settle flat right at the pole.',
+        moldAndFlight: 'Foundational beadless putter with a palm-filling profile. Dead straight inside the circle with a subtle low-speed finish.',
+        courseStrategy: 'Circle 1 & Circle 2 chains hunter, plus soft uphill touch approaches (100–150 ft) that settle flat at the pole.',
+        transcriptStats: 'Awaiting post-round voice transcript upload to populate Circle 1/2 putt % & approach notes.',
         caddieScenarios: ['calm'], caddieRoleNote: 'Circle 1/2 Putt & 100–150 ft Touch Approach'
       },
       {
@@ -183,8 +184,9 @@
         colorStamp: 'Crimson Red / Blue Foil Stamp', orderNumber: '#279091', sku: '553127', price: '$15.99', type: 'Putter',
         speedTier: 'SPD 2-4', stabilitySlot: 'Neutral', speed: 3, glide: 3, turn: 0, fade: 1, colorHex: '#FF2A54',
         idealMinFeet: 120, idealMaxFeet: 195,
-        moldAndFlight: 'Low-profile Star plastic throwing putter at max 175g weight built to handle full-power tee shots without wobbling or burning over.',
+        moldAndFlight: 'Low-profile Star throwing putter at max 175g weight built to handle full-power tee shots without wobbling or burning over.',
         courseStrategy: 'Dead-straight tunnel tee shots in calm air, or smooth anhyzer turnovers when shaping right-turning lines under 195 ft.',
+        transcriptStats: 'Awaiting post-round voice transcript upload to populate tunnel tee accuracy & flight notes.',
         caddieScenarios: ['calm', 'tailwind'], caddieRoleNote: '175g Star Sync — Straight Tunnel Tee / Tailwind Anhyzer'
       },
       {
@@ -193,8 +195,9 @@
         colorStamp: 'Forest Green / Rainbow Foil', orderNumber: '#279091', sku: '554520', price: '$12.99', type: 'Putter',
         speedTier: 'SPD 2-4', stabilitySlot: 'Overstable', speed: 4, glide: 1, turn: 0, fade: 3, colorHex: '#39FF14',
         idealMinFeet: 90, idealMaxFeet: 200,
-        moldAndFlight: 'Thick, blunt rim featuring a recessed Thumbtrack that locks in your grip for both backhand and forehand. Refuses to float away in Kansas winds, dumping reliably left.',
-        courseStrategy: 'Forehand flick approaches inside 200 feet, headwind upshots, and death putts where sailing long is out of bounds.',
+        moldAndFlight: 'Thick, blunt rim featuring a recessed Thumbtrack for backhand and forehand grip. Refuses to float long in Kansas winds, dumping left.',
+        courseStrategy: 'Forehand flick approaches inside 200 feet, headwind upshots, and death putts where sailing long is OB.',
+        transcriptStats: 'Awaiting post-round voice transcript upload to populate forehand flick & scramble save stats.',
         caddieScenarios: ['headwind'], caddieRoleNote: '175g Galactic XT Pig — Headwind & Forehand Flick Brick'
       },
       {
@@ -204,7 +207,8 @@
         speedTier: 'SPD 5', stabilitySlot: 'Understable', speed: 5, glide: 6, turn: -4, fade: 1, colorHex: '#FF6B00',
         idealMinFeet: 175, idealMaxFeet: 250,
         moldAndFlight: 'Wide-diameter midrange with a smooth rounded rim designed for effortless right-turning glide and instant ground rollers.',
-        courseStrategy: 'Your "get out of jail free" scramble disc. Ideal for awkward stances in the woods, sweeping right-turning doglegs, and easy backhand rollers.',
+        courseStrategy: 'Get-out-of-jail scramble disc. Ideal for awkward stances in the woods, right-turning doglegs, and easy backhand rollers.',
+        transcriptStats: 'Awaiting post-round voice transcript upload to populate turnover & roller distance logs.',
         caddieScenarios: ['tailwind'], caddieRoleNote: '172g Star Rollo — Right-Turning Dogleg, Scramble & Roller'
       },
       {
@@ -213,8 +217,9 @@
         colorStamp: 'Moonlight Glow / Blue Shark', orderNumber: '#277696', sku: '565178', type: 'Midrange',
         speedTier: 'SPD 5', stabilitySlot: 'Neutral', speed: 5, glide: 5, turn: 0, fade: 0, colorHex: '#00FF9D',
         idealMinFeet: 180, idealMaxFeet: 250,
-        moldAndFlight: 'Flat-topped, wide-diameter, and beadless for a friction-free release. As the ultimate truth-teller in disc golf, its zero turn and zero fade hold your exact release angle.',
-        courseStrategy: 'Tight wooded hallways where the fairway gives you zero room to drift left or right, pure anhyzer pans, and form-check fieldwork.',
+        moldAndFlight: 'Flat-topped, wide-diameter, and beadless for a clean release. Zero turn and zero fade hold your exact release angle to the ground.',
+        courseStrategy: 'Tight wooded hallways with zero room to drift left or right, pure anhyzer pans, and form-check fieldwork.',
+        transcriptStats: 'Awaiting post-round voice transcript upload to populate fairway tunnel hit % & flight notes.',
         caddieScenarios: ['calm'], caddieRoleNote: 'Glow Mako3 — Zero-Drift Wooded Hallway Truth-Teller'
       },
       {
@@ -223,8 +228,9 @@
         colorStamp: 'Turquoise / Orange Hawk Stamp', orderNumber: '#279091', sku: '565282', price: '$8.99', type: 'Midrange',
         speedTier: 'SPD 5', stabilitySlot: 'Overstable', speed: 5, glide: 4, turn: 0, fade: 3, colorHex: '#00E5FF',
         idealMinFeet: 185, idealMaxFeet: 260,
-        moldAndFlight: 'A faster, flatter evolution of the classic beaded Roc. At 174g, it delivers a trusty straight push with a strong late left fade that handles breeze far better than the Mako3.',
+        moldAndFlight: 'Faster, flatter evolution of the classic beaded Roc. At 174g, delivers a straight push with a strong late left fade in the breeze.',
         courseStrategy: 'Stock open-fairway midrange shots requiring a dependable left finish and wind resistance.',
+        transcriptStats: 'Awaiting post-round voice transcript upload to populate headwind mid & hyzer placement stats.',
         caddieScenarios: ['headwind'], caddieRoleNote: '174g DX Roc3 — Breeze-Fighter Mid with Dependable Left Finish'
       },
       {
@@ -233,8 +239,9 @@
         colorStamp: 'Purple Swirl / Neon Green Stamp', orderNumber: '#279091', sku: '465470', price: '$20.99', type: 'Fairway Driver',
         speedTier: 'SPD 7-11', stabilitySlot: 'Neutral', speed: 7, glide: 6, turn: -2, fade: 1, colorHex: '#C026D3',
         idealMinFeet: 235, idealMaxFeet: 320,
-        moldAndFlight: 'Engineered with a rounded, convex bottom wing that feels as comfortable as a midrange. Thrown on a slight hyzer, it pops up flat and glides along a tight S-curve with massive 6 glide.',
+        moldAndFlight: 'Rounded convex bottom wing feels as comfortable as a midrange. Thrown on a slight hyzer, pops flat and glides along a tight S-curve.',
         courseStrategy: 'Primary wooded fairway driver, effortless 70%-power placement shots, and sweeping hyzer-flips.',
+        transcriptStats: 'Awaiting post-round voice transcript upload to populate fairway carry distance & hyzer-flip notes.',
         caddieScenarios: ['calm'], caddieRoleNote: '170g Halo Star IT — Effortless Hyzer-Flip & Wooded Fairway Workhorse'
       },
       {
@@ -243,8 +250,9 @@
         colorStamp: 'Sunburst Tie-Dye / White Phoenix', orderNumber: '#279091', sku: '565547', price: '$17.99', type: 'Fairway Driver',
         speedTier: 'SPD 7-11', stabilitySlot: 'Overstable', speed: 9, glide: 3, turn: 0, fade: 4, colorHex: '#FACC15',
         idealMinFeet: 225, idealMaxFeet: 315,
-        moldAndFlight: 'Blunt nose, flat profile, and a comfortable 1.9 cm rim. In ultra-durable Champion plastic, its 3 glide and 4 fade laugh at 30 mph Kansas headwinds.',
-        courseStrategy: 'Heavy headwind drives, power forehands, big flare skips around 90-degree doglegs, and overhand thumbers/tomahawks.',
+        moldAndFlight: 'Blunt nose, flat profile, and comfortable 1.9 cm rim. In durable Champion plastic, its 3 glide and 4 fade laugh at 30 mph headwinds.',
+        courseStrategy: 'Heavy headwind drives, power forehands, big flare skips around 90-degree doglegs, and overhand escapes.',
+        transcriptStats: 'Awaiting post-round voice transcript upload to populate headwind drive & skip-shot logs.',
         caddieScenarios: ['headwind'], caddieRoleNote: '170g Champ Firebird — 30mph Kansas Headwind Fighter & Flare Skipper',
         spotterWarning: 'Spotter tip: Watch the I-Dye Multicolor pattern closely in autumn leaves!'
       },
@@ -254,8 +262,9 @@
         colorStamp: 'Hot Pink / Metallic Blue Snake', orderNumber: '#279091', sku: '566498', price: '$15.99', type: 'Distance Driver',
         speedTier: 'SPD 7-11', stabilitySlot: 'Understable', speed: 11, glide: 6, turn: -5, fade: 1, colorHex: '#FF2E93',
         idealMinFeet: 275, idealMaxFeet: 400,
-        moldAndFlight: 'Pairing -5 high-speed turn with a featherlight 152g Star weight creates a cheat code for effortless distance. Released on a steep hyzer angle, it stands up, turns right, and glides forever.',
-        courseStrategy: 'Max-distance tailwind bombs, steep uphill drives where heavier discs stall out, and sky anhyzers. Keep it safely holstered in headwinds!',
+        moldAndFlight: 'Pairing -5 high-speed turn with a featherlight 152g Star weight creates effortless distance. Released on a hyzer, stands up and glides forever.',
+        courseStrategy: 'Max-distance tailwind bombs, long Par 4s at Wyandotte, and uphill drives. Keep holstered in headwinds!',
+        transcriptStats: 'Awaiting post-round voice transcript upload to populate max-distance bomb & tailwind logs.',
         caddieScenarios: ['tailwind'], caddieRoleNote: '152g Star Mamba — Featherlight Tailwind Bomber & Uphill Cheat Code',
         spotterWarning: 'Keep safely holstered in Kansas headwinds!'
       },
@@ -267,6 +276,7 @@
         idealMinFeet: 0, idealMaxFeet: 175,
         moldAndFlight: "Jack's main beadless putter and short approach disc. Extra-glide neutral profile that floats straight to the chains.",
         courseStrategy: "Jack's Circle 1 & Circle 2 putting putter plus straight touch approaches on short holes.",
+        transcriptStats: 'Awaiting post-round transcript upload for Jack.',
         caddieScenarios: ['calm', 'tailwind'], isSynergyAddon: true
       },
       {
@@ -277,6 +287,7 @@
         idealMinFeet: 175, idealMaxFeet: 255,
         moldAndFlight: "Jack's smooth point-and-shoot midrange. Effortless hyzer-flip to flat flight with a gentle right drift.",
         courseStrategy: "Jack's go-to midrange for 175–255 ft holes, wooded gaps, and controlled turnovers.",
+        transcriptStats: 'Awaiting post-round transcript upload for Jack.',
         caddieScenarios: ['calm', 'tailwind'], isSynergyAddon: true
       },
       {
@@ -287,11 +298,38 @@
         idealMinFeet: 235, idealMaxFeet: 330,
         moldAndFlight: "Jack's high-glide 7-speed fairway driver. Holds a laser-straight line off the tee with 6 glide for maximum fairway carry.",
         courseStrategy: "Jack's primary driver on holes 235+ ft and long par 3/4 tee shots.",
+        transcriptStats: 'Awaiting post-round transcript upload for Jack.',
         caddieScenarios: ['calm', 'headwind', 'tailwind'], isSynergyAddon: true
       }
     ];
 
     const INITIAL_COURSE_TEMPLATES = [
+      {
+        key: 'wyandotte',
+        name: 'Wyandotte County Park',
+        location: 'Bonner Springs, KS (Veteran Baskets)',
+        totalHoles: 18,
+        holes: [
+          { number: 1, par: 4, distance: 555, hint: '555ft Par 4 opener — 152g Star Mamba or 170g Halo IT off the tee + midrange placement.' },
+          { number: 2, par: 4, distance: 548, hint: '548ft Par 4 — 152g Star Mamba bomber drive (or Champ Firebird if into a headwind).' },
+          { number: 3, par: 3, distance: 441, hint: '441ft long Par 3 — full-flight driver off the tee + Galactic XT Pig approach to secure Par.' },
+          { number: 4, par: 4, distance: 487, hint: '487ft Par 4 — 170g Halo Star IT or Star Mamba tee shot to set up a clean second shot.' },
+          { number: 5, par: 3, distance: 262, hint: '262ft scoring Par 3 — 170g Halo Star IT smooth 70% placement or 174g DX Roc3.' },
+          { number: 6, par: 3, distance: 407, hint: '407ft Par 3 — 152g Star Mamba or Halo Star IT fairway carry.' },
+          { number: 7, par: 4, distance: 550, hint: '550ft Par 4 — two smooth driver/mid shots to reach Circle 1 in regulation.' },
+          { number: 8, par: 3, distance: 337, hint: '337ft Par 3 — 152g Star Mamba hyzer-flip or 170g Halo Star IT.' },
+          { number: 9, par: 3, distance: 366, hint: '366ft Front 9 closer — 152g Star Mamba or 170g Halo Star IT.' },
+          { number: 10, par: 4, distance: 500, hint: '500ft Back 9 Par 4 starter — 152g Star Mamba max-glide drive + Roc3/Mako3 approach.' },
+          { number: 11, par: 3, distance: 283, hint: '283ft birdie look — 170g Halo Star IT or 174g DX Roc3.' },
+          { number: 12, par: 4, distance: 520, hint: '520ft Par 4 — 152g Star Mamba tailwind bomb or Halo Star IT placement.' },
+          { number: 13, par: 4, distance: 685, hint: '685ft monster Par 4 (longest on course!) — two full driver pulls + Galactic XT Pig upshot.' },
+          { number: 14, par: 4, distance: 562, hint: '562ft Par 4 — 152g Star Mamba or Halo Star IT off the tee.' },
+          { number: 15, par: 3, distance: 361, hint: '361ft Par 3 — 152g Star Mamba or 170g Halo Star IT.' },
+          { number: 16, par: 3, distance: 429, hint: '429ft Par 3 — big fairway drive + stick-and-stop XT Pig approach.' },
+          { number: 17, par: 4, distance: 617, hint: '617ft Par 4 — 152g Star Mamba max-air drive + Halo IT second shot.' },
+          { number: 18, par: 3, distance: 386, hint: '386ft finishing Par 3 — empty the tank with Star Mamba or Halo Star IT!' }
+        ]
+      },
       { key: 'sarko', name: 'Sar-Ko-Par Trails', location: 'Lenexa, KS', totalHoles: 9, holes: [
         { number: 1, par: 3, distance: 138, hint: '138ft opener — 175g Star Sync or Aviar touch shot right at the pole.' },
         { number: 2, par: 3, distance: 192, hint: '192ft slight elevation — Mako3 tunnel or 174g DX Roc3 if breezy.' },
@@ -424,7 +462,7 @@
     ];
 
     const INITIAL_USER_EXPORT = {
-      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v53', exportDate: '2026-10-17T16:47:23.539Z',
+      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v54', exportDate: '2026-10-17T16:47:23.539Z',
       history: [
         { id: 1792169030880, courseName: 'Sar-Ko-Par Trails', totalHoles: 9, date: '2026-10-15', duration: '00:27:05', par: 27,
           players: [{ id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 26 }, { id: 'jack', name: 'Jack', tag: 'J2', total: 28 }],
@@ -526,16 +564,17 @@
         { id: 'jack', name: 'Jack', tag: 'J2', color: 'blue-800' }
       ],
       roundState: {
-        courseKey: 'sarko', courseName: 'Sar-Ko-Par Trails', totalHoles: 9,
-        date: new Date().toISOString().slice(0, 10), currentHoleIndex: 0,
-        activePlayerIds: ['jeffery', 'jack'], gameMode: 'stroke', windCondition: 'calm',
-        holes: [
-          { number: 1, par: 3, distance: 138, scores: { jeffery: 0, jack: 0 } }, { number: 2, par: 3, distance: 192, scores: { jeffery: 0, jack: 0 } },
-          { number: 3, par: 3, distance: 162, scores: { jeffery: 0, jack: 0 } }, { number: 4, par: 3, distance: 162, scores: { jeffery: 0, jack: 0 } },
-          { number: 5, par: 3, distance: 144, scores: { jeffery: 0, jack: 0 } }, { number: 6, par: 3, distance: 165, scores: { jeffery: 0, jack: 0 } },
-          { number: 7, par: 3, distance: 139, scores: { jeffery: 0, jack: 0 } }, { number: 8, par: 3, distance: 171, scores: { jeffery: 0, jack: 0 } },
-          { number: 9, par: 3, distance: 141, scores: { jeffery: 0, jack: 0 } }
-        ]
+        courseKey: 'wyandotte',
+        courseName: 'Wyandotte County Park',
+        totalHoles: 18,
+        date: new Date().toISOString().slice(0, 10),
+        currentHoleIndex: 0,
+        activePlayerIds: ['jeffery', 'jack'],
+        gameMode: 'stroke',
+        windCondition: 'calm',
+        holes: INITIAL_COURSE_TEMPLATES[0].holes.map((h) => ({
+          number: h.number, par: h.par, distance: h.distance, scores: { jeffery: 0, jack: 0 }
+        }))
       },
       webhookUrl: 'https://script.google.com/macros/s/AKfycbwWalOtBF_RZnmjU315HjHXIIxMGjO4-fiagtxq5u5MBIbxUjaaSZUeQekI0k3yZzCj/exec',
       timerState: { running: false, startTime: null, accumulatedMs: 0 },
@@ -563,25 +602,23 @@
       return { label: `+${diff}`, shortLabel: `+${diff}`, textColor: 'accent-pink text-[#FF2E93]', bgColor: 'bg-[#FF2E93]/25', borderColor: 'border-[#FF2E93]' };
     }
 
-    function countDiscUsageInHistory(discName, history) {
-      let count = 0;
+    function scanTranscriptMentionsForDisc(discName, history) {
+      let mentions = 0;
+      const cleanName = discName.replace(' (F2)', '').replace('Halo ', '').toLowerCase();
       for (const r of history) {
+        if (r.roundTranscript && r.roundTranscript.toLowerCase().includes(cleanName)) mentions++;
         for (const h of r.holes || []) {
-          if (h.meta) {
-            for (const pid of Object.keys(h.meta)) {
-              if (h.meta[pid]?.discUsed?.toLowerCase() === discName.toLowerCase()) count++;
-            }
-          }
+          if (h.voiceTranscript && h.voiceTranscript.toLowerCase().includes(cleanName)) mentions++;
         }
       }
-      return count;
+      return mentions;
     }
 
-    // INTERACTIVE 3D FLIPPABLE TRADING CARD COMPONENT (LARGER BACK FONTS & FULL CARD FILL)
+    // INTERACTIVE 3D FLIPPABLE TRADING CARD COMPONENT (COMPACT v52 FONT + 3RD TRANSCRIPT STATS BOX)
     function FlippableTradingCard({ disc, history = [], onSelectForSim, onEnlarge }) {
       const [isFlipped, setIsFlipped] = useState(false);
       const [imgError, setImgError] = useState(false);
-      const loggedThrows = countDiscUsageInHistory(disc.name, history);
+      const transcriptMentions = scanTranscriptMentionsForDisc(disc.name, history);
 
       const directionBadge =
         disc.stabilitySlot === 'Overstable'
@@ -604,97 +641,108 @@
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full p-5 flex flex-col justify-between bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 cb-white border-4 border-amber-400/80 rounded-2xl">
+                  <div className="w-full h-full p-4 flex flex-col justify-between bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 cb-white border-4 border-amber-400/80 rounded-2xl">
                     <div className="flex items-center justify-between border-b border-white/20 pb-2">
-                      <span className="text-xs font-mono-tabular font-extrabold cb-gold">{disc.cardNumber || 'COLLECTOR CARD'}</span>
-                      <span className="px-2.5 py-0.5 rounded bg-white/10 font-mono-tabular text-xs font-extrabold cb-white">{disc.speed}|{disc.glide}|{disc.turn}|{disc.fade}</span>
+                      <span className="text-[10px] font-mono-tabular font-extrabold cb-gold">{disc.cardNumber || 'COLLECTOR CARD'}</span>
+                      <span className="px-2 py-0.5 rounded bg-white/10 font-mono-tabular text-xs font-extrabold cb-white">{disc.speed}|{disc.glide}|{disc.turn}|{disc.fade}</span>
                     </div>
-                    <div className="my-auto text-center space-y-2.5">
-                      <div className="w-28 h-28 rounded-full mx-auto border-4 border-white/40 flex items-center justify-center shadow-inner" style={{ backgroundColor: disc.colorHex || '#FF2E93' }}>
-                        <span className="font-display font-black cb-dark text-base uppercase tracking-tighter text-center px-2">{disc.name}</span>
+                    <div className="my-auto text-center space-y-2">
+                      <div className="w-24 h-24 rounded-full mx-auto border-4 border-white/40 flex items-center justify-center shadow-inner" style={{ backgroundColor: disc.colorHex || '#FF2E93' }}>
+                        <span className="font-display font-black cb-dark text-sm uppercase tracking-tighter text-center px-1">{disc.name}</span>
                       </div>
-                      <div className="font-display font-extrabold text-lg cb-white">{disc.brand} {disc.plastic} {disc.name}</div>
-                      <div className="text-xs cb-gold font-bold">{disc.slotCategory}</div>
+                      <div className="font-display font-extrabold text-base cb-white">{disc.brand} {disc.plastic} {disc.name}</div>
+                      <div className="text-[11px] cb-gold font-bold">{disc.slotCategory}</div>
                     </div>
-                    <div className="text-center text-xs font-mono-tabular uppercase tracking-wider bg-black/40 py-2 rounded-lg border border-white/15 cb-white">
+                    <div className="text-center text-[10px] font-mono-tabular uppercase tracking-wider bg-black/40 py-1.5 rounded-lg border border-white/15 cb-white">
                       SPD {disc.speed} · GLD {disc.glide} · TRN {disc.turn} · FDE {disc.fade}
                     </div>
                   </div>
                 )}
 
-                <div className="absolute top-2.5 right-2.5 px-3 py-1 rounded-full bg-slate-950/90 cb-gold border border-amber-400/50 text-xs font-extrabold tracking-wide shadow-lg">
+                <div className="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-slate-950/90 cb-gold border border-amber-400/50 text-[10px] font-extrabold tracking-wide shadow-lg">
                   🔄 Tap to Flip
                 </div>
               </div>
 
-              {/* BACK FACE: FULL-HEIGHT, LARGE-FONT 1990s IMPEL STATS DOSSIER */}
-              <div className="card-3d-face card-3d-back p-4 sm:p-5 flex flex-col justify-between">
-                {/* 1. Top Collector Header & Title */}
-                <div>
-                  <div className="flex items-center justify-between border-b border-amber-400/40 pb-2">
-                    <span className="text-xs sm:text-sm font-mono-tabular font-extrabold cb-gold tracking-wider">
+              {/* BACK FACE: COMPACT 1990s IMPEL DOSSIER WITH 3 CLEAN BOXES (NO OVERLAP) */}
+              <div className="card-3d-face card-3d-back p-3 sm:p-3.5 flex flex-col justify-between">
+                <div className="space-y-1.5">
+                  {/* Top Collector Header */}
+                  <div className="flex items-center justify-between border-b border-amber-400/40 pb-1">
+                    <span className="text-[10px] font-mono-tabular font-extrabold cb-gold tracking-wider">
                       {disc.cardNumber || '199X EDITION'} · {disc.orderNumber || '1010 DISCS'}
                     </span>
-                    <span className={`px-2.5 py-1 rounded-md text-[11px] sm:text-xs font-extrabold uppercase ${directionBadge.bg}`}>
+                    <span className={`px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${directionBadge.bg}`}>
                       {directionBadge.text}
                     </span>
                   </div>
 
-                  <div className="mt-2">
-                    <h4 className="font-display text-xl sm:text-2xl font-black cb-white leading-tight">
+                  {/* Card Title & Specs */}
+                  <div>
+                    <h4 className="font-display text-sm sm:text-base font-black cb-white leading-tight">
                       {disc.brand} {disc.plastic} {disc.name}
                     </h4>
-                    <div className="text-xs sm:text-sm font-extrabold cb-gold mt-0.5">
+                    <div className="text-[10px] font-bold cb-gold">
                       {disc.weightGrams ? `${disc.weightGrams}g · ` : ''}{disc.slotCategory} · Range: {disc.idealMinFeet}–{disc.idealMaxFeet} ft
                     </div>
                   </div>
-                </div>
 
-                {/* 2. Impel-Style 4-Stat Power Matrix Bars (Larger Text & Thicker Bars) */}
-                <div className="bg-slate-950/90 p-3 rounded-xl border border-slate-700 space-y-2 my-2">
-                  <div className="flex items-center justify-between text-xs sm:text-sm font-mono-tabular font-extrabold">
-                    <span className="cb-muted">FLIGHT RATING MATRIX</span>
-                    <span className="cb-cyan">[{disc.speed} | {disc.glide} | {disc.turn} | {disc.fade}]</span>
-                  </div>
-                  {[
-                    { label: 'SPD', val: disc.speed, pct: Math.min(100, (disc.speed / 12) * 100), color: 'bg-pink-500' },
-                    { label: 'GLD', val: disc.glide, pct: Math.min(100, (disc.glide / 7) * 100), color: 'bg-cyan-400' },
-                    { label: 'TRN', val: disc.turn, pct: Math.min(100, ((Math.abs(disc.turn) + 1) / 6) * 100), color: 'bg-amber-400' },
-                    { label: 'FDE', val: disc.fade, pct: Math.min(100, ((disc.fade + 0.5) / 5) * 100), color: 'bg-lime-400' }
-                  ].map((stat) => (
-                    <div key={stat.label} className="flex items-center gap-2.5 text-xs sm:text-sm font-mono-tabular">
-                      <span className="w-8 font-extrabold cb-muted">{stat.label}</span>
-                      <div className="flex-1 h-2.5 sm:h-3 bg-slate-800 rounded-full overflow-hidden">
-                        <div className={`h-full ${stat.color}`} style={{ width: `${stat.pct}%` }} />
-                      </div>
-                      <span className="w-6 text-right font-extrabold cb-white">{stat.val}</span>
+                  {/* Compact 2x2 Impel Flight Rating Matrix (Saves Vertical Space for 3 Boxes) */}
+                  <div className="bg-slate-950/90 px-2.5 py-1.5 rounded-lg border border-slate-700 space-y-1">
+                    <div className="flex items-center justify-between text-[9px] font-mono-tabular font-extrabold">
+                      <span className="cb-muted">FLIGHT RATING MATRIX</span>
+                      <span className="cb-cyan">[{disc.speed} | {disc.glide} | {disc.turn} | {disc.fade}]</span>
                     </div>
-                  ))}
+                    <div className="grid grid-cols-2 gap-x-3 gap-y-1">
+                      {[
+                        { label: 'SPD', val: disc.speed, pct: Math.min(100, (disc.speed / 12) * 100), color: 'bg-pink-500' },
+                        { label: 'GLD', val: disc.glide, pct: Math.min(100, (disc.glide / 7) * 100), color: 'bg-cyan-400' },
+                        { label: 'TRN', val: disc.turn, pct: Math.min(100, ((Math.abs(disc.turn) + 1) / 6) * 100), color: 'bg-amber-400' },
+                        { label: 'FDE', val: disc.fade, pct: Math.min(100, ((disc.fade + 0.5) / 5) * 100), color: 'bg-lime-400' }
+                      ].map((stat) => (
+                        <div key={stat.label} className="flex items-center gap-1.5 text-[9px] font-mono-tabular">
+                          <span className="w-6 font-bold cb-muted">{stat.label}</span>
+                          <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                            <div className={`h-full ${stat.color}`} style={{ width: `${stat.pct}%` }} />
+                          </div>
+                          <span className="w-4 text-right font-extrabold cb-white">{stat.val}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 3 STACKED DOSSIER & TRANSCRIPT STATS BOXES */}
+                  <div className="space-y-1.5 text-[10.5px] leading-snug">
+                    {/* BOX 1: MOLD & FLIGHT DOSSIER */}
+                    <div className="bg-slate-950/75 p-2 rounded-lg border border-slate-700/80">
+                      <strong className="cb-gold uppercase text-[9px] font-extrabold block">Mold & Flight Dossier:</strong>
+                      <span className="cb-light block">{disc.moldAndFlight}</span>
+                    </div>
+
+                    {/* BOX 2: ON-COURSE STRATEGY */}
+                    <div className="bg-slate-950/75 p-2 rounded-lg border border-slate-700/80">
+                      <strong className="cb-cyan uppercase text-[9px] font-extrabold block">On-Course Strategy:</strong>
+                      <span className="cb-light block">{disc.courseStrategy}</span>
+                    </div>
+
+                    {/* BOX 3: TRANSCRIPT LOG STATS (Populated from Post-Round Voice Transcripts) */}
+                    <div className="bg-emerald-950/50 p-2 rounded-lg border border-emerald-500/40">
+                      <div className="flex items-center justify-between">
+                        <strong className="cb-lime uppercase text-[9px] font-extrabold">🎙️ Transcript Log Stats:</strong>
+                        {transcriptMentions > 0 && (
+                          <span className="text-[9px] font-mono-tabular font-extrabold cb-lime">{transcriptMentions} Transcript Mentions</span>
+                        )}
+                      </div>
+                      <span className="cb-light block">
+                        {disc.transcriptStats || 'Awaiting post-round voice transcript upload to populate hole stats & throw notes.'}
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
-                {/* 3. Full-Fill Dossier Lore & Course Strategy Boxes */}
-                <div className="flex-1 flex flex-col justify-evenly gap-2.5 my-1">
-                  <div className="flex-1 bg-slate-950/80 p-3 rounded-xl border border-slate-700/80 flex flex-col justify-center">
-                    <strong className="cb-gold uppercase text-xs font-extrabold block mb-1 tracking-wide">
-                      Mold & Flight Dossier:
-                    </strong>
-                    <span className="cb-light text-xs sm:text-sm leading-relaxed block">
-                      {disc.moldAndFlight}
-                    </span>
-                  </div>
-                  <div className="flex-1 bg-slate-950/80 p-3 rounded-xl border border-slate-700/80 flex flex-col justify-center">
-                    <strong className="cb-cyan uppercase text-xs font-extrabold block mb-1 tracking-wide">
-                      On-Course Strategy:
-                    </strong>
-                    <span className="cb-light text-xs sm:text-sm leading-relaxed block">
-                      {disc.courseStrategy}
-                    </span>
-                  </div>
-                </div>
-
-                {/* 4. Card Back Footer */}
-                <div className="pt-2 border-t border-amber-400/30 flex items-center justify-between text-xs sm:text-sm font-extrabold">
-                  <span className="cb-lime">Logged Throws: {loggedThrows}</span>
+                {/* Card Back Footer */}
+                <div className="pt-1 border-t border-amber-400/30 flex items-center justify-between text-[9px] font-extrabold">
+                  <span className="cb-muted">SKU {disc.sku || '1010-DG'}</span>
                   <span className="cb-gold">🔄 Tap to Flip Front</span>
                 </div>
               </div>
@@ -706,7 +754,7 @@
             {onSelectForSim && (
               <button
                 onClick={(e) => { e.stopPropagation(); onSelectForSim(disc.id); }}
-                className="flex-1 py-2 px-3 rounded-lg sub-control border border-slate-700 text-xs sm:text-sm font-extrabold text-white hover:border-[#00F0FF] truncate"
+                className="flex-1 py-1.5 px-2.5 rounded-lg sub-control border border-slate-700 text-xs font-extrabold text-white hover:border-[#00F0FF] truncate"
               >
                 🛸 Flight Radar ({disc.name})
               </button>
@@ -714,7 +762,7 @@
             {onEnlarge && (
               <button
                 onClick={(e) => { e.stopPropagation(); onEnlarge(disc); }}
-                className="py-2 px-3 rounded-lg bg-[#FF2E93] text-white keep-white text-xs sm:text-sm font-extrabold shrink-0"
+                className="py-1.5 px-2.5 rounded-lg bg-[#FF2E93] text-white keep-white text-xs font-extrabold shrink-0"
               >
                 🔍 Zoom
               </button>
@@ -883,8 +931,7 @@
       const holeLines = holes.map((h) => {
         const scoreParts = players.map((p) => {
           const sc = (h.scores && h.scores[p.id]) || 0;
-          const meta = h.meta && h.meta[p.id];
-          return `${p.name}: ${sc > 0 ? sc : 'Unscored'}${meta?.discUsed ? ` [Disc: ${meta.discUsed}]` : ''}`;
+          return `${p.name}: ${sc > 0 ? sc : 'Unscored'}`;
         }).join(' | ');
         const caddieRec = recommendDiscForScenario(h.distance, windCondition, bag);
         const holeVoice = h.voiceTranscript ? `\n  - **Voice Dictation on Hole #${h.number}**: "${h.voiceTranscript}"` : '';
@@ -899,7 +946,7 @@
     // ============================================================================
     function HomeHubView({ courses, bag, history, roundState, onStartConfiguredRound, onResumeLiveRound, onNavigateTab }) {
       const [showStartWizard, setShowStartWizard] = useState(false);
-      const [selectedCourseKey, setSelectedCourseKey] = useState(roundState.courseKey || courses[0]?.key || 'sarko');
+      const [selectedCourseKey, setSelectedCourseKey] = useState(roundState.courseKey || courses[0]?.key || 'wyandotte');
       const [selectedWind, setSelectedWind] = useState(roundState.windCondition || 'calm');
       const [notesChecked, setNotesChecked] = useState(true);
       const [copiedNotesTemplate, setCopiedNotesTemplate] = useState(false);
@@ -911,7 +958,7 @@
 
       const buildNotesAppStarterTemplate = () => {
         const today = new Date().toISOString().slice(0, 10);
-        return `🎙️ DISC GOLF ROUND VOICE LOG — ${chosenCourse.name}\nDate: ${today}\nWind Condition: ${selectedWind.toUpperCase()}\nPlayers: Jeffery (9-Disc Innova Adventure Pack) & Jack (Discraft Lineup)\n\n--- DICTATE YOUR SHOTS & THOUGHTS BELOW ---\nHole 1 (${chosenCourse.holes[0]?.distance || 150}ft, Par ${chosenCourse.holes[0]?.par || 3}): `;
+        return `🎙️ DISC GOLF ROUND VOICE LOG — ${chosenCourse.name}\nDate: ${today}\nWind Condition: ${selectedWind.toUpperCase()}\nPlayers: Jeffery (9-Disc Innova Adventure Pack) & Jack (Discraft Lineup)\n\n--- DICTATE YOUR SHOTS & THOUGHTS BELOW ---\nHole 1 (${chosenCourse.holes[0]?.distance || 555}ft, Par ${chosenCourse.holes[0]?.par || 4}): `;
       };
 
       const handleOpenPhoneNotesShare = async () => {
@@ -927,14 +974,14 @@
           <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <div className="space-y-1.5 max-w-2xl">
               <div className="text-xs font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
-                Welcome to the Tee Pad · Collector Card Edition (v53)
+                Welcome to the Tee Pad · Collector Card Edition (v54)
               </div>
               <h1 className="font-display text-xl sm:text-2xl font-extrabold text-white">
-                What would you like to do today?
+                Ready for Wyandotte County Park?
               </h1>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Launch a new round with your wind & voice-recording checklist, flip through{' '}
-                <strong className="accent-pink text-[#FF2E93]">Jeffery's 9 Holographic 3D Innova Trading Cards</strong>, or review past scorecards and course records.
+                Wyandotte County Park (Veteran Baskets — 18 Holes, Par 63, 8,294 ft) is loaded! Launch your round, flip through{' '}
+                <strong className="accent-pink text-[#FF2E93]">Jeffery's 9 Holographic 3D Innova Trading Cards</strong>, or review past scorecards.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2.5 shrink-0">
@@ -978,6 +1025,7 @@
                     {courses.map((c) => {
                       const isChosen = c.key === selectedCourseKey;
                       const dist = c.holes.reduce((s, h) => s + h.distance, 0);
+                      const parSum = c.holes.reduce((s, h) => s + h.par, 0);
                       return (
                         <button
                           key={c.key}
@@ -988,7 +1036,7 @@
                         >
                           <div className="truncate pr-2">
                             <div className={`font-bold text-xs sm:text-sm truncate ${isChosen ? 'keep-white text-white' : 'text-white'}`}>{c.name}</div>
-                            <div className={`text-[11px] ${isChosen ? 'keep-white text-white/90' : 'text-slate-400'}`}>{c.location} · {c.totalHoles}H ({dist.toLocaleString()} ft)</div>
+                            <div className={`text-[11px] ${isChosen ? 'keep-white text-white/90' : 'text-slate-400'}`}>{c.location} · {c.totalHoles}H · Par {parSum} ({dist.toLocaleString()} ft)</div>
                           </div>
                           {isChosen && <span className="keep-white text-white font-black text-xs">✓</span>}
                         </button>
@@ -1030,7 +1078,7 @@
                     <div className="sub-control p-3 rounded-xl border border-slate-700 space-y-2">
                       <div className="text-xs font-extrabold accent-lime text-[#39FF14]">🎙️ Pro Tip: Apple Notes Audio Record</div>
                       <p className="text-[11px] text-slate-300 leading-relaxed">
-                        In Apple Notes, tap the <strong>Paperclip → Record Audio</strong> to record hands-free through your earbud while switching screens!
+                        In Apple Notes, tap the <strong>Paperclip → Record Audio</strong> to record hands-free through your earbud while switching screens! Upload your transcript after the round to populate your card stats.
                       </p>
                       <button onClick={handleOpenPhoneNotesShare} className="w-full py-2 px-3 rounded-lg bg-[#00F0FF] text-slate-950 font-bold text-xs">
                         📤 Send Starter Header to Phone Notes
@@ -1056,7 +1104,7 @@
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-pink text-[#FF2E93]">1 · Live On-Course Scorecard</span>
                 <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Play a Round & Flip Tee-Box Cards</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Score hole-by-hole across all {courses.length} courses with live caddie pulls and pop-up 3D trading cards.</p>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Score hole-by-hole across all {courses.length} courses (including Wyandotte County Park!) with live caddie pulls.</p>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => setShowStartWizard(true)} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text-sm">Start New Round Setup</button>
@@ -1068,7 +1116,7 @@
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">2 · 3D Collector Binder & Flight Lab</span>
                 <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">3D Flippable Trading Card Binder</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Tap any of Jeffery's {jefferyDiscs.length} holographic Innova cards to flip to its 1990s Impel stat back, or inspect Jack's Discraft bag.</p>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Tap any of Jeffery's {jefferyDiscs.length} holographic Innova cards to flip to its 3-box Impel stat & transcript back.</p>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => onNavigateTab('courses', 'jeffery')} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text-sm">Jeffery's 3D Cards ({jefferyDiscs.length})</button>
@@ -1102,7 +1150,7 @@
     }
 
     // ============================================================================
-    // VIEW 2: LIVE SCORECARD VIEW (WITH POP-UP 3D FLIPPABLE TEE-BOX CARD MODAL)
+    // VIEW 2: LIVE SCORECARD VIEW (CLEAN SCORING — NO MANUAL DISC LOGGING BUTTONS)
     // ============================================================================
     function LiveScorecardView({
       roundState, setRoundState, roster, history, courses, bag,
@@ -1111,7 +1159,6 @@
     }) {
       const [editingHoleSpec, setEditingHoleSpec] = useState(false);
       const [caddieScenario, setCaddieScenario] = useState(roundState.windCondition || 'calm');
-      const [expandedShotDetails, setExpandedShotDetails] = useState({});
       const [confirmResetModal, setConfirmResetModal] = useState(false);
       const [saveConfirmBanner, setSaveConfirmBanner] = useState(null);
       const [micStatusMessage, setMicStatusMessage] = useState(null);
@@ -1136,7 +1183,6 @@
       const caddyInsight = getHoleCaddyInsights(roundState.courseName, currentHole.number, history, activePlayerIds);
 
       const jefferyBag = bag.filter((d) => d.ownerId !== 'jack');
-      const jackBag = bag.filter((d) => d.ownerId === 'jack');
       const caddieDecision = recommendDiscForScenario(currentHole.distance, caddieScenario, jefferyBag.length > 0 ? jefferyBag : bag);
       const jackRecommendedDisc = recommendJackDisc(currentHole.distance, bag);
 
@@ -1152,17 +1198,6 @@
           holes: prev.holes.map((h, idx) => (idx !== prev.currentHoleIndex ? h : { ...h, scores: { ...h.scores, [playerId]: clamped } }))
         }));
         if (!timerState.running && elapsedSeconds === 0 && clamped > 0) onToggleTimer();
-      };
-
-      const updateShotMeta = (playerId, patch) => {
-        setRoundState((prev) => ({
-          ...prev,
-          holes: prev.holes.map((h, idx) => {
-            if (idx !== prev.currentHoleIndex) return h;
-            const existingMeta = (h.meta && h.meta[playerId]) || {};
-            return { ...h, meta: { ...(h.meta || {}), [playerId]: { ...existingMeta, ...patch } } };
-          })
-        }));
       };
 
       const updateCurrentHoleVoiceTranscript = (text) => {
@@ -1454,7 +1489,7 @@
                   </div>
                 )}
 
-                {/* TEE-BOX CADDIE PULLS WITH MINI 3D CARD THUMBNAIL */}
+                {/* TEE-BOX CADDIE PULLS (CLEAN VIEW — NO MANUAL DISC LOGGING BUTTONS) */}
                 {caddieDecision.primary && (
                   <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-2.5">
                     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -1493,15 +1528,9 @@
                             <p className="text-xs text-slate-300 mt-1 leading-snug">{caddieDecision.shotCallout}</p>
                           </div>
                         </div>
-                        <div className="flex items-center justify-between pt-1">
-                          <button
-                            onClick={() => updateShotMeta('jeffery', { discUsed: caddieDecision.primary?.name, scenarioUsed: caddieScenario })}
-                            className={`px-2.5 py-1 rounded-lg text-[11px] font-bold border ${currentHole.meta?.jeffery?.discUsed === caddieDecision.primary.name ? 'bg-[#39FF14] text-slate-950 border-[#39FF14]' : 'sub-tile text-white border-slate-700'}`}
-                          >
-                            {currentHole.meta?.jeffery?.discUsed === caddieDecision.primary.name ? `Threw ${caddieDecision.primary.name} ✓` : `Log ${caddieDecision.primary.name}`}
-                          </button>
+                        <div className="flex items-center justify-end pt-1">
                           <button onClick={() => setModalCardDisc(caddieDecision.primary)} className="text-[11px] font-extrabold accent-pink text-[#FF2E93] underline">
-                            🃏 Flip 3D Card
+                            🃏 Flip 3D Card →
                           </button>
                         </div>
                       </div>
@@ -1517,13 +1546,7 @@
                             </div>
                             <p className="text-xs text-slate-300 mt-1 leading-snug">{jackRecommendedDisc.courseStrategy}</p>
                           </div>
-                          <div className="flex items-center justify-between pt-1">
-                            <button
-                              onClick={() => updateShotMeta('jack', { discUsed: jackRecommendedDisc.name, scenarioUsed: caddieScenario })}
-                              className={`px-2.5 py-1 rounded-lg text-[11px] font-bold border ${currentHole.meta?.jack?.discUsed === jackRecommendedDisc.name ? 'bg-[#39FF14] text-slate-950 border-[#39FF14]' : 'sub-tile text-white border-slate-700'}`}
-                            >
-                              {currentHole.meta?.jack?.discUsed === jackRecommendedDisc.name ? `Jack Threw ${jackRecommendedDisc.name} ✓` : `Log ${jackRecommendedDisc.name}`}
-                            </button>
+                          <div className="flex items-center justify-end pt-1">
                             {onOpenBagGuide && (
                               <button onClick={() => onOpenBagGuide(jackRecommendedDisc.id, 'jack')} className="text-[11px] font-bold accent-cyan text-[#00F0FF] underline">Jack's Bag →</button>
                             )}
@@ -1539,7 +1562,7 @@
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
                       <span className="keep-white px-2.5 py-1 rounded-lg bg-[#FF2E93] text-white text-xs font-extrabold">🎙️ VOICE LOG REMINDER</span>
-                      <span className="text-xs font-bold text-white">Record Audio in Notes App (or tap box & use keyboard mic)</span>
+                      <span className="text-xs font-bold text-white">Record Audio in Notes App (stats sync after round!)</span>
                     </div>
                     <button onClick={handleShareToPhoneNotes} className="sub-control px-2.5 py-1 rounded-lg border border-slate-700 text-xs font-bold text-white">📤 Copy / Open Phone Notes</button>
                   </div>
@@ -1548,7 +1571,7 @@
                     rows={2}
                     value={currentHole.voiceTranscript || ''}
                     onChange={(e) => updateCurrentHoleVoiceTranscript(e.target.value)}
-                    placeholder={`Tap here and press the 🎤 microphone key on your iPhone keyboard to dictate Hole #${currentHole.number}...`}
+                    placeholder={`Optional Hole #${currentHole.number} note (or dictate hands-free in Apple Notes Audio)...`}
                     className="sub-control w-full p-2 rounded-lg border border-slate-700 text-xs sm:text-sm text-white"
                   />
                 </div>
@@ -1568,15 +1591,12 @@
                 </div>
               </div>
 
-              {/* Player Touch Score Steppers */}
+              {/* Player Touch Score Steppers (Clean — No Disc Tagging Drawer) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {activePlayers.map((player) => {
                   const score = (currentHole.scores && currentHole.scores[player.id]) || 0;
                   const scoreTerm = getScoreTerm(score, currentHole.par);
                   const playerStanding = liveStandings.find((s) => s.player.id === player.id);
-                  const holeMeta = (currentHole.meta && currentHole.meta[player.id]) || {};
-                  const isExpanded = !!expandedShotDetails[player.id];
-                  const playerBagList = player.id === 'jack' ? [...jackBag, ...jefferyBag] : [...jefferyBag, ...jackBag];
 
                   return (
                     <div key={player.id} className="neon-card rounded-2xl border border-slate-800 p-4 space-y-3">
@@ -1606,25 +1626,6 @@
                         <button onClick={() => updateScore(player.id, Math.max(1, currentHole.par - 1))} className="py-2 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-xs active:scale-95">Birdie ({currentHole.par - 1})</button>
                         <button onClick={() => updateScore(player.id, currentHole.par)} className="py-2 rounded-xl bg-[#00F0FF] text-slate-950 font-extrabold text-xs active:scale-95">Par ({currentHole.par})</button>
                         <button onClick={() => updateScore(player.id, currentHole.par + 1)} className="keep-white py-2 rounded-xl bg-amber-600 text-white font-extrabold text-xs active:scale-95">Bogey ({currentHole.par + 1})</button>
-                      </div>
-
-                      <div className="pt-1 border-t border-slate-800">
-                        <button onClick={() => setExpandedShotDetails((prev) => ({ ...prev, [player.id]: !prev[player.id] }))} className="text-xs font-bold text-slate-400 hover:underline">
-                          {isExpanded ? '▲ Hide Disc Telemetry' : `+ Tag ${player.name}'s Disc Thrown`}
-                        </button>
-                        {isExpanded && (
-                          <div className="sub-tile p-2.5 rounded-xl border border-slate-800 mt-2 flex flex-wrap gap-1">
-                            {playerBagList.map((d) => (
-                              <button
-                                key={d.id}
-                                onClick={() => updateShotMeta(player.id, { discUsed: holeMeta.discUsed === d.name ? undefined : d.name })}
-                                className={`px-2 py-1 rounded text-[11px] font-bold border ${holeMeta.discUsed === d.name ? 'bg-[#39FF14] text-slate-950 border-[#39FF14]' : 'sub-control text-slate-300 border-slate-700'}`}
-                              >
-                                {d.name}
-                              </button>
-                            ))}
-                          </div>
-                        )}
                       </div>
                     </div>
                   );
@@ -1726,7 +1727,7 @@
       const [simWind, setSimWind] = useState('calm');
       const [simRelease, setSimRelease] = useState('flat');
       const [packGear, setPackGear] = useState(INITIAL_PACK_GEAR);
-      const [selectedCourseKey, setSelectedCourseKey] = useState(courses[0]?.key || 'sarko');
+      const [selectedCourseKey, setSelectedCourseKey] = useState(courses[0]?.key || 'wyandotte');
       const [courseWindPreview, setCourseWindPreview] = useState('calm');
       const [zoomedCardDisc, setZoomedCardDisc] = useState(null);
 
@@ -1764,7 +1765,7 @@
                 Interactive 3D Trading Card Binder & Flight Simulator
               </div>
               <h2 className="text-lg sm:text-xl font-extrabold text-white">
-                Tap Any Card Below to Flip 180° for Full Stats & Lore
+                Tap Any Card Below to Flip 180° for Dossier, Strategy & Transcript Stats
               </h2>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -1797,7 +1798,7 @@
                   🃏 {bagOwnerFilter === 'jeffery' ? "Jeffery's 9-Pocket Holographic Trading Card Binder" : bagOwnerFilter === 'jack' ? "Jack's Discraft Lineup Cards" : 'Complete 12-Disc Collector Binder'}
                 </h3>
                 <p className="text-xs text-slate-400">
-                  Tap any card to flip between the holographic front artwork and the 1990s Impel stat back!
+                  Tap any card to flip between the holographic front artwork and the 3-box Impel stat & transcript back!
                 </p>
               </div>
               <span className="px-3 py-1 rounded-full sub-control border border-slate-700 text-xs font-extrabold text-white">
@@ -2264,15 +2265,23 @@
         return INITIAL_USER_EXPORT.roster;
       });
 
+      // Automatically merge any new courses (like Wyandotte County Park!) into existing saved courses
       const [courses, setCourses] = useState(() => {
         try {
           const saved = localStorage.getItem(STORAGE_KEY);
-          if (saved) { const parsed = JSON.parse(saved); if (Array.isArray(parsed.courses) && parsed.courses.length >= 16) return parsed.courses; }
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed.courses) && parsed.courses.length > 0) {
+              const existingKeys = new Set(parsed.courses.map((c) => c.key));
+              const missingDefaults = INITIAL_COURSE_TEMPLATES.filter((c) => !existingKeys.has(c.key));
+              return [...missingDefaults, ...parsed.courses];
+            }
+          }
         } catch {}
         return INITIAL_COURSE_TEMPLATES;
       });
 
-      // Ensure canonical card specs (Star Aviar, Glow Mako3, cardImage, cardNumber) always sync cleanly
+      // Sync canonical card specs & transcriptStats
       const [bag, setBag] = useState(() => {
         try {
           const saved = localStorage.getItem(STORAGE_KEY);
@@ -2281,7 +2290,7 @@
             if (Array.isArray(parsed.bag) && parsed.bag.length > 0) {
               return parsed.bag.map((d) => {
                 const defaultMatch = INITIAL_DISC_BAG.find((initD) => initD.id === d.id);
-                return defaultMatch ? { ...d, ...defaultMatch } : d;
+                return defaultMatch ? { ...d, ...defaultMatch, transcriptStats: d.transcriptStats || defaultMatch.transcriptStats } : d;
               });
             }
           }
@@ -2292,7 +2301,13 @@
       const [roundState, setRoundState] = useState(() => {
         try {
           const saved = localStorage.getItem(STORAGE_KEY);
-          if (saved) { const parsed = JSON.parse(saved); if (parsed.roundState && Array.isArray(parsed.roundState.holes)) return parsed.roundState; }
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed.roundState && Array.isArray(parsed.roundState.holes)) {
+              const hasActiveScores = parsed.roundState.holes.some((h) => Object.values(h.scores || {}).some((s) => s > 0));
+              if (hasActiveScores) return parsed.roundState;
+            }
+          }
         } catch {}
         return INITIAL_USER_EXPORT.roundState;
       });
@@ -2319,7 +2334,7 @@
       useEffect(() => {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v53', exportDate: new Date().toISOString(),
+            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v54', exportDate: new Date().toISOString(),
             history, roster, roundState, webhookUrl, timerState, courses, bag
           }));
         } catch {}
@@ -2376,7 +2391,7 @@
         const activeIds = roundState.activePlayerIds || roster.map((r) => r.id);
         const matchedTemplate = courses.find((c) => c.name.toLowerCase() === round.courseName.toLowerCase());
         setRoundState({
-          courseKey: matchedTemplate?.key || 'sarko', courseName: round.courseName, totalHoles: round.totalHoles,
+          courseKey: matchedTemplate?.key || 'wyandotte', courseName: round.courseName, totalHoles: round.totalHoles,
           date: new Date().toISOString().slice(0, 10), currentHoleIndex: 0, activePlayerIds: activeIds,
           gameMode: 'stroke', windCondition: round.windCondition || 'calm', roundTranscript: '',
           holes: round.holes.map((h) => ({ number: h.number, par: h.par, distance: h.distance, scores: Object.fromEntries(activeIds.map((id) => [id, 0])) }))
@@ -2437,7 +2452,7 @@
       };
 
       const handleExportJsonPayload = () => ({
-        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v53', exportDate: new Date().toISOString(),
+        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v54', exportDate: new Date().toISOString(),
         history, roster, roundState, webhookUrl, timerState, courses, bag
       });
 
