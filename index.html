@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Jeffery & Jack Disc Golf Scorecard (v58 Collector Edition)</title>
+  <title>Jeffery & Jack Disc Golf Scorecard (v57 Collector Edition)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -157,7 +157,7 @@
     const { useState, useEffect } = React;
 
     // ============================================================================
-    // INITIAL DATA: PACK GEAR, 12-DISC DUAL BAG (ALL 12 CARDS), 17 COURSES & 9 ROUNDS
+    // INITIAL DATA: PACK GEAR, 12-DISC DUAL BAG, 17 COURSES (WITH WYANDOTTE) & 9 ROUNDS
     // ============================================================================
     const INITIAL_PACK_GEAR = [
       { id: 'gear-pack', name: 'Innova Adventure Pack (Pink/Blue)', category: 'Primary Bag', orderRef: '1010 Discs', packed: true },
@@ -268,44 +268,37 @@
         caddieScenarios: ['tailwind'], caddieRoleNote: '152g Star Mamba — Featherlight Tailwind Bomber & Uphill Cheat Code',
         spotterWarning: 'Keep safely holstered in Kansas headwinds!'
       },
-      // JACK'S 3 HOLOGRAPHIC DISCRAFT COLLECTOR CARDS
       {
-        id: 'discraft-roach', ownerId: 'jack', cardNumber: 'JACK #01 OF 03',
-        cardImage: 'card_discraft_roach.jpg',
-        altImages: ['card_roach.jpg', 'roach.jpg'],
-        name: 'Roach', brand: 'Discraft', slotCategory: 'Beadless Putt & Approach', plastic: 'Z-Line', weightGrams: 174,
-        colorStamp: 'Hot Pink / Cracked-Ice Foil', orderNumber: '#277696', sku: 'DC-ROACH', type: 'Putter',
-        speedTier: 'SPD 2-4', stabilitySlot: 'Neutral', speed: 2, glide: 3, turn: 0, fade: 1, colorHex: '#FF2E93',
+        id: 'discraft-roach', ownerId: 'jack', cardNumber: 'JACK #01',
+        name: 'Roach', brand: 'Discraft', slotCategory: 'Beadless Putt & Approach', plastic: 'Discraft Lineup', weightGrams: 174,
+        colorStamp: "Jack's Primary Putter", orderNumber: '#277696', type: 'Putter',
+        speedTier: 'SPD 2-4', stabilitySlot: 'Neutral', speed: 2, glide: 4, turn: -1, fade: 1, colorHex: '#00F0FF',
         idealMinFeet: 0, idealMaxFeet: 175,
-        moldAndFlight: "Jack's primary beadless putter and short approach disc [2|3|0|1]. Clean, straight release that floats right to the chains and settles flat inside 175 ft.",
-        courseStrategy: "Jack's Circle 1 & Circle 2 putting putter plus straight touch approaches on short par 3s.",
-        transcriptStats: 'Send post-round audio transcript to populate Jack putting & approach stats.',
+        moldAndFlight: "Jack's main beadless putter and short approach disc. Extra-glide neutral profile that floats straight to the chains.",
+        courseStrategy: "Jack's Circle 1 & Circle 2 putting putter plus straight touch approaches on short holes.",
+        transcriptStats: 'Send post-round transcript to update Jack stats.',
         caddieScenarios: ['calm', 'tailwind'], isSynergyAddon: true
       },
       {
-        id: 'discraft-buzzz-ss', ownerId: 'jack', cardNumber: 'JACK #02 OF 03',
-        cardImage: 'card_discraft_buzzz_ss.jpg',
-        altImages: ['card_buzzz_ss.jpg', 'buzzz_ss.jpg'],
-        name: 'Buzzz SS', brand: 'Discraft', slotCategory: 'Understable-Neutral Midrange', plastic: 'ESP', weightGrams: 175,
-        colorStamp: 'Lavender Swirl / Rainbow Bee Stamp', orderNumber: '#277696', sku: 'DC-BUZZZSS', type: 'Midrange',
+        id: 'discraft-buzzz-ss', ownerId: 'jack', cardNumber: 'JACK #02',
+        name: 'Buzzz SS', brand: 'Discraft', slotCategory: 'Understable-Neutral Midrange', plastic: 'Discraft Lineup', weightGrams: 175,
+        colorStamp: "Jack's Workhorse Midrange", orderNumber: '#277696', type: 'Midrange',
         speedTier: 'SPD 5', stabilitySlot: 'Understable', speed: 5, glide: 4, turn: -2, fade: 1, colorHex: '#39FF14',
         idealMinFeet: 175, idealMaxFeet: 255,
-        moldAndFlight: "Jack's ESP point-and-shoot midrange [5|4|-2|1]. Effortless hyzer-flip to flat flight with a gentle right drift and smooth finish without burning over.",
-        courseStrategy: "Jack's workhorse midrange for 175–255 ft holes, tight wooded gaps, and controlled turnovers.",
-        transcriptStats: 'Send post-round audio transcript to populate Jack midrange fairway stats.',
+        moldAndFlight: "Jack's smooth point-and-shoot midrange. Effortless hyzer-flip to flat flight with a gentle right drift.",
+        courseStrategy: "Jack's go-to midrange for 175–255 ft holes, wooded gaps, and controlled turnovers.",
+        transcriptStats: 'Send post-round transcript to update Jack stats.',
         caddieScenarios: ['calm', 'tailwind'], isSynergyAddon: true
       },
       {
-        id: 'discraft-cicada', ownerId: 'jack', cardNumber: 'JACK #03 OF 03',
-        cardImage: 'card_discraft_cicada.jpg',
-        altImages: ['card_cicada.jpg', 'cicada.jpg'],
-        name: 'Cicada', brand: 'Discraft', slotCategory: 'Neutral Fairway Driver', plastic: 'Z-Line (1994 Edition)', weightGrams: 170,
-        colorStamp: 'Solar Yellow / 16-Bit Pixel Forest', orderNumber: '#277696', sku: 'DC-CICADA', type: 'Fairway Driver',
+        id: 'discraft-cicada', ownerId: 'jack', cardNumber: 'JACK #03',
+        name: 'Cicada', brand: 'Discraft', slotCategory: 'Neutral Fairway Driver', plastic: 'Discraft Lineup', weightGrams: 170,
+        colorStamp: "Jack's Fairway Driver", orderNumber: '#277696', type: 'Fairway Driver',
         speedTier: 'SPD 7-11', stabilitySlot: 'Neutral', speed: 7, glide: 6, turn: -1, fade: 1, colorHex: '#FACC15',
         idealMinFeet: 235, idealMaxFeet: 330,
-        moldAndFlight: "Jack's high-glide 7-speed fairway driver [7|6|-1|1]. Holds a laser-straight line off the tee with massive 6 glide for effortless fairway carry.",
-        courseStrategy: "Jack's primary driver off the tee on holes 235+ ft and long Par 3 / Par 4 fairways.",
-        transcriptStats: 'Send post-round audio transcript to populate Jack tee drive distance & accuracy stats.',
+        moldAndFlight: "Jack's high-glide 7-speed fairway driver. Holds a laser-straight line off the tee with 6 glide for maximum fairway carry.",
+        courseStrategy: "Jack's primary driver on holes 235+ ft and long par 3/4 tee shots.",
+        transcriptStats: 'Send post-round transcript to update Jack stats.',
         caddieScenarios: ['calm', 'headwind', 'tailwind'], isSynergyAddon: true
       }
     ];
@@ -469,7 +462,7 @@
     ];
 
     const INITIAL_USER_EXPORT = {
-      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v58', exportDate: '2026-10-18T16:00:00.000Z',
+      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v57', exportDate: '2026-10-17T16:47:23.539Z',
       history: [
         { id: 1792169030880, courseName: 'Sar-Ko-Par Trails', totalHoles: 9, date: '2026-10-15', duration: '00:27:05', par: 27,
           players: [{ id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 26 }, { id: 'jack', name: 'Jack', tag: 'J2', total: 28 }],
@@ -621,13 +614,34 @@
       return mentions;
     }
 
-    // RETURNS ALL 3 RECOMMENDED DISCS FOR JEFFERY IN ORDER: 1. DRIVER -> 2. MID-RANGE -> 3. PUTTER
+    function computeLiveSkinsAndMatch(holes, p1Id, p2Id) {
+      let p1SkinsWon = 0, p2SkinsWon = 0, carryover = 0, p1HolesUp = 0;
+      const holeWinners = {};
+      for (const h of holes) {
+        const s1 = (h.scores && h.scores[p1Id]) || 0;
+        const s2 = (h.scores && h.scores[p2Id]) || 0;
+        if (s1 === 0 || s2 === 0) { holeWinners[h.number] = { winner: 'unplayed', skinsAwarded: 0 }; continue; }
+        const pot = 1 + carryover;
+        if (s1 < s2) { p1SkinsWon += pot; carryover = 0; p1HolesUp += 1; holeWinners[h.number] = { winner: p1Id, skinsAwarded: pot }; }
+        else if (s2 < s1) { p2SkinsWon += pot; carryover = 0; p1HolesUp -= 1; holeWinners[h.number] = { winner: p2Id, skinsAwarded: pot }; }
+        else { carryover += 1; holeWinners[h.number] = { winner: 'push', skinsAwarded: 0 }; }
+      }
+      let matchStatusText = 'All Square (AS)';
+      if (p1HolesUp > 0) matchStatusText = `${p1Id === 'jeffery' ? 'Jeffery' : 'P1'} ${p1HolesUp} UP`;
+      else if (p1HolesUp < 0) matchStatusText = `${p2Id === 'jack' ? 'Jack' : 'P2'} ${Math.abs(p1HolesUp)} UP`;
+      return { p1SkinsWon, p2SkinsWon, currentCarryover: carryover, matchStatusText, holeWinners };
+    }
+
+    // RETURNS ALL 3 RECOMMENDED DISCS IN ORDER: 1. DRIVER -> 2. MID-RANGE -> 3. PUTTER
     function recommendThreeDiscLineup(distanceFeet, scenario, bag) {
       const byId = (id) => bag.find((d) => d.id === id) || null;
 
-      let driver = null, driverNote = '';
-      let midrange = null, midNote = '';
-      let putter = null, putterNote = '';
+      let driver = null;
+      let driverNote = '';
+      let midrange = null;
+      let midNote = '';
+      let putter = null;
+      let putterNote = '';
 
       if (scenario === 'headwind') {
         driver = byId('innova-firebird');
@@ -644,6 +658,7 @@
         putter = byId('innova-sync');
         putterNote = 'Smooth throwing putter that holds straight or gentle turnover lines.';
       } else {
+        // Calm / Straight Tunnel
         if (distanceFeet >= 305) {
           driver = byId('innova-mamba');
           driverNote = 'Release on a slight hyzer; stands up, turns right, and glides forever.';
@@ -664,74 +679,11 @@
       ].filter((item) => item.disc !== null);
     }
 
-    // RETURNS JACK'S 3-DISC DISCRAFT LINEUP IN ORDER: 1. DRIVER -> 2. MID-RANGE -> 3. PUTTER
-    function recommendJackThreeDiscLineup(bag) {
-      const byId = (id) => bag.find((d) => d.id === id) || null;
-      return [
-        {
-          slotLabel: '1. DRIVER (TEE SHOT)',
-          disc: byId('discraft-cicada'),
-          note: 'High-glide 7-speed fairway driver [7|6|-1|1] for straight tee carry.',
-          badgeColor: 'bg-[#FACC15] text-slate-950'
-        },
-        {
-          slotLabel: '2. MID-RANGE (FAIRWAY)',
-          disc: byId('discraft-buzzz-ss'),
-          note: 'Smooth ESP midrange [5|4|-2|1] for 175–255 ft shots & wooded gaps.',
-          badgeColor: 'bg-[#39FF14] text-slate-950'
-        },
-        {
-          slotLabel: '3. PUTTER (GREEN / CHAINS)',
-          disc: byId('discraft-roach'),
-          note: 'Beadless putter [2|3|0|1] for touch approaches & Circle 1/2 chains.',
-          badgeColor: 'bg-[#00F0FF] text-slate-950'
-        }
-      ].filter((item) => item.disc !== null);
-    }
-
-    //SMART IMAGE COMPONENT WITH MULTI-FILENAME FALLBACK
-    function SmartCardImage({ disc, className, onClick, title }) {
-      const candidates = [disc.cardImage, ...(disc.altImages || [])].filter(Boolean);
-      const [attemptIdx, setAttemptIdx] = useState(0);
-      const [failedAll, setFailedAll] = useState(false);
-
-      useEffect(() => {
-        setAttemptIdx(0);
-        setFailedAll(false);
-      }, [disc.id, disc.cardImage]);
-
-      if (candidates.length === 0 || failedAll) return null;
-
-      return (
-        <img
-          src={candidates[attemptIdx]}
-          alt={`${disc.brand} ${disc.name}`}
-          title={title}
-          onClick={onClick}
-          onError={() => {
-            if (attemptIdx + 1 < candidates.length) {
-              setAttemptIdx(attemptIdx + 1);
-            } else {
-              setFailedAll(true);
-            }
-          }}
-          className={className}
-        />
-      );
-    }
-
     // INTERACTIVE 3D FLIPPABLE TRADING CARD COMPONENT (COMPACT 3-BOX BACK)
     function FlippableTradingCard({ disc, history = [], onSelectForSim, onEnlarge }) {
       const [isFlipped, setIsFlipped] = useState(false);
-      const candidates = [disc.cardImage, ...(disc.altImages || [])].filter(Boolean);
-      const [attemptIdx, setAttemptIdx] = useState(0);
       const [imgError, setImgError] = useState(false);
       const transcriptMentions = scanTranscriptMentionsForDisc(disc.name, history);
-
-      useEffect(() => {
-        setAttemptIdx(0);
-        setImgError(false);
-      }, [disc.id, disc.cardImage]);
 
       const directionBadge =
         disc.stabilitySlot === 'Overstable'
@@ -746,17 +698,11 @@
             <div className={`card-3d-inner ${isFlipped ? 'is-flipped' : ''}`}>
               {/* FRONT FACE: 1990s HOLOGRAPHIC TRADING CARD IMAGE */}
               <div className="card-3d-face card-3d-front flex flex-col justify-between">
-                {candidates.length > 0 && !imgError ? (
+                {disc.cardImage && !imgError ? (
                   <img
-                    src={candidates[attemptIdx]}
+                    src={disc.cardImage}
                     alt={`${disc.brand} ${disc.name} Trading Card`}
-                    onError={() => {
-                      if (attemptIdx + 1 < candidates.length) {
-                        setAttemptIdx(attemptIdx + 1);
-                      } else {
-                        setImgError(true);
-                      }
-                    }}
+                    onError={() => setImgError(true)}
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -770,9 +716,7 @@
                         <span className="font-display font-black cb-dark text-sm uppercase tracking-tighter text-center px-1">{disc.name}</span>
                       </div>
                       <div className="font-display font-extrabold text-base cb-white">{disc.brand} {disc.plastic} {disc.name}</div>
-                      <div className="text-[10px] cb-gold font-bold">
-                        Upload <code className="bg-black/40 px-1 rounded">{disc.cardImage}</code> to GitHub
-                      </div>
+                      <div className="text-[11px] cb-gold font-bold">{disc.slotCategory}</div>
                     </div>
                     <div className="text-center text-[10px] font-mono-tabular uppercase tracking-wider bg-black/40 py-1.5 rounded-lg border border-white/15 cb-white">
                       SPD {disc.speed} · GLD {disc.glide} · TRN {disc.turn} · FDE {disc.fade}
@@ -915,60 +859,24 @@
       const matching = history.filter(
         (r) => r.courseName.toLowerCase() === courseName.toLowerCase() && r.players.some((p) => p.id === playerId && p.total > 0)
       );
-      if (matching.length === 0) return { bestTotal: null, bestRelPar: null, avgTotal: null, avgRelPar: null, lastTotal: null, lastRelPar: null, lastDate: null, roundsCount: 0 };
-      let bestTotal = Infinity, bestRelPar = Infinity, sumTotal = 0, sumRelPar = 0;
+      if (matching.length === 0) return { bestTotal: null, bestRelPar: null, avgTotal: null, roundsCount: 0 };
+      let bestTotal = Infinity, bestRelPar = Infinity, sumTotal = 0;
       for (const r of matching) {
         const p = r.players.find((pl) => pl.id === playerId);
-        const rel = p.total - r.par;
         sumTotal += p.total;
-        sumRelPar += rel;
-        if (p.total < bestTotal) { bestTotal = p.total; bestRelPar = rel; }
+        if (p.total < bestTotal) { bestTotal = p.total; bestRelPar = p.total - r.par; }
       }
-      const latestRound = matching[0];
-      const latestPlayer = latestRound.players.find((pl) => pl.id === playerId);
-      return {
-        bestTotal,
-        bestRelPar,
-        avgTotal: Number((sumTotal / matching.length).toFixed(1)),
-        avgRelPar: Number((sumRelPar / matching.length).toFixed(1)),
-        lastTotal: latestPlayer.total,
-        lastRelPar: latestPlayer.total - latestRound.par,
-        lastDate: latestRound.date,
-        roundsCount: matching.length
-      };
+      return { bestTotal, bestRelPar, avgTotal: Number((sumTotal / matching.length).toFixed(1)), roundsCount: matching.length };
     }
 
-    // RICH SELF-RIVALRY CAREER PROFILE (INCLUDING DISTANCE BRACKETS & LATEST TREND VS OWN AVG)
     function computePlayerCareerProfile(playerId, history) {
       let roundsPlayed = 0, holesPlayed = 0, totalStrokes = 0, totalPar = 0, aces = 0, birdies = 0, pars = 0, bogeys = 0, doubleOrWorse = 0;
       let bestRoundRelPar = null;
-      let latestRoundInfo = null;
-
-      const brackets = [
-        { label: 'Putter & Touch (< 185 ft)', rangeText: '< 185 ft', min: 0, max: 184, count: 0, diffSum: 0, bestDiff: Infinity },
-        { label: 'Midrange Slot (185–239 ft)', rangeText: '185–239 ft', min: 185, max: 239, count: 0, diffSum: 0, bestDiff: Infinity },
-        { label: 'Fairway Driver (240–299 ft)', rangeText: '240–299 ft', min: 240, max: 299, count: 0, diffSum: 0, bestDiff: Infinity },
-        { label: 'Distance Driver (300+ ft)', rangeText: '300+ ft', min: 300, max: 9999, count: 0, diffSum: 0, bestDiff: Infinity }
-      ];
-
       for (const round of history) {
-        const pSummary = round.players.find((p) => p.id === playerId && p.total > 0);
+        const pSummary = round.players.find((p) => p.id === playerId);
         if (!pSummary) continue;
         roundsPlayed++;
         const roundDiff = pSummary.total - round.par;
-        const normalized9Diff = Number(((roundDiff / round.totalHoles) * 9).toFixed(1));
-
-        if (!latestRoundInfo) {
-          latestRoundInfo = {
-            score: pSummary.total,
-            par: round.par,
-            diff: roundDiff,
-            normalized9Diff,
-            courseName: round.courseName,
-            date: round.date
-          };
-        }
-
         if (!bestRoundRelPar || roundDiff < bestRoundRelPar.diff) {
           bestRoundRelPar = { diff: roundDiff, courseName: round.courseName, date: round.date, score: pSummary.total, par: round.par };
         }
@@ -979,42 +887,39 @@
           if (s === 1) aces++;
           const d = s - h.par;
           if (d <= -1) birdies++; else if (d === 0) pars++; else if (d === 1) bogeys++; else doubleOrWorse++;
-
-          const b = brackets.find((br) => h.distance >= br.min && h.distance <= br.max);
-          if (b) {
-            b.count++;
-            b.diffSum += d;
-            if (d < b.bestDiff) b.bestDiff = d;
-          }
         }
       }
       const overallRelPar = totalStrokes - totalPar;
       const avgRelParPer9 = holesPlayed > 0 ? Number(((overallRelPar / holesPlayed) * 9).toFixed(1)) : 0;
-      const parOrBetterPct = holesPlayed > 0 ? Math.round(((birdies + pars) / holesPlayed) * 100) : 0;
+      return { playerId, roundsPlayed, holesPlayed, totalStrokes, totalPar, overallRelPar, avgRelParPer9, aces, birdies, pars, bogeys, doubleOrWorse, bestRoundRelPar };
+    }
 
-      return {
-        playerId,
-        roundsPlayed,
-        holesPlayed,
-        totalStrokes,
-        totalPar,
-        overallRelPar,
-        avgRelParPer9,
-        parOrBetterPct,
-        aces,
-        birdies,
-        pars,
-        bogeys,
-        doubleOrWorse,
-        bestRoundRelPar,
-        latestRoundInfo,
-        distanceBrackets: brackets.map((b) => ({
-          label: b.label,
-          rangeText: b.rangeText,
-          holesCount: b.count,
-          avgRelPar: b.count > 0 ? Number((b.diffSum / b.count).toFixed(2)) : 0
-        }))
-      };
+    function computeHeadToHead(p1Id, p2Id, history) {
+      let sharedRounds = 0, p1Wins = 0, p2Wins = 0, ties = 0, sharedHoles = 0, p1Skins = 0, p2Skins = 0, pushedHoles = 0;
+      for (const r of history) {
+        const p1 = r.players.find((p) => p.id === p1Id);
+        const p2 = r.players.find((p) => p.id === p2Id);
+        if (!p1 || !p2) continue;
+        sharedRounds++;
+        if (p1.total < p2.total) p1Wins++; else if (p2.total < p1.total) p2Wins++; else ties++;
+        for (const h of r.holes) {
+          const s1 = h.scores ? h.scores[p1Id] : 0;
+          const s2 = h.scores ? h.scores[p2Id] : 0;
+          if (s1 > 0 && s2 > 0) {
+            sharedHoles++;
+            if (s1 < s2) p1Skins++; else if (s2 < s1) p2Skins++; else pushedHoles++;
+          }
+        }
+      }
+      return { sharedRounds, p1Wins, p2Wins, ties, sharedHoles, p1Skins, p2Skins, pushedHoles };
+    }
+
+    function recommendJackDisc(distanceFeet, bag) {
+      const jackDiscs = bag.filter((d) => d.ownerId === 'jack');
+      const byId = (id) => jackDiscs.find((d) => d.id === id) || null;
+      if (distanceFeet < 175) return byId('discraft-roach') || jackDiscs[0] || null;
+      if (distanceFeet <= 240) return byId('discraft-buzzz-ss') || jackDiscs[0] || null;
+      return byId('discraft-cicada') || jackDiscs[0] || null;
     }
 
     function computeFlightPathSvg(disc, wind = 'calm', releaseAngle = 'flat') {
@@ -1038,7 +943,7 @@
     }
 
     // ============================================================================
-    // VIEW 1: HOME HUB & PRE-ROUND TEE-OFF WIZARD
+    // VIEW 1: HOME HUB & PRE-ROUND TEE-OFF WIZARD (EXTRA LARGE NOTES & TEE-OFF BUTTONS)
     // ============================================================================
     function HomeHubView({
       courses, bag, history, roundState,
@@ -1056,7 +961,7 @@
 
       const buildNotesAppStarterTemplate = () => {
         const today = new Date().toISOString().slice(0, 10);
-        return `🎙️ DISC GOLF ROUND VOICE LOG — ${chosenCourse.name}\nDate: ${today}\nWind Condition: ${selectedWind.toUpperCase()}\nPlayers: Jeffery (9-Disc Innova Adventure Pack) & Jack (3-Disc Discraft Lineup)\n\n--- RECORD AUDIO IN APPLE NOTES BELOW ---\nHole 1 (${chosenCourse.holes[0]?.distance || 555}ft, Par ${chosenCourse.holes[0]?.par || 4}): `;
+        return `🎙️ DISC GOLF ROUND VOICE LOG — ${chosenCourse.name}\nDate: ${today}\nWind Condition: ${selectedWind.toUpperCase()}\nPlayers: Jeffery (9-Disc Innova Adventure Pack) & Jack (Discraft Lineup)\n\n--- RECORD AUDIO IN APPLE NOTES BELOW ---\nHole 1 (${chosenCourse.holes[0]?.distance || 555}ft, Par ${chosenCourse.holes[0]?.par || 4}): `;
       };
 
       const handleCopyAndOpenNotes = async () => {
@@ -1184,14 +1089,14 @@
           <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <div className="space-y-1.5 max-w-2xl">
               <div className="text-xs font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
-                Welcome to the Tee Pad · 12-Card Collector Edition (v58)
+                Welcome to the Tee Pad · Collector Card Edition (v57)
               </div>
               <h1 className="font-display text-xl sm:text-2xl font-extrabold text-white">
                 Ready for Wyandotte County Park?
               </h1>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Both <strong className="accent-pink text-[#FF2E93]">Jeffery's 9 Innova Cards</strong> and{' '}
-                <strong className="accent-cyan text-[#00F0FF]">Jack's 3 New Discraft Cards</strong> (Cicada, Buzzz SS & Roach) are loaded!
+                Wyandotte County Park (Veteran Baskets — 18 Holes, Par 63, 8,294 ft) is loaded! Launch your round, flip through{' '}
+                <strong className="accent-pink text-[#FF2E93]">Jeffery's 9 Holographic 3D Innova Trading Cards</strong>, or review past scorecards by course.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2.5 shrink-0">
@@ -1202,10 +1107,10 @@
                 <span>▶ Play a Round</span>
               </button>
               <button
-                onClick={() => onNavigateTab('courses', 'all')}
+                onClick={() => onNavigateTab('courses', 'jeffery')}
                 className="min-h-[46px] px-4 py-2.5 rounded-xl bg-[#00F0FF] hover:bg-[#00F0FF]/90 text-slate-950 font-extrabold text-xs sm:text-sm flex items-center gap-2 neon-border-cyan"
               >
-                <span>🃏 Flip All 12 Cards</span>
+                <span>🃏 Flip 3D Disc Cards (9)</span>
               </button>
               {activeHolesScored > 0 && (
                 <button
@@ -1223,7 +1128,7 @@
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-pink text-[#FF2E93]">1 · Live On-Course Scorecard</span>
                 <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Play a Round & 3-Disc Tee-Box Caddie</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Score hole-by-hole across all {courses.length} courses with 3-card caddie recommendations (Driver, Mid-Range & Putter) for both Jeffery and Jack.</p>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Score hole-by-hole across all {courses.length} courses with 3-disc caddie recommendations (Driver, Mid-Range & Putter) on every hole.</p>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => { setShowStartWizard(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text-sm">Start New Round Setup</button>
@@ -1234,8 +1139,1555 @@
             <div className="neon-card rounded-2xl border border-slate-800 p-5 flex flex-col justify-between space-y-3.5">
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">2 · 3D Collector Binder & Flight Lab</span>
-                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">3D Flippable Trading Card Binder (12 Cards)</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Flip through Jeffery's {jefferyDiscs.length} Innova cards or Jack's {jackDiscs.length} new Discraft cards (Cicada, Buzzz SS & Roach).</p>
+                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">3D Flippable Trading Card Binder</h2>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Tap any of Jeffery's {jefferyDiscs.length} holographic Innova cards to flip to its 3-box Impel stat & transcript back.</p>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => onNavigateTab('courses', 'jeffery')} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text
+                <button onClick={() => onNavigateTab('courses', 'jeffery')} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text-sm">Jeffery's 3D Cards ({jefferyDiscs.length})</button>
+                <button onClick={() => onNavigateTab('courses', 'jack')} className="flex-1 py-2.5 px-4 rounded-xl bg-[#00F0FF] text-slate-950 font-bold text-xs sm:text-sm">Jack's Discraft Bag ({jackDiscs.length})</button>
+              </div>
+            </div>
+
+            <div className="neon-card rounded-2xl border border-slate-800 p-5 flex flex-col justify-between space-y-3.5">
+              <div>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider accent-lime text-[#39FF14]">3 · Course-Grouped Round History</span>
+                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Review History by Course ({history.length} Rounds)</h2>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Tap any course name (Sar-Ko-Par, Mize, Black Hoof, Harmon, Wolf Den, Art Nine) to expand all rounds played there.</p>
+              </div>
+              <button onClick={() => onNavigateTab('history')} className="w-full py-2.5 px-4 rounded-xl bg-[#39FF14] text-slate-950 font-bold text-xs sm:text-sm">Open Course History →</button>
+            </div>
+
+            <div className="neon-card rounded-2xl border border-slate-800 p-5 flex flex-col justify-between space-y-3.5">
+              <div>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider accent-gold text-[#FACC15]">4 · Course Records & Rivalry</span>
+                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Course Records & Jeffery vs. Jack Stats</h2>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Compare Personal Bests, skins won, and birdie percentages between Jeffery and Jack.</p>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={() => onNavigateTab('rivalry')} className="flex-1 py-2.5 px-4 rounded-xl bg-[#00F0FF] text-slate-950 font-bold text-xs sm:text-sm">View Rivalry Stats</button>
+                <button onClick={() => onNavigateTab('sync')} className="sub-control py-2.5 px-4 rounded-xl border border-slate-700 text-white font-bold text-xs sm:text-sm">Roster & Backup</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ============================================================================
+    // VIEW 2: LIVE SCORECARD VIEW (OVERSIZED TIMER & NOTES AUDIO RECORD REMINDERS)
+    // ============================================================================
+    function LiveScorecardView({
+      roundState, setRoundState, roster, history, courses, bag,
+      timerState, elapsedSeconds, onToggleTimer, onResetTimer,
+      onSwitchCourse, onSaveFinishedRound, webhookSyncStatus, onOpenBagGuide
+    }) {
+      const [editingHoleSpec, setEditingHoleSpec] = useState(false);
+      const [caddieScenario, setCaddieScenario] = useState(roundState.windCondition || 'calm');
+      const [confirmResetModal, setConfirmResetModal] = useState(false);
+      const [saveConfirmBanner, setSaveConfirmBanner] = useState(null);
+      const [copiedNotesConfirm, setCopiedNotesConfirm] = useState(false);
+      const [modalCardDisc, setModalCardDisc] = useState(null);
+
+      useEffect(() => {
+        if (roundState.windCondition && roundState.windCondition !== caddieScenario) setCaddieScenario(roundState.windCondition);
+      }, [roundState.windCondition]);
+
+      const handleSelectWindScenario = (scenario) => {
+        setCaddieScenario(scenario);
+        setRoundState((prev) => ({ ...prev, windCondition: scenario }));
+      };
+
+      const activePlayerIds = roundState.activePlayerIds || roster.map((r) => r.id);
+      const activePlayers = roster.filter((r) => activePlayerIds.includes(r.id));
+      const currentHole = roundState.holes[roundState.currentHoleIndex] || roundState.holes[0];
+      const currentCourseTemplate = courses.find((c) => c.key === roundState.courseKey || c.name.toLowerCase() === roundState.courseName.toLowerCase());
+      const currentHoleHint = currentCourseTemplate?.holes.find((h) => h.number === currentHole.number)?.hint;
+      const caddyInsight = getHoleCaddyInsights(roundState.courseName, currentHole.number, history, activePlayerIds);
+
+      const jefferyBag = bag.filter((d) => d.ownerId !== 'jack');
+      const threeDiscLineup = recommendThreeDiscLineup(currentHole.distance, caddieScenario, jefferyBag.length > 0 ? jefferyBag : bag);
+      const jackRecommendedDisc = recommendJackDisc(currentHole.distance, bag);
+
+      const formatDuration = (secs) => {
+        const hrs = Math.floor(secs / 3600), mins = Math.floor((secs % 3600) / 60), s = secs % 60;
+        return [hrs, mins, s].map((v) => String(v).padStart(2, '0')).join(':');
+      };
+
+      const updateScore = (playerId, newScore) => {
+        const clamped = Math.max(0, Math.min(15, newScore));
+        setRoundState((prev) => ({
+          ...prev,
+          holes: prev.holes.map((h, idx) => (idx !== prev.currentHoleIndex ? h : { ...h, scores: { ...h.scores, [playerId]: clamped } }))
+        }));
+        if (!timerState.running && elapsedSeconds === 0 && clamped > 0) onToggleTimer();
+      };
+
+      const handleCopyHeaderForNotes = async () => {
+        const lineupNames = threeDiscLineup.map((item) => item.disc.name).join(' → ');
+        const template = `🎙️ DISC GOLF ROUND VOICE LOG — ${roundState.courseName}\nDate: ${roundState.date} · Wind: ${caddieScenario.toUpperCase()}\nHole #${currentHole.number} (${currentHole.distance}ft, Par ${currentHole.par})\nJeffery 3-Disc Lineup: ${lineupNames} | Jack Pull: ${jackRecommendedDisc?.name || 'Discraft'}\n\n--- RECORD AUDIO IN APPLE NOTES BELOW ---\n`;
+        try {
+          await navigator.clipboard.writeText(template);
+          setCopiedNotesConfirm(true);
+          setTimeout(() => setCopiedNotesConfirm(false), 4000);
+        } catch {}
+        if (navigator.share) {
+          try { await navigator.share({ title: `${roundState.courseName} — Round Voice Notes`, text: template }); } catch {}
+        }
+      };
+
+      const updateCurrentHoleSpec = (field, value) => {
+        setRoundState((prev) => ({
+          ...prev,
+          holes: prev.holes.map((h, idx) => (idx === prev.currentHoleIndex ? { ...h, [field]: Math.max(1, value) } : h))
+        }));
+      };
+
+      const fillParForUnscored = () => {
+        setRoundState((prev) => ({
+          ...prev,
+          holes: prev.holes.map((h, idx) => {
+            if (idx !== prev.currentHoleIndex) return h;
+            const nextScores = { ...h.scores };
+            for (const pid of activePlayerIds) { if (!nextScores[pid] || nextScores[pid] === 0) nextScores[pid] = h.par; }
+            return { ...h, scores: nextScores };
+          })
+        }));
+        if (!timerState.running && elapsedSeconds === 0) onToggleTimer();
+      };
+
+      const goToHole = (index, scrollToHoleCard = false) => {
+        const safeIdx = Math.max(0, Math.min(roundState.holes.length - 1, index));
+        setRoundState((prev) => ({ ...prev, currentHoleIndex: safeIdx }));
+        setTimeout(() => {
+          if (scrollToHoleCard) {
+            const holeHeaderEl = document.getElementById('active-hole-card-top');
+            if (holeHeaderEl) {
+              holeHeaderEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              return;
+            }
+          }
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 40);
+      };
+
+      const clearCurrentRoundScores = () => {
+        setRoundState((prev) => ({
+          ...prev, currentHoleIndex: 0, date: new Date().toISOString().slice(0, 10), roundTranscript: '',
+          holes: prev.holes.map((h) => ({ ...h, scores: Object.fromEntries(activePlayerIds.map((id) => [id, 0])), meta: {}, voiceTranscript: '' }))
+        }));
+        onResetTimer();
+        setConfirmResetModal(false);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+
+      const liveStandings = activePlayers.map((player) => {
+        let totalStrokes = 0, parThru = 0, holesCompleted = 0, birdiesCount = 0;
+        for (const h of roundState.holes) {
+          const sc = (h.scores && h.scores[player.id]) || 0;
+          if (sc > 0) { totalStrokes += sc; parThru += h.par; holesCompleted++; if (sc < h.par) birdiesCount++; }
+        }
+        return { player, totalStrokes, parThru, holesCompleted, relPar: totalStrokes - parThru, birdiesCount, coursePB: getCoursePersonalBest(roundState.courseName, player.id, history) };
+      });
+
+      const skinsAndMatch = activePlayers.length >= 2 ? computeLiveSkinsAndMatch(roundState.holes, activePlayers[0].id, activePlayers[1].id) : null;
+      const totalHolesScoredAllPlayers = roundState.holes.filter((h) => activePlayers.every((p) => ((h.scores && h.scores[p.id]) || 0) > 0)).length;
+      const totalCoursePar = roundState.holes.reduce((sum, h) => sum + h.par, 0);
+      const totalCourseDistance = roundState.holes.reduce((sum, h) => sum + h.distance, 0);
+
+      const handleSaveRoundClick = async (syncWebhook) => {
+        await onSaveFinishedRound(syncWebhook);
+        setSaveConfirmBanner(syncWebhook ? 'Round saved & synced to Google Sheets!' : 'Round saved to History! Scores reset.');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => setSaveConfirmBanner(null), 5000);
+      };
+
+      const isTimerUnstarted = !timerState.running && elapsedSeconds === 0;
+
+      return (
+        <div className="space-y-4">
+          {/* POP-UP 3D FLIPPABLE CARD MODAL ON THE TEE BOX */}
+          {modalCardDisc && (
+            <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setModalCardDisc(null)}>
+              <div className="max-w-sm w-full space-y-3" onClick={(e) => e.stopPropagation()}>
+                <div className="flex items-center justify-between px-1">
+                  <span className="text-xs font-extrabold uppercase tracking-wider cb-gold">
+                    🃏 Tap Card to Flip Front / Back
+                  </span>
+                  <button onClick={() => setModalCardDisc(null)} className="px-3 py-1 rounded-lg bg-white/10 cb-white text-xs font-extrabold">
+                    Close ✕
+                  </button>
+                </div>
+                <FlippableTradingCard
+                  disc={modalCardDisc}
+                  history={history}
+                  onSelectForSim={(discId) => { setModalCardDisc(null); if (onOpenBagGuide) onOpenBagGuide(discId, 'jeffery'); }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* BIG DUAL TEE-OFF REMINDER BANNER (START TIMER + COPY HEADER FOR NOTES AUDIO RECORD) */}
+          {isTimerUnstarted && (
+            <div className="neon-card rounded-2xl border-2 border-[#FF2E93] p-4 sm:p-5 space-y-3.5 shadow-lg">
+              <div className="flex items-center gap-3">
+                <span className="keep-white w-11 h-11 rounded-xl bg-[#FF2E93] text-white flex items-center justify-center text-xl font-extrabold shrink-0 animate-pulse">
+                  ⏱️
+                </span>
+                <div>
+                  <div className="font-extrabold text-base sm:text-lg text-white">
+                    Hole #1 Tee-Off Checklist: Start Timer & Apple Notes Audio!
+                  </div>
+                  <div className="text-xs sm:text-sm text-slate-400">
+                    1. Copy header & start <strong>Record Audio</strong> in Apple Notes · 2. Tap <strong>Start Round Timer</strong> below!
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button
+                  onClick={onToggleTimer}
+                  className="keep-white min-h-[52px] px-5 py-3 rounded-xl bg-[#FF2E93] hover:bg-[#FF2E93]/90 text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 neon-border-pink active:scale-95 transition-transform"
+                >
+                  <span>▶ 1. START ROUND TIMER (00:00:00)</span>
+                </button>
+                <button
+                  onClick={handleCopyHeaderForNotes}
+                  className="min-h-[52px] px-5 py-3 rounded-xl bg-[#00F0FF] hover:bg-[#00F0FF]/90 text-slate-950 font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 neon-border-cyan active:scale-95 transition-transform"
+                >
+                  <span>
+                    {copiedNotesConfirm
+                      ? '✓ COPIED! OPEN NOTES & RECORD AUDIO'
+                      : '🎙️ 2. COPY HEADER FOR NOTES AUDIO'}
+                  </span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Clean Top Course & Oversized Timer Bar */}
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 flex-1">
+              <div className="flex-1 max-w-xs">
+                <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">Active Course Loop ({courses.length} Courses)</label>
+                <select
+                  value={roundState.courseKey}
+                  onChange={(e) => onSwitchCourse(e.target.value)}
+                  className="sub-control w-full h-10 px-3 rounded-xl border border-slate-700 text-white font-bold text-xs sm:text-sm"
+                >
+                  {courses.map((c) => <option key={c.key} value={c.key}>{c.name} ({c.totalHoles} Holes)</option>)}
+                </select>
+              </div>
+              <div className="text-xs sm:text-sm font-bold text-slate-300 pt-1 sm:pt-4">
+                Par {totalCoursePar} · {totalCourseDistance.toLocaleString()} ft · Wind: <span className="uppercase font-extrabold accent-cyan text-[#00F0FF]">{caddieScenario}</span>
+              </div>
+            </div>
+
+            {/* OVERSIZED PROMINENT ROUND TIMER */}
+            <div className="sub-tile px-4 py-2 rounded-xl border-2 border-slate-700 flex items-center justify-between sm:justify-start gap-3">
+              <span className="font-mono-tabular text-base sm:text-lg font-extrabold text-white">
+                ⏱️ {formatDuration(elapsedSeconds)}
+              </span>
+              <button
+                onClick={onToggleTimer}
+                className={`min-h-[40px] px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold active:scale-95 transition-transform ${
+                  timerState.running ? 'bg-[#FACC15] text-slate-950' : 'keep-white bg-[#FF2E93] text-white neon-border-pink'
+                }`}
+              >
+                {timerState.running ? '⏸ PAUSE TIMER' : '▶ START TIMER'}
+              </button>
+              <button onClick={() => setConfirmResetModal(true)} title="Reset Round" className="sub-control w-9 h-9 rounded-lg border border-slate-700 text-xs text-slate-400 font-extrabold flex items-center justify-center">
+                ↺
+              </button>
+            </div>
+          </div>
+
+          {saveConfirmBanner && (
+            <div className="p-3 rounded-2xl bg-[#39FF14]/20 border border-[#39FF14] text-xs sm:text-sm font-bold text-white flex justify-between">
+              <span>{saveConfirmBanner}</span>
+              <button onClick={() => setSaveConfirmBanner(null)} className="underline ml-4">Dismiss</button>
+            </div>
+          )}
+
+          {confirmResetModal && (
+            <div className="neon-card p-4 rounded-2xl border-2 border-[#FF2E93] flex flex-wrap items-center justify-between gap-3">
+              <span className="text-xs sm:text-sm font-bold text-white">Clear all scores on {roundState.courseName} and reset timer to 00:00:00?</span>
+              <div className="flex gap-2">
+                <button onClick={() => setConfirmResetModal(false)} className="sub-control px-3 py-1.5 text-xs font-bold text-slate-300 border border-slate-700 rounded-lg">Cancel</button>
+                <button onClick={clearCurrentRoundScores} className="keep-white px-3 py-1.5 text-xs font-bold bg-[#FF2E93] text-white rounded-lg">Clear Card & Reset</button>
+              </div>
+            </div>
+          )}
+
+          {/* Hole Quick-Jump Carousel Strip */}
+          <div id="active-hole-card-top" className="neon-card rounded-2xl border border-slate-800 p-3.5 space-y-2 scroll-mt-20">
+            <div className="flex items-center justify-between text-xs font-bold text-slate-400">
+              <span>Tap Hole to Jump ({totalHolesScoredAllPlayers}/{roundState.holes.length} Completed)</span>
+              <span>Date: {roundState.date}</span>
+            </div>
+            <div className="grid grid-cols-9 sm:grid-cols-9 md:grid-cols-18 gap-1.5">
+              {roundState.holes.map((h, idx) => {
+                const isCurrent = idx === roundState.currentHoleIndex;
+                const p1Score = (h.scores && h.scores[activePlayers[0]?.id]) || 0;
+                const p2Score = (h.scores && h.scores[activePlayers[1]?.id]) || 0;
+                const isScored = p1Score > 0 || p2Score > 0;
+                return (
+                  <button
+                    key={h.number}
+                    onClick={() => goToHole(idx, true)}
+                    className={`min-h-[44px] rounded-xl flex flex-col items-center justify-center transition-all border font-mono-tabular ${
+                      isCurrent ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93] neon-border-pink' : isScored ? 'sub-control text-white border-[#00F0FF]' : 'sub-tile text-slate-400 border-slate-800'
+                    }`}
+                  >
+                    <span className={`text-xs font-extrabold ${isCurrent ? 'keep-white text-white' : ''}`}>{h.number}</span>
+                    <span className={`text-[10px] font-semibold ${isCurrent ? 'keep-white text-white/90' : ''}`}>{isScored ? `${p1Score || '-'}/${p2Score || '-'}` : `${h.distance}'`}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+            <div className="lg:col-span-7 space-y-4">
+              <div className="neon-card rounded-2xl border border-slate-800 p-4 space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h2 className="font-display text-xl sm:text-2xl font-extrabold text-white">Hole {currentHole.number}</h2>
+                      <span className="px-2.5 py-1 rounded-lg sub-control border border-slate-700 text-xs font-extrabold text-white">Par {currentHole.par} · {currentHole.distance} ft</span>
+                    </div>
+                    {currentHoleHint && <p className="text-xs text-slate-400 mt-1">💡 {currentHoleHint}</p>}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button onClick={() => setEditingHoleSpec(!editingHoleSpec)} className="sub-control px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold text-white">{editingHoleSpec ? 'Done' : 'Edit Pin / Par'}</button>
+                    <button onClick={fillParForUnscored} className="px-3 py-1.5 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold">Quick Par All ({currentHole.par})</button>
+                  </div>
+                </div>
+
+                {editingHoleSpec && (
+                  <div className="sub-tile p-3 rounded-xl border border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase text-slate-400 mb-1">Hole {currentHole.number} Par</label>
+                      <div className="flex gap-1.5">
+                        {[2, 3, 4, 5].map((pVal) => (
+                          <button key={pVal} onClick={() => updateCurrentHoleSpec('par', pVal)} className={`flex-1 py-1.5 rounded-lg font-mono-tabular text-xs font-bold border ${currentHole.par === pVal ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93]' : 'sub-control text-slate-300 border-slate-700'}`}>Par {pVal}</button>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase text-slate-400 mb-1">Pin Distance (ft)</label>
+                      <input type="number" value={currentHole.distance} onChange={(e) => updateCurrentHoleSpec('distance', Number(e.target.value) || 100)} className="sub-control w-full h-9 px-3 rounded-lg border border-slate-700 font-mono-tabular text-xs sm:text-sm font-bold text-white" />
+                    </div>
+                  </div>
+                )}
+
+                {/* ALL 3 DISC RECOMMENDATIONS IN ORDER: 1. DRIVER -> 2. MID-RANGE -> 3. PUTTER */}
+                <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-white">
+                      🎯 Hole #{currentHole.number} 3-Disc Lineup ({currentHole.distance} ft)
+                    </span>
+                    <div className="sub-control p-1 rounded-lg border border-slate-700 flex gap-1">
+                      {[
+                        { id: 'calm', label: '☀️ Calm / Tunnel' },
+                        { id: 'headwind', label: '💨 Headwind / Flick' },
+                        { id: 'tailwind', label: '🍃 Tailwind / Dogleg R' }
+                      ].map((sc) => (
+                        <button key={sc.id} onClick={() => handleSelectWindScenario(sc.id)} className={`px-2 py-1 rounded text-[11px] font-bold ${caddieScenario === sc.id ? 'keep-white bg-[#FF2E93] text-white' : 'text-slate-400'}`}>{sc.label}</button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Jeffery's 3-Card Lineup: Driver -> Mid-Range -> Putter */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    {threeDiscLineup.map((item) => (
+                      <div key={item.slotLabel} className="sub-control p-2.5 rounded-xl border border-slate-700 flex flex-col justify-between space-y-2">
+                        <div>
+                          <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${item.badgeColor}`}>
+                            {item.slotLabel}
+                          </span>
+                          <div className="flex items-start gap-2 mt-2">
+                            {item.disc.cardImage && (
+                              <img
+                                src={item.disc.cardImage}
+                                alt={item.disc.name}
+                                onClick={() => setModalCardDisc(item.disc)}
+                                onError={(e) => { e.target.style.display = 'none'; }}
+                                title="Tap to open 3D Flippable Card"
+                                className="w-12 h-16 object-cover rounded-lg border border-amber-400 shadow cursor-pointer shrink-0 hover:scale-105 transition-transform"
+                              />
+                            )}
+                            <div className="min-w-0">
+                              <div className="text-xs font-extrabold text-white leading-tight">
+                                {item.disc.weightGrams ? `${item.disc.weightGrams}g ` : ''}{item.disc.plastic} {item.disc.name}
+                              </div>
+                              <div className="font-mono-tabular text-[10px] font-bold accent-cyan text-[#00F0FF] mt-0.5">
+                                [{item.disc.speed} | {item.disc.glide} | {item.disc.turn} | {item.disc.fade}]
+                              </div>
+                            </div>
+                          </div>
+                          <p className="text-[11px] text-slate-300 mt-1.5 leading-snug">{item.note}</p>
+                        </div>
+                        <button
+                          onClick={() => setModalCardDisc(item.disc)}
+                          className="w-full py-1 px-2 rounded-lg sub-tile border border-slate-700 text-[10px] font-extrabold accent-pink text-[#FF2E93] hover:underline text-center"
+                        >
+                          🃏 Flip 3D Card →
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Jack's Discraft Lineup Bar */}
+                  {jackRecommendedDisc && (
+                    <div className="sub-control px-3 py-2 rounded-xl border border-slate-700 flex flex-wrap items-center justify-between gap-2">
+                      <div className="text-xs">
+                        <span className="font-extrabold uppercase accent-cyan text-[#00F0FF] mr-2">Jack's Discraft Lineup:</span>
+                        <span className="font-extrabold text-white">
+                          1. Driver: 170g Cicada [7|6|-1|1] · 2. Mid: 175g Buzzz SS [5|4|-2|1] · 3. Putter: 174g Roach [2|4|-1|1]
+                        </span>
+                      </div>
+                      {onOpenBagGuide && (
+                        <button onClick={() => onOpenBagGuide(jackRecommendedDisc.id, 'jack')} className="text-[11px] font-bold accent-cyan text-[#00F0FF] underline shrink-0">
+                          Jack's Bag →
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* LARGE APPLE NOTES AUDIO RECORD REMINDER BUTTON (NO TEXTBOX CLUTTER) */}
+                <div className="sub-tile p-3.5 rounded-xl border-2 border-[#00F0FF]/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <span className="keep-white px-2.5 py-0.5 rounded-md bg-[#FF2E93] text-white text-[11px] font-extrabold uppercase">
+                        🎙️ APPLE NOTES AUDIO
+                      </span>
+                      <span className="text-xs sm:text-sm font-extrabold text-white">
+                        Record Your Voice Commentary in Notes!
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-400">
+                      Copy the header below, start <strong>Record Audio</strong> in Apple Notes, and share your transcript here after the round.
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleCopyHeaderForNotes}
+                    className="min-h-[44px] px-4 py-2.5 rounded-xl bg-[#00F0FF] hover:bg-[#00F0FF]/90 text-slate-950 font-extrabold text-xs sm:text-sm shrink-0 shadow active:scale-95 transition-transform"
+                  >
+                    {copiedNotesConfirm ? '✓ COPIED TO CLIPBOARD!' : '📋 Copy Header & Open Notes'}
+                  </button>
+                </div>
+
+                <div className="text-xs text-slate-400 flex flex-wrap items-center justify-between gap-2 pt-0.5">
+                  <span className="font-bold">📊 Hole #{currentHole.number} History ({caddyInsight.roundsPlayed} rounds at {roundState.courseName}):</span>
+                  <div>
+                    {activePlayers.map((p, idx) => {
+                      const st = caddyInsight.playerStats[p.id];
+                      return (
+                        <span key={p.id} className="font-bold text-white">
+                          {idx > 0 && ' · '}{p.name}: {st && st.bestScore !== null ? `Avg ${st.avgScore} (Best ${st.bestScore})` : 'First time'}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Player Touch Score Steppers */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {activePlayers.map((player) => {
+                  const score = (currentHole.scores && currentHole.scores[player.id]) || 0;
+                  const scoreTerm = getScoreTerm(score, currentHole.par);
+                  const playerStanding = liveStandings.find((s) => s.player.id === player.id);
+
+                  return (
+                    <div key={player.id} className="neon-card rounded-2xl border border-slate-800 p-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="keep-white w-8 h-8 rounded-xl bg-[#FF2E93] text-white font-extrabold text-xs flex items-center justify-center">{player.tag}</span>
+                          <div>
+                            <div className="font-extrabold text-base text-white leading-tight">{player.name}</div>
+                            <div className="text-xs font-bold text-slate-400">Round: {playerStanding?.totalStrokes || 0} ({formatRelativePar(playerStanding?.relPar || 0)})</div>
+                          </div>
+                        </div>
+                        <span className={`px-2.5 py-1 rounded-lg text-xs font-extrabold border ${scoreTerm.textColor} ${scoreTerm.bgColor} ${scoreTerm.borderColor}`}>
+                          {score > 0 ? `${scoreTerm.label} (${formatRelativePar(score - currentHole.par)})` : 'Unscored'}
+                        </span>
+                      </div>
+
+                      <div className="sub-tile p-2.5 rounded-xl border border-slate-800 flex items-center justify-between gap-2">
+                        <button onClick={() => updateScore(player.id, score === 0 ? currentHole.par - 1 : score - 1)} className="sub-control w-11 h-11 rounded-xl border border-slate-700 text-white font-mono-tabular text-xl font-extrabold flex items-center justify-center active:scale-95">−</button>
+                        <div className="text-center">
+                          <span className="font-mono-tabular text-3xl font-extrabold text-white">{score > 0 ? score : '—'}</span>
+                          <span className="block text-[10px] uppercase font-bold text-slate-400">Throws</span>
+                        </div>
+                        <button onClick={() => updateScore(player.id, score === 0 ? currentHole.par : score + 1)} className="keep-white w-11 h-11 rounded-xl bg-[#FF2E93] text-white font-mono-tabular text-xl font-extrabold flex items-center justify-center active:scale-95">+</button>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-1.5">
+                        <button onClick={() => updateScore(player.id, Math.max(1, currentHole.par - 1))} className="py-2 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-xs active:scale-95">Birdie ({currentHole.par - 1})</button>
+                        <button onClick={() => updateScore(player.id, currentHole.par)} className="py-2 rounded-xl bg-[#00F0FF] text-slate-950 font-extrabold text-xs active:scale-95">Par ({currentHole.par})</button>
+                        <button onClick={() => updateScore(player.id, currentHole.par + 1)} className="keep-white py-2 rounded-xl bg-amber-600 text-white font-extrabold text-xs active:scale-95">Bogey ({currentHole.par + 1})</button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Prev / Next Hole Navigation (Automatically Scrolls Back to Top of Hole Card!) */}
+              <div className="neon-card rounded-2xl border border-slate-800 p-3.5 flex items-center justify-between gap-2">
+                <button
+                  disabled={roundState.currentHoleIndex === 0}
+                  onClick={() => goToHole(roundState.currentHoleIndex - 1, true)}
+                  className="sub-control min-h-[42px] px-4 rounded-xl border border-slate-700 disabled:opacity-40 text-white font-bold text-xs sm:text-sm"
+                >
+                  ← Hole {Math.max(1, currentHole.number - 1)}
+                </button>
+                <span className="text-xs sm:text-sm font-extrabold text-white">Hole {currentHole.number} of {roundState.holes.length}</span>
+                {roundState.currentHoleIndex < roundState.holes.length - 1 ? (
+                  <button
+                    onClick={() => goToHole(roundState.currentHoleIndex + 1, true)}
+                    className="min-h-[42px] px-5 rounded-xl bg-[#00F0FF] text-slate-950 font-extrabold text-xs sm:text-sm neon-border-cyan active:scale-95"
+                  >
+                    Next: Hole {currentHole.number + 1} →
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleSaveRoundClick(false)}
+                    className="min-h-[42px] px-5 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-xs sm:text-sm neon-border-lime active:scale-95"
+                  >
+                    Finish & Save Round ✓
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* RIGHT 5 COLS: Live Standings & Full Scorecard */}
+            <div className="lg:col-span-5 space-y-4">
+              <div className="neon-card rounded-2xl border border-slate-800 p-4 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-extrabold text-sm text-white">Live Standings & Course Record Pace</h3>
+                  {skinsAndMatch && <span className="text-xs font-extrabold accent-pink text-[#FF2E93]">{skinsAndMatch.matchStatusText}</span>}
+                </div>
+                <table className="w-full text-left text-xs sm:text-sm">
+                  <thead>
+                    <tr className="border-b border-slate-800 text-slate-400">
+                      <th className="py-1.5">Player</th><th className="py-1.5">Thru</th><th className="py-1.5">+/-</th><th className="py-1.5">Strokes</th><th className="py-1.5">Course PB / Avg</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800 font-bold text-white">
+                    {liveStandings.map((st) => (
+                      <tr key={st.player.id}>
+                        <td className="py-2">{st.player.name} ({st.player.tag})</td>
+                        <td className="py-2 font-mono-tabular">{st.holesCompleted}/{roundState.totalHoles}</td>
+                        <td className="py-2 font-mono-tabular accent-cyan text-[#00F0FF]">{st.holesCompleted > 0 ? formatRelativePar(st.relPar) : 'E'}</td>
+                        <td className="py-2 font-mono-tabular">{st.totalStrokes || '—'}</td>
+                        <td className="py-2 text-slate-400 text-xs">{st.coursePB.bestTotal !== null ? `PB ${st.coursePB.bestTotal} · Avg ${st.coursePB.avgTotal}` : 'First Round'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="neon-card rounded-2xl border border-slate-800 p-4 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-extrabold text-sm text-white">Full Card — {roundState.courseName}</h3>
+                  <span className="text-[11px] text-slate-400">Tap any row to jump</span>
+                </div>
+                <div className="overflow-x-auto max-h-96">
+                  <table className="w-full text-center text-xs sm:text-sm">
+                    <thead className="border-b border-slate-800 text-slate-400">
+                      <tr>
+                        <th className="py-1.5 text-left pl-2">Hole</th><th className="py-1.5">Dist</th><th className="py-1.5">Par</th>
+                        {activePlayers.map((p) => <th key={p.id} className="py-1.5">{p.name}</th>)}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800 font-mono-tabular text-white">
+                      {roundState.holes.map((h, idx) => (
+                        <tr key={h.number} onClick={() => goToHole(idx, true)} className={`cursor-pointer ${idx === roundState.currentHoleIndex ? 'sub-tile font-extrabold' : ''}`}>
+                          <td className="py-2 text-left pl-2 font-bold">#{h.number}</td>
+                          <td className="py-2 text-slate-400">{h.distance}ft</td>
+                          <td className="py-2 text-slate-400">{h.par}</td>
+                          {activePlayers.map((p) => {
+                            const sc = (h.scores && h.scores[p.id]) || 0;
+                            return <td key={p.id} className="py-2 font-extrabold">{sc > 0 ? sc : '—'}{sc > 0 && sc < h.par ? ' ★' : ''}</td>;
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                    <tfoot className="border-t-2 border-slate-700 font-extrabold text-white">
+                      <tr>
+                        <td className="py-2 text-left pl-2">Total</td><td className="py-2">{totalCourseDistance}ft</td><td className="py-2">{totalCoursePar}</td>
+                        {liveStandings.map((st) => <td key={st.player.id} className="py-2">{st.totalStrokes || 0} ({formatRelativePar(st.relPar)})</td>)}
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-2 pt-1.5">
+                  <button onClick={() => handleSaveRoundClick(false)} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white text-xs sm:text-sm font-extrabold neon-border-pink">💾 Log Round to History</button>
+                  <button onClick={() => handleSaveRoundClick(true)} className="flex-1 py-2.5 px-4 rounded-xl bg-[#39FF14] text-slate-950 text-xs sm:text-sm font-extrabold neon-border-lime">{webhookSyncStatus === 'syncing' ? 'Syncing...' : '☁️ Save & Sync Google Sheet'}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ============================================================================
+    // VIEW 3: 3D TRADING CARD BINDER & FLIGHT LAB
+    // ============================================================================
+    function CoursesAndBagView({
+      courses, bag, history, onStartRoundAtCourse,
+      initialSelectedDiscId, initialBagOwnerFilter = 'jeffery'
+    }) {
+      const [bagOwnerFilter, setBagOwnerFilter] = useState(initialBagOwnerFilter);
+      const [selectedDiscId, setSelectedDiscId] = useState(initialSelectedDiscId || 'innova-it');
+      const [simWind, setSimWind] = useState('calm');
+      const [simRelease, setSimRelease] = useState('flat');
+      const [packGear, setPackGear] = useState(INITIAL_PACK_GEAR);
+      const [selectedCourseKey, setSelectedCourseKey] = useState(courses[0]?.key || 'wyandotte');
+      const [courseWindPreview, setCourseWindPreview] = useState('calm');
+      const [zoomedCardDisc, setZoomedCardDisc] = useState(null);
+
+      useEffect(() => { if (initialBagOwnerFilter) setBagOwnerFilter(initialBagOwnerFilter); }, [initialBagOwnerFilter]);
+      useEffect(() => {
+        if (initialSelectedDiscId && bag.some((d) => d.id === initialSelectedDiscId)) setSelectedDiscId(initialSelectedDiscId);
+      }, [initialSelectedDiscId, bag]);
+
+      const jefferyDiscs = bag.filter((d) => d.ownerId !== 'jack');
+      const jackDiscs = bag.filter((d) => d.ownerId === 'jack');
+      const visibleBag = bagOwnerFilter === 'jeffery' ? jefferyDiscs : bagOwnerFilter === 'jack' ? jackDiscs : bag;
+      const selectedDisc = bag.find((d) => d.id === selectedDiscId) || visibleBag[0] || bag[0];
+      const flightSvg = selectedDisc ? computeFlightPathSvg(selectedDisc, simWind, simRelease) : null;
+      const activeCourse = courses.find((c) => c.key === selectedCourseKey) || courses[0];
+
+      return (
+        <div className="space-y-5">
+          {zoomedCardDisc && (
+            <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setZoomedCardDisc(null)}>
+              <div className="max-w-sm w-full space-y-3" onClick={(e) => e.stopPropagation()}>
+                <div className="flex items-center justify-between px-1">
+                  <span className="text-xs font-extrabold uppercase tracking-wider cb-gold">🃏 Tap Card to Flip 180°</span>
+                  <button onClick={() => setZoomedCardDisc(null)} className="px-3 py-1 rounded-lg bg-white/10 cb-white text-xs font-extrabold">Close ✕</button>
+                </div>
+                <FlippableTradingCard disc={zoomedCardDisc} history={history} />
+              </div>
+            </div>
+          )}
+
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-3.5">
+            <div>
+              <div className="text-[11px] font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
+                Interactive 3D Trading Card Binder & Flight Simulator
+              </div>
+              <h2 className="text-lg sm:text-xl font-extrabold text-white">
+                Tap Any Card Below to Flip 180° for Dossier, Strategy & Transcript Stats
+              </h2>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => { setBagOwnerFilter('jeffery'); if (jefferyDiscs[0]) setSelectedDiscId(jefferyDiscs[0].id); }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold ${bagOwnerFilter === 'jeffery' ? 'keep-white bg-[#FF2E93] text-white' : 'sub-control text-slate-300'}`}
+              >
+                Jeffery's 9-Card Innova Binder ({jefferyDiscs.length})
+              </button>
+              <button
+                onClick={() => { setBagOwnerFilter('jack'); if (jackDiscs[0]) setSelectedDiscId(jackDiscs[0].id); }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold ${bagOwnerFilter === 'jack' ? 'bg-[#00F0FF] text-slate-950' : 'sub-control text-slate-300'}`}
+              >
+                Jack's Discraft Bag ({jackDiscs.length})
+              </button>
+              <button
+                onClick={() => setBagOwnerFilter('all')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold ${bagOwnerFilter === 'all' ? 'bg-[#39FF14] text-slate-950' : 'sub-control text-slate-300'}`}
+              >
+                All Discs ({bag.length})
+              </button>
+            </div>
+          </div>
+
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-6 space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+              <div>
+                <h3 className="font-extrabold text-base sm:text-lg text-white">
+                  🃏 {bagOwnerFilter === 'jeffery' ? "Jeffery's 9-Pocket Holographic Trading Card Binder" : bagOwnerFilter === 'jack' ? "Jack's Discraft Lineup Cards" : 'Complete 12-Disc Collector Binder'}
+                </h3>
+                <p className="text-xs text-slate-400">
+                  Tap any card to flip between the holographic front artwork and the 3-box Impel stat & transcript back!
+                </p>
+              </div>
+              <span className="px-3 py-1 rounded-full sub-control border border-slate-700 text-xs font-extrabold text-white">
+                {visibleBag.length} Collector Cards
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {visibleBag.map((d) => (
+                <FlippableTradingCard
+                  key={d.id}
+                  disc={d}
+                  history={history}
+                  onSelectForSim={(discId) => {
+                    setSelectedDiscId(discId);
+                    const el = document.getElementById('flight-sim-section');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  onEnlarge={(discObj) => setZoomedCardDisc(discObj)}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 flex flex-wrap items-center justify-between gap-2.5">
+            <span className="text-xs sm:text-sm font-extrabold text-white">🎒 Pink/Blue Adventure Pack Loadout Checklist:</span>
+            <div className="flex flex-wrap gap-1.5">
+              {packGear.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setPackGear((prev) => prev.map((g) => (g.id === item.id ? { ...g, packed: !g.packed } : g)))}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold border ${item.packed ? 'sub-control text-white border-[#00F0FF]' : 'sub-tile text-slate-400 border-slate-700'}`}
+                >
+                  {item.packed ? '☑ ' : '☐ '} {item.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {selectedDisc && flightSvg && (
+            <div id="flight-sim-section" className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              <div className="lg:col-span-5 max-w-xs mx-auto w-full">
+                <FlippableTradingCard disc={selectedDisc} history={history} onEnlarge={(d) => setZoomedCardDisc(d)} />
+              </div>
+
+              <div className="lg:col-span-7 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <span className="text-xs font-extrabold uppercase accent-pink text-[#FF2E93]">RHBH Flight Path Radar Simulator</span>
+                    <h3 className="text-lg sm:text-xl font-extrabold text-white">
+                      {selectedDisc.brand} {selectedDisc.plastic} {selectedDisc.name} [{selectedDisc.speed}|{selectedDisc.glide}|{selectedDisc.turn}|{selectedDisc.fade}]
+                    </h3>
+                  </div>
+                  <select
+                    value={selectedDisc.id}
+                    onChange={(e) => setSelectedDiscId(e.target.value)}
+                    className="sub-control h-9 px-3 rounded-xl border border-slate-700 text-xs font-extrabold text-white"
+                  >
+                    {bag.map((d) => <option key={d.id} value={d.id}>{d.name} [{d.speed}|{d.glide}|{d.turn}|{d.fade}]</option>)}
+                  </select>
+                </div>
+
+                <div className="sub-tile p-3 rounded-xl border border-slate-800 space-y-2">
+                  <div className="flex items-center justify-between text-xs font-bold text-white">
+                    <span>Select Wind & Release Angle</span>
+                    <span className="accent-cyan text-[#00F0FF]">Est. Flight: {flightSvg.estimatedFeet} ft</span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-1.5">
+                    {['calm', 'headwind', 'tailwind'].map((w) => (
+                      <button key={w} onClick={() => setSimWind(w)} className={`py-1.5 rounded-lg text-xs font-bold capitalize ${simWind === w ? 'bg-[#00F0FF] text-slate-950' : 'sub-control text-slate-400'}`}>{w}</button>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-3 gap-1.5">
+                    {['hyzer', 'flat', 'anhyzer'].map((rel) => (
+                      <button key={rel} onClick={() => setSimRelease(rel)} className={`py-1.5 rounded-lg text-xs font-bold capitalize ${simRelease === rel ? 'keep-white bg-[#FF2E93] text-white' : 'sub-control text-slate-400'}`}>{rel}</button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-[#080B14] rounded-2xl p-3 border border-slate-800 flex justify-center">
+                  <svg viewBox="0 0 260 320" className="w-full max-w-[240px] h-auto">
+                    {[{ ft: 350, y: 55 }, { ft: 275, y: 110 }, { ft: 200, y: 165 }, { ft: 125, y: 220 }].map((grid) => (
+                      <g key={grid.ft}>
+                        <line x1="20" y1={grid.y} x2="240" y2={grid.y} stroke="#1E293B" strokeDasharray="4 4" />
+                        <text x="24" y={grid.y - 4} fill="#94A3B8" fontSize="9" fontWeight="bold">{grid.ft} ft</text>
+                      </g>
+                    ))}
+                    <line x1="130" y1="20" x2="130" y2="300" stroke="#334155" strokeDasharray="3 3" />
+                    <path d={flightSvg.pathD} fill="none" stroke={selectedDisc.colorHex || '#00F0FF'} strokeWidth="4" strokeLinecap="round" />
+                    <circle cx={flightSvg.endX} cy={flightSvg.endY} r="6" fill={selectedDisc.colorHex || '#00F0FF'} />
+                    <rect x="110" y="292" width="40" height="8" rx="4" fill="#94A3B8" />
+                    <text x="130" y="313" textAnchor="middle" fill="#CBD5E1" fontSize="9" fontWeight="bold">TEE PAD (RHBH)</text>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3.5">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h3 className="text-base sm:text-lg font-extrabold text-white">Course Gameplan & Hole-by-Hole 3-Disc Lineup ({activeCourse.name})</h3>
+                <p className="text-xs text-slate-400">Driver → Mid-Range → Putter recommendations for every hole</p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <select value={selectedCourseKey} onChange={(e) => setSelectedCourseKey(e.target.value)} className="sub-control h-9 px-3 rounded-xl border border-slate-700 text-xs font-bold text-white">
+                  {courses.map((c) => <option key={c.key} value={c.key}>{c.name} ({c.totalHoles}H)</option>)}
+                </select>
+                {['calm', 'headwind', 'tailwind'].map((w) => (
+                  <button key={w} onClick={() => setCourseWindPreview(w)} className={`px-3 py-1.5 rounded-xl text-xs font-bold capitalize ${courseWindPreview === w ? 'keep-white bg-[#FF2E93] text-white' : 'sub-control text-slate-400'}`}>{w} Plan</button>
+                ))}
+                <button onClick={() => onStartRoundAtCourse(activeCourse.key)} className="px-3.5 py-1.5 rounded-xl bg-[#39FF14] text-slate-950 text-xs font-extrabold">Tee Off Here →</button>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs sm:text-sm">
+                <thead className="border-b border-slate-800 text-slate-400">
+                  <tr>
+                    <th className="py-2">Hole</th><th className="py-2">Par</th><th className="py-2">Distance</th>
+                    <th className="py-2">1. Driver</th><th className="py-2">2. Mid-Range</th><th className="py-2">3. Putter</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800 font-bold text-white">
+                  {activeCourse.holes.map((h) => {
+                    const lineup = recommendThreeDiscLineup(h.distance, courseWindPreview, jefferyDiscs);
+                    return (
+                      <tr key={h.number}>
+                        <td className="py-2">Hole #{h.number}</td>
+                        <td className="py-2">Par {h.par}</td>
+                        <td className="py-2 font-mono-tabular">{h.distance} ft</td>
+                        {lineup.map((slot) => (
+                          <td key={slot.slotLabel} className="py-2">
+                            <button onClick={() => setZoomedCardDisc(slot.disc)} className="accent-pink text-[#FF2E93] hover:underline">
+                              🃏 {slot.disc.name}
+                            </button>
+                          </td>
+                        ))}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ============================================================================
+    // VIEW 4: RIVALRY & ANALYTICS
+    // ============================================================================
+    function RivalryAnalyticsView({ history, roster }) {
+      const [courseFilter, setCourseFilter] = useState('ALL');
+      const p1 = roster[0] || { id: 'jeffery', name: 'Jeffery', tag: 'J1' };
+      const p2 = roster[1] || { id: 'jack', name: 'Jack', tag: 'J2' };
+
+      const uniqueCourseNames = Array.from(new Set(history.map((r) => r.courseName)));
+      const filteredHistory = courseFilter === 'ALL' ? history : history.filter((r) => r.courseName === courseFilter);
+      const h2h = computeHeadToHead(p1.id, p2.id, filteredHistory);
+      const p1Profile = computePlayerCareerProfile(p1.id, filteredHistory);
+      const p2Profile = computePlayerCareerProfile(p2.id, filteredHistory);
+
+      return (
+        <div className="space-y-5">
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 className="text-lg sm:text-xl font-extrabold text-white">{p1.name} vs. {p2.name} — Rivalry & Telemetry</h2>
+              <p className="text-xs text-slate-400">Hole-by-hole breakdown across {filteredHistory.length} logged rounds ({p1Profile.holesPlayed} holes analyzed)</p>
+            </div>
+            <select value={courseFilter} onChange={(e) => setCourseFilter(e.target.value)} className="sub-control h-10 px-3 rounded-xl border border-slate-700 text-xs sm:text-sm font-bold text-white">
+              <option value="ALL">All Courses ({history.length} Rounds)</option>
+              {uniqueCourseNames.map((cName) => <option key={cName} value={cName}>{cName}</option>)}
+            </select>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+            <div className="neon-card rounded-2xl border border-slate-800 p-4">
+              <span className="text-[11px] font-bold uppercase text-slate-400">Head-to-Head Record</span>
+              <div className="text-xl sm:text-2xl font-extrabold text-white mt-1">{h2h.p1Wins} – {h2h.p2Wins}{h2h.ties > 0 ? ` – ${h2h.ties}` : ''}</div>
+              <span className="text-xs text-slate-400">{p1.name} {h2h.p1Wins}W · {p2.name} {h2h.p2Wins}W</span>
+            </div>
+            <div className="neon-card rounded-2xl border border-slate-800 p-4">
+              <span className="text-[11px] font-bold uppercase text-slate-400">Individual Holes Won</span>
+              <div className="text-xl sm:text-2xl font-extrabold text-white mt-1">{h2h.p1Skins} vs {h2h.p2Skins}</div>
+              <span className="text-xs text-slate-400">{h2h.pushedHoles} Holes Tied</span>
+            </div>
+            <div className="neon-card rounded-2xl border border-slate-800 p-4">
+              <span className="text-[11px] font-bold uppercase text-slate-400">9-Hole Avg vs Par</span>
+              <div className="text-xl sm:text-2xl font-extrabold text-white mt-1">{p1.tag}: {formatRelativePar(p1Profile.avgRelParPer9)} / {p2.tag}: {formatRelativePar(p2Profile.avgRelParPer9)}</div>
+              <span className="text-xs text-slate-400">Normalized per 9 holes</span>
+            </div>
+            <div className="neon-card rounded-2xl border border-slate-800 p-4">
+              <span className="text-[11px] font-bold uppercase text-slate-400">Total Birdies</span>
+              <div className="text-xl sm:text-2xl font-extrabold text-white mt-1">{p1.name}: {p1Profile.birdies} · {p2.name}: {p2Profile.birdies}</div>
+              <span className="text-xs text-slate-400">Lifetime Birdie Count</span>
+            </div>
+          </div>
+
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3">
+            <h3 className="text-base font-extrabold text-white">Course Records & Personal Bests Matrix</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs sm:text-sm">
+                <thead className="border-b border-slate-800 text-slate-400">
+                  <tr>
+                    <th className="py-2">Course Name</th><th className="py-2">{p1.name} PB</th><th className="py-2">{p1.name} Avg</th><th className="py-2">{p2.name} PB</th><th className="py-2">{p2.name} Avg</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800 font-bold text-white">
+                  {uniqueCourseNames.map((courseName) => {
+                    const p1Stat = getCoursePersonalBest(courseName, p1.id, history);
+                    const p2Stat = getCoursePersonalBest(courseName, p2.id, history);
+                    return (
+                      <tr key={courseName}>
+                        <td className="py-2.5">{courseName}</td>
+                        <td className="py-2.5 accent-pink text-[#FF2E93]">{p1Stat.bestTotal !== null ? `${p1Stat.bestTotal} (${formatRelativePar(p1Stat.bestRelPar || 0)})` : '—'}</td>
+                        <td className="py-2.5">{p1Stat.avgTotal ?? '—'}</td>
+                        <td className="py-2.5 accent-cyan text-[#00F0FF]">{p2Stat.bestTotal !== null ? `${p2Stat.bestTotal} (${formatRelativePar(p2Stat.bestRelPar || 0)})` : '—'}</td>
+                        <td className="py-2.5">{p2Stat.avgTotal ?? '—'}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ============================================================================
+    // VIEW 5: COURSE-GROUPED ROUND HISTORY
+    // ============================================================================
+    function RoundHistoryView({ history, onDeleteRound, onReplayCourse, onSyncSingleRoundToWebhook }) {
+      const courseGroups = [];
+      const seenCourses = new Map();
+      for (const r of history) {
+        if (!seenCourses.has(r.courseName)) {
+          const group = { courseName: r.courseName, rounds: [] };
+          seenCourses.set(r.courseName, group);
+          courseGroups.push(group);
+        }
+        seenCourses.get(r.courseName).rounds.push(r);
+      }
+
+      const [openCourseName, setOpenCourseName] = useState(courseGroups[0]?.courseName || null);
+      const [expandedRoundId, setExpandedRoundId] = useState(history[0]?.id ?? null);
+      const [syncingId, setSyncingId] = useState(null);
+
+      return (
+        <div className="space-y-3.5">
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5">
+            <h2 className="text-lg sm:text-xl font-extrabold text-white">
+              Course Round Archive ({courseGroups.length} Courses · {history.length} Total Rounds)
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400">
+              Tap any course below to view the rounds played there, or expand a round for hole-by-hole scorecards
+            </p>
+          </div>
+
+          {courseGroups.map((group) => {
+            const isCourseOpen = openCourseName === group.courseName;
+            const jPB = getCoursePersonalBest(group.courseName, 'jeffery', history);
+            const jackPB = getCoursePersonalBest(group.courseName, 'jack', history);
+
+            return (
+              <div key={group.courseName} className="neon-card rounded-2xl border border-slate-800 overflow-hidden">
+                <button
+                  onClick={() => setOpenCourseName(isCourseOpen ? null : group.courseName)}
+                  className="w-full p-4 sm:p-5 text-left flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 hover:opacity-95 transition-opacity"
+                >
+                  <div>
+                    <div className="flex items-center gap-2.5">
+                      <span className="keep-white px-2.5 py-0.5 rounded-lg bg-[#FF2E93] text-white text-xs font-extrabold">
+                        {group.rounds.length} {group.rounds.length === 1 ? 'Round' : 'Rounds'}
+                      </span>
+                      <h3 className="font-display font-extrabold text-base sm:text-lg text-white">
+                        {group.courseName}
+                      </h3>
+                    </div>
+                    <div className="text-xs text-slate-400 mt-1">
+                      Last Played: {group.rounds[0]?.date} · {group.rounds[0]?.totalHoles} Holes (Par {group.rounds[0]?.par})
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="text-xs sm:text-sm font-extrabold text-white">
+                      {jPB.bestTotal !== null && (
+                        <span className="mr-3">
+                          Jeffery PB: <span className="accent-pink text-[#FF2E93]">{jPB.bestTotal} ({formatRelativePar(jPB.bestRelPar || 0)})</span>
+                        </span>
+                      )}
+                      {jackPB.bestTotal !== null && (
+                        <span>
+                          Jack PB: <span className="accent-cyan text-[#00F0FF]">{jackPB.bestTotal} ({formatRelativePar(jackPB.bestRelPar || 0)})</span>
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-sm font-extrabold text-slate-400">{isCourseOpen ? '▲' : '▼'}</span>
+                  </div>
+                </button>
+
+                {isCourseOpen && (
+                  <div className="p-3.5 sm:p-4 border-t border-slate-800 sub-tile space-y-3">
+                    {group.rounds.map((round, rIdx) => {
+                      const isExpanded = expandedRoundId === round.id;
+                      const totalDistance = round.holes.reduce((acc, h) => acc + (h.distance || 0), 0);
+
+                      return (
+                        <div key={round.id} className="sub-control rounded-xl border border-slate-700 overflow-hidden">
+                          <div
+                            onClick={() => setExpandedRoundId(isExpanded ? null : round.id)}
+                            className="p-3.5 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+                          >
+                            <div>
+                              <div className="font-extrabold text-xs sm:text-sm text-white">
+                                Round #{group.rounds.length - rIdx} — {round.date}
+                              </div>
+                              <div className="text-[11px] text-slate-400">
+                                ⏱ {round.duration} · {round.totalHoles}H (Par {round.par}) · {totalDistance.toLocaleString()} ft
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-4">
+                              {round.players.map((pl) => (
+                                <div key={pl.id} className="text-xs sm:text-sm font-extrabold text-white">
+                                  {pl.name}: <span className="accent-cyan text-[#00F0FF]">{pl.total} ({formatRelativePar(pl.total - round.par)})</span>
+                                </div>
+                              ))}
+                              <span className="text-xs font-bold text-slate-400">{isExpanded ? '▲ Hide Card' : '▼ View Card'}</span>
+                            </div>
+                          </div>
+
+                          {isExpanded && (
+                            <div className="p-3.5 border-t border-slate-700 space-y-3 bg-black/5">
+                              <div className="overflow-x-auto">
+                                <table className="w-full text-center text-xs font-mono-tabular">
+                                  <thead>
+                                    <tr className="border-b border-slate-700 text-slate-400">
+                                      <th className="py-1.5 text-left">Metric</th>
+                                      {round.holes.map((h) => <th key={h.number} className="py-1.5">#{h.number}</th>)}
+                                      <th className="py-1.5">Total</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody className="divide-y divide-slate-700 text-white font-bold">
+                                    <tr>
+                                      <td className="py-1.5 text-left text-slate-400">Dist</td>
+                                      {round.holes.map((h) => <td key={h.number} className="py-1.5 text-slate-400">{h.distance}</td>)}
+                                      <td className="py-1.5">{totalDistance}ft</td>
+                                    </tr>
+                                    <tr>
+                                      <td className="py-1.5 text-left text-slate-400">Par</td>
+                                      {round.holes.map((h) => <td key={h.number} className="py-1.5 text-slate-400">{h.par}</td>)}
+                                      <td className="py-1.5">{round.par}</td>
+                                    </tr>
+                                    {round.players.map((pl) => (
+                                      <tr key={pl.id}>
+                                        <td className="py-1.5 text-left font-extrabold">{pl.name}</td>
+                                        {round.holes.map((h) => <td key={h.number} className="py-1.5 font-extrabold">{(h.scores && h.scores[pl.id]) || '—'}</td>)}
+                                        <td className="py-1.5 font-extrabold accent-cyan text-[#00F0FF]">{pl.total} ({formatRelativePar(pl.total - round.par)})</td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              </div>
+
+                              <div className="flex flex-wrap items-center gap-2">
+                                <button onClick={() => onReplayCourse(round)} className="px-3 py-1.5 rounded-xl bg-[#39FF14] text-slate-950 text-xs font-extrabold">▶ Play This Course Layout</button>
+                                <button
+                                  onClick={async () => { setSyncingId(round.id); try { await onSyncSingleRoundToWebhook(round); } finally { setSyncingId(null); } }}
+                                  className="sub-tile px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold text-white"
+                                >
+                                  {syncingId === round.id ? 'Pushing...' : '☁️ Push to Google Sheet'}
+                                </button>
+                                <button onClick={() => { if (confirm('Delete this round?')) onDeleteRound(round.id); }} className="px-2.5 py-1.5 rounded-xl text-rose-500 text-xs font-bold">🗑 Delete</button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    // ============================================================================
+    // VIEW 6: SYNC, ROSTER & BACKUP
+    // ============================================================================
+    function SyncAndRosterView({
+      roster, setRoster, activePlayerIds, onToggleActivePlayer,
+      webhookUrl, setWebhookUrl, onExportJsonPayload, onImportJsonPayload, onResetToFactoryData
+    }) {
+      const [newPlayerName, setNewPlayerName] = useState('');
+      const [newPlayerTag, setNewPlayerTag] = useState('');
+      const [statusMessage, setStatusMessage] = useState(null);
+      const [copiedClipboard, setCopiedClipboard] = useState(false);
+
+      const handleAddPlayer = (e) => {
+        e.preventDefault();
+        if (!newPlayerName.trim()) return;
+        const id = newPlayerName.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (roster.some((r) => r.id === id)) return;
+        const created = { id, name: newPlayerName.trim(), tag: newPlayerTag.trim().toUpperCase() || newPlayerName.trim().slice(0, 2).toUpperCase(), color: 'emerald-600' };
+        setRoster((prev) => [...prev, created]);
+        setNewPlayerName(''); setNewPlayerTag('');
+        setStatusMessage({ type: 'success', text: `Added ${created.name} (${created.tag}) to roster.` });
+      };
+
+      return (
+        <div className="space-y-5">
+          {statusMessage && (
+            <div className="neon-card p-3.5 rounded-2xl border-2 border-[#39FF14] text-xs sm:text-sm font-bold text-white flex justify-between">
+              <span>{statusMessage.text}</span>
+              <button onClick={() => setStatusMessage(null)} className="underline">Dismiss</button>
+            </div>
+          )}
+
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3.5">
+            <h2 className="text-base sm:text-lg font-extrabold text-white">Player Roster & Active Card Selection</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {roster.map((player) => {
+                const isActive = activePlayerIds.includes(player.id);
+                return (
+                  <div key={player.id} className="sub-tile p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <div className="font-extrabold text-sm text-white">{player.tag} · {player.name}</div>
+                    <button onClick={() => onToggleActivePlayer(player.id)} className={`px-3 py-1.5 rounded-lg text-xs font-bold ${isActive ? 'bg-[#39FF14] text-slate-950' : 'sub-control text-slate-400'}`}>
+                      {isActive ? 'Active on Card ✓' : 'Add to Card'}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+            <form onSubmit={handleAddPlayer} className="flex flex-wrap gap-2 pt-1">
+              <input type="text" value={newPlayerName} onChange={(e) => setNewPlayerName(e.target.value)} placeholder="New player name (e.g. Zack)" className="sub-control h-10 px-3 rounded-xl border border-slate-700 text-white text-xs sm:text-sm font-bold" />
+              <input type="text" value={newPlayerTag} onChange={(e) => setNewPlayerTag(e.target.value)} placeholder="Tag (Z1)" className="sub-control w-20 h-10 px-3 rounded-xl border border-slate-700 text-white text-xs sm:text-sm font-bold uppercase" />
+              <button type="submit" className="keep-white h-10 px-4 rounded-xl bg-[#FF2E93] text-white text-xs sm:text-sm font-extrabold">+ Add Player</button>
+            </form>
+          </div>
+
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3.5">
+            <h2 className="text-base sm:text-lg font-extrabold text-white">JSON Data Export & Import (Phone ↔ Laptop)</h2>
+            <div className="flex flex-wrap gap-2.5">
+              <button
+                onClick={() => {
+                  const payload = onExportJsonPayload();
+                  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a'); a.href = url; a.download = `DG_Full_Backup_${new Date().toISOString().slice(0, 10)}.json`; a.click(); URL.revokeObjectURL(url);
+                }}
+                className="px-3.5 py-2 rounded-xl bg-[#00F0FF] text-slate-950 font-extrabold text-xs sm:text-sm"
+              >
+                ⬇ Download .JSON Backup
+              </button>
+              <button
+                onClick={async () => {
+                  await navigator.clipboard.writeText(JSON.stringify(onExportJsonPayload(), null, 2));
+                  setCopiedClipboard(true); setTimeout(() => setCopiedClipboard(false), 2500);
+                }}
+                className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 text-white font-bold text-xs sm:text-sm"
+              >
+                {copiedClipboard ? '✓ Copied JSON!' : '📋 Copy JSON to Clipboard'}
+              </button>
+              <label className="px-3.5 py-2 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-xs sm:text-sm cursor-pointer">
+                ⬆ Upload .JSON File
+                <input
+                  type="file" accept=".json" className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                      const result = onImportJsonPayload(String(ev.target?.result || ''));
+                      setStatusMessage({ type: result.ok ? 'success' : 'error', text: result.message });
+                    };
+                    reader.readAsText(file);
+                  }}
+                />
+              </label>
+              <button onClick={onResetToFactoryData} className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 text-slate-400 font-bold text-xs sm:text-sm">↺ Restore Baseline Snapshot</button>
+            </div>
+          </div>
+
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-2">
+            <h2 className="text-sm sm:text-base font-extrabold text-white">Google Sheets / Drive Webhook URL</h2>
+            <input type="url" value={webhookUrl} onChange={(e) => setWebhookUrl(e.target.value)} className="sub-control w-full h-10 px-3 rounded-xl border border-slate-700 font-mono-tabular text-xs text-white" />
+          </div>
+        </div>
+      );
+    }
+
+    // ============================================================================
+    // MAIN APP COMPONENT (AUTO-SCROLLS TO TOP ON EVERY TAB CHANGE)
+    // ============================================================================
+    const STORAGE_KEY = 'jj_disc_golf_v46_hub_state';
+    const THEME_STORAGE_KEY = 'jj_disc_golf_bg_theme';
+
+    function App() {
+      const [activeTab, setActiveTab] = useState('home');
+      const [showStartWizard, setShowStartWizard] = useState(false);
+      const [focusedDiscId, setFocusedDiscId] = useState(null);
+      const [bagOwnerFilter, setBagOwnerFilter] = useState('jeffery');
+      const [bgTheme, setBgTheme] = useState(() => localStorage.getItem(THEME_STORAGE_KEY) || 'white');
+
+      useEffect(() => { try { localStorage.setItem(THEME_STORAGE_KEY, bgTheme); } catch {} }, [bgTheme]);
+
+      useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      }, [activeTab]);
+
+      const switchTabAndScrollTop = (tabName) => {
+        if (tabName === 'home') setShowStartWizard(false);
+        setActiveTab(tabName);
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      };
+
+      const [history, setHistory] = useState(() => {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) { const parsed = JSON.parse(saved); if (Array.isArray(parsed.history) && parsed.history.length > 0) return parsed.history; }
+        } catch {}
+        return INITIAL_USER_EXPORT.history;
+      });
+
+      const [roster, setRoster] = useState(() => {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) { const parsed = JSON.parse(saved); if (Array.isArray(parsed.roster) && parsed.roster.length > 0) return parsed.roster; }
+        } catch {}
+        return INITIAL_USER_EXPORT.roster;
+      });
+
+      const [courses, setCourses] = useState(() => {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed.courses) && parsed.courses.length > 0) {
+              const existingKeys = new Set(parsed.courses.map((c) => c.key));
+              const missingDefaults = INITIAL_COURSE_TEMPLATES.filter((c) => !existingKeys.has(c.key));
+              return [...missingDefaults, ...parsed.courses];
+            }
+          }
+        } catch {}
+        return INITIAL_COURSE_TEMPLATES;
+      });
+
+      const [bag, setBag] = useState(() => {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed.bag) && parsed.bag.length > 0) {
+              return parsed.bag.map((d) => {
+                const defaultMatch = INITIAL_DISC_BAG.find((initD) => initD.id === d.id);
+                return defaultMatch ? { ...d, ...defaultMatch, transcriptStats: d.transcriptStats || defaultMatch.transcriptStats } : d;
+              });
+            }
+          }
+        } catch {}
+        return INITIAL_DISC_BAG;
+      });
+
+      const [roundState, setRoundState] = useState(() => {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed.roundState && Array.isArray(parsed.roundState.holes)) {
+              const hasActiveScores = parsed.roundState.holes.some((h) => Object.values(h.scores || {}).some((s) => s > 0));
+              if (hasActiveScores) return parsed.roundState;
+            }
+          }
+        } catch {}
+        return INITIAL_USER_EXPORT.roundState;
+      });
+
+      const [webhookUrl, setWebhookUrl] = useState(() => {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) { const parsed = JSON.parse(saved); if (typeof parsed.webhookUrl === 'string') return parsed.webhookUrl; }
+        } catch {}
+        return INITIAL_USER_EXPORT.webhookUrl;
+      });
+
+      const [timerState, setTimerState] = useState(() => {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) { const parsed = JSON.parse(saved); if (parsed.timerState) return parsed.timerState; }
+        } catch {}
+        return INITIAL_USER_EXPORT.timerState;
+      });
+
+      const [elapsedSeconds, setElapsedSeconds] = useState(0);
+      const [webhookSyncStatus, setWebhookSyncStatus] = useState('idle');
+
+      useEffect(() => {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v57', exportDate: new Date().toISOString(),
+            history, roster, roundState, webhookUrl, timerState, courses, bag
+          }));
+        } catch {}
+      }, [history, roster, roundState, webhookUrl, timerState, courses, bag]);
+
+      useEffect(() => {
+        const computeSeconds = () => {
+          const extra = timerState.running && timerState.startTime ? Date.now() - timerState.startTime : 0;
+          return Math.floor((timerState.accumulatedMs + extra) / 1000);
+        };
+        setElapsedSeconds(computeSeconds());
+        if (!timerState.running) return;
+        const interval = setInterval(() => setElapsedSeconds(computeSeconds()), 1000);
+        return () => clearInterval(interval);
+      }, [timerState]);
+
+      const handleToggleTimer = () => {
+        setTimerState((prev) => {
+          if (prev.running) return { running: false, startTime: null, accumulatedMs: prev.accumulatedMs + (prev.startTime ? Date.now() - prev.startTime : 0) };
+          return { running: true, startTime: Date.now(), accumulatedMs: prev.accumulatedMs };
+        });
+      };
+
+      const handleResetTimer = () => { setTimerState({ running: false, startTime: null, accumulatedMs: 0 }); setElapsedSeconds(0); };
+
+      const handleSwitchCourse = (courseKey) => {
+        const template = courses.find((c) => c.key === courseKey);
+        if (!template) return;
+        const activeIds = roundState.activePlayerIds || roster.map((r) => r.id);
+        setRoundState({
+          courseKey: template.key, courseName: template.name, totalHoles: template.totalHoles,
+          date: new Date().toISOString().slice(0, 10), currentHoleIndex: 0, activePlayerIds: activeIds,
+          gameMode: 'stroke', windCondition: roundState.windCondition || 'calm', roundTranscript: '',
+          holes: template.holes.map((h) => ({ number: h.number, par: h.par, distance: h.distance, scores: Object.fromEntries(activeIds.map((id) => [id, 0])) }))
+        });
+        handleResetTimer();
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      };
+
+      const handleStartConfiguredRound = (params) => {
+        const template = courses.find((c) => c.key === params.courseKey) || courses[0];
+        const activeIds = roundState.activePlayerIds || roster.map((r) => r.id);
+        setRoundState({
+          courseKey: template.key, courseName: template.name, totalHoles: template.totalHoles,
+          date: new Date().toISOString().slice(0, 10), currentHoleIndex: 0, activePlayerIds: activeIds,
+          gameMode: 'stroke', windCondition: params.windCondition,
+          voiceRecordingConfirmed: params.voiceRecordingConfirmed, roundTranscript: '',
+          holes: template.holes.map((h) => ({ number: h.number, par: h.par, distance: h.distance, scores: Object.fromEntries(activeIds.map((id) => [id, 0])) }))
+        });
+        handleResetTimer();
+        switchTabAndScrollTop('live');
+      };
+
+      const handleReplayHistoricalCourse = (round) => {
+        const activeIds = roundState.activePlayerIds || roster.map((r) => r.id);
+        const matchedTemplate = courses.find((c) => c.name.toLowerCase() === round.courseName.toLowerCase());
+        setRoundState({
+          courseKey: matchedTemplate?.key || 'wyandotte', courseName: round.courseName, totalHoles: round.totalHoles,
+          date: new Date().toISOString().slice(0, 10), currentHoleIndex: 0, activePlayerIds: activeIds,
+          gameMode: 'stroke', windCondition: round.windCondition || 'calm', roundTranscript: '',
+          holes: round.holes.map((h) => ({ number: h.number, par: h.par, distance: h.distance, scores: Object.fromEntries(activeIds.map((id) => [id, 0])) }))
+        });
+        handleResetTimer();
+        switchTabAndScrollTop('live');
+      };
+
+      const syncRoundToWebhook = async (round) => {
+        if (!webhookUrl) return;
+        setWebhookSyncStatus('syncing');
+        try {
+          await fetch(webhookUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(round) });
+          setWebhookSyncStatus('success'); setTimeout(() => setWebhookSyncStatus('idle'), 3000);
+        } catch {
+          setWebhookSyncStatus('error'); setTimeout(() => setWebhookSyncStatus('idle'), 4000);
+        }
+      };
+
+      const handleSaveFinishedRound = async (syncToWebhook) => {
+        const activeIds = roundState.activePlayerIds || roster.map((r) => r.id);
+        const activeRoster = roster.filter((r) => activeIds.includes(r.id));
+        const hrs = Math.floor(elapsedSeconds / 3600), mins = Math.floor((elapsedSeconds % 3600) / 60), secs = elapsedSeconds % 60;
+        const durationFormatted = elapsedSeconds > 0 ? [hrs, mins, secs].map((v) => String(v).padStart(2, '0')).join(':') : '00:28:00';
+        const coursePar = roundState.holes.reduce((acc, h) => acc + h.par, 0);
+        const finalizedHoles = roundState.holes.map((h) => {
+          const nextScores = {};
+          for (const p of activeRoster) nextScores[p.id] = h.scores && h.scores[p.id] > 0 ? h.scores[p.id] : h.par;
+          return { ...h, scores: nextScores };
+        });
+        const playersSummary = activeRoster.map((p) => ({
+          id: p.id, name: p.name, tag: p.tag,
+          total: finalizedHoles.reduce((sum, h) => sum + (h.scores[p.id] || h.par), 0)
+        }));
+        const newHistoricalRound = {
+          id: Date.now(), courseName: roundState.courseName, totalHoles: roundState.totalHoles,
+          date: roundState.date || new Date().toISOString().slice(0, 10), duration: durationFormatted,
+          par: coursePar, players: playersSummary, holes: finalizedHoles,
+          gameMode: 'stroke', windCondition: roundState.windCondition || 'calm',
+          roundTranscript: ''
+        };
+        setHistory((prev) => [newHistoricalRound, ...prev]);
+        if (syncToWebhook) await syncRoundToWebhook(newHistoricalRound);
+        setRoundState((prev) => ({
+          ...prev, currentHoleIndex: 0, date: new Date().toISOString().slice(0, 10), roundTranscript: '',
+          holes: prev.holes.map((h) => ({ ...h, scores: Object.fromEntries(activeIds.map((id) => [id, 0])), meta: {}, voiceTranscript: '' }))
+        }));
+        handleResetTimer();
+      };
+
+      const handleToggleActivePlayer = (playerId) => {
+        setRoundState((prev) => {
+          const currentIds = prev.activePlayerIds || roster.map((r) => r.id);
+          const exists = currentIds.includes(playerId);
+          if (exists && currentIds.length <= 1) return prev;
+          return { ...prev, activePlayerIds: exists ? currentIds.filter((id) => id !== playerId) : [...currentIds, playerId] };
+        });
+      };
+
+      const handleExportJsonPayload = () => ({
+        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v57', exportDate: new Date().toISOString(),
+        history, roster, roundState, webhookUrl, timerState, courses, bag
+      });
+
+      const handleImportJsonPayload = (rawJson) => {
+        try {
+          const parsed = JSON.parse(rawJson);
+          if (!parsed || !Array.isArray(parsed.history)) return { ok: false, message: 'Invalid JSON: missing "history" array.' };
+          setHistory(parsed.history);
+          if (Array.isArray(parsed.roster)) setRoster(parsed.roster);
+          if (parsed.roundState && Array.isArray(parsed.roundState.holes)) setRoundState(parsed.roundState);
+          if (typeof parsed.webhookUrl === 'string') setWebhookUrl(parsed.webhookUrl);
+          if (Array.isArray(parsed.courses)) setCourses(parsed.courses);
+          return { ok: true, message: `Successfully imported ${parsed.history.length} rounds into your scorecard!` };
+        } catch {
+          return { ok: false, message: 'Could not parse JSON string.' };
+        }
+      };
+
+      const handleResetToFactoryData = () => {
+        setHistory(INITIAL_USER_EXPORT.history); setRoster(INITIAL_USER_EXPORT.roster);
+        setRoundState(INITIAL_USER_EXPORT.roundState); setWebhookUrl(INITIAL_USER_EXPORT.webhookUrl);
+        setCourses(INITIAL_COURSE_TEMPLATES); setBag(INITIAL_DISC_BAG); handleResetTimer();
+      };
+
+      const themeClass = bgTheme === 'white' ? 'theme-white' : bgTheme === 'adventure' ? 'theme-adventure' : bgTheme === 'turf' ? 'theme-turf' : 'theme-midnight';
+
+      return (
+        <div className={`${themeClass} min-h-screen pb-28 transition-colors duration-200`}>
+          <header className="safe-header bg-[#080B14]/95 border-b border-slate-800 px-4 sticky top-0 z-40 backdrop-blur-md shadow-md">
+            <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+              <a href="#home" onClick={(e) => { e.preventDefault(); switchTabAndScrollTop('home'); }} className="font-display text-base sm:text-lg font-extrabold tracking-normal whitespace-nowrap shrink-0 text-white">
+                Jeffery & <span className="text-[#FF2E93]">Jack</span> Disc Golf
+              </a>
+
+              <nav className="hidden md:flex items-center gap-6 text-xs sm:text-sm font-bold text-slate-300">
+                <button onClick={() => switchTabAndScrollTop('home')} className={`py-1 border-b-2 ${activeTab === 'home' ? 'border-[#39FF14] text-[#39FF14]' : 'border-transparent hover:text-white'}`}>Home Hub</button>
+                <button onClick={() => switchTabAndScrollTop('live')} className={`py-1 border-b-2 ${activeTab === 'live' ? 'border-[#FF2E93] text-[#FF2E93]' : 'border-transparent hover:text-white'}`}>Live Scorecard</button>
+                <button onClick={() => switchTabAndScrollTop('courses')} className={`py-1 border-b-2 ${activeTab === 'courses' ? 'border-[#00F0FF] text-[#00F0FF]' : 'border-transparent hover:text-white'}`}>3D Cards & Flight Lab</button>
+                <button onClick={() => switchTabAndScrollTop('history')} className={`py-1 border-b-2 ${activeTab === 'history' || activeTab === 'rivalry' ? 'border-[#FACC15] text-[#FACC15]' : 'border-transparent hover:text-white'}`}>Round & Course History</button>
+              </nav>
+
+              <button onClick={() => switchTabAndScrollTop('sync')} className={`px-3.5 py-1.5 text-xs font-extrabold rounded-xl shrink-0 ${activeTab === 'sync' ? 'bg-[#39FF14] text-slate-950' : 'bg-[#FF2E93] text-white'}`}>
+                Data & Roster
+              </button>
+            </div>
+          </header>
+
+          <main className="max-w-7xl mx-auto px-3.5 sm:px-6 py-4 space-y-4">
+            <div className="neon-card border border-slate-800 rounded-2xl p-2.5 sm:px-4 flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs sm:text-sm font-extrabold text-white flex items-center gap-1.5"><span>🎨 Theme & Backdrop:</span></span>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  { id: 'white', label: 'Indigo + White Tiles' },
+                  { id: 'adventure', label: 'Pink/Blue + White Tiles' },
+                  { id: 'turf', label: 'Fairway + White Tiles' },
+                  { id: 'midnight', label: 'Midnight Dark Tiles' }
+                ].map((mode) => (
+                  <button
+                    key={mode.id}
+                    onClick={() => setBgTheme(mode.id)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-extrabold border transition-all ${bgTheme === mode.id ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93] shadow-xs' : 'sub-control text-white border-slate-700'}`}
+                  >
+                    {mode.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {activeTab === 'home' && (
+              <HomeHubView
+                courses={courses} bag={bag} history={history} roundState={roundState}
+                showStartWizard={showStartWizard} setShowStartWizard={setShowStartWizard}
+                onStartConfiguredRound={handleStartConfiguredRound}
+                onResumeLiveRound={() => switchTabAndScrollTop('live')}
+                onNavigateTab={(tab, ownerFilter) => { if (ownerFilter) setBagOwnerFilter(ownerFilter); switchTabAndScrollTop(tab); }}
+              />
+            )}
+
+            {activeTab === 'live' && (
+              <LiveScorecardView
+                roundState={roundState} setRoundState={setRoundState} roster={roster} history={history} courses={courses} bag={bag}
+                timerState={timerState} elapsedSeconds={elapsedSeconds} onToggleTimer={handleToggleTimer} onResetTimer={handleResetTimer}
+                onSwitchCourse={handleSwitchCourse} onSaveFinishedRound={handleSaveFinishedRound} webhookSyncStatus={webhookSyncStatus}
+                onOpenBagGuide={(discId, ownerFilter) => { if (discId) setFocusedDiscId(discId); if (ownerFilter) setBagOwnerFilter(ownerFilter); switchTabAndScrollTop('courses'); }}
+              />
+            )}
+
+            {activeTab === 'courses' && (
+              <CoursesAndBagView
+                courses={courses} setCourses={setCourses} bag={bag} setBag={setBag} history={history} roster={roster}
+                onStartRoundAtCourse={(courseKey) => { handleSwitchCourse(courseKey); switchTabAndScrollTop('live'); }}
+                initialSelectedDiscId={focusedDiscId} initialBagOwnerFilter={bagOwnerFilter}
+              />
+            )}
+
+            {activeTab === 'rivalry' && (
+              <div className="space-y-4">
+                <div className="flex justify-end">
+                  <button onClick={() => switchTabAndScrollTop('history')} className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 text-xs font-extrabold text-white">Switch to Course-Grouped Scorecards →</button>
+                </div>
+                <RivalryAnalyticsView history={history} roster={roster} />
+              </div>
+            )}
+
+            {activeTab === 'history' && (
+              <div className="space-y-4">
+                <div className="flex justify-end">
+                  <button onClick={() => switchTabAndScrollTop('rivalry')} className="px-3.5 py-2 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold">View Course Records & Jeffery vs. Jack Rivalry Stats →</button>
+                </div>
+                <RoundHistoryView
+                  history={history} roster={roster} bag={bag}
+                  onDeleteRound={(id) => setHistory((prev) => prev.filter((item) => item.id !== id))}
+                  onReplayCourse={handleReplayHistoricalCourse}
+                  onSyncSingleRoundToWebhook={syncRoundToWebhook}
+                />
+              </div>
+            )}
+
+            {activeTab === 'sync' && (
+              <SyncAndRosterView
+                roster={roster} setRoster={setRoster} activePlayerIds={roundState.activePlayerIds || roster.map((r) => r.id)}
+                onToggleActivePlayer={handleToggleActivePlayer} webhookUrl={webhookUrl} setWebhookUrl={setWebhookUrl}
+                onExportJsonPayload={handleExportJsonPayload} onImportJsonPayload={handleImportJsonPayload} onResetToFactoryData={handleResetToFactoryData}
+              />
+            )}
+          </main>
+
+          <nav className="safe-bottom-nav fixed bottom-0 left-0 right-0 z-40 bg-[#080B14]/95 border-t border-slate-800 grid grid-cols-5 md:hidden">
+            {[
+              { id: 'home', label: 'Home Hub', icon: '🏠', color: 'text-[#39FF14]' },
+              { id: 'live', label: 'Play Round', icon: '📋', color: 'text-[#FF2E93]' },
+              { id: 'courses', label: '3D Cards', icon: '🃏', color: 'text-[#00F0FF]' },
+              { id: 'history', label: 'History', icon: '🕒', color: 'text-[#FACC15]' },
+              { id: 'rivalry', label: 'Stats', icon: '🏆', color: 'text-[#C026D3]' }
+            ].map((item) => {
+              const isActive = activeTab === item.id;
+              return (
+                <button key={item.id} onClick={() => switchTabAndScrollTop(item.id)} className={`min-h-[52px] flex flex-col items-center justify-center text-[11px] transition-colors ${isActive ? `${item.color} font-extrabold` : 'text-slate-300'}`}>
+                  <span className="text-base leading-none mb-0.5">{item.icon}</span>
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
