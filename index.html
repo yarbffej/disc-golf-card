@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Jeffery & Jack Disc Golf Scorecard (v54 Collector Edition)</title>
+  <title>Jeffery & Jack Disc Golf Scorecard (v55 Collector Edition)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -462,7 +462,7 @@
     ];
 
     const INITIAL_USER_EXPORT = {
-      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v54', exportDate: '2026-10-17T16:47:23.539Z',
+      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v55', exportDate: '2026-10-17T16:47:23.539Z',
       history: [
         { id: 1792169030880, courseName: 'Sar-Ko-Par Trails', totalHoles: 9, date: '2026-10-15', duration: '00:27:05', par: 27,
           players: [{ id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 26 }, { id: 'jack', name: 'Jack', tag: 'J2', total: 28 }],
@@ -583,7 +583,7 @@
     };
 
     // ============================================================================
-    // ANALYTICS, FLIGHT SIMULATOR & 3D FLIPPABLE CARD COMPONENT
+    // ANALYTICS, 3-DISC CADDIE LINEUP & 3D FLIPPABLE CARD COMPONENT
     // ============================================================================
     function formatRelativePar(diff) {
       if (diff === 0) return 'E';
@@ -614,7 +614,54 @@
       return mentions;
     }
 
-    // INTERACTIVE 3D FLIPPABLE TRADING CARD COMPONENT (COMPACT v52 FONT + 3RD TRANSCRIPT STATS BOX)
+    // RETURNS ALL 3 RECOMMENDED DISCS IN ORDER: 1. DRIVER -> 2. MID-RANGE -> 3. PUTTER
+    function recommendThreeDiscLineup(distanceFeet, scenario, bag) {
+      const byId = (id) => bag.find((d) => d.id === id) || null;
+
+      let driver = null;
+      let driverNote = '';
+      let midrange = null;
+      let midNote = '';
+      let putter = null;
+      let putterNote = '';
+
+      if (scenario === 'headwind') {
+        driver = byId('innova-firebird');
+        driverNote = '3 glide & 4 fade fight headwinds without flipping; great for flare skips.';
+        midrange = byId('innova-roc3');
+        midNote = 'Handles Kansas gusts far better than Mako3 with a dependable left finish.';
+        putter = byId('innova-pig');
+        putterNote = '1 glide refuses to float long in the wind; Galactic XT sticks to the green.';
+      } else if (scenario === 'tailwind') {
+        driver = byId('innova-mamba');
+        driverNote = 'Featherlight 152g Star weight rides tailwinds for effortless max carry.';
+        midrange = byId('innova-rollo');
+        midNote = 'Effortless right-turning glide (RHBH), scramble pan, or instant roller.';
+        putter = byId('innova-sync');
+        putterNote = 'Smooth throwing putter that holds straight or gentle turnover lines.';
+      } else {
+        // Calm / Straight Tunnel
+        if (distanceFeet >= 305) {
+          driver = byId('innova-mamba');
+          driverNote = 'Release on a slight hyzer; stands up, turns right, and glides forever.';
+        } else {
+          driver = byId('innova-it');
+          driverNote = '70% power hyzer-flip pops flat and glides straight with massive 6 glide.';
+        }
+        midrange = byId('innova-mako3');
+        midNote = 'Zero turn, zero fade [5|5|0|0] truth-teller down tight wooded hallways.';
+        putter = byId('innova-aviar');
+        putterNote = 'Soft touch approach inside 150 ft that settles flat, plus Circle 1/2 chains.';
+      }
+
+      return [
+        { slotLabel: '1. DRIVER (TEE SHOT)', disc: driver, note: driverNote, badgeColor: 'bg-[#FF2E93] text-white keep-white' },
+        { slotLabel: '2. MID-RANGE (FAIRWAY / APPROACH)', disc: midrange, note: midNote, badgeColor: 'bg-[#00F0FF] text-slate-950' },
+        { slotLabel: '3. PUTTER (GREEN / CHAINS)', disc: putter, note: putterNote, badgeColor: 'bg-[#39FF14] text-slate-950' }
+      ].filter((item) => item.disc !== null);
+    }
+
+    // INTERACTIVE 3D FLIPPABLE TRADING CARD COMPONENT (COMPACT 3-BOX BACK)
     function FlippableTradingCard({ disc, history = [], onSelectForSim, onEnlarge }) {
       const [isFlipped, setIsFlipped] = useState(false);
       const [imgError, setImgError] = useState(false);
@@ -664,10 +711,9 @@
                 </div>
               </div>
 
-              {/* BACK FACE: COMPACT 1990s IMPEL DOSSIER WITH 3 CLEAN BOXES (NO OVERLAP) */}
+              {/* BACK FACE: COMPACT 1990s IMPEL DOSSIER WITH 3 CLEAN BOXES */}
               <div className="card-3d-face card-3d-back p-3 sm:p-3.5 flex flex-col justify-between">
                 <div className="space-y-1.5">
-                  {/* Top Collector Header */}
                   <div className="flex items-center justify-between border-b border-amber-400/40 pb-1">
                     <span className="text-[10px] font-mono-tabular font-extrabold cb-gold tracking-wider">
                       {disc.cardNumber || '199X EDITION'} · {disc.orderNumber || '1010 DISCS'}
@@ -677,7 +723,6 @@
                     </span>
                   </div>
 
-                  {/* Card Title & Specs */}
                   <div>
                     <h4 className="font-display text-sm sm:text-base font-black cb-white leading-tight">
                       {disc.brand} {disc.plastic} {disc.name}
@@ -687,7 +732,6 @@
                     </div>
                   </div>
 
-                  {/* Compact 2x2 Impel Flight Rating Matrix (Saves Vertical Space for 3 Boxes) */}
                   <div className="bg-slate-950/90 px-2.5 py-1.5 rounded-lg border border-slate-700 space-y-1">
                     <div className="flex items-center justify-between text-[9px] font-mono-tabular font-extrabold">
                       <span className="cb-muted">FLIGHT RATING MATRIX</span>
@@ -713,19 +757,16 @@
 
                   {/* 3 STACKED DOSSIER & TRANSCRIPT STATS BOXES */}
                   <div className="space-y-1.5 text-[10.5px] leading-snug">
-                    {/* BOX 1: MOLD & FLIGHT DOSSIER */}
                     <div className="bg-slate-950/75 p-2 rounded-lg border border-slate-700/80">
                       <strong className="cb-gold uppercase text-[9px] font-extrabold block">Mold & Flight Dossier:</strong>
                       <span className="cb-light block">{disc.moldAndFlight}</span>
                     </div>
 
-                    {/* BOX 2: ON-COURSE STRATEGY */}
                     <div className="bg-slate-950/75 p-2 rounded-lg border border-slate-700/80">
                       <strong className="cb-cyan uppercase text-[9px] font-extrabold block">On-Course Strategy:</strong>
                       <span className="cb-light block">{disc.courseStrategy}</span>
                     </div>
 
-                    {/* BOX 3: TRANSCRIPT LOG STATS (Populated from Post-Round Voice Transcripts) */}
                     <div className="bg-emerald-950/50 p-2 rounded-lg border border-emerald-500/40">
                       <div className="flex items-center justify-between">
                         <strong className="cb-lime uppercase text-[9px] font-extrabold">🎙️ Transcript Log Stats:</strong>
@@ -740,7 +781,6 @@
                   </div>
                 </div>
 
-                {/* Card Back Footer */}
                 <div className="pt-1 border-t border-amber-400/30 flex items-center justify-between text-[9px] font-extrabold">
                   <span className="cb-muted">SKU {disc.sku || '1010-DG'}</span>
                   <span className="cb-gold">🔄 Tap to Flip Front</span>
@@ -749,7 +789,6 @@
             </div>
           </div>
 
-          {/* Below-Card Action Bar */}
           <div className="flex items-center justify-between gap-1.5 px-1">
             {onSelectForSim && (
               <button
@@ -858,21 +897,12 @@
     }
 
     function recommendDiscForScenario(distanceFeet, scenario, bag) {
-      const byId = (id) => bag.find((d) => d.id === id) || null;
-      if (distanceFeet < 185) {
-        if (scenario === 'headwind') return { primary: byId('innova-pig') || bag[0], synergyAlt: byId('innova-sync'), shotCallout: 'Forehand flick or flat headwind approach — 1 glide refuses to float long; Galactic XT kills the skip.' };
-        if (scenario === 'tailwind') return { primary: byId('innova-sync') || bag[0], synergyAlt: byId('discraft-roach'), shotCallout: '175g Star Sync thrown on a smooth anhyzer pan — holds the turnover line without burning over.' };
-        if (distanceFeet <= 145) return { primary: byId('innova-aviar') || bag[0], synergyAlt: byId('discraft-roach'), shotCallout: 'Soft, lofted touch approach (100–145 ft) that settles flat right at the pole, followed by Circle 1 chains.' };
-        return { primary: byId('innova-sync') || byId('innova-aviar'), synergyAlt: byId('discraft-roach'), shotCallout: 'Full-power throwing putter tee shot straight down the pipe without wobble.' };
-      }
-      if (distanceFeet <= 240) {
-        if (scenario === 'headwind') return { primary: byId('innova-roc3') || bag[0], synergyAlt: byId('innova-pig'), shotCallout: '174g DX Roc3 — handles Kansas breeze far better than Mako3 with a dependable late left finish.' };
-        if (scenario === 'tailwind') return { primary: byId('innova-rollo') || bag[0], synergyAlt: byId('discraft-buzzz-ss'), shotCallout: '172g Star Rollo — effortless right-turning pan (RHBH), scramble patent-pending, or instant backhand roller.' };
-        return { primary: byId('innova-mako3') || bag[0], synergyAlt: byId('discraft-buzzz-ss'), shotCallout: 'Glow Mako3 [5|5|0|0] truth-teller — zero turn, zero fade down tight wooded hallways.' };
-      }
-      if (scenario === 'headwind') return { primary: byId('innova-firebird') || bag[0], synergyAlt: byId('innova-roc3'), shotCallout: '170g Champion I-Dye Firebird — 3 glide and 4 fade laugh at 30mph headwinds; power forehand or flare skip.' };
-      if (scenario === 'tailwind' || distanceFeet >= 305) return { primary: byId('innova-mamba') || bag[0], synergyAlt: byId('innova-it'), shotCallout: '152g Star Mamba — release on a steep hyzer angle; stands up, turns right, and glides forever.' };
-      return { primary: byId('innova-it') || bag[0], synergyAlt: byId('discraft-cicada'), shotCallout: '170g Halo Star IT — throw on a slight hyzer at 70% power; pops flat and glides on a tight S-curve.' };
+      const lineup = recommendThreeDiscLineup(distanceFeet, scenario, bag);
+      return {
+        primary: lineup[0]?.disc || bag[0] || null,
+        synergyAlt: lineup[1]?.disc || null,
+        shotCallout: lineup[0]?.note || ''
+      };
     }
 
     function recommendJackDisc(distanceFeet, bag) {
@@ -942,10 +972,13 @@
     }
 
     // ============================================================================
-    // VIEW 1: HOME HUB & PRE-ROUND TEE-OFF WIZARD
+    // VIEW 1: HOME HUB & PRE-ROUND TEE-OFF WIZARD (HIDES 4 CARDS WHEN WIZARD IS OPEN)
     // ============================================================================
-    function HomeHubView({ courses, bag, history, roundState, onStartConfiguredRound, onResumeLiveRound, onNavigateTab }) {
-      const [showStartWizard, setShowStartWizard] = useState(false);
+    function HomeHubView({
+      courses, bag, history, roundState,
+      showStartWizard, setShowStartWizard,
+      onStartConfiguredRound, onResumeLiveRound, onNavigateTab
+    }) {
       const [selectedCourseKey, setSelectedCourseKey] = useState(roundState.courseKey || courses[0]?.key || 'wyandotte');
       const [selectedWind, setSelectedWind] = useState(roundState.windCondition || 'calm');
       const [notesChecked, setNotesChecked] = useState(true);
@@ -969,24 +1002,123 @@
         }
       };
 
+      // When showStartWizard is true, ONLY show the Pre-Round Tee-Off Checklist (no duplicate options below!)
+      if (showStartWizard) {
+        return (
+          <div className="neon-card rounded-2xl border-2 border-[#FF2E93] p-5 space-y-5">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider accent-pink text-[#FF2E93] block">Pre-Round Tee-Off Checklist</span>
+                <h2 className="text-base sm:text-lg font-extrabold text-white">Set Up Your Round: Course, Wind & Voice Recording</h2>
+              </div>
+              <button
+                onClick={() => { setShowStartWizard(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="sub-control px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold text-slate-300"
+              >
+                ← Back to Home Hub
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-2.5">
+                <h3 className="font-extrabold text-sm text-white">1. Choose Your Course ({courses.length})</h3>
+                <div className="space-y-1.5 max-h-60 overflow-y-auto pr-1">
+                  {courses.map((c) => {
+                    const isChosen = c.key === selectedCourseKey;
+                    const dist = c.holes.reduce((s, h) => s + h.distance, 0);
+                    const parSum = c.holes.reduce((s, h) => s + h.par, 0);
+                    return (
+                      <button
+                        key={c.key}
+                        onClick={() => setSelectedCourseKey(c.key)}
+                        className={`w-full text-left p-2.5 rounded-xl border-2 transition-all flex items-center justify-between ${
+                          isChosen ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93]' : 'sub-control text-white border-slate-700'
+                        }`}
+                      >
+                        <div className="truncate pr-2">
+                          <div className={`font-bold text-xs sm:text-sm truncate ${isChosen ? 'keep-white text-white' : 'text-white'}`}>{c.name}</div>
+                          <div className={`text-[11px] ${isChosen ? 'keep-white text-white/90' : 'text-slate-400'}`}>{c.location} · {c.totalHoles}H · Par {parSum} ({dist.toLocaleString()} ft)</div>
+                        </div>
+                        {isChosen && <span className="keep-white text-white font-black text-xs">✓</span>}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-2.5">
+                <h3 className="font-extrabold text-sm text-white">2. Select Today's Wind</h3>
+                <div className="space-y-2">
+                  {[
+                    { id: 'calm', title: '☀️ Calm / Straight Tunnel', desc: '1. Halo IT / Mamba · 2. Glow Mako3 · 3. Star Aviar' },
+                    { id: 'headwind', title: '💨 Headwind / Gusty Breeze', desc: '1. Champ Firebird · 2. DX Roc3 · 3. Galactic XT Pig' },
+                    { id: 'tailwind', title: '🍃 Tailwind / Pushing Breeze', desc: '1. 152g Star Mamba · 2. Star Rollo · 3. Star Sync' }
+                  ].map((w) => {
+                    const isSelected = selectedWind === w.id;
+                    return (
+                      <button
+                        key={w.id}
+                        onClick={() => setSelectedWind(w.id)}
+                        className={`w-full text-left p-3 rounded-xl border-2 transition-all ${
+                          isSelected ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93]' : 'sub-control text-white border-slate-700'
+                        }`}
+                      >
+                        <div className={`font-bold text-xs sm:text-sm flex justify-between ${isSelected ? 'keep-white text-white' : 'text-white'}`}>
+                          <span>{w.title}</span>{isSelected && <span className="keep-white">✓</span>}
+                        </div>
+                        <p className={`text-[11px] mt-0.5 ${isSelected ? 'keep-white text-white/90' : 'text-slate-400'}`}>{w.desc}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="sub-tile p-3.5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-3">
+                <div className="space-y-2.5">
+                  <h3 className="font-extrabold text-sm text-white">3. Voice / Notes Recording!</h3>
+                  <div className="sub-control p-3 rounded-xl border border-slate-700 space-y-2">
+                    <div className="text-xs font-extrabold accent-lime text-[#39FF14]">🎙️ Pro Tip: Apple Notes Audio Record</div>
+                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                      In Apple Notes, tap the <strong>Paperclip → Record Audio</strong> to record hands-free through your earbud while switching screens! Upload your transcript after the round to populate your card stats.
+                    </p>
+                    <button onClick={handleOpenPhoneNotesShare} className="w-full py-2 px-3 rounded-lg bg-[#00F0FF] text-slate-950 font-bold text-xs">
+                      📤 Send Starter Header to Phone Notes
+                    </button>
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    setShowStartWizard(false);
+                    onStartConfiguredRound({ courseKey: selectedCourseKey, windCondition: selectedWind, voiceRecordingConfirmed: notesChecked });
+                  }}
+                  className="w-full py-3.5 px-4 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-xs sm:text-sm shadow-lg neon-border-lime active:scale-95"
+                >
+                  Tee Off on Hole #1 at {chosenCourse.name} →
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
       return (
         <div className="space-y-5">
           <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <div className="space-y-1.5 max-w-2xl">
               <div className="text-xs font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
-                Welcome to the Tee Pad · Collector Card Edition (v54)
+                Welcome to the Tee Pad · Collector Card Edition (v55)
               </div>
               <h1 className="font-display text-xl sm:text-2xl font-extrabold text-white">
                 Ready for Wyandotte County Park?
               </h1>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                 Wyandotte County Park (Veteran Baskets — 18 Holes, Par 63, 8,294 ft) is loaded! Launch your round, flip through{' '}
-                <strong className="accent-pink text-[#FF2E93]">Jeffery's 9 Holographic 3D Innova Trading Cards</strong>, or review past scorecards.
+                <strong className="accent-pink text-[#FF2E93]">Jeffery's 9 Holographic 3D Innova Trading Cards</strong>, or review past scorecards by course.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2.5 shrink-0">
               <button
-                onClick={() => setShowStartWizard(true)}
+                onClick={() => { setShowStartWizard(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 className="keep-white min-h-[46px] px-5 py-2.5 rounded-xl bg-[#FF2E93] hover:bg-[#FF2E93]/90 text-white font-bold text-sm flex items-center gap-2 shadow-lg neon-border-pink active:scale-95"
               >
                 <span>▶ Play a Round</span>
@@ -1008,106 +1140,15 @@
             </div>
           </div>
 
-          {showStartWizard && (
-            <div className="neon-card rounded-2xl border-2 border-[#FF2E93] p-5 space-y-5">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <div>
-                  <span className="text-[11px] font-extrabold uppercase tracking-wider accent-pink text-[#FF2E93] block">Pre-Round Tee-Off Checklist</span>
-                  <h2 className="text-base sm:text-lg font-extrabold text-white">Set Up Your Round: Course, Wind & Voice Recording</h2>
-                </div>
-                <button onClick={() => setShowStartWizard(false)} className="sub-control px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold text-slate-300">Close ✕</button>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-2.5">
-                  <h3 className="font-extrabold text-sm text-white">1. Choose Your Course ({courses.length})</h3>
-                  <div className="space-y-1.5 max-h-60 overflow-y-auto pr-1">
-                    {courses.map((c) => {
-                      const isChosen = c.key === selectedCourseKey;
-                      const dist = c.holes.reduce((s, h) => s + h.distance, 0);
-                      const parSum = c.holes.reduce((s, h) => s + h.par, 0);
-                      return (
-                        <button
-                          key={c.key}
-                          onClick={() => setSelectedCourseKey(c.key)}
-                          className={`w-full text-left p-2.5 rounded-xl border-2 transition-all flex items-center justify-between ${
-                            isChosen ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93]' : 'sub-control text-white border-slate-700'
-                          }`}
-                        >
-                          <div className="truncate pr-2">
-                            <div className={`font-bold text-xs sm:text-sm truncate ${isChosen ? 'keep-white text-white' : 'text-white'}`}>{c.name}</div>
-                            <div className={`text-[11px] ${isChosen ? 'keep-white text-white/90' : 'text-slate-400'}`}>{c.location} · {c.totalHoles}H · Par {parSum} ({dist.toLocaleString()} ft)</div>
-                          </div>
-                          {isChosen && <span className="keep-white text-white font-black text-xs">✓</span>}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-2.5">
-                  <h3 className="font-extrabold text-sm text-white">2. Select Today's Wind</h3>
-                  <div className="space-y-2">
-                    {[
-                      { id: 'calm', title: '☀️ Calm / Straight Tunnel', desc: 'Pull Star Aviar, Star Sync, Glow Mako3 & 170g Halo Star IT.' },
-                      { id: 'headwind', title: '💨 Headwind / Gusty Breeze', desc: 'Pull 175g Galactic XT Pig, 174g DX Roc3 & 170g Champ Firebird.' },
-                      { id: 'tailwind', title: '🍃 Tailwind / Pushing Breeze', desc: 'Unleash 152g Star Mamba, 172g Star Rollo & Star Sync.' }
-                    ].map((w) => {
-                      const isSelected = selectedWind === w.id;
-                      return (
-                        <button
-                          key={w.id}
-                          onClick={() => setSelectedWind(w.id)}
-                          className={`w-full text-left p-3 rounded-xl border-2 transition-all ${
-                            isSelected ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93]' : 'sub-control text-white border-slate-700'
-                          }`}
-                        >
-                          <div className={`font-bold text-xs sm:text-sm flex justify-between ${isSelected ? 'keep-white text-white' : 'text-white'}`}>
-                            <span>{w.title}</span>{isSelected && <span className="keep-white">✓</span>}
-                          </div>
-                          <p className={`text-[11px] mt-0.5 ${isSelected ? 'keep-white text-white/90' : 'text-slate-400'}`}>{w.desc}</p>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="sub-tile p-3.5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-3">
-                  <div className="space-y-2.5">
-                    <h3 className="font-extrabold text-sm text-white">3. Voice / Notes Recording!</h3>
-                    <div className="sub-control p-3 rounded-xl border border-slate-700 space-y-2">
-                      <div className="text-xs font-extrabold accent-lime text-[#39FF14]">🎙️ Pro Tip: Apple Notes Audio Record</div>
-                      <p className="text-[11px] text-slate-300 leading-relaxed">
-                        In Apple Notes, tap the <strong>Paperclip → Record Audio</strong> to record hands-free through your earbud while switching screens! Upload your transcript after the round to populate your card stats.
-                      </p>
-                      <button onClick={handleOpenPhoneNotesShare} className="w-full py-2 px-3 rounded-lg bg-[#00F0FF] text-slate-950 font-bold text-xs">
-                        📤 Send Starter Header to Phone Notes
-                      </button>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => {
-                      onStartConfiguredRound({ courseKey: selectedCourseKey, windCondition: selectedWind, voiceRecordingConfirmed: notesChecked });
-                      setShowStartWizard(false);
-                    }}
-                    className="w-full py-3 px-4 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-xs sm:text-sm shadow-lg neon-border-lime"
-                  >
-                    Tee Off on Hole #1 at {chosenCourse.name} →
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="neon-card rounded-2xl border border-slate-800 p-5 flex flex-col justify-between space-y-3.5">
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-pink text-[#FF2E93]">1 · Live On-Course Scorecard</span>
-                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Play a Round & Flip Tee-Box Cards</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Score hole-by-hole across all {courses.length} courses (including Wyandotte County Park!) with live caddie pulls.</p>
+                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Play a Round & 3-Disc Tee-Box Caddie</h2>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Score hole-by-hole across all {courses.length} courses with 3-disc caddie recommendations (Driver, Mid-Range & Putter) on every hole.</p>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => setShowStartWizard(true)} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text-sm">Start New Round Setup</button>
+                <button onClick={() => { setShowStartWizard(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text-sm">Start New Round Setup</button>
                 <button onClick={() => onNavigateTab('live')} className="sub-control py-2.5 px-4 rounded-xl border border-slate-700 text-white font-bold text-xs sm:text-sm">Open Scorecard →</button>
               </div>
             </div>
@@ -1126,16 +1167,16 @@
 
             <div className="neon-card rounded-2xl border border-slate-800 p-5 flex flex-col justify-between space-y-3.5">
               <div>
-                <span className="text-[11px] font-extrabold uppercase tracking-wider accent-lime text-[#39FF14]">3 · Round History & Voice Logs</span>
-                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Review Round History ({history.length} Rounds)</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Browse every completed scorecard across Sar-Ko-Par, Mize, Black Hoof, Harmon, Wolf Den & Art Nine.</p>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider accent-lime text-[#39FF14]">3 · Course-Grouped Round History</span>
+                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Review History by Course ({history.length} Rounds)</h2>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Tap any course name (Sar-Ko-Par, Mize, Black Hoof, Harmon, Wolf Den, Art Nine) to expand all rounds played there.</p>
               </div>
-              <button onClick={() => onNavigateTab('history')} className="w-full py-2.5 px-4 rounded-xl bg-[#39FF14] text-slate-950 font-bold text-xs sm:text-sm">Open Round History & Transcripts →</button>
+              <button onClick={() => onNavigateTab('history')} className="w-full py-2.5 px-4 rounded-xl bg-[#39FF14] text-slate-950 font-bold text-xs sm:text-sm">Open Course History & Transcripts →</button>
             </div>
 
             <div className="neon-card rounded-2xl border border-slate-800 p-5 flex flex-col justify-between space-y-3.5">
               <div>
-                <span className="text-[11px] font-extrabold uppercase tracking-wider accent-gold text-[#FACC15]">4 · Course History & Rivalry</span>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider accent-gold text-[#FACC15]">4 · Course Records & Rivalry</span>
                 <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Course Records & Jeffery vs. Jack Stats</h2>
                 <p className="text-xs sm:text-sm text-slate-300 mt-1">Compare Personal Bests, skins won, and birdie percentages between Jeffery and Jack.</p>
               </div>
@@ -1150,7 +1191,7 @@
     }
 
     // ============================================================================
-    // VIEW 2: LIVE SCORECARD VIEW (CLEAN SCORING — NO MANUAL DISC LOGGING BUTTONS)
+    // VIEW 2: LIVE SCORECARD VIEW (3-DISC LINEUP + AUTO-SCROLL TO TOP ON NEXT HOLE)
     // ============================================================================
     function LiveScorecardView({
       roundState, setRoundState, roster, history, courses, bag,
@@ -1183,7 +1224,7 @@
       const caddyInsight = getHoleCaddyInsights(roundState.courseName, currentHole.number, history, activePlayerIds);
 
       const jefferyBag = bag.filter((d) => d.ownerId !== 'jack');
-      const caddieDecision = recommendDiscForScenario(currentHole.distance, caddieScenario, jefferyBag.length > 0 ? jefferyBag : bag);
+      const threeDiscLineup = recommendThreeDiscLineup(currentHole.distance, caddieScenario, jefferyBag.length > 0 ? jefferyBag : bag);
       const jackRecommendedDisc = recommendJackDisc(currentHole.distance, bag);
 
       const formatDuration = (secs) => {
@@ -1208,7 +1249,8 @@
       };
 
       const handleShareToPhoneNotes = async () => {
-        const template = `🎙️ ${roundState.courseName} — Hole #${currentHole.number} (${currentHole.distance}ft, Par ${currentHole.par}, Wind: ${caddieScenario.toUpperCase()})\nJeffery Pull: ${caddieDecision.primary?.name || 'Innova'} | Jack Pull: ${jackRecommendedDisc?.name || 'Discraft'}\nNotes: ${currentHole.voiceTranscript || ''}`;
+        const lineupNames = threeDiscLineup.map((item) => item.disc.name).join(' → ');
+        const template = `🎙️ ${roundState.courseName} — Hole #${currentHole.number} (${currentHole.distance}ft, Par ${currentHole.par}, Wind: ${caddieScenario.toUpperCase()})\nJeffery 3-Disc Lineup: ${lineupNames} | Jack Pull: ${jackRecommendedDisc?.name || 'Discraft'}\nNotes: ${currentHole.voiceTranscript || ''}`;
         try { await navigator.clipboard.writeText(template); } catch {}
         if (navigator.share) {
           try { await navigator.share({ title: `${roundState.courseName} — Round Voice Notes`, text: template }); } catch {}
@@ -1238,9 +1280,20 @@
         if (!timerState.running && elapsedSeconds === 0) onToggleTimer();
       };
 
-      const goToHole = (index) => {
+      // Whenever changing holes (Next Hole, Prev Hole, or Carousel), scroll back up so the new Hole & 3-Disc Recommendations are in view!
+      const goToHole = (index, scrollToHoleCard = false) => {
         const safeIdx = Math.max(0, Math.min(roundState.holes.length - 1, index));
         setRoundState((prev) => ({ ...prev, currentHoleIndex: safeIdx }));
+        setTimeout(() => {
+          if (scrollToHoleCard) {
+            const holeHeaderEl = document.getElementById('active-hole-card-top');
+            if (holeHeaderEl) {
+              holeHeaderEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              return;
+            }
+          }
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 40);
       };
 
       const clearCurrentRoundScores = () => {
@@ -1250,6 +1303,7 @@
         }));
         onResetTimer();
         setConfirmResetModal(false);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       };
 
       const liveStandings = activePlayers.map((player) => {
@@ -1269,6 +1323,7 @@
       const handleSaveRoundClick = async (syncWebhook) => {
         await onSaveFinishedRound(syncWebhook);
         setSaveConfirmBanner(syncWebhook ? 'Round + Voice Transcript saved & synced to Google Sheets!' : 'Round saved to History! Scores reset.');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         setTimeout(() => setSaveConfirmBanner(null), 5000);
       };
 
@@ -1303,7 +1358,7 @@
             </div>
           )}
 
-          {/* BIG UNSTARTED TIMER REMINDER BANNER */}
+          {/* BIG UNSTARTED TIMER REMINDER BANNER AT VERY TOP */}
           {isTimerUnstarted && (
             <div className="neon-card rounded-2xl border-2 border-[#FF2E93] p-3.5 sm:px-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg">
               <div className="flex items-center gap-3">
@@ -1428,7 +1483,7 @@
           )}
 
           {/* Hole Quick-Jump Carousel Strip */}
-          <div className="neon-card rounded-2xl border border-slate-800 p-3.5 space-y-2">
+          <div id="active-hole-card-top" className="neon-card rounded-2xl border border-slate-800 p-3.5 space-y-2 scroll-mt-20">
             <div className="flex items-center justify-between text-xs font-bold text-slate-400">
               <span>Tap Hole to Jump ({totalHolesScoredAllPlayers}/{roundState.holes.length} Completed)</span>
               <span>Date: {roundState.date}</span>
@@ -1442,7 +1497,7 @@
                 return (
                   <button
                     key={h.number}
-                    onClick={() => goToHole(idx)}
+                    onClick={() => goToHole(idx, true)}
                     className={`min-h-[44px] rounded-xl flex flex-col items-center justify-center transition-all border font-mono-tabular ${
                       isCurrent ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93] neon-border-pink' : isScored ? 'sub-control text-white border-[#00F0FF]' : 'sub-tile text-slate-400 border-slate-800'
                     }`}
@@ -1489,73 +1544,80 @@
                   </div>
                 )}
 
-                {/* TEE-BOX CADDIE PULLS (CLEAN VIEW — NO MANUAL DISC LOGGING BUTTONS) */}
-                {caddieDecision.primary && (
-                  <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-2.5">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="text-xs font-extrabold uppercase tracking-wider text-white">🎯 Tee-Box Caddie Pulls ({currentHole.distance} ft)</span>
-                      <div className="sub-control p-1 rounded-lg border border-slate-700 flex gap-1">
-                        {[
-                          { id: 'calm', label: '☀️ Calm / Tunnel' },
-                          { id: 'headwind', label: '💨 Headwind / Flick' },
-                          { id: 'tailwind', label: '🍃 Tailwind / Dogleg R' }
-                        ].map((sc) => (
-                          <button key={sc.id} onClick={() => handleSelectWindScenario(sc.id)} className={`px-2 py-1 rounded text-[11px] font-bold ${caddieScenario === sc.id ? 'keep-white bg-[#FF2E93] text-white' : 'text-slate-400'}`}>{sc.label}</button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                      {/* Jeffery's Pull with Clickable Card Thumbnail */}
-                      <div className="sub-control p-3 rounded-xl border border-slate-700 flex flex-col justify-between space-y-2">
-                        <div className="flex items-start gap-2.5">
-                          {caddieDecision.primary.cardImage && (
-                            <img
-                              src={caddieDecision.primary.cardImage}
-                              alt={caddieDecision.primary.name}
-                              onClick={() => setModalCardDisc(caddieDecision.primary)}
-                              onError={(e) => { e.target.style.display = 'none'; }}
-                              title="Tap to open 3D Flippable Card"
-                              className="w-14 h-20 object-cover rounded-lg border border-amber-400 shadow cursor-pointer shrink-0 hover:scale-105 transition-transform"
-                            />
-                          )}
-                          <div>
-                            <div className="text-[10px] font-extrabold uppercase accent-pink text-[#FF2E93]">Jeffery's Innova Pull</div>
-                            <div className="text-xs sm:text-sm font-extrabold text-white mt-0.5">
-                              {caddieDecision.primary.weightGrams ? `${caddieDecision.primary.weightGrams}g ` : ''}{caddieDecision.primary.plastic} {caddieDecision.primary.name}{' '}
-                              <span className="font-mono-tabular text-[11px] text-slate-400">[{caddieDecision.primary.speed}|{caddieDecision.primary.glide}|{caddieDecision.primary.turn}|{caddieDecision.primary.fade}]</span>
-                            </div>
-                            <p className="text-xs text-slate-300 mt-1 leading-snug">{caddieDecision.shotCallout}</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-end pt-1">
-                          <button onClick={() => setModalCardDisc(caddieDecision.primary)} className="text-[11px] font-extrabold accent-pink text-[#FF2E93] underline">
-                            🃏 Flip 3D Card →
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Jack's Pull */}
-                      {jackRecommendedDisc && (
-                        <div className="sub-control p-3 rounded-xl border border-slate-700 flex flex-col justify-between space-y-2">
-                          <div>
-                            <div className="text-[10px] font-extrabold uppercase accent-cyan text-[#00F0FF]">Jack's Discraft Pull</div>
-                            <div className="text-xs sm:text-sm font-extrabold text-white mt-0.5">
-                              {jackRecommendedDisc.weightGrams ? `${jackRecommendedDisc.weightGrams}g ` : ''}Discraft {jackRecommendedDisc.name}{' '}
-                              <span className="font-mono-tabular text-[11px] text-slate-400">[{jackRecommendedDisc.speed}|{jackRecommendedDisc.glide}|{jackRecommendedDisc.turn}|{jackRecommendedDisc.fade}]</span>
-                            </div>
-                            <p className="text-xs text-slate-300 mt-1 leading-snug">{jackRecommendedDisc.courseStrategy}</p>
-                          </div>
-                          <div className="flex items-center justify-end pt-1">
-                            {onOpenBagGuide && (
-                              <button onClick={() => onOpenBagGuide(jackRecommendedDisc.id, 'jack')} className="text-[11px] font-bold accent-cyan text-[#00F0FF] underline">Jack's Bag →</button>
-                            )}
-                          </div>
-                        </div>
-                      )}
+                {/* ALL 3 DISC RECOMMENDATIONS IN ORDER: 1. DRIVER -> 2. MID-RANGE -> 3. PUTTER */}
+                <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-white">
+                      🎯 Hole #{currentHole.number} 3-Disc Lineup ({currentHole.distance} ft)
+                    </span>
+                    <div className="sub-control p-1 rounded-lg border border-slate-700 flex gap-1">
+                      {[
+                        { id: 'calm', label: '☀️ Calm / Tunnel' },
+                        { id: 'headwind', label: '💨 Headwind / Flick' },
+                        { id: 'tailwind', label: '🍃 Tailwind / Dogleg R' }
+                      ].map((sc) => (
+                        <button key={sc.id} onClick={() => handleSelectWindScenario(sc.id)} className={`px-2 py-1 rounded text-[11px] font-bold ${caddieScenario === sc.id ? 'keep-white bg-[#FF2E93] text-white' : 'text-slate-400'}`}>{sc.label}</button>
+                      ))}
                     </div>
                   </div>
-                )}
+
+                  {/* Jeffery's 3-Card Lineup: Driver -> Mid-Range -> Putter */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    {threeDiscLineup.map((item) => (
+                      <div key={item.slotLabel} className="sub-control p-2.5 rounded-xl border border-slate-700 flex flex-col justify-between space-y-2">
+                        <div>
+                          <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${item.badgeColor}`}>
+                            {item.slotLabel}
+                          </span>
+                          <div className="flex items-start gap-2 mt-2">
+                            {item.disc.cardImage && (
+                              <img
+                                src={item.disc.cardImage}
+                                alt={item.disc.name}
+                                onClick={() => setModalCardDisc(item.disc)}
+                                onError={(e) => { e.target.style.display = 'none'; }}
+                                title="Tap to open 3D Flippable Card"
+                                className="w-12 h-16 object-cover rounded-lg border border-amber-400 shadow cursor-pointer shrink-0 hover:scale-105 transition-transform"
+                              />
+                            )}
+                            <div className="min-w-0">
+                              <div className="text-xs font-extrabold text-white leading-tight">
+                                {item.disc.weightGrams ? `${item.disc.weightGrams}g ` : ''}{item.disc.plastic} {item.disc.name}
+                              </div>
+                              <div className="font-mono-tabular text-[10px] font-bold accent-cyan text-[#00F0FF] mt-0.5">
+                                [{item.disc.speed} | {item.disc.glide} | {item.disc.turn} | {item.disc.fade}]
+                              </div>
+                            </div>
+                          </div>
+                          <p className="text-[11px] text-slate-300 mt-1.5 leading-snug">{item.note}</p>
+                        </div>
+                        <button
+                          onClick={() => setModalCardDisc(item.disc)}
+                          className="w-full py-1 px-2 rounded-lg sub-tile border border-slate-700 text-[10px] font-extrabold accent-pink text-[#FF2E93] hover:underline text-center"
+                        >
+                          🃏 Flip 3D Card →
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Jack's Discraft Lineup Bar */}
+                  {jackRecommendedDisc && (
+                    <div className="sub-control px-3 py-2 rounded-xl border border-slate-700 flex flex-wrap items-center justify-between gap-2">
+                      <div className="text-xs">
+                        <span className="font-extrabold uppercase accent-cyan text-[#00F0FF] mr-2">Jack's Discraft Lineup:</span>
+                        <span className="font-extrabold text-white">
+                          1. Driver: 170g Cicada [7|6|-1|1] · 2. Mid: 175g Buzzz SS [5|4|-2|1] · 3. Putter: 174g Roach [2|4|-1|1]
+                        </span>
+                      </div>
+                      {onOpenBagGuide && (
+                        <button onClick={() => onOpenBagGuide(jackRecommendedDisc.id, 'jack')} className="text-[11px] font-bold accent-cyan text-[#00F0FF] underline shrink-0">
+                          Jack's Bag →
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
 
                 {/* VOICE REMINDER BANNER */}
                 <div className="sub-tile p-3 rounded-xl border border-slate-800 space-y-2">
@@ -1591,7 +1653,7 @@
                 </div>
               </div>
 
-              {/* Player Touch Score Steppers (Clean — No Disc Tagging Drawer) */}
+              {/* Player Touch Score Steppers */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {activePlayers.map((player) => {
                   const score = (currentHole.scores && currentHole.scores[player.id]) || 0;
@@ -1632,13 +1694,30 @@
                 })}
               </div>
 
+              {/* Prev / Next Hole Navigation (Automatically Scrolls Back to Top of Hole Card!) */}
               <div className="neon-card rounded-2xl border border-slate-800 p-3.5 flex items-center justify-between gap-2">
-                <button disabled={roundState.currentHoleIndex === 0} onClick={() => goToHole(roundState.currentHoleIndex - 1)} className="sub-control min-h-[42px] px-4 rounded-xl border border-slate-700 disabled:opacity-40 text-white font-bold text-xs sm:text-sm">← Hole {Math.max(1, currentHole.number - 1)}</button>
+                <button
+                  disabled={roundState.currentHoleIndex === 0}
+                  onClick={() => goToHole(roundState.currentHoleIndex - 1, true)}
+                  className="sub-control min-h-[42px] px-4 rounded-xl border border-slate-700 disabled:opacity-40 text-white font-bold text-xs sm:text-sm"
+                >
+                  ← Hole {Math.max(1, currentHole.number - 1)}
+                </button>
                 <span className="text-xs sm:text-sm font-extrabold text-white">Hole {currentHole.number} of {roundState.holes.length}</span>
                 {roundState.currentHoleIndex < roundState.holes.length - 1 ? (
-                  <button onClick={() => goToHole(roundState.currentHoleIndex + 1)} className="min-h-[42px] px-5 rounded-xl bg-[#00F0FF] text-slate-950 font-extrabold text-xs sm:text-sm neon-border-cyan">Next: Hole {currentHole.number + 1} →</button>
+                  <button
+                    onClick={() => goToHole(roundState.currentHoleIndex + 1, true)}
+                    className="min-h-[42px] px-5 rounded-xl bg-[#00F0FF] text-slate-950 font-extrabold text-xs sm:text-sm neon-border-cyan active:scale-95"
+                  >
+                    Next: Hole {currentHole.number + 1} →
+                  </button>
                 ) : (
-                  <button onClick={() => handleSaveRoundClick(false)} className="min-h-[42px] px-5 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-xs sm:text-sm neon-border-lime">Finish & Save Round ✓</button>
+                  <button
+                    onClick={() => handleSaveRoundClick(false)}
+                    className="min-h-[42px] px-5 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-xs sm:text-sm neon-border-lime active:scale-95"
+                  >
+                    Finish & Save Round ✓
+                  </button>
                 )}
               </div>
             </div>
@@ -1685,7 +1764,7 @@
                     </thead>
                     <tbody className="divide-y divide-slate-800 font-mono-tabular text-white">
                       {roundState.holes.map((h, idx) => (
-                        <tr key={h.number} onClick={() => goToHole(idx)} className={`cursor-pointer ${idx === roundState.currentHoleIndex ? 'sub-tile font-extrabold' : ''}`}>
+                        <tr key={h.number} onClick={() => goToHole(idx, true)} className={`cursor-pointer ${idx === roundState.currentHoleIndex ? 'sub-tile font-extrabold' : ''}`}>
                           <td className="py-2 text-left pl-2 font-bold">#{h.number} {h.voiceTranscript ? '🎙️' : ''}</td>
                           <td className="py-2 text-slate-400">{h.distance}ft</td>
                           <td className="py-2 text-slate-400">{h.par}</td>
@@ -1745,7 +1824,6 @@
 
       return (
         <div className="space-y-5">
-          {/* FULL-SCREEN 3D CARD ZOOM MODAL */}
           {zoomedCardDisc && (
             <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4" onClick={() => setZoomedCardDisc(null)}>
               <div className="max-w-sm w-full space-y-3" onClick={(e) => e.stopPropagation()}>
@@ -1758,7 +1836,6 @@
             </div>
           )}
 
-          {/* Bag Owner Switcher Header */}
           <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-3.5">
             <div>
               <div className="text-[11px] font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
@@ -1790,7 +1867,6 @@
             </div>
           </div>
 
-          {/* 9-POCKET 3D FLIPPABLE TRADING CARD BINDER GRID */}
           <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-6 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
               <div>
@@ -1823,7 +1899,6 @@
             </div>
           </div>
 
-          {/* Adventure Pack Gear Loadout Strip */}
           <div className="neon-card rounded-2xl border border-slate-800 p-4 flex flex-wrap items-center justify-between gap-2.5">
             <span className="text-xs sm:text-sm font-extrabold text-white">🎒 Pink/Blue Adventure Pack Loadout Checklist:</span>
             <div className="flex flex-wrap gap-1.5">
@@ -1839,7 +1914,6 @@
             </div>
           </div>
 
-          {/* Interactive RHBH Flight Path Radar Simulator */}
           {selectedDisc && flightSvg && (
             <div id="flight-sim-section" className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
               <div className="lg:col-span-5 max-w-xs mx-auto w-full">
@@ -1899,12 +1973,11 @@
             </div>
           )}
 
-          {/* Course Gameplan & Hole-by-Hole Disc Pulls */}
           <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3.5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h3 className="text-base sm:text-lg font-extrabold text-white">Course Gameplan & Hole-by-Hole Disc Pulls ({activeCourse.name})</h3>
-                <p className="text-xs text-slate-400">See which mold Jeffery and Jack should pull on every hole</p>
+                <h3 className="text-base sm:text-lg font-extrabold text-white">Course Gameplan & Hole-by-Hole 3-Disc Lineup ({activeCourse.name})</h3>
+                <p className="text-xs text-slate-400">Driver → Mid-Range → Putter recommendations for every hole</p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <select value={selectedCourseKey} onChange={(e) => setSelectedCourseKey(e.target.value)} className="sub-control h-9 px-3 rounded-xl border border-slate-700 text-xs font-bold text-white">
@@ -1922,26 +1995,24 @@
                 <thead className="border-b border-slate-800 text-slate-400">
                   <tr>
                     <th className="py-2">Hole</th><th className="py-2">Par</th><th className="py-2">Distance</th>
-                    <th className="py-2">Jeffery's Innova Pull ({courseWindPreview})</th><th className="py-2">Jack's Discraft Pull</th>
+                    <th className="py-2">1. Driver</th><th className="py-2">2. Mid-Range</th><th className="py-2">3. Putter</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800 font-bold text-white">
                   {activeCourse.holes.map((h) => {
-                    const jeffRec = recommendDiscForScenario(h.distance, courseWindPreview, jefferyDiscs);
-                    const jackRec = recommendJackDisc(h.distance, bag);
+                    const lineup = recommendThreeDiscLineup(h.distance, courseWindPreview, jefferyDiscs);
                     return (
                       <tr key={h.number}>
                         <td className="py-2">Hole #{h.number}</td>
                         <td className="py-2">Par {h.par}</td>
                         <td className="py-2 font-mono-tabular">{h.distance} ft</td>
-                        <td className="py-2">
-                          {jeffRec.primary ? (
-                            <button onClick={() => setZoomedCardDisc(jeffRec.primary)} className="accent-pink text-[#FF2E93] hover:underline flex items-center gap-1">
-                              <span>🃏 {jeffRec.primary.weightGrams || ''}g {jeffRec.primary.name}</span>
+                        {lineup.map((slot) => (
+                          <td key={slot.slotLabel} className="py-2">
+                            <button onClick={() => setZoomedCardDisc(slot.disc)} className="accent-pink text-[#FF2E93] hover:underline">
+                              🃏 {slot.disc.name}
                             </button>
-                          ) : '—'}
-                        </td>
-                        <td className="py-2 accent-cyan text-[#00F0FF]">{jackRec ? `${jackRec.weightGrams || ''}g ${jackRec.name}` : '—'}</td>
+                          </td>
+                        ))}
                       </tr>
                     );
                   })}
@@ -2035,9 +2106,22 @@
     }
 
     // ============================================================================
-    // VIEW 5: COMPLETED ROUND HISTORY
+    // VIEW 5: COURSE-GROUPED ROUND HISTORY (TAP COURSE TO VIEW ROUNDS UNDERNEATH)
     // ============================================================================
     function RoundHistoryView({ history, bag, onDeleteRound, onReplayCourse, onSyncSingleRoundToWebhook }) {
+      // Group all completed rounds by courseName
+      const courseGroups = [];
+      const seenCourses = new Map();
+      for (const r of history) {
+        if (!seenCourses.has(r.courseName)) {
+          const group = { courseName: r.courseName, rounds: [] };
+          seenCourses.set(r.courseName, group);
+          courseGroups.push(group);
+        }
+        seenCourses.get(r.courseName).rounds.push(r);
+      }
+
+      const [openCourseName, setOpenCourseName] = useState(courseGroups[0]?.courseName || null);
       const [expandedRoundId, setExpandedRoundId] = useState(history[0]?.id ?? null);
       const [copiedRoundDossierId, setCopiedRoundDossierId] = useState(null);
       const [syncingId, setSyncingId] = useState(null);
@@ -2045,82 +2129,146 @@
       return (
         <div className="space-y-3.5">
           <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5">
-            <h2 className="text-lg sm:text-xl font-extrabold text-white">Completed Round Archive ({history.length})</h2>
-            <p className="text-xs sm:text-sm text-slate-400">Tap any round below to expand full hole-by-hole scorecards & NotebookLM exports</p>
+            <h2 className="text-lg sm:text-xl font-extrabold text-white">
+              Course Round Archive ({courseGroups.length} Courses · {history.length} Total Rounds)
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400">
+              Tap any course below to view the rounds played there, or expand a round for hole-by-hole scorecards
+            </p>
           </div>
 
-          {history.map((round) => {
-            const isExpanded = expandedRoundId === round.id;
-            const totalDistance = round.holes.reduce((acc, h) => acc + (h.distance || 0), 0);
+          {courseGroups.map((group) => {
+            const isCourseOpen = openCourseName === group.courseName;
+            const jPB = getCoursePersonalBest(group.courseName, 'jeffery', history);
+            const jackPB = getCoursePersonalBest(group.courseName, 'jack', history);
+
             return (
-              <div key={round.id} className="neon-card rounded-2xl border border-slate-800 overflow-hidden">
-                <div onClick={() => setExpandedRoundId(isExpanded ? null : round.id)} className="p-4 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div key={group.courseName} className="neon-card rounded-2xl border border-slate-800 overflow-hidden">
+                {/* Course Header Folder Banner */}
+                <button
+                  onClick={() => setOpenCourseName(isCourseOpen ? null : group.courseName)}
+                  className="w-full p-4 sm:p-5 text-left flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 hover:opacity-95 transition-opacity"
+                >
                   <div>
-                    <h3 className="font-extrabold text-sm sm:text-base text-white">{round.courseName} · {round.totalHoles}H (Par {round.par})</h3>
-                    <div className="text-xs text-slate-400">{round.date} · ⏱ {round.duration} · {totalDistance.toLocaleString()} ft</div>
+                    <div className="flex items-center gap-2.5">
+                      <span className="keep-white px-2.5 py-0.5 rounded-lg bg-[#FF2E93] text-white text-xs font-extrabold">
+                        {group.rounds.length} {group.rounds.length === 1 ? 'Round' : 'Rounds'}
+                      </span>
+                      <h3 className="font-display font-extrabold text-base sm:text-lg text-white">
+                        {group.courseName}
+                      </h3>
+                    </div>
+                    <div className="text-xs text-slate-400 mt-1">
+                      Last Played: {group.rounds[0]?.date} · {group.rounds[0]?.totalHoles} Holes (Par {group.rounds[0]?.par})
+                    </div>
                   </div>
+
                   <div className="flex items-center gap-4">
-                    {round.players.map((pl) => (
-                      <div key={pl.id} className="text-xs sm:text-sm font-extrabold text-white">
-                        {pl.name}: <span className="accent-cyan text-[#00F0FF]">{pl.total} ({formatRelativePar(pl.total - round.par)})</span>
-                      </div>
-                    ))}
-                    <span className="text-xs font-bold text-slate-400">{isExpanded ? '▲' : '▼'}</span>
+                    <div className="text-xs sm:text-sm font-extrabold text-white">
+                      {jPB.bestTotal !== null && (
+                        <span className="mr-3">
+                          Jeffery PB: <span className="accent-pink text-[#FF2E93]">{jPB.bestTotal} ({formatRelativePar(jPB.bestRelPar || 0)})</span>
+                        </span>
+                      )}
+                      {jackPB.bestTotal !== null && (
+                        <span>
+                          Jack PB: <span className="accent-cyan text-[#00F0FF]">{jackPB.bestTotal} ({formatRelativePar(jackPB.bestRelPar || 0)})</span>
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-sm font-extrabold text-slate-400">{isCourseOpen ? '▲' : '▼'}</span>
                   </div>
-                </div>
+                </button>
 
-                {isExpanded && (
-                  <div className="p-4 border-t border-slate-800 space-y-3.5 sub-tile">
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-center text-xs sm:text-sm font-mono-tabular">
-                        <thead>
-                          <tr className="border-b border-slate-800 text-slate-400">
-                            <th className="py-1.5 text-left">Metric</th>
-                            {round.holes.map((h) => <th key={h.number} className="py-1.5">#{h.number}</th>)}
-                            <th className="py-1.5">Total</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-800 text-white font-bold">
-                          <tr>
-                            <td className="py-1.5 text-left text-slate-400">Dist</td>
-                            {round.holes.map((h) => <td key={h.number} className="py-1.5 text-slate-400">{h.distance}</td>)}
-                            <td className="py-1.5">{totalDistance}ft</td>
-                          </tr>
-                          <tr>
-                            <td className="py-1.5 text-left text-slate-400">Par</td>
-                            {round.holes.map((h) => <td key={h.number} className="py-1.5 text-slate-400">{h.par}</td>)}
-                            <td className="py-1.5">{round.par}</td>
-                          </tr>
-                          {round.players.map((pl) => (
-                            <tr key={pl.id}>
-                              <td className="py-1.5 text-left font-extrabold">{pl.name}</td>
-                              {round.holes.map((h) => <td key={h.number} className="py-1.5 font-extrabold">{(h.scores && h.scores[pl.id]) || '—'}</td>)}
-                              <td className="py-1.5 font-extrabold accent-cyan text-[#00F0FF]">{pl.total} ({formatRelativePar(pl.total - round.par)})</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                {/* Rounds Played Underneath This Course */}
+                {isCourseOpen && (
+                  <div className="p-3.5 sm:p-4 border-t border-slate-800 sub-tile space-y-3">
+                    {group.rounds.map((round, rIdx) => {
+                      const isExpanded = expandedRoundId === round.id;
+                      const totalDistance = round.holes.reduce((acc, h) => acc + (h.distance || 0), 0);
 
-                    <div className="flex flex-wrap items-center gap-2">
-                      <button onClick={() => onReplayCourse(round)} className="px-3.5 py-2 rounded-xl bg-[#39FF14] text-slate-950 text-xs font-extrabold">▶ Play This Course Layout</button>
-                      <button
-                        onClick={async () => {
-                          const dossier = buildNotebookGeminiDossier({ courseName: round.courseName, date: round.date, windCondition: round.windCondition || 'calm', duration: round.duration, holes: round.holes, players: round.players, roundTranscript: round.roundTranscript, bag });
-                          try { await navigator.clipboard.writeText(dossier); setCopiedRoundDossierId(round.id); setTimeout(() => setCopiedRoundDossierId(null), 3000); } catch {}
-                        }}
-                        className="px-3.5 py-2 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold"
-                      >
-                        {copiedRoundDossierId === round.id ? '✓ Copied for Gemini!' : '📓 Copy for Gemini / NotebookLM'}
-                      </button>
-                      <button
-                        onClick={async () => { setSyncingId(round.id); try { await onSyncSingleRoundToWebhook(round); } finally { setSyncingId(null); } }}
-                        className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 text-xs font-bold text-white"
-                      >
-                        {syncingId === round.id ? 'Pushing...' : '☁️ Push to Google Sheet'}
-                      </button>
-                      <button onClick={() => { if (confirm('Delete this round?')) onDeleteRound(round.id); }} className="px-3 py-2 rounded-xl text-rose-500 text-xs font-bold">🗑 Delete</button>
-                    </div>
+                      return (
+                        <div key={round.id} className="sub-control rounded-xl border border-slate-700 overflow-hidden">
+                          <div
+                            onClick={() => setExpandedRoundId(isExpanded ? null : round.id)}
+                            className="p-3.5 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+                          >
+                            <div>
+                              <div className="font-extrabold text-xs sm:text-sm text-white">
+                                Round #{group.rounds.length - rIdx} — {round.date}
+                              </div>
+                              <div className="text-[11px] text-slate-400">
+                                ⏱ {round.duration} · {round.totalHoles}H (Par {round.par}) · {totalDistance.toLocaleString()} ft
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-4">
+                              {round.players.map((pl) => (
+                                <div key={pl.id} className="text-xs sm:text-sm font-extrabold text-white">
+                                  {pl.name}: <span className="accent-cyan text-[#00F0FF]">{pl.total} ({formatRelativePar(pl.total - round.par)})</span>
+                                </div>
+                              ))}
+                              <span className="text-xs font-bold text-slate-400">{isExpanded ? '▲ Hide Card' : '▼ View Card'}</span>
+                            </div>
+                          </div>
+
+                          {isExpanded && (
+                            <div className="p-3.5 border-t border-slate-700 space-y-3 bg-black/5">
+                              <div className="overflow-x-auto">
+                                <table className="w-full text-center text-xs font-mono-tabular">
+                                  <thead>
+                                    <tr className="border-b border-slate-700 text-slate-400">
+                                      <th className="py-1.5 text-left">Metric</th>
+                                      {round.holes.map((h) => <th key={h.number} className="py-1.5">#{h.number}</th>)}
+                                      <th className="py-1.5">Total</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody className="divide-y divide-slate-700 text-white font-bold">
+                                    <tr>
+                                      <td className="py-1.5 text-left text-slate-400">Dist</td>
+                                      {round.holes.map((h) => <td key={h.number} className="py-1.5 text-slate-400">{h.distance}</td>)}
+                                      <td className="py-1.5">{totalDistance}ft</td>
+                                    </tr>
+                                    <tr>
+                                      <td className="py-1.5 text-left text-slate-400">Par</td>
+                                      {round.holes.map((h) => <td key={h.number} className="py-1.5 text-slate-400">{h.par}</td>)}
+                                      <td className="py-1.5">{round.par}</td>
+                                    </tr>
+                                    {round.players.map((pl) => (
+                                      <tr key={pl.id}>
+                                        <td className="py-1.5 text-left font-extrabold">{pl.name}</td>
+                                        {round.holes.map((h) => <td key={h.number} className="py-1.5 font-extrabold">{(h.scores && h.scores[pl.id]) || '—'}</td>)}
+                                        <td className="py-1.5 font-extrabold accent-cyan text-[#00F0FF]">{pl.total} ({formatRelativePar(pl.total - round.par)})</td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              </div>
+
+                              <div className="flex flex-wrap items-center gap-2">
+                                <button onClick={() => onReplayCourse(round)} className="px-3 py-1.5 rounded-xl bg-[#39FF14] text-slate-950 text-xs font-extrabold">▶ Play This Course Layout</button>
+                                <button
+                                  onClick={async () => {
+                                    const dossier = buildNotebookGeminiDossier({ courseName: round.courseName, date: round.date, windCondition: round.windCondition || 'calm', duration: round.duration, holes: round.holes, players: round.players, roundTranscript: round.roundTranscript, bag });
+                                    try { await navigator.clipboard.writeText(dossier); setCopiedRoundDossierId(round.id); setTimeout(() => setCopiedRoundDossierId(null), 3000); } catch {}
+                                  }}
+                                  className="px-3 py-1.5 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold"
+                                >
+                                  {copiedRoundDossierId === round.id ? '✓ Copied for Gemini!' : '📓 Copy for Gemini / NotebookLM'}
+                                </button>
+                                <button
+                                  onClick={async () => { setSyncingId(round.id); try { await onSyncSingleRoundToWebhook(round); } finally { setSyncingId(null); } }}
+                                  className="sub-tile px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold text-white"
+                                >
+                                  {syncingId === round.id ? 'Pushing...' : '☁️ Push to Google Sheet'}
+                                </button>
+                                <button onClick={() => { if (confirm('Delete this round?')) onDeleteRound(round.id); }} className="px-2.5 py-1.5 rounded-xl text-rose-500 text-xs font-bold">🗑 Delete</button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </div>
@@ -2236,18 +2384,30 @@
     }
 
     // ============================================================================
-    // MAIN APP COMPONENT
+    // MAIN APP COMPONENT (AUTO-SCROLLS TO TOP ON EVERY TAB CHANGE)
     // ============================================================================
     const STORAGE_KEY = 'jj_disc_golf_v46_hub_state';
     const THEME_STORAGE_KEY = 'jj_disc_golf_bg_theme';
 
     function App() {
       const [activeTab, setActiveTab] = useState('home');
+      const [showStartWizard, setShowStartWizard] = useState(false);
       const [focusedDiscId, setFocusedDiscId] = useState(null);
       const [bagOwnerFilter, setBagOwnerFilter] = useState('jeffery');
       const [bgTheme, setBgTheme] = useState(() => localStorage.getItem(THEME_STORAGE_KEY) || 'white');
 
       useEffect(() => { try { localStorage.setItem(THEME_STORAGE_KEY, bgTheme); } catch {} }, [bgTheme]);
+
+      // Whenever activeTab changes, scroll immediately to the very top of the page!
+      useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      }, [activeTab]);
+
+      const switchTabAndScrollTop = (tabName) => {
+        if (tabName === 'home') setShowStartWizard(false);
+        setActiveTab(tabName);
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      };
 
       const [history, setHistory] = useState(() => {
         try {
@@ -2265,7 +2425,6 @@
         return INITIAL_USER_EXPORT.roster;
       });
 
-      // Automatically merge any new courses (like Wyandotte County Park!) into existing saved courses
       const [courses, setCourses] = useState(() => {
         try {
           const saved = localStorage.getItem(STORAGE_KEY);
@@ -2281,7 +2440,6 @@
         return INITIAL_COURSE_TEMPLATES;
       });
 
-      // Sync canonical card specs & transcriptStats
       const [bag, setBag] = useState(() => {
         try {
           const saved = localStorage.getItem(STORAGE_KEY);
@@ -2334,7 +2492,7 @@
       useEffect(() => {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v54', exportDate: new Date().toISOString(),
+            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v55', exportDate: new Date().toISOString(),
             history, roster, roundState, webhookUrl, timerState, courses, bag
           }));
         } catch {}
@@ -2371,6 +2529,7 @@
           holes: template.holes.map((h) => ({ number: h.number, par: h.par, distance: h.distance, scores: Object.fromEntries(activeIds.map((id) => [id, 0])) }))
         });
         handleResetTimer();
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
       };
 
       const handleStartConfiguredRound = (params) => {
@@ -2384,7 +2543,7 @@
           holes: template.holes.map((h) => ({ number: h.number, par: h.par, distance: h.distance, scores: Object.fromEntries(activeIds.map((id) => [id, 0])) }))
         });
         handleResetTimer();
-        setActiveTab('live');
+        switchTabAndScrollTop('live');
       };
 
       const handleReplayHistoricalCourse = (round) => {
@@ -2397,7 +2556,7 @@
           holes: round.holes.map((h) => ({ number: h.number, par: h.par, distance: h.distance, scores: Object.fromEntries(activeIds.map((id) => [id, 0])) }))
         });
         handleResetTimer();
-        setActiveTab('live');
+        switchTabAndScrollTop('live');
       };
 
       const syncRoundToWebhook = async (round) => {
@@ -2452,7 +2611,7 @@
       };
 
       const handleExportJsonPayload = () => ({
-        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v54', exportDate: new Date().toISOString(),
+        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v55', exportDate: new Date().toISOString(),
         history, roster, roundState, webhookUrl, timerState, courses, bag
       });
 
@@ -2483,18 +2642,18 @@
         <div className={`${themeClass} min-h-screen pb-28 transition-colors duration-200`}>
           <header className="safe-header bg-[#080B14]/95 border-b border-slate-800 px-4 sticky top-0 z-40 backdrop-blur-md shadow-md">
             <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-              <a href="#home" onClick={(e) => { e.preventDefault(); setActiveTab('home'); }} className="font-display text-base sm:text-lg font-extrabold tracking-normal whitespace-nowrap shrink-0 text-white">
+              <a href="#home" onClick={(e) => { e.preventDefault(); switchTabAndScrollTop('home'); }} className="font-display text-base sm:text-lg font-extrabold tracking-normal whitespace-nowrap shrink-0 text-white">
                 Jeffery & <span className="text-[#FF2E93]">Jack</span> Disc Golf
               </a>
 
               <nav className="hidden md:flex items-center gap-6 text-xs sm:text-sm font-bold text-slate-300">
-                <button onClick={() => setActiveTab('home')} className={`py-1 border-b-2 ${activeTab === 'home' ? 'border-[#39FF14] text-[#39FF14]' : 'border-transparent hover:text-white'}`}>Home Hub</button>
-                <button onClick={() => setActiveTab('live')} className={`py-1 border-b-2 ${activeTab === 'live' ? 'border-[#FF2E93] text-[#FF2E93]' : 'border-transparent hover:text-white'}`}>Live Scorecard</button>
-                <button onClick={() => setActiveTab('courses')} className={`py-1 border-b-2 ${activeTab === 'courses' ? 'border-[#00F0FF] text-[#00F0FF]' : 'border-transparent hover:text-white'}`}>3D Cards & Flight Lab</button>
-                <button onClick={() => setActiveTab('history')} className={`py-1 border-b-2 ${activeTab === 'history' || activeTab === 'rivalry' ? 'border-[#FACC15] text-[#FACC15]' : 'border-transparent hover:text-white'}`}>Round & Course History</button>
+                <button onClick={() => switchTabAndScrollTop('home')} className={`py-1 border-b-2 ${activeTab === 'home' ? 'border-[#39FF14] text-[#39FF14]' : 'border-transparent hover:text-white'}`}>Home Hub</button>
+                <button onClick={() => switchTabAndScrollTop('live')} className={`py-1 border-b-2 ${activeTab === 'live' ? 'border-[#FF2E93] text-[#FF2E93]' : 'border-transparent hover:text-white'}`}>Live Scorecard</button>
+                <button onClick={() => switchTabAndScrollTop('courses')} className={`py-1 border-b-2 ${activeTab === 'courses' ? 'border-[#00F0FF] text-[#00F0FF]' : 'border-transparent hover:text-white'}`}>3D Cards & Flight Lab</button>
+                <button onClick={() => switchTabAndScrollTop('history')} className={`py-1 border-b-2 ${activeTab === 'history' || activeTab === 'rivalry' ? 'border-[#FACC15] text-[#FACC15]' : 'border-transparent hover:text-white'}`}>Round & Course History</button>
               </nav>
 
-              <button onClick={() => setActiveTab('sync')} className={`px-3.5 py-1.5 text-xs font-extrabold rounded-xl shrink-0 ${activeTab === 'sync' ? 'bg-[#39FF14] text-slate-950' : 'bg-[#FF2E93] text-white'}`}>
+              <button onClick={() => switchTabAndScrollTop('sync')} className={`px-3.5 py-1.5 text-xs font-extrabold rounded-xl shrink-0 ${activeTab === 'sync' ? 'bg-[#39FF14] text-slate-950' : 'bg-[#FF2E93] text-white'}`}>
                 Data & Roster
               </button>
             </div>
@@ -2524,9 +2683,10 @@
             {activeTab === 'home' && (
               <HomeHubView
                 courses={courses} bag={bag} history={history} roundState={roundState}
+                showStartWizard={showStartWizard} setShowStartWizard={setShowStartWizard}
                 onStartConfiguredRound={handleStartConfiguredRound}
-                onResumeLiveRound={() => setActiveTab('live')}
-                onNavigateTab={(tab, ownerFilter) => { if (ownerFilter) setBagOwnerFilter(ownerFilter); setActiveTab(tab); }}
+                onResumeLiveRound={() => switchTabAndScrollTop('live')}
+                onNavigateTab={(tab, ownerFilter) => { if (ownerFilter) setBagOwnerFilter(ownerFilter); switchTabAndScrollTop(tab); }}
               />
             )}
 
@@ -2535,14 +2695,14 @@
                 roundState={roundState} setRoundState={setRoundState} roster={roster} history={history} courses={courses} bag={bag}
                 timerState={timerState} elapsedSeconds={elapsedSeconds} onToggleTimer={handleToggleTimer} onResetTimer={handleResetTimer}
                 onSwitchCourse={handleSwitchCourse} onSaveFinishedRound={handleSaveFinishedRound} webhookSyncStatus={webhookSyncStatus}
-                onOpenBagGuide={(discId, ownerFilter) => { if (discId) setFocusedDiscId(discId); if (ownerFilter) setBagOwnerFilter(ownerFilter); setActiveTab('courses'); }}
+                onOpenBagGuide={(discId, ownerFilter) => { if (discId) setFocusedDiscId(discId); if (ownerFilter) setBagOwnerFilter(ownerFilter); switchTabAndScrollTop('courses'); }}
               />
             )}
 
             {activeTab === 'courses' && (
               <CoursesAndBagView
                 courses={courses} setCourses={setCourses} bag={bag} setBag={setBag} history={history} roster={roster}
-                onStartRoundAtCourse={(courseKey) => { handleSwitchCourse(courseKey); setActiveTab('live'); }}
+                onStartRoundAtCourse={(courseKey) => { handleSwitchCourse(courseKey); switchTabAndScrollTop('live'); }}
                 initialSelectedDiscId={focusedDiscId} initialBagOwnerFilter={bagOwnerFilter}
               />
             )}
@@ -2550,7 +2710,7 @@
             {activeTab === 'rivalry' && (
               <div className="space-y-4">
                 <div className="flex justify-end">
-                  <button onClick={() => setActiveTab('history')} className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 text-xs font-extrabold text-white">Switch to Completed Round Scorecards →</button>
+                  <button onClick={() => switchTabAndScrollTop('history')} className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 text-xs font-extrabold text-white">Switch to Course-Grouped Scorecards →</button>
                 </div>
                 <RivalryAnalyticsView history={history} roster={roster} />
               </div>
@@ -2559,7 +2719,7 @@
             {activeTab === 'history' && (
               <div className="space-y-4">
                 <div className="flex justify-end">
-                  <button onClick={() => setActiveTab('rivalry')} className="px-3.5 py-2 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold">View Course Records & Jeffery vs. Jack Rivalry Stats →</button>
+                  <button onClick={() => switchTabAndScrollTop('rivalry')} className="px-3.5 py-2 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold">View Course Records & Jeffery vs. Jack Rivalry Stats →</button>
                 </div>
                 <RoundHistoryView
                   history={history} roster={roster} bag={bag}
@@ -2589,7 +2749,7 @@
             ].map((item) => {
               const isActive = activeTab === item.id;
               return (
-                <button key={item.id} onClick={() => setActiveTab(item.id)} className={`min-h-[52px] flex flex-col items-center justify-center text-[11px] transition-colors ${isActive ? `${item.color} font-extrabold` : 'text-slate-300'}`}>
+                <button key={item.id} onClick={() => switchTabAndScrollTop(item.id)} className={`min-h-[52px] flex flex-col items-center justify-center text-[11px] transition-colors ${isActive ? `${item.color} font-extrabold` : 'text-slate-300'}`}>
                   <span className="text-base leading-none mb-0.5">{item.icon}</span>
                   <span>{item.label}</span>
                 </button>
