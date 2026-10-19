@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Jeffery & Jack Disc Golf Scorecard (v62 Collector Edition)</title>
+  <title>Jeffery & Jack Disc Golf Scorecard (v63 Collector Edition)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -463,7 +463,7 @@
     ];
 
     const INITIAL_USER_EXPORT = {
-      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v62', exportDate: '2026-10-18T23:15:00.000Z',
+      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v63', exportDate: '2026-10-18T23:30:00.000Z',
       history: [
         {
           id: 1792350000000,
@@ -611,18 +611,33 @@
           number: h.number, par: h.par, distance: h.distance, scores: { jeffery: 0, jack: 0 }
         }))
       },
-      webhookUrl: 'https://script.google.com/macros/s/AKfycbwWalOtBF_RZnmjU315HjHXIIxMGjO4-fiagtxq5u5MBIbxUjaaSZUeQekI0k3yZzCj/exec',
       timerState: { running: false, startTime: null, accumulatedMs: 0 },
       courses: INITIAL_COURSE_TEMPLATES,
       bag: INITIAL_DISC_BAG
     };
 
     // ============================================================================
-    // ANALYTICS, PHONETIC TRANSCRIPT SCANNER, 5-WIND CADDIE & 3D CARD ENGINE
+    // ANALYTICS, SCORE CLIPBOARD FORMATTER, PHONETIC SCANNER & 3D CARD ENGINE
     // ============================================================================
     function formatRelativePar(diff) {
       if (diff === 0) return 'E';
       return diff > 0 ? `+${diff}` : `${diff}`;
+    }
+
+    function formatRoundScoresForClipboard(round) {
+      const totalDist = (round.holes || []).reduce((s, h) => s + (h.distance || 0), 0);
+      const playerLine = (round.players || [])
+        .map((p) => `${p.name}: ${p.total} (${formatRelativePar(p.total - round.par)})`)
+        .join(' | ');
+      const holeLines = (round.holes || [])
+        .map((h) => {
+          const pScores = (round.players || [])
+            .map((p) => `${p.name} ${(h.scores && h.scores[p.id]) || '-'}`)
+            .join(', ');
+          return `H${h.number} (${h.distance}ft, Par ${h.par}): ${pScores}`;
+        })
+        .join('\n');
+      return `🥏 DISC GOLF ROUND SCORECARD — ${round.courseName}\nDate: ${round.date} | Duration: ${round.duration} | ${round.totalHoles} Holes (Par ${round.par}, ${totalDist.toLocaleString()} ft)\nFinal Totals: ${playerLine}\n\n${holeLines}`;
     }
 
     function getScoreTerm(score, par) {
@@ -1178,14 +1193,14 @@
           <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <div className="space-y-1.5 max-w-2xl">
               <div className="text-xs font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
-                Welcome to the Tee Pad · 12-Card Collector Edition (v62)
+                Welcome to the Tee Pad · 12-Card Collector Edition (v63)
               </div>
               <h1 className="font-display text-xl sm:text-2xl font-extrabold text-white">
-                10/18 Wyandotte Card Stats & Crosswind Caddie Live!
+                100% Self-Contained Binder & One-Tap Score Copy!
               </h1>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Your 3D card backs now feature today's Wyandotte voice-transcript stats (Mamba H17 tombstone, Rollo H17 roller, Halo IT H16 mulligan, Mako3 H18 Par 3, Jack's Purple Buzzz SS) plus{' '}
-                <strong className="accent-pink text-[#FF2E93]">Crosswind (L→R / R→L)</strong> caddie modes!
+                Your 12 Holographic 3D Cards, 17 courses, and 10 rounds are safely locked in—with one-tap{' '}
+                <strong className="accent-lime text-[#39FF14]">Log & Copy Scores</strong> at the end of every round!
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2.5 shrink-0">
@@ -1263,12 +1278,12 @@
     }
 
     // ============================================================================
-    // VIEW 2: LIVE SCORECARD VIEW (5-WIND SELECTOR + DUAL 3-CARD LINEUPS)
+    // VIEW 2: LIVE SCORECARD VIEW (ONE-TAP LOG & COPY SCORES TO CLIPBOARD)
     // ============================================================================
     function LiveScorecardView({
       roundState, setRoundState, roster, history, courses, bag,
       timerState, elapsedSeconds, onToggleTimer, onResetTimer,
-      onSwitchCourse, onSaveFinishedRound, webhookSyncStatus, onOpenBagGuide
+      onSwitchCourse, onSaveFinishedRound, onOpenBagGuide
     }) {
       const [editingHoleSpec, setEditingHoleSpec] = useState(false);
       const [caddieScenario, setCaddieScenario] = useState(roundState.windCondition || 'calm');
@@ -1382,11 +1397,15 @@
       const totalCoursePar = roundState.holes.reduce((sum, h) => sum + h.par, 0);
       const totalCourseDistance = roundState.holes.reduce((sum, h) => sum + h.distance, 0);
 
-      const handleSaveRoundClick = async (syncWebhook) => {
-        await onSaveFinishedRound(syncWebhook);
-        setSaveConfirmBanner(syncWebhook ? 'Round saved & synced to Google Sheets!' : 'Round saved to History! Scores reset.');
+      const handleSaveRoundClick = async (copyToClipboard) => {
+        await onSaveFinishedRound(copyToClipboard);
+        setSaveConfirmBanner(
+          copyToClipboard
+            ? '✓ Round saved to History & Scores copied to clipboard! Paste them into your Apple Note or Gemini chat.'
+            : '✓ Round saved to History! Scores reset for a fresh loop.'
+        );
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        setTimeout(() => setSaveConfirmBanner(null), 5000);
+        setTimeout(() => setSaveConfirmBanner(null), 6000);
       };
 
       const isTimerUnstarted = !timerState.running && elapsedSeconds === 0;
@@ -1494,9 +1513,9 @@
           </div>
 
           {saveConfirmBanner && (
-            <div className="p-3 rounded-2xl bg-[#39FF14]/20 border border-[#39FF14] text-xs sm:text-sm font-bold text-white flex justify-between">
+            <div className="p-3.5 rounded-2xl bg-[#39FF14]/20 border-2 border-[#39FF14] text-xs sm:text-sm font-bold text-white flex justify-between items-center">
               <span>{saveConfirmBanner}</span>
-              <button onClick={() => setSaveConfirmBanner(null)} className="underline ml-4">Dismiss</button>
+              <button onClick={() => setSaveConfirmBanner(null)} className="underline ml-4 shrink-0">Dismiss</button>
             </div>
           )}
 
@@ -1572,7 +1591,7 @@
                   </div>
                 )}
 
-                {/* DUAL 3-DISC CADDIE LINEUPS WITH 5-WAY WIND SELECTOR (INCLUDING CROSSWINDS!) */}
+                {/* DUAL 3-DISC CADDIE LINEUPS WITH 5-WAY WIND SELECTOR */}
                 <div className="sub-tile p-3.5 rounded-xl border border-slate-800 space-y-3.5">
                   <div className="space-y-2">
                     <span className="text-xs font-extrabold uppercase tracking-wider text-white block">
@@ -1784,10 +1803,10 @@
                   </button>
                 ) : (
                   <button
-                    onClick={() => handleSaveRoundClick(false)}
+                    onClick={() => handleSaveRoundClick(true)}
                     className="min-h-[42px] px-5 rounded-xl bg-[#39FF14] text-slate-950 font-extrabold text-xs sm:text-sm neon-border-lime active:scale-95"
                   >
-                    Finish & Save Round ✓
+                    📋 Finish, Log & Copy Scores ✓
                   </button>
                 )}
               </div>
@@ -1855,8 +1874,18 @@
                   </table>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2 pt-1.5">
-                  <button onClick={() => handleSaveRoundClick(false)} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white text-xs sm:text-sm font-extrabold neon-border-pink">💾 Log Round to History</button>
-                  <button onClick={() => handleSaveRoundClick(true)} className="flex-1 py-2.5 px-4 rounded-xl bg-[#39FF14] text-slate-950 text-xs sm:text-sm font-extrabold neon-border-lime">{webhookSyncStatus === 'syncing' ? 'Syncing...' : '☁️ Save & Sync Google Sheet'}</button>
+                  <button
+                    onClick={() => handleSaveRoundClick(false)}
+                    className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white text-xs sm:text-sm font-extrabold neon-border-pink active:scale-95"
+                  >
+                    💾 Log Round to History
+                  </button>
+                  <button
+                    onClick={() => handleSaveRoundClick(true)}
+                    className="flex-1 py-2.5 px-4 rounded-xl bg-[#39FF14] text-slate-950 text-xs sm:text-sm font-extrabold neon-border-lime active:scale-95"
+                  >
+                    📋 Log & Copy Scores
+                  </button>
                 </div>
               </div>
             </div>
@@ -2313,9 +2342,9 @@
     }
 
     // ============================================================================
-    // VIEW 5: COURSE-GROUPED ROUND HISTORY (WITH HOLE VOICE NOTES!)
+    // VIEW 5: COURSE-GROUPED ROUND HISTORY (WITH ONE-TAP COPY SCORES BUTTON!)
     // ============================================================================
-    function RoundHistoryView({ history, onDeleteRound, onReplayCourse, onSyncSingleRoundToWebhook }) {
+    function RoundHistoryView({ history, onDeleteRound, onReplayCourse }) {
       const courseGroups = [];
       const seenCourses = new Map();
       for (const r of history) {
@@ -2329,7 +2358,15 @@
 
       const [openCourseName, setOpenCourseName] = useState(courseGroups[0]?.courseName || null);
       const [expandedRoundId, setExpandedRoundId] = useState(history[0]?.id ?? null);
-      const [syncingId, setSyncingId] = useState(null);
+      const [copiedId, setCopiedId] = useState(null);
+
+      const handleCopyRoundScores = async (round) => {
+        try {
+          await navigator.clipboard.writeText(formatRoundScoresForClipboard(round));
+          setCopiedId(round.id);
+          setTimeout(() => setCopiedId(null), 3000);
+        } catch {}
+      };
 
       return (
         <div className="space-y-3.5">
@@ -2461,14 +2498,18 @@
                               )}
 
                               <div className="flex flex-wrap items-center gap-2">
-                                <button onClick={() => onReplayCourse(round)} className="px-3 py-1.5 rounded-xl bg-[#39FF14] text-slate-950 text-xs font-extrabold">▶ Play This Course Layout</button>
-                                <button
-                                  onClick={async () => { setSyncingId(round.id); try { await onSyncSingleRoundToWebhook(round); } finally { setSyncingId(null); } }}
-                                  className="sub-tile px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold text-white"
-                                >
-                                  {syncingId === round.id ? 'Pushing...' : '☁️ Push to Google Sheet'}
+                                <button onClick={() => onReplayCourse(round)} className="px-3 py-1.5 rounded-xl bg-[#39FF14] text-slate-950 text-xs font-extrabold">
+                                  ▶ Play This Course Layout
                                 </button>
-                                <button onClick={() => { if (confirm('Delete this round?')) onDeleteRound(round.id); }} className="px-2.5 py-1.5 rounded-xl text-rose-500 text-xs font-bold">🗑 Delete</button>
+                                <button
+                                  onClick={() => handleCopyRoundScores(round)}
+                                  className="px-3 py-1.5 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold"
+                                >
+                                  {copiedId === round.id ? '✓ Copied Scores!' : '📋 Copy Round Scores'}
+                                </button>
+                                <button onClick={() => { if (confirm('Delete this round?')) onDeleteRound(round.id); }} className="px-2.5 py-1.5 rounded-xl text-rose-500 text-xs font-bold">
+                                  🗑 Delete
+                                </button>
                               </div>
                             </div>
                           )}
@@ -2485,11 +2526,11 @@
     }
 
     // ============================================================================
-    // VIEW 6: SYNC, ROSTER & BACKUP
+    // VIEW 6: ROSTER & BACKUP (CLEAN SELF-CONTAINED VIEW — NO GOOGLE SHEET WEBHOOK)
     // ============================================================================
     function SyncAndRosterView({
       roster, setRoster, activePlayerIds, onToggleActivePlayer,
-      webhookUrl, setWebhookUrl, onExportJsonPayload, onImportJsonPayload, onResetToFactoryData
+      onExportJsonPayload, onImportJsonPayload, onResetToFactoryData
     }) {
       const [newPlayerName, setNewPlayerName] = useState('');
       const [newPlayerTag, setNewPlayerTag] = useState('');
@@ -2540,6 +2581,9 @@
 
           <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-3.5">
             <h2 className="text-base sm:text-lg font-extrabold text-white">JSON Data Export & Import (Phone ↔ Laptop)</h2>
+            <p className="text-xs text-slate-400">
+              Your 10 rounds, 12 collector cards, and 17 courses are baked directly into the app on GitHub. You can also download or restore a JSON snapshot anytime:
+            </p>
             <div className="flex flex-wrap gap-2.5">
               <button
                 onClick={() => {
@@ -2577,20 +2621,17 @@
                   }}
                 />
               </label>
-              <button onClick={onResetToFactoryData} className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 text-slate-400 font-bold text-xs sm:text-sm">↺ Restore Baseline Snapshot</button>
+              <button onClick={onResetToFactoryData} className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 text-slate-400 font-bold text-xs sm:text-sm">
+                ↺ Restore Baseline Snapshot
+              </button>
             </div>
-          </div>
-
-          <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 space-y-2">
-            <h2 className="text-sm sm:text-base font-extrabold text-white">Google Sheets / Drive Webhook URL</h2>
-            <input type="url" value={webhookUrl} onChange={(e) => setWebhookUrl(e.target.value)} className="sub-control w-full h-10 px-3 rounded-xl border border-slate-700 font-mono-tabular text-xs text-white" />
           </div>
         </div>
       );
     }
 
     // ============================================================================
-    // MAIN APP COMPONENT (AUTO-SYNCS 10/18 WYANDOTTE TRANSCRIPT & CARD BACK STATS)
+    // MAIN APP COMPONENT
     // ============================================================================
     const STORAGE_KEY = 'jj_disc_golf_v46_hub_state';
     const THEME_STORAGE_KEY = 'jj_disc_golf_bg_theme';
@@ -2695,14 +2736,6 @@
         return INITIAL_USER_EXPORT.roundState;
       });
 
-      const [webhookUrl, setWebhookUrl] = useState(() => {
-        try {
-          const saved = localStorage.getItem(STORAGE_KEY);
-          if (saved) { const parsed = JSON.parse(saved); if (typeof parsed.webhookUrl === 'string') return parsed.webhookUrl; }
-        } catch {}
-        return INITIAL_USER_EXPORT.webhookUrl;
-      });
-
       const [timerState, setTimerState] = useState(() => {
         try {
           const saved = localStorage.getItem(STORAGE_KEY);
@@ -2712,16 +2745,15 @@
       });
 
       const [elapsedSeconds, setElapsedSeconds] = useState(0);
-      const [webhookSyncStatus, setWebhookSyncStatus] = useState('idle');
 
       useEffect(() => {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v62', exportDate: new Date().toISOString(),
-            history, roster, roundState, webhookUrl, timerState, courses, bag
+            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v63', exportDate: new Date().toISOString(),
+            history, roster, roundState, timerState, courses, bag
           }));
         } catch {}
-      }, [history, roster, roundState, webhookUrl, timerState, courses, bag]);
+      }, [history, roster, roundState, timerState, courses, bag]);
 
       useEffect(() => {
         const computeSeconds = () => {
@@ -2784,18 +2816,7 @@
         switchTabAndScrollTop('live');
       };
 
-      const syncRoundToWebhook = async (round) => {
-        if (!webhookUrl) return;
-        setWebhookSyncStatus('syncing');
-        try {
-          await fetch(webhookUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(round) });
-          setWebhookSyncStatus('success'); setTimeout(() => setWebhookSyncStatus('idle'), 3000);
-        } catch {
-          setWebhookSyncStatus('error'); setTimeout(() => setWebhookSyncStatus('idle'), 4000);
-        }
-      };
-
-      const handleSaveFinishedRound = async (syncToWebhook) => {
+      const handleSaveFinishedRound = async (copyScoresToClipboard) => {
         const activeIds = roundState.activePlayerIds || roster.map((r) => r.id);
         const activeRoster = roster.filter((r) => activeIds.includes(r.id));
         const hrs = Math.floor(elapsedSeconds / 3600), mins = Math.floor((elapsedSeconds % 3600) / 60), secs = elapsedSeconds % 60;
@@ -2818,7 +2839,11 @@
           roundTranscript: ''
         };
         setHistory((prev) => [newHistoricalRound, ...prev]);
-        if (syncToWebhook) await syncRoundToWebhook(newHistoricalRound);
+        if (copyScoresToClipboard) {
+          try {
+            await navigator.clipboard.writeText(formatRoundScoresForClipboard(newHistoricalRound));
+          } catch {}
+        }
         setRoundState((prev) => ({
           ...prev, currentHoleIndex: 0, date: new Date().toISOString().slice(0, 10), roundTranscript: '',
           holes: prev.holes.map((h) => ({ ...h, scores: Object.fromEntries(activeIds.map((id) => [id, 0])), meta: {}, voiceTranscript: '' }))
@@ -2836,8 +2861,8 @@
       };
 
       const handleExportJsonPayload = () => ({
-        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v62', exportDate: new Date().toISOString(),
-        history, roster, roundState, webhookUrl, timerState, courses, bag
+        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v63', exportDate: new Date().toISOString(),
+        history, roster, roundState, timerState, courses, bag
       });
 
       const handleImportJsonPayload = (rawJson) => {
@@ -2847,7 +2872,6 @@
           setHistory(parsed.history);
           if (Array.isArray(parsed.roster)) setRoster(parsed.roster);
           if (parsed.roundState && Array.isArray(parsed.roundState.holes)) setRoundState(parsed.roundState);
-          if (typeof parsed.webhookUrl === 'string') setWebhookUrl(parsed.webhookUrl);
           if (Array.isArray(parsed.courses)) setCourses(parsed.courses);
           return { ok: true, message: `Successfully imported ${parsed.history.length} rounds into your scorecard!` };
         } catch {
@@ -2857,7 +2881,7 @@
 
       const handleResetToFactoryData = () => {
         setHistory(INITIAL_USER_EXPORT.history); setRoster(INITIAL_USER_EXPORT.roster);
-        setRoundState(INITIAL_USER_EXPORT.roundState); setWebhookUrl(INITIAL_USER_EXPORT.webhookUrl);
+        setRoundState(INITIAL_USER_EXPORT.roundState);
         setCourses(INITIAL_COURSE_TEMPLATES); setBag(INITIAL_DISC_BAG); handleResetTimer();
       };
 
@@ -2919,7 +2943,7 @@
               <LiveScorecardView
                 roundState={roundState} setRoundState={setRoundState} roster={roster} history={history} courses={courses} bag={bag}
                 timerState={timerState} elapsedSeconds={elapsedSeconds} onToggleTimer={handleToggleTimer} onResetTimer={handleResetTimer}
-                onSwitchCourse={handleSwitchCourse} onSaveFinishedRound={handleSaveFinishedRound} webhookSyncStatus={webhookSyncStatus}
+                onSwitchCourse={handleSwitchCourse} onSaveFinishedRound={handleSaveFinishedRound}
                 onOpenBagGuide={(discId, ownerFilter) => { if (discId) setFocusedDiscId(discId); if (ownerFilter) setBagOwnerFilter(ownerFilter); switchTabAndScrollTop('courses'); }}
               />
             )}
@@ -2947,10 +2971,9 @@
                   <button onClick={() => switchTabAndScrollTop('rivalry')} className="px-3.5 py-2 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold">View You vs. Yourself Personal Progress Stats →</button>
                 </div>
                 <RoundHistoryView
-                  history={history} roster={roster} bag={bag}
+                  history={history}
                   onDeleteRound={(id) => setHistory((prev) => prev.filter((item) => item.id !== id))}
                   onReplayCourse={handleReplayHistoricalCourse}
-                  onSyncSingleRoundToWebhook={syncRoundToWebhook}
                 />
               </div>
             )}
@@ -2958,7 +2981,7 @@
             {activeTab === 'sync' && (
               <SyncAndRosterView
                 roster={roster} setRoster={setRoster} activePlayerIds={roundState.activePlayerIds || roster.map((r) => r.id)}
-                onToggleActivePlayer={handleToggleActivePlayer} webhookUrl={webhookUrl} setWebhookUrl={setWebhookUrl}
+                onToggleActivePlayer={handleToggleActivePlayer}
                 onExportJsonPayload={handleExportJsonPayload} onImportJsonPayload={handleImportJsonPayload} onResetToFactoryData={handleResetToFactoryData}
               />
             )}
