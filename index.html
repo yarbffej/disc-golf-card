@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>Jeffery & Jack Disc Golf Scorecard (v64 Collector Edition)</title>
+  <title>Jeffery & Jack Disc Golf Scorecard (v65 Collector Edition)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +22,12 @@
       --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
-    body {
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
       font-family: var(--font-sans);
       background-color: #151C30;
       color: #0F172A;
@@ -30,14 +35,31 @@
       letter-spacing: 0.01em;
       -webkit-font-smoothing: antialiased;
       -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
+    }
+    #root {
+      height: 100%;
+      width: 100%;
+    }
+    /* iOS Safari Fixed-Nav Immunity: Dedicated Scroll Container */
+    .app-shell {
+      height: 100dvh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .app-scroll-main {
+      flex: 1 1 0%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
     }
     .safe-header {
-      padding-top: max(calc(env(safe-area-inset-top, 0px) + 0.75rem), 0.85rem);
-      padding-bottom: 0.75rem;
+      padding-top: max(calc(env(safe-area-inset-top, 0px) + 0.65rem), 0.75rem);
+      padding-bottom: 0.65rem;
     }
     .safe-bottom-nav {
-      padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.5rem);
+      padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.45rem);
     }
     .font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
     .font-mono-tabular { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
@@ -148,7 +170,7 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useState, useEffect, useRef } = React;
 
     const INITIAL_PACK_GEAR = [
       { id: 'gear-pack', name: 'Innova Adventure Pack (Pink/Blue)', category: 'Primary Bag', orderRef: '1010 Discs', packed: true },
@@ -166,7 +188,7 @@
         idealMinFeet: 0, idealMaxFeet: 150,
         moldAndFlight: 'Foundational beadless putter with a palm-filling profile. Dead straight inside the circle with a subtle low-speed finish.',
         courseStrategy: 'Circle 1 & Circle 2 chains hunter, plus soft touch approaches (100–150 ft) that settle flat at the pole.',
-        transcriptStats: '10/19: Parked Black Hoof H1 for opening par; steady chains hunter across both rounds. 10/18: Drained Wyandotte H13 & H14 pond putt.',
+        transcriptStats: '10/20 Sar-Ko-Par: Parked 115ft H6 approach right at the pin & H5 par save. 10/19: Parked Black Hoof H1; steady chains hunter.',
         caddieScenarios: ['calm'], caddieRoleNote: 'Circle 1/2 Putt & 100–150 ft Touch Approach'
       },
       {
@@ -177,7 +199,7 @@
         idealMinFeet: 120, idealMaxFeet: 195,
         moldAndFlight: 'Low-profile Star throwing putter at max 175g weight built to handle full-power tee shots without wobbling or burning over.',
         courseStrategy: 'Dead-straight tunnel tee shots, L→R crosswind approaches, or long putts outside Circle 2 (120–195 ft).',
-        transcriptStats: '10/18 Wyandotte: Beat out Aviar on H17 long approach ("Sync is better from farther away—felt real good").',
+        transcriptStats: '10/20 Sar-Ko-Par: Hit the basket pan from 50ft out on H8 ("Sync was better for that one—rim feels distinct"). 10/18: Beat Aviar on H17 approach.',
         caddieScenarios: ['calm', 'tailwind', 'cross_lr'], caddieRoleNote: '175g Star Sync — Straight Tunnel Tee & Long Approach'
       },
       {
@@ -188,7 +210,7 @@
         idealMinFeet: 90, idealMaxFeet: 200,
         moldAndFlight: 'Thick, blunt rim featuring a recessed Thumbtrack for backhand and forehand grip. Refuses to float long in Kansas winds, dumping left.',
         courseStrategy: 'Forehand flick approaches inside 200 feet, headwind/crosswind upshots, and death putts where sailing long is OB.',
-        transcriptStats: '10/19: Carved Black Hoof H4 & H8 approaches ("Heavier, felt better from this distance"); Art Nine H5 downhill drop to secure pars.',
+        transcriptStats: '10/20 Sar-Ko-Par: Drained H4 & H9 uphill Birdie putts + H3 step-out tree save! (Note: Check stamp on H7 so you don\'t mistake it for Mako3!).',
         caddieScenarios: ['headwind', 'cross_rl'], caddieRoleNote: '175g Galactic XT Pig — Headwind & Forehand Flick Brick'
       },
       {
@@ -199,7 +221,7 @@
         idealMinFeet: 175, idealMaxFeet: 250,
         moldAndFlight: 'Wide-diameter midrange with a smooth rounded rim designed for effortless right-turning glide and instant ground rollers.',
         courseStrategy: 'Get-out-of-jail scramble disc. Ideal for awkward stances in the woods, right-turning doglegs, and easy backhand rollers.',
-        transcriptStats: '10/19: Black Hoof H9 scramble wrap around trees ("Right enough like I needed to"); Art Nine H3 wood control. 10/18 Wyandotte H17 roller MVP!',
+        transcriptStats: '10/20 Sar-Ko-Par H9 MVP: 4-finger power grip parked right-tucked pin to <10ft ("That\'s a freaking bird—beautiful disc when I need it to go right!").',
         caddieScenarios: ['tailwind'], caddieRoleNote: '172g Star Rollo — Right-Turning Dogleg, Scramble & Roller'
       },
       {
@@ -210,7 +232,7 @@
         idealMinFeet: 180, idealMaxFeet: 250,
         moldAndFlight: 'Flat-topped, wide-diameter, and beadless for a clean release. Zero turn and zero fade hold your exact release angle to the ground.',
         courseStrategy: 'Tight wooded hallways with zero room to drift left or right, flat crosswind lines, and awkward scramble angles.',
-        transcriptStats: '10/19 Art Nine: Parked Hole #2 for tap-in Birdie 2 ("That was the Mako 3 on Hole 2—that was a bird!"); pure H9 closer.',
+        transcriptStats: '10/20 Sar-Ko-Par: Escaped the terrifying H2 snake in the woods ("Play that right there—that was good!"). 10/19 Art Nine: Parked H2 for Birdie 2!',
         caddieScenarios: ['calm', 'cross_lr'], caddieRoleNote: 'Glow Mako3 — Zero-Drift Wooded Hallway Truth-Teller'
       },
       {
@@ -232,7 +254,7 @@
         idealMinFeet: 235, idealMaxFeet: 320,
         moldAndFlight: 'Rounded convex bottom wing feels as comfortable as a midrange. Thrown on a slight hyzer, pops flat and glides along a tight S-curve.',
         courseStrategy: 'Primary wooded fairway driver, effortless 70%-power placement shots, and R→L crosswind hyzer-flips.',
-        transcriptStats: '10/19 Black Hoof: Primary fairway driver on Holes 1, 2, 4, 7 ("Keep throwing the IT, get used to the IT—that was great!").',
+        transcriptStats: '10/20 Sar-Ko-Par MVP: Parked H4 gap to 5ft for Birdie ("Curved exactly how I wanted it to!"); nearly aced H3; dialed tee walk-up aim on H6!',
         caddieScenarios: ['calm', 'cross_rl'], caddieRoleNote: '170g Halo Star IT — Effortless Hyzer-Flip & Wooded Fairway Workhorse'
       },
       {
@@ -243,7 +265,7 @@
         idealMinFeet: 225, idealMaxFeet: 315,
         moldAndFlight: 'Blunt nose, flat profile, and comfortable 1.9 cm rim. In durable Champion plastic, its 3 glide and 4 fade laugh at 30 mph headwinds.',
         courseStrategy: 'Heavy headwinds, L→R crosswinds (where understable discs get lifted right), power forehands, and flare skips.',
-        transcriptStats: '10/18 Wyandotte: Best driver pull on water holes like H14 when headwinds or L→R crosswinds push Mamba off line.',
+        transcriptStats: '10/20 Sar-Ko-Par: Low headwind laser off H1 tee that skipped & rolled all the way down to 15ft for a birdie look!',
         caddieScenarios: ['headwind', 'cross_lr'], caddieRoleNote: '170g Champ Firebird — 30mph Kansas Headwind & Crosswind Fighter',
         spotterWarning: 'Spotter tip: Watch the I-Dye Multicolor pattern closely in autumn leaves!'
       },
@@ -255,7 +277,7 @@
         idealMinFeet: 275, idealMaxFeet: 400,
         moldAndFlight: 'Pairing -5 high-speed turn with a featherlight 152g Star weight creates effortless distance. Released on a hyzer, stands up and glides forever.',
         courseStrategy: 'Max-distance tailwind bombs and open Par 4s. Keep release low and holster in headwinds or water crosswinds!',
-        transcriptStats: '10/19 Black Hoof: Big H6 fairway skip for birdie look; H8 curve drive; H9 tree snag rescued with retriever claw. 10/18: H17 tombstone!',
+        transcriptStats: '10/20 Sar-Ko-Par: Crushed H8 tee shot ("Beautiful, beautiful, beautiful") & great H7 test flight ("Mamba was fantastic from there").',
         caddieScenarios: ['tailwind'], caddieRoleNote: '152g Star Mamba — Featherlight Tailwind Bomber & Uphill Cheat Code',
         spotterWarning: 'Keep safely holstered in Kansas headwinds!'
       },
@@ -321,15 +343,15 @@
       {
         key: 'sarko', name: 'Sar-Ko-Par Trails', location: 'Lenexa, KS', totalHoles: 9,
         holes: [
-          { number: 1, par: 3, distance: 138, hint: '138ft opener — 175g Star Sync or Aviar touch shot right at the pole.' },
-          { number: 2, par: 3, distance: 192, hint: '192ft slight elevation — Mako3 tunnel or 174g DX Roc3 if breezy.' },
-          { number: 3, par: 3, distance: 162, hint: '162ft straight gap — 175g Star Sync dead straight.' },
-          { number: 4, par: 3, distance: 162, hint: '162ft protected pin — Galactic XT Pig forehand flick or Sync.' },
-          { number: 5, par: 3, distance: 144, hint: '144ft ace-run — Aviar lofted approach or Galactic XT Pig to kill skip.' },
-          { number: 6, par: 3, distance: 165, hint: '165ft low canopy — 175g Star Sync or Galactic XT Pig.' },
-          { number: 7, par: 3, distance: 139, hint: '139ft short touch — Aviar or Galactic XT Pig inside 150ft.' },
-          { number: 8, par: 3, distance: 171, hint: '171ft wind-exposed green — Galactic XT Pig or DX Roc3 in headwind.' },
-          { number: 9, par: 3, distance: 141, hint: '141ft closer — Aviar or Star Sync chains run.' }
+          { number: 1, par: 3, distance: 138, hint: '138ft opener — Halo Star IT (or Champ Firebird low skip in headwind).' },
+          { number: 2, par: 3, distance: 192, hint: '192ft downhill — Mako3 or Halo IT down the gut (watch for snakes in left woods!).' },
+          { number: 3, par: 3, distance: 162, hint: '162ft straight gap — 170g Halo Star IT level release + XT Pig step-out.' },
+          { number: 4, par: 3, distance: 162, hint: '162ft birdie gap — 170g Halo Star IT level through the gap to 5ft!' },
+          { number: 5, par: 3, distance: 144, hint: '144ft ace-run — Halo Star IT right of center tree + Star Aviar chains.' },
+          { number: 6, par: 3, distance: 165, hint: '165ft low canopy — line up walk-up on tee pad with Halo Star IT + Star Aviar.' },
+          { number: 7, par: 3, distance: 139, hint: '139ft left curve — Halo Star IT or Mamba + Glow Mako3 (don\'t grab Pig by mistake!).' },
+          { number: 8, par: 3, distance: 171, hint: '171ft open green — 152g Star Mamba tee shot + 175g Star Sync approach.' },
+          { number: 9, par: 3, distance: 141, hint: '141ft uphill right pin — 172g Star Rollo 4-finger grip right-turning birdie play!' }
         ]
       },
       {
@@ -467,8 +489,32 @@
     ];
 
     const INITIAL_USER_EXPORT = {
-      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v64', exportDate: '2026-10-20T02:00:00.000Z',
+      app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v65', exportDate: '2026-10-20T19:10:00.000Z',
       history: [
+        {
+          id: 1792522000000,
+          courseName: 'Sar-Ko-Par Trails',
+          totalHoles: 9,
+          date: '2026-10-20',
+          duration: '00:22:22',
+          par: 27,
+          windCondition: 'calm',
+          roundTranscript: "10/20/26 Sar-Ko-Par Solo Lunch Round (22:22): Jeffery 28 (+1) with 2 Birdies! H1: Tested standstill Mako3, low headwind Champ Firebird rolled to 15ft, XT Pig chained out for 4. H2: Mamba left trees, saw terrifying snake in woods, Mako3 escape, Aviar hit top for 4. H3: Halo Star IT nearly aced off tree, XT Pig step-out for Par 3. H4: Halo Star IT level through the gap to 5ft, XT Pig tap-in Birdie 2! H5: Halo Star IT tree clip, Aviar Par 3. H6: Lined up walk-up on tee pad with Halo IT, 115ft Aviar approach right at pin for Par 3. H7: Halo IT & Mamba test, accidentally threw XT Pig thinking it was Mako3, 4. H8: Crushed Mamba drive, Star Sync hit pan from 50ft for Par 3. H9: 4-finger grip Star Rollo parked right-tucked pin to <10ft, uphill XT Pig putt for Birdie 2!",
+          players: [
+            { id: 'jeffery', name: 'Jeffery', tag: 'J1', total: 28 }
+          ],
+          holes: [
+            { number: 1, par: 3, distance: 138, scores: { jeffery: 4 }, voiceTranscript: 'Tested standstill Mako3; low headwind Firebird rolled to 15ft; Pig chained out for 4.' },
+            { number: 2, par: 3, distance: 192, scores: { jeffery: 4 }, voiceTranscript: 'Mamba left trees; saw terrifying snake sticking tongue out; Mako3 scramble + Aviar top band for 4.' },
+            { number: 3, par: 3, distance: 162, scores: { jeffery: 3 }, voiceTranscript: 'Halo Star IT nearly aced ("hit that tree, that would have went in!"); XT Pig step-out Par 3.' },
+            { number: 4, par: 3, distance: 162, scores: { jeffery: 2 }, voiceTranscript: 'Halo Star IT level through the gap to 5ft ("Oh my god, that was beautiful!"); XT Pig Birdie 2!' },
+            { number: 5, par: 3, distance: 144, scores: { jeffery: 3 }, voiceTranscript: 'Good flight with Halo Star IT clipped tree; Star Aviar par save 3.' },
+            { number: 6, par: 3, distance: 165, scores: { jeffery: 3 }, voiceTranscript: 'Aimed walk-up at spot on tee pad with Halo Star IT; 115ft Star Aviar parked for Par 3.' },
+            { number: 7, par: 3, distance: 139, scores: { jeffery: 4 }, voiceTranscript: 'Halo IT & Mamba test; accidentally threw XT Pig instead of Mako3 on upshot; 4.' },
+            { number: 8, par: 3, distance: 171, scores: { jeffery: 3 }, voiceTranscript: 'Beautiful Mamba drive; 175g Star Sync hit basket pan from 50ft out for Par 3.' },
+            { number: 9, par: 3, distance: 141, scores: { jeffery: 2 }, voiceTranscript: '4-finger power grip Star Rollo curved right to <10ft; uphill XT Pig putt for closing Birdie 2!' }
+          ]
+        },
         {
           id: 1792453677372,
           courseName: 'The Art Nine @ SMP',
@@ -653,15 +699,15 @@
         { id: 'jack', name: 'Jack', tag: 'J2', color: 'blue-800' }
       ],
       roundState: {
-        courseKey: 'artnine',
-        courseName: 'The Art Nine @ SMP',
+        courseKey: 'sarko',
+        courseName: 'Sar-Ko-Par Trails',
         totalHoles: 9,
         date: new Date().toISOString().slice(0, 10),
         currentHoleIndex: 0,
         activePlayerIds: ['jeffery', 'jack'],
         gameMode: 'stroke',
         windCondition: 'calm',
-        holes: INITIAL_COURSE_TEMPLATES[6].holes.map((h) => ({
+        holes: INITIAL_COURSE_TEMPLATES[1].holes.map((h) => ({
           number: h.number, par: h.par, distance: h.distance, scores: { jeffery: 0, jack: 0 }
         }))
       },
@@ -704,15 +750,15 @@
     }
 
     const DISC_PHONETIC_ALIASES = {
-      'innova-aviar': ['aviar', 'avr', '80r'],
+      'innova-aviar': ['aviar', 'avr', '80r', 'evr', 'abr'],
       'innova-sync': ['sync', 'sink'],
-      'innova-pig': ['pig'],
-      'innova-rollo': ['rollo', 'robo', 'road low'],
-      'innova-mako3': ['mako', 'make go', 'make coat', 'makeo', 'nico'],
+      'innova-pig': ['pig', 'bigot'],
+      'innova-rollo': ['rollo', 'robo', 'road low', 'roll low'],
+      'innova-mako3': ['mako', 'make go', 'make coat', 'makeo', 'nico', 'neco', 'make 03'],
       'innova-roc3': ['roc3', 'roc'],
       'innova-it': ['halo it', 'the it', 'star it'],
-      'innova-firebird': ['firebird'],
-      'innova-mamba': ['mamba', 'mama', 'tombstone', 'tomahawk'],
+      'innova-firebird': ['firebird', 'firewood'],
+      'innova-mamba': ['mamba', 'mama', 'mumba', 'bamba', 'tombstone', 'tomahawk'],
       'discraft-roach': ['roach'],
       'discraft-buzzz-ss': ['buzzz', 'very purple'],
       'discraft-cicada': ['cicada', 'tree-high']
@@ -1034,14 +1080,16 @@
     ];
 
     function HomeHubView({
-      courses, bag, history, roundState,
+      courses, bag, history, roundState, roster, onToggleActivePlayer,
       showStartWizard, setShowStartWizard,
-      onStartConfiguredRound, onResumeLiveRound, onNavigateTab
+      onStartConfiguredRound, onResumeLiveRound, onNavigateTab, scrollTop
     }) {
-      const [selectedCourseKey, setSelectedCourseKey] = useState(roundState.courseKey || courses[0]?.key || 'artnine');
+      const [selectedCourseKey, setSelectedCourseKey] = useState(roundState.courseKey || courses[1]?.key || 'sarko');
       const [selectedWind, setSelectedWind] = useState(roundState.windCondition || 'calm');
       const [copiedNotesBanner, setCopiedNotesBanner] = useState(false);
 
+      const activePlayerIds = roundState.activePlayerIds || roster.map((r) => r.id);
+      const activePlayersNames = roster.filter((r) => activePlayerIds.includes(r.id)).map((r) => r.name).join(' & ');
       const jefferyDiscs = bag.filter((d) => d.ownerId !== 'jack');
       const jackDiscs = bag.filter((d) => d.ownerId === 'jack');
       const activeHolesScored = (roundState.holes || []).filter((h) => Object.values(h.scores || {}).some((s) => s > 0)).length;
@@ -1049,7 +1097,7 @@
 
       const buildNotesAppStarterTemplate = () => {
         const today = new Date().toISOString().slice(0, 10);
-        return `🎙️ DISC GOLF ROUND VOICE LOG — ${chosenCourse.name}\nDate: ${today}\nWind Condition: ${selectedWind.toUpperCase()}\nPlayers: Jeffery (9-Disc Innova Adventure Pack) & Jack (3-Disc Discraft Lineup)\n\n--- RECORD AUDIO IN APPLE NOTES BELOW ---\nHole 1 (${chosenCourse.holes[0]?.distance || 132}ft, Par ${chosenCourse.holes[0]?.par || 3}): `;
+        return `🎙️ DISC GOLF ROUND VOICE LOG — ${chosenCourse.name}\nDate: ${today}\nWind Condition: ${selectedWind.toUpperCase()}\nPlayers: ${activePlayersNames}\n\n--- RECORD AUDIO IN APPLE NOTES BELOW ---\nHole 1 (${chosenCourse.holes[0]?.distance || 138}ft, Par ${chosenCourse.holes[0]?.par || 3}): `;
       };
 
       const handleCopyAndOpenNotes = async () => {
@@ -1070,11 +1118,38 @@
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-pink text-[#FF2E93] block">Pre-Round Tee-Off Checklist</span>
-                <h2 className="text-base sm:text-lg font-extrabold text-white">Set Up Your Round: Course, Wind & Audio Record</h2>
+                <h2 className="text-base sm:text-lg font-extrabold text-white">Set Up Your Round: Players, Course, Wind & Audio</h2>
               </div>
-              <button onClick={() => { setShowStartWizard(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="sub-control px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold text-slate-300">
+              <button onClick={() => { setShowStartWizard(false); scrollTop(); }} className="sub-control px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold text-slate-300">
                 ← Back to Home Hub
               </button>
+            </div>
+
+            {/* STEP 0: ONE-TAP WHO'S PLAYING TODAY TOGGLE */}
+            <div className="sub-tile p-3.5 rounded-xl border-2 border-[#39FF14]/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div className="text-xs sm:text-sm font-extrabold text-white">👥 Who's Playing Today? (Tap to Toggle Solo vs. Duo)</div>
+                <div className="text-[11px] text-slate-400">Tap a player to include or remove them from today's scorecard:</div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {roster.map((player) => {
+                  const isActive = activePlayerIds.includes(player.id);
+                  return (
+                    <button
+                      key={player.id}
+                      onClick={() => onToggleActivePlayer(player.id)}
+                      className={`min-h-[40px] px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold border-2 transition-all flex items-center gap-1.5 ${
+                        isActive
+                          ? 'bg-[#39FF14] text-slate-950 border-[#39FF14] shadow-md'
+                          : 'sub-control text-slate-400 border-slate-700 opacity-65'
+                      }`}
+                    >
+                      <span>{isActive ? '✓' : '＋'}</span>
+                      <span>{player.name} ({player.tag})</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -1135,7 +1210,7 @@
                 <div className="space-y-2.5">
                   <h3 className="font-extrabold text-sm sm:text-base text-white">3. Start Apple Notes Audio Record!</h3>
                   <div className="sub-control p-3.5 rounded-xl border border-slate-700 space-y-2.5">
-                    <div className="text-xs sm:text-sm font-extrabold accent-lime text-[#39FF14]">🎙️ Audio Note Tip</div>
+                    <div className="text-xs sm:text-sm font-extrabold accent-lime text-[#39FF14]">🎙️ Audio Note Tip ({activePlayersNames})</div>
                     <p className="text-xs text-slate-300 leading-relaxed">
                       Tap below to copy today's header, open Apple Notes, and tap <strong>Record Audio</strong>.
                     </p>
@@ -1167,18 +1242,18 @@
           <div className="neon-card rounded-2xl border border-slate-800 p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <div className="space-y-1.5 max-w-2xl">
               <div className="text-xs font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">
-                Welcome to the Tee Pad · 12-Card Collector Edition (v64)
+                Welcome to the Tee Pad · 12-Card Collector Edition (v65)
               </div>
               <h1 className="font-display text-xl sm:text-2xl font-extrabold text-white">
-                Oct 19 Historic Bogey-Free Rounds Locked In!
+                Oct 20 Sar-Ko-Par Solo Round, One-Tap Player Toggle & Locked Nav Bar!
               </h1>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Both October 19 rounds are baked into your permanent archive: Jack's 3-birdie turkey & all-time PB <strong className="accent-cyan text-[#00F0FF]">24 (-3)</strong> at Art Nine, plus his Black Hoof PB <strong className="accent-lime text-[#39FF14]">31 (+4)</strong>!
+                Your 10/20 solo round at Sar-Ko-Par (<strong className="accent-pink text-[#FF2E93]">28 (+1)</strong> with Birdies on H4 & H9) is locked in—plus a one-tap <strong className="accent-lime text-[#39FF14]">Solo / Duo Player Toggle</strong> right on the scorecard and a permanently locked bottom bar!
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2.5 shrink-0">
               <button
-                onClick={() => { setShowStartWizard(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                onClick={() => { setShowStartWizard(true); scrollTop(); }}
                 className="keep-white min-h-[46px] px-5 py-2.5 rounded-xl bg-[#FF2E93] hover:bg-[#FF2E93]/90 text-white font-bold text-sm flex items-center gap-2 shadow-lg neon-border-pink active:scale-95"
               >
                 <span>▶ Play a Round</span>
@@ -1204,11 +1279,11 @@
             <div className="neon-card rounded-2xl border border-slate-800 p-5 flex flex-col justify-between space-y-3.5">
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-pink text-[#FF2E93]">1 · Live On-Course Scorecard</span>
-                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Live Scorecard with In-Round Hole Memory</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">See your previous round's score and your personal best on every hole directly on the scoring card as you play.</p>
+                <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Live Scorecard with One-Tap Solo/Duo Toggle</h2>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Toggle Jack on or off in one tap for solo lunch rounds, plus see your previous score & PB on every hole.</p>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => { setShowStartWizard(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text-sm">Start New Round Setup</button>
+                <button onClick={() => { setShowStartWizard(true); scrollTop(); }} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text-sm">Start New Round Setup</button>
                 <button onClick={() => onNavigateTab('live')} className="sub-control py-2.5 px-4 rounded-xl border border-slate-700 text-white font-bold text-xs sm:text-sm">Open Scorecard →</button>
               </div>
             </div>
@@ -1217,7 +1292,7 @@
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">2 · 3D Collector Binder & Flight Lab</span>
                 <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">3D Flippable Trading Card Binder (12 Cards)</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Flip any card to see its updated October 18 & 19 transcript stats & logged mention counters in Box #3!</p>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Flip any card to see its updated 10/20 Sar-Ko-Par stats (Halo IT H4 Birdie, Rollo H9 Birdie, Mako3 H2 snake escape)!</p>
               </div>
               <div className="flex gap-2">
                 <button onClick={() => onNavigateTab('courses', 'jeffery')} className="keep-white flex-1 py-2.5 px-4 rounded-xl bg-[#FF2E93] text-white font-bold text-xs sm:text-sm">Jeffery's 3D Cards ({jefferyDiscs.length})</button>
@@ -1229,7 +1304,7 @@
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider accent-lime text-[#39FF14]">3 · Course-Grouped Round History</span>
                 <h2 className="text-base sm:text-lg font-extrabold text-white mt-0.5">Review History by Course ({history.length} Rounds)</h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">Expand Art Nine, Black Hoof, or Wyandotte to inspect hole-by-hole scorecards and voice transcript notes.</p>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1">Expand Sar-Ko-Par Trails, Art Nine, Black Hoof, or Wyandotte to inspect hole-by-hole scorecards & voice notes.</p>
               </div>
               <button onClick={() => onNavigateTab('history')} className="w-full py-2.5 px-4 rounded-xl bg-[#39FF14] text-slate-950 font-bold text-xs sm:text-sm">Open Course History →</button>
             </div>
@@ -1253,7 +1328,7 @@
     function LiveScorecardView({
       roundState, setRoundState, roster, history, courses, bag,
       timerState, elapsedSeconds, onToggleTimer, onResetTimer,
-      onSwitchCourse, onSaveFinishedRound, onOpenBagGuide
+      onSwitchCourse, onToggleActivePlayer, onSaveFinishedRound, onOpenBagGuide, scrollTop
     }) {
       const [editingHoleSpec, setEditingHoleSpec] = useState(false);
       const [caddieScenario, setCaddieScenario] = useState(roundState.windCondition || 'calm');
@@ -1273,6 +1348,7 @@
 
       const activePlayerIds = roundState.activePlayerIds || roster.map((r) => r.id);
       const activePlayers = roster.filter((r) => activePlayerIds.includes(r.id));
+      const isJackPlaying = activePlayerIds.includes('jack');
       const currentHole = (roundState.holes || [])[roundState.currentHoleIndex] || roundState.holes[0];
       const currentCourseTemplate = courses.find((c) => c.key === roundState.courseKey || c.name.toLowerCase() === roundState.courseName.toLowerCase());
       const currentHoleHint = currentCourseTemplate?.holes.find((h) => h.number === currentHole.number)?.hint;
@@ -1298,7 +1374,8 @@
 
       const handleCopyHeaderForNotes = async () => {
         const lineupNames = threeDiscLineup.map((item) => item.disc.name).join(' → ');
-        const template = `🎙️ DISC GOLF ROUND VOICE LOG — ${roundState.courseName}\nDate: ${roundState.date} · Wind: ${caddieScenario.toUpperCase()}\nHole #${currentHole.number} (${currentHole.distance}ft, Par ${currentHole.par})\nJeffery 3-Disc Lineup: ${lineupNames} | Jack 3-Disc Lineup: Cicada → Buzzz SS → Roach\n\n--- RECORD AUDIO IN APPLE NOTES BELOW ---\n`;
+        const playerNames = activePlayers.map((p) => p.name).join(' & ');
+        const template = `🎙️ DISC GOLF ROUND VOICE LOG — ${roundState.courseName}\nDate: ${roundState.date} · Wind: ${caddieScenario.toUpperCase()} · Players: ${playerNames}\nHole #${currentHole.number} (${currentHole.distance}ft, Par ${currentHole.par})\nJeffery 3-Disc Lineup: ${lineupNames}${isJackPlaying ? ' | Jack 3-Disc Lineup: Cicada → Buzzz SS → Roach' : ''}\n\n--- RECORD AUDIO IN APPLE NOTES BELOW ---\n`;
         try {
           await navigator.clipboard.writeText(template);
           setCopiedNotesConfirm(true);
@@ -1340,7 +1417,7 @@
               return;
             }
           }
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          scrollTop();
         }, 40);
       };
 
@@ -1351,7 +1428,7 @@
         }));
         onResetTimer();
         setConfirmResetModal(false);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        scrollTop();
       };
 
       const liveStandings = activePlayers.map((player) => {
@@ -1374,7 +1451,7 @@
             ? '✓ Round saved to History & scores copied to clipboard! Paste directly into chat or Apple Notes.'
             : '✓ Round saved to History! Scores reset for a fresh loop.'
         );
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        scrollTop();
         setTimeout(() => setSaveConfirmBanner(null), 6000);
       };
 
@@ -1408,7 +1485,7 @@
                 <span className="keep-white w-11 h-11 rounded-xl bg-[#FF2E93] text-white flex items-center justify-center text-xl font-extrabold shrink-0 animate-pulse">⏱️</span>
                 <div>
                   <div className="font-extrabold text-base sm:text-lg text-white">Hole #1 Tee-Off Checklist: Start Timer & Apple Notes Audio!</div>
-                  <div className="text-xs sm:text-sm text-slate-400">1. Copy header & start <strong>Record Audio</strong> in Apple Notes · 2. Tap <strong>Start Round Timer</strong> below!</div>
+                  <div className="text-xs sm:text-sm text-slate-400">1. Check who's playing below · 2. Copy header for Apple Notes · 3. Tap <strong>Start Round Timer</strong>!</div>
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1422,30 +1499,60 @@
             </div>
           )}
 
-          <div className="neon-card rounded-2xl border border-slate-800 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 flex-1">
-              <div className="flex-1 max-w-xs">
-                <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">Active Course Loop ({courses.length} Courses)</label>
-                <select value={roundState.courseKey} onChange={(e) => onSwitchCourse(e.target.value)} className="sub-control w-full h-10 px-3 rounded-xl border border-slate-700 text-white font-bold text-xs sm:text-sm">
-                  {courses.map((c) => <option key={c.key} value={c.key}>{c.name} ({c.totalHoles} Holes)</option>)}
-                </select>
+          {/* Top Course, ONE-TAP PLAYER PILLS & Oversized Timer Bar */}
+          <div className="neon-card rounded-2xl border border-slate-800 p-4 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 flex-1">
+                <div className="flex-1 max-w-xs">
+                  <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-1">Active Course Loop ({courses.length} Courses)</label>
+                  <select value={roundState.courseKey} onChange={(e) => onSwitchCourse(e.target.value)} className="sub-control w-full h-10 px-3 rounded-xl border border-slate-700 text-white font-bold text-xs sm:text-sm">
+                    {courses.map((c) => <option key={c.key} value={c.key}>{c.name} ({c.totalHoles} Holes)</option>)}
+                  </select>
+                </div>
+                <div className="text-xs sm:text-sm font-bold text-slate-300 pt-1 sm:pt-4">
+                  Par {totalCoursePar} · {totalCourseDistance.toLocaleString()} ft · Wind: <span className="uppercase font-extrabold accent-cyan text-[#00F0FF]">{caddieScenario.replace('_', ' ')}</span>
+                </div>
               </div>
-              <div className="text-xs sm:text-sm font-bold text-slate-300 pt-1 sm:pt-4">
-                Par {totalCoursePar} · {totalCourseDistance.toLocaleString()} ft · Wind: <span className="uppercase font-extrabold accent-cyan text-[#00F0FF]">{caddieScenario.replace('_', ' ')}</span>
+
+              <div className="sub-tile px-4 py-2 rounded-xl border-2 border-slate-700 flex items-center justify-between sm:justify-start gap-3">
+                <span className="font-mono-tabular text-base sm:text-lg font-extrabold text-white">⏱️ {formatDuration(elapsedSeconds)}</span>
+                <button
+                  onClick={onToggleTimer}
+                  className={`min-h-[40px] px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold active:scale-95 transition-transform ${
+                    timerState.running ? 'bg-[#FACC15] text-slate-950' : 'keep-white bg-[#FF2E93] text-white neon-border-pink'
+                  }`}
+                >
+                  {timerState.running ? '⏸ PAUSE TIMER' : '▶ START TIMER'}
+                </button>
+                <button onClick={() => setConfirmResetModal(true)} title="Reset Round" className="sub-control w-9 h-9 rounded-lg border border-slate-700 text-xs text-slate-400 font-extrabold flex items-center justify-center">↺</button>
               </div>
             </div>
 
-            <div className="sub-tile px-4 py-2 rounded-xl border-2 border-slate-700 flex items-center justify-between sm:justify-start gap-3">
-              <span className="font-mono-tabular text-base sm:text-lg font-extrabold text-white">⏱️ {formatDuration(elapsedSeconds)}</span>
-              <button
-                onClick={onToggleTimer}
-                className={`min-h-[40px] px-5 py-2 rounded-xl text-xs sm:text-sm font-extrabold active:scale-95 transition-transform ${
-                  timerState.running ? 'bg-[#FACC15] text-slate-950' : 'keep-white bg-[#FF2E93] text-white neon-border-pink'
-                }`}
-              >
-                {timerState.running ? '⏸ PAUSE TIMER' : '▶ START TIMER'}
-              </button>
-              <button onClick={() => setConfirmResetModal(true)} title="Reset Round" className="sub-control w-9 h-9 rounded-lg border border-slate-700 text-xs text-slate-400 font-extrabold flex items-center justify-center">↺</button>
+            {/* ONE-TAP WHO'S PLAYING BAR RIGHT ON THE SCORECARD */}
+            <div className="sub-tile px-3.5 py-2.5 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-extrabold text-white flex items-center gap-1.5">
+                <span>👥 Who's Playing This Round?</span>
+                <span className="text-[11px] font-normal text-slate-400">(Tap name to add/remove for Solo rounds)</span>
+              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                {roster.map((player) => {
+                  const isActive = activePlayerIds.includes(player.id);
+                  return (
+                    <button
+                      key={player.id}
+                      onClick={() => onToggleActivePlayer(player.id)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-extrabold border transition-all flex items-center gap-1.5 active:scale-95 ${
+                        isActive
+                          ? 'bg-[#39FF14] text-slate-950 border-[#39FF14]'
+                          : 'sub-control text-slate-400 border-slate-700 opacity-70'
+                      }`}
+                    >
+                      <span>{isActive ? '✓ Playing:' : '＋ Add'}</span>
+                      <span>{player.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
@@ -1466,17 +1573,18 @@
             </div>
           )}
 
-          <div id="active-hole-card-top" className="neon-card rounded-2xl border border-slate-800 p-3.5 space-y-2 scroll-mt-20">
+          <div id="active-hole-card-top" className="neon-card rounded-2xl border border-slate-800 p-3.5 space-y-2 scroll-mt-4">
             <div className="flex items-center justify-between text-xs font-bold text-slate-400">
               <span>Tap Hole to Jump ({totalHolesScoredAllPlayers}/{roundState.holes.length} Completed)</span>
-              <span>Date: {roundState.date}</span>
+              <span>{activePlayers.length === 1 ? `Solo Round (${activePlayers[0].name})` : `Duo Card (${activePlayers.map((p) => p.name).join(' & ')})`}</span>
             </div>
             <div className="grid grid-cols-9 sm:grid-cols-9 md:grid-cols-18 gap-1.5">
               {roundState.holes.map((h, idx) => {
                 const isCurrent = idx === roundState.currentHoleIndex;
                 const p1Score = (h.scores && h.scores[activePlayers[0]?.id]) || 0;
-                const p2Score = (h.scores && h.scores[activePlayers[1]?.id]) || 0;
+                const p2Score = activePlayers[1] ? ((h.scores && h.scores[activePlayers[1]?.id]) || 0) : 0;
                 const isScored = p1Score > 0 || p2Score > 0;
+                const scoreBadge = activePlayers.length === 1 ? `${p1Score || '-'}` : `${p1Score || '-'}/${p2Score || '-'}`;
                 return (
                   <button
                     key={h.number} onClick={() => goToHole(idx, true)}
@@ -1485,7 +1593,7 @@
                     }`}
                   >
                     <span className={`text-xs font-extrabold ${isCurrent ? 'keep-white text-white' : ''}`}>{h.number}</span>
-                    <span className={`text-[10px] font-semibold ${isCurrent ? 'keep-white text-white/90' : ''}`}>{isScored ? `${p1Score || '-'}/${p2Score || '-'}` : `${h.distance}'`}</span>
+                    <span className={`text-[10px] font-semibold ${isCurrent ? 'keep-white text-white/90' : ''}`}>{isScored ? scoreBadge : `${h.distance}'`}</span>
                   </button>
                 );
               })}
@@ -1505,7 +1613,7 @@
                   </div>
                   <div className="flex items-center gap-2">
                     <button onClick={() => setEditingHoleSpec(!editingHoleSpec)} className="sub-control px-3 py-1.5 rounded-xl border border-slate-700 text-xs font-bold text-white">{editingHoleSpec ? 'Done' : 'Edit Pin / Par'}</button>
-                    <button onClick={fillParForUnscored} className="px-3 py-1.5 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold">Quick Par All ({currentHole.par})</button>
+                    <button onClick={fillParForUnscored} className="px-3 py-1.5 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold">Quick Par ({currentHole.par})</button>
                   </div>
                 </div>
 
@@ -1569,7 +1677,8 @@
                     </div>
                   </div>
 
-                  {jackThreeDiscLineup.length > 0 && (
+                  {/* Automatically hides Jack's 3-Disc lineup when playing Solo */}
+                  {isJackPlaying && jackThreeDiscLineup.length > 0 && (
                     <div className="space-y-1.5 pt-2 border-t border-slate-700/70">
                       <div className="text-[11px] font-extrabold uppercase accent-cyan text-[#00F0FF]">Jack's 3-Disc Discraft Lineup (Driver → Mid-Range → Putter):</div>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -1610,8 +1719,8 @@
                 </div>
               </div>
 
-              {/* Player Touch Score Steppers with In-Round Hole Memory */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Player Touch Score Steppers with In-Round Hole Memory & Quick Remove */}
+              <div className={`grid grid-cols-1 ${activePlayers.length > 1 ? 'sm:grid-cols-2' : ''} gap-4`}>
                 {activePlayers.map((player) => {
                   const score = (currentHole.scores && currentHole.scores[player.id]) || 0;
                   const scoreTerm = getScoreTerm(score, currentHole.par);
@@ -1620,7 +1729,7 @@
 
                   return (
                     <div key={player.id} className="neon-card rounded-2xl border border-slate-800 p-4 space-y-3">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
                           <span className="keep-white w-8 h-8 rounded-xl bg-[#FF2E93] text-white font-extrabold text-xs flex items-center justify-center">{player.tag}</span>
                           <div>
@@ -1628,12 +1737,22 @@
                             <div className="text-xs font-bold text-slate-400">Round: {playerStanding?.totalStrokes || 0} ({formatRelativePar(playerStanding?.relPar || 0)})</div>
                           </div>
                         </div>
-                        <span className={`px-2.5 py-1 rounded-lg text-xs font-extrabold border ${scoreTerm.textColor} ${scoreTerm.bgColor} ${scoreTerm.borderColor}`}>
-                          {score > 0 ? `${scoreTerm.label} (${formatRelativePar(score - currentHole.par)})` : 'Unscored'}
-                        </span>
+                        <div className="flex items-center gap-1.5">
+                          <span className={`px-2.5 py-1 rounded-lg text-xs font-extrabold border ${scoreTerm.textColor} ${scoreTerm.bgColor} ${scoreTerm.borderColor}`}>
+                            {score > 0 ? `${scoreTerm.label} (${formatRelativePar(score - currentHole.par)})` : 'Unscored'}
+                          </span>
+                          {activePlayers.length > 1 && (
+                            <button
+                              onClick={() => onToggleActivePlayer(player.id)}
+                              title={`Remove ${player.name} from this round`}
+                              className="sub-control px-2 py-1 rounded-lg border border-slate-700 text-[10px] font-extrabold text-rose-500 hover:bg-rose-500/10"
+                            >
+                              ✕ Sit Out
+                            </button>
+                          )}
+                        </div>
                       </div>
 
-                      {/* IN-ROUND HOLE MEMORY BADGE */}
                       <div className="sub-control px-3 py-1.5 rounded-xl border border-slate-700 flex items-center justify-between text-xs font-bold text-slate-300">
                         <span>🎯 Hole #{currentHole.number} Memory:</span>
                         <div className="space-x-2 font-mono-tabular">
@@ -1765,7 +1884,7 @@
       const [simWind, setSimWind] = useState('calm');
       const [simRelease, setSimRelease] = useState('flat');
       const [packGear, setPackGear] = useState(INITIAL_PACK_GEAR);
-      const [selectedCourseKey, setSelectedCourseKey] = useState(courses[0]?.key || 'artnine');
+      const [selectedCourseKey, setSelectedCourseKey] = useState(courses[1]?.key || 'sarko');
       const [courseWindPreview, setCourseWindPreview] = useState('calm');
       const [zoomedCardDisc, setZoomedCardDisc] = useState(null);
 
@@ -1798,7 +1917,7 @@
           <div className="neon-card rounded-2xl border border-slate-800 p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-3.5">
             <div>
               <div className="text-[11px] font-extrabold uppercase tracking-wider accent-cyan text-[#00F0FF]">Interactive 3D Trading Card Binder & Flight Simulator</div>
-              <h2 className="text-lg sm:text-xl font-extrabold text-white">Tap Any Card Below to Flip 180° for Dossier, Strategy & Oct 19 Stats</h2>
+              <h2 className="text-lg sm:text-xl font-extrabold text-white">Tap Any Card Below to Flip 180° for Dossier, Strategy & Oct 20 Stats</h2>
             </div>
             <div className="flex flex-wrap gap-2">
               <button onClick={() => { setBagOwnerFilter('jeffery'); if (jefferyDiscs[0]) setSelectedDiscId(jefferyDiscs[0].id); }} className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold ${bagOwnerFilter === 'jeffery' ? 'keep-white bg-[#FF2E93] text-white' : 'sub-control text-slate-300'}`}>Jeffery's 9 Innova Cards ({jefferyDiscs.length})</button>
@@ -2227,7 +2346,9 @@
                         <div key={round.id} className="sub-control rounded-xl border border-slate-700 overflow-hidden">
                           <div onClick={() => setExpandedRoundId(isExpanded ? null : round.id)} className="p-3.5 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                             <div>
-                              <div className="font-extrabold text-xs sm:text-sm text-white">Round #{group.rounds.length - rIdx} — {round.date} {round.roundTranscript ? '🎙️' : ''}</div>
+                              <div className="font-extrabold text-xs sm:text-sm text-white">
+                                Round #{group.rounds.length - rIdx} — {round.date} {round.players.length === 1 ? '(Solo)' : ''} {round.roundTranscript ? '🎙️' : ''}
+                              </div>
                               <div className="text-[11px] text-slate-400">⏱ {round.duration} · {round.totalHoles}H (Par {round.par}) · {totalDistance.toLocaleString()} ft</div>
                             </div>
                             <div className="flex items-center gap-4">
@@ -2409,26 +2530,37 @@
       const [focusedDiscId, setFocusedDiscId] = useState(null);
       const [bagOwnerFilter, setBagOwnerFilter] = useState('jeffery');
       const [bgTheme, setBgTheme] = useState(() => localStorage.getItem(THEME_STORAGE_KEY) || 'white');
+      const mainScrollRef = useRef(null);
 
       useEffect(() => { try { localStorage.setItem(THEME_STORAGE_KEY, bgTheme); } catch {} }, [bgTheme]);
 
-      useEffect(() => {
+      const scrollTop = () => {
+        if (mainScrollRef.current) {
+          mainScrollRef.current.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        }
         window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-      }, [activeTab]);
+      };
 
       const switchTabAndScrollTop = (tabName) => {
         if (tabName === 'home') setShowStartWizard(false);
         setActiveTab(tabName);
-        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        if (mainScrollRef.current) {
+          mainScrollRef.current.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        }
       };
 
+      // Auto-syncs 10/20 Sar-Ko-Par Solo round and removes any accidental 2026-10-20 Jack phantom score
       const [history, setHistory] = useState(() => {
         try {
           const saved = localStorage.getItem(STORAGE_KEY);
           if (saved) {
             const parsed = JSON.parse(saved);
             if (Array.isArray(parsed.history) && parsed.history.length > 0) {
-              const merged = parsed.history.map((r) => {
+              // Filter out the accidental 2026-10-20 Sar-Ko-Par round that had Jack at 27
+              const cleaned = parsed.history.filter(
+                (r) => !(r.courseName === 'Sar-Ko-Par Trails' && r.date === '2026-10-20' && r.duration === '00:22:22')
+              );
+              const merged = cleaned.map((r) => {
                 const matchDefault = INITIAL_USER_EXPORT.history.find((dr) => dr.id === r.id);
                 return matchDefault ? { ...r, ...matchDefault } : r;
               });
@@ -2516,7 +2648,7 @@
       useEffect(() => {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v64', exportDate: new Date().toISOString(),
+            app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v65', exportDate: new Date().toISOString(),
             history, roster, roundState, timerState, courses, bag
           }));
         } catch {}
@@ -2553,7 +2685,7 @@
           holes: template.holes.map((h) => ({ number: h.number, par: h.par, distance: h.distance, scores: Object.fromEntries(activeIds.map((id) => [id, 0])) }))
         });
         handleResetTimer();
-        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        scrollTop();
       };
 
       const handleStartConfiguredRound = (params) => {
@@ -2574,7 +2706,7 @@
         const activeIds = roundState.activePlayerIds || roster.map((r) => r.id);
         const matchedTemplate = courses.find((c) => c.name.toLowerCase() === round.courseName.toLowerCase());
         setRoundState({
-          courseKey: matchedTemplate?.key || 'artnine', courseName: round.courseName, totalHoles: round.totalHoles,
+          courseKey: matchedTemplate?.key || 'sarko', courseName: round.courseName, totalHoles: round.totalHoles,
           date: new Date().toISOString().slice(0, 10), currentHoleIndex: 0, activePlayerIds: activeIds,
           gameMode: 'stroke', windCondition: round.windCondition || 'calm', roundTranscript: '',
           holes: round.holes.map((h) => ({ number: h.number, par: h.par, distance: h.distance, scores: Object.fromEntries(activeIds.map((id) => [id, 0])) }))
@@ -2583,18 +2715,24 @@
         switchTabAndScrollTop('live');
       };
 
+      // Smart save: Only saves players who are active (and ignores a player if they have 0 throws on every hole while someone else scored)
       const handleSaveFinishedRound = async (copyScoresToClipboard) => {
         const activeIds = roundState.activePlayerIds || roster.map((r) => r.id);
         const activeRoster = roster.filter((r) => activeIds.includes(r.id));
+        const playersWithAnyScore = activeRoster.filter((p) =>
+          (roundState.holes || []).some((h) => h.scores && h.scores[p.id] > 0)
+        );
+        const effectiveRoster = playersWithAnyScore.length > 0 ? playersWithAnyScore : activeRoster;
+
         const hrs = Math.floor(elapsedSeconds / 3600), mins = Math.floor((elapsedSeconds % 3600) / 60), secs = elapsedSeconds % 60;
         const durationFormatted = elapsedSeconds > 0 ? [hrs, mins, secs].map((v) => String(v).padStart(2, '0')).join(':') : '00:25:00';
         const coursePar = (roundState.holes || []).reduce((acc, h) => acc + h.par, 0);
         const finalizedHoles = roundState.holes.map((h) => {
           const nextScores = {};
-          for (const p of activeRoster) nextScores[p.id] = h.scores && h.scores[p.id] > 0 ? h.scores[p.id] : h.par;
+          for (const p of effectiveRoster) nextScores[p.id] = h.scores && h.scores[p.id] > 0 ? h.scores[p.id] : h.par;
           return { ...h, scores: nextScores };
         });
-        const playersSummary = activeRoster.map((p) => ({
+        const playersSummary = effectiveRoster.map((p) => ({
           id: p.id, name: p.name, tag: p.tag,
           total: finalizedHoles.reduce((sum, h) => sum + (h.scores[p.id] || h.par), 0)
         }));
@@ -2627,7 +2765,7 @@
       };
 
       const handleExportJsonPayload = () => ({
-        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v64', exportDate: new Date().toISOString(),
+        app: 'Jeffery & Jack Disc Golf Scorecard', version: 'v65', exportDate: new Date().toISOString(),
         history, roster, roundState, timerState, courses, bag
       });
 
@@ -2654,8 +2792,9 @@
       const themeClass = bgTheme === 'white' ? 'theme-white' : bgTheme === 'adventure' ? 'theme-adventure' : bgTheme === 'turf' ? 'theme-turf' : 'theme-midnight';
 
       return (
-        <div className={`${themeClass} min-h-screen pb-32 transition-colors duration-200`}>
-          <header className="safe-header bg-[#080B14]/95 border-b border-slate-800 px-4 sticky top-0 z-40 backdrop-blur-md shadow-md">
+        <div className={`${themeClass} app-shell transition-colors duration-200`}>
+          {/* TOP HEADER (FIXED IN FLEX SHELL) */}
+          <header className="safe-header bg-[#080B14] border-b border-slate-800 px-4 shrink-0 z-30 shadow-md">
             <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
               <a href="#home" onClick={(e) => { e.preventDefault(); switchTabAndScrollTop('home'); }} className="font-display text-base sm:text-lg font-extrabold tracking-normal whitespace-nowrap shrink-0 text-white">
                 Jeffery & <span className="text-[#FF2E93]">Jack</span> Disc Golf
@@ -2674,86 +2813,93 @@
             </div>
           </header>
 
-          <main className="max-w-7xl mx-auto px-3.5 sm:px-6 py-4 space-y-4">
-            <div className="neon-card border border-slate-800 rounded-2xl p-2.5 sm:px-4 flex flex-wrap items-center justify-between gap-2">
-              <span className="text-xs sm:text-sm font-extrabold text-white flex items-center gap-1.5"><span>🎨 Theme & Backdrop:</span></span>
-              <div className="flex flex-wrap gap-1.5">
-                {[
-                  { id: 'white', label: 'Indigo + White Tiles' },
-                  { id: 'adventure', label: 'Pink/Blue + White Tiles' },
-                  { id: 'turf', label: 'Fairway + White Tiles' },
-                  { id: 'midnight', label: 'Midnight Dark Tiles' }
-                ].map((mode) => (
-                  <button
-                    key={mode.id} onClick={() => setBgTheme(mode.id)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-extrabold border transition-all ${bgTheme === mode.id ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93] shadow-xs' : 'sub-control text-white border-slate-700'}`}
-                  >
-                    {mode.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {activeTab === 'home' && (
-              <HomeHubView
-                courses={courses} bag={bag} history={history} roundState={roundState}
-                showStartWizard={showStartWizard} setShowStartWizard={setShowStartWizard}
-                onStartConfiguredRound={handleStartConfiguredRound}
-                onResumeLiveRound={() => switchTabAndScrollTop('live')}
-                onNavigateTab={(tab, ownerFilter) => { if (ownerFilter) setBagOwnerFilter(ownerFilter); switchTabAndScrollTop(tab); }}
-              />
-            )}
-
-            {activeTab === 'live' && (
-              <LiveScorecardView
-                roundState={roundState} setRoundState={setRoundState} roster={roster} history={history} courses={courses} bag={bag}
-                timerState={timerState} elapsedSeconds={elapsedSeconds} onToggleTimer={handleToggleTimer} onResetTimer={handleResetTimer}
-                onSwitchCourse={handleSwitchCourse} onSaveFinishedRound={handleSaveFinishedRound}
-                onOpenBagGuide={(discId, ownerFilter) => { if (discId) setFocusedDiscId(discId); if (ownerFilter) setBagOwnerFilter(ownerFilter); switchTabAndScrollTop('courses'); }}
-              />
-            )}
-
-            {activeTab === 'courses' && (
-              <CoursesAndBagView
-                courses={courses} setCourses={setCourses} bag={bag} setBag={setBag} history={history} roster={roster}
-                onStartRoundAtCourse={(courseKey) => { handleSwitchCourse(courseKey); switchTabAndScrollTop('live'); }}
-                initialSelectedDiscId={focusedDiscId} initialBagOwnerFilter={bagOwnerFilter}
-              />
-            )}
-
-            {activeTab === 'rivalry' && (
-              <div className="space-y-4">
-                <div className="flex justify-end">
-                  <button onClick={() => switchTabAndScrollTop('history')} className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 text-xs font-extrabold text-white">Switch to Course-Grouped Scorecards →</button>
+          {/* DEDICATED SCROLLABLE MAIN CONTENT */}
+          <main ref={mainScrollRef} className="app-scroll-main">
+            <div className="max-w-7xl mx-auto px-3.5 sm:px-6 py-4 pb-10 space-y-4">
+              <div className="neon-card border border-slate-800 rounded-2xl p-2.5 sm:px-4 flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs sm:text-sm font-extrabold text-white flex items-center gap-1.5"><span>🎨 Theme & Backdrop:</span></span>
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    { id: 'white', label: 'Indigo + White Tiles' },
+                    { id: 'adventure', label: 'Pink/Blue + White Tiles' },
+                    { id: 'turf', label: 'Fairway + White Tiles' },
+                    { id: 'midnight', label: 'Midnight Dark Tiles' }
+                  ].map((mode) => (
+                    <button
+                      key={mode.id} onClick={() => setBgTheme(mode.id)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-extrabold border transition-all ${bgTheme === mode.id ? 'keep-white bg-[#FF2E93] text-white border-[#FF2E93] shadow-xs' : 'sub-control text-white border-slate-700'}`}
+                    >
+                      {mode.label}
+                    </button>
+                  ))}
                 </div>
-                <RivalryAnalyticsView history={history} roster={roster} />
               </div>
-            )}
 
-            {activeTab === 'history' && (
-              <div className="space-y-4">
-                <div className="flex justify-end">
-                  <button onClick={() => switchTabAndScrollTop('rivalry')} className="px-3.5 py-2 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold">View You vs. Yourself Personal Progress Stats →</button>
-                </div>
-                <RoundHistoryView
-                  history={history}
-                  onDeleteRound={(id) => setHistory((prev) => prev.filter((item) => item.id !== id))}
-                  onReplayCourse={handleReplayHistoricalCourse}
+              {activeTab === 'home' && (
+                <HomeHubView
+                  courses={courses} bag={bag} history={history} roundState={roundState}
+                  roster={roster} onToggleActivePlayer={handleToggleActivePlayer}
+                  showStartWizard={showStartWizard} setShowStartWizard={setShowStartWizard}
+                  onStartConfiguredRound={handleStartConfiguredRound}
+                  onResumeLiveRound={() => switchTabAndScrollTop('live')}
+                  onNavigateTab={(tab, ownerFilter) => { if (ownerFilter) setBagOwnerFilter(ownerFilter); switchTabAndScrollTop(tab); }}
+                  scrollTop={scrollTop}
                 />
-              </div>
-            )}
+              )}
 
-            {activeTab === 'sync' && (
-              <SyncAndRosterView
-                roster={roster} setRoster={setRoster} activePlayerIds={roundState.activePlayerIds || roster.map((r) => r.id)}
-                onToggleActivePlayer={handleToggleActivePlayer}
-                onExportJsonPayload={handleExportJsonPayload} onImportJsonPayload={handleImportJsonPayload} onResetToFactoryData={handleResetToFactoryData}
-              />
-            )}
+              {activeTab === 'live' && (
+                <LiveScorecardView
+                  roundState={roundState} setRoundState={setRoundState} roster={roster} history={history} courses={courses} bag={bag}
+                  timerState={timerState} elapsedSeconds={elapsedSeconds} onToggleTimer={handleToggleTimer} onResetTimer={handleResetTimer}
+                  onSwitchCourse={handleSwitchCourse} onToggleActivePlayer={handleToggleActivePlayer}
+                  onSaveFinishedRound={handleSaveFinishedRound}
+                  onOpenBagGuide={(discId, ownerFilter) => { if (discId) setFocusedDiscId(discId); if (ownerFilter) setBagOwnerFilter(ownerFilter); switchTabAndScrollTop('courses'); }}
+                  scrollTop={scrollTop}
+                />
+              )}
+
+              {activeTab === 'courses' && (
+                <CoursesAndBagView
+                  courses={courses} setCourses={setCourses} bag={bag} setBag={setBag} history={history} roster={roster}
+                  onStartRoundAtCourse={(courseKey) => { handleSwitchCourse(courseKey); switchTabAndScrollTop('live'); }}
+                  initialSelectedDiscId={focusedDiscId} initialBagOwnerFilter={bagOwnerFilter}
+                />
+              )}
+
+              {activeTab === 'rivalry' && (
+                <div className="space-y-4">
+                  <div className="flex justify-end">
+                    <button onClick={() => switchTabAndScrollTop('history')} className="sub-control px-3.5 py-2 rounded-xl border border-slate-700 text-xs font-extrabold text-white">Switch to Course-Grouped Scorecards →</button>
+                  </div>
+                  <RivalryAnalyticsView history={history} roster={roster} />
+                </div>
+              )}
+
+              {activeTab === 'history' && (
+                <div className="space-y-4">
+                  <div className="flex justify-end">
+                    <button onClick={() => switchTabAndScrollTop('rivalry')} className="px-3.5 py-2 rounded-xl bg-[#00F0FF] text-slate-950 text-xs font-extrabold">View You vs. Yourself Personal Progress Stats →</button>
+                  </div>
+                  <RoundHistoryView
+                    history={history}
+                    onDeleteRound={(id) => setHistory((prev) => prev.filter((item) => item.id !== id))}
+                    onReplayCourse={handleReplayHistoricalCourse}
+                  />
+                </div>
+              )}
+
+              {activeTab === 'sync' && (
+                <SyncAndRosterView
+                  roster={roster} setRoster={setRoster} activePlayerIds={roundState.activePlayerIds || roster.map((r) => r.id)}
+                  onToggleActivePlayer={handleToggleActivePlayer}
+                  onExportJsonPayload={handleExportJsonPayload} onImportJsonPayload={handleImportJsonPayload} onResetToFactoryData={handleResetToFactoryData}
+                />
+              )}
+            </div>
           </main>
 
-          {/* VIEWPORT-LOCKED MOBILE BOTTOM NAVIGATION */}
-          <nav className="safe-bottom-nav fixed bottom-0 left-0 right-0 z-50 bg-[#080B14] border-t border-slate-800 grid grid-cols-5 md:hidden shadow-[0_-8px_20px_rgba(0,0,0,0.6)]">
+          {/* FLEX-ANCHORED MOBILE BOTTOM NAVIGATION (IMMUNE TO SAFARI FIXED-SCROLL BUG) */}
+          <nav className="safe-bottom-nav shrink-0 bg-[#080B14] border-t border-slate-800 grid grid-cols-5 md:hidden z-30 shadow-[0_-8px_20px_rgba(0,0,0,0.6)]">
             {[
               { id: 'home', label: 'Home Hub', icon: '🏠', color: 'text-[#39FF14]' },
               { id: 'live', label: 'Play Round', icon: '📋', color: 'text-[#FF2E93]' },
